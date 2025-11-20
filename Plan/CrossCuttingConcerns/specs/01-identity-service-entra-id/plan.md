@@ -1,7 +1,7 @@
 # Implementation Plan: Identity Service with Microsoft Entra ID Authentication
 
 **Feature ID**: `01-identity-service-entra-id`  
-**Target Layer**: CrossCuttingConcerns (Foundation Service)  
+**Target Layer**: Foundation (CrossCuttingConcerns Specification)  
 **Service**: Identity & Authentication Service  
 **Specification**: [spec.md](./spec.md)  
 **Architecture Reference**: [Identity Service Architecture](../../architecture/services/identity-service.md)  
@@ -9,11 +9,24 @@
 **Created**: 2025-11-20  
 **Status**: Ready for Implementation
 
+**📍 Layer Clarification** (see [LAYERS.md](../../../../LAYERS.md)):
+- **Implementation Location**: `Src/Foundation/services/Identity/` - Identity Service is a Foundation layer service
+- **Specification Location**: `Plan/CrossCuttingConcerns/specs/01-identity-service-entra-id/` - Specifications for cross-cutting services live in CrossCuttingConcerns for discoverability
+- **AppHost Location**: `Src/Foundation/AppHost/` - Single AppHost orchestrates ALL services across all layers
+- This pattern applies to all foundational cross-cutting services (Identity, Configuration, API Gateway)
+
 ---
 
 ## Executive Summary
 
 This plan implements the Identity Service as a foundational microservice providing Microsoft Entra ID-based authentication, session management, and role-based authorization for all NorthStar LMS users. The implementation follows Clean Architecture principles with .NET Aspire orchestration and delivers authentication flows, token management, multi-tenant context switching, and comprehensive security auditing.
+
+**⚠️ CRITICAL: This is NOT a Local Identity Server Implementation**
+- **Microsoft Entra ID** is the sole identity provider - all authentication flows redirect to Entra ID
+- **NO local password storage, hashing, or validation** - authentication is 100% delegated to Entra ID
+- **NO local identity server** (Duende, IdentityServer) is being deployed
+- This service is an **integration layer** that validates Entra ID tokens and manages application sessions
+- Phase 6 "IdentityServer User Migration" refers to migrating FROM a legacy IdentityServer TO Entra ID (not implementing a new one)
 
 **Success Criteria**:
 - Staff and administrators authenticate via Microsoft Entra ID SSO
@@ -466,9 +479,11 @@ dotnet test --project tests/Identity.IntegrationTests > evidence/phase1-green-in
 
 ---
 
-### Phase 6: IdentityServer User Migration (P2) [Week 7]
+### Phase 6: Legacy IdentityServer User Migration (P2) [Week 7]
 
-**Goal**: Migrate existing users from legacy IdentityServer to Entra ID authentication.
+**Goal**: Migrate existing users from legacy IdentityServer database to Entra ID authentication.
+
+**⚠️ CLARIFICATION**: This phase migrates user data FROM a legacy IdentityServer deployment (being decommissioned) TO Entra ID. We are NOT deploying a new IdentityServer - we are REPLACING the old one with Entra ID.
 
 **Deliverables**:
 - User matching script (email-based)
@@ -481,11 +496,11 @@ dotnet test --project tests/Identity.IntegrationTests > evidence/phase1-green-in
 
 **Tasks**:
 1. **Migration Script**
-   - Query legacy IdentityServer database
+   - Query legacy IdentityServer database (read-only access to legacy system)
    - Match users by email to Entra ID accounts
    - Create `ExternalProviderLink` records
    - Preserve roles, permissions, tenant associations
-   - Mark legacy passwords as deprecated
+   - Archive legacy password hashes (NOT imported - Entra ID handles authentication)
 
 2. **Unmatched User Handling**
    - Generate CSV report of unmatched users
@@ -577,6 +592,8 @@ dotnet test --project tests/Identity.IntegrationTests > evidence/phase1-green-in
 ## Service Structure
 
 ### Project Organization
+
+**Implementation Location**: `Src/Foundation/services/Identity/` (Foundation layer service)
 
 ```
 Src/Foundation/services/Identity/
@@ -683,6 +700,8 @@ Src/Foundation/services/Identity/
 ```
 
 ### Aspire AppHost Registration
+
+**📍 AppHost Location**: `Src/Foundation/AppHost/` - This is the correct location per [Aspire Orchestration Pattern](../../patterns/aspire-orchestration.md). The AppHost lives in the Foundation layer because it orchestrates ALL services across all layers (Foundation, CrossCuttingConcerns, etc.). Identity Service (a Foundation service with cross-cutting responsibilities) registers WITH the Foundation AppHost, and the service implementation code lives in `Src/Foundation/services/Identity/`.
 
 ```csharp
 // Src/Foundation/AppHost/Program.cs

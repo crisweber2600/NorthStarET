@@ -1,7 +1,7 @@
 # Data Model: Identity Service with Entra ID
 
 **Feature ID**: `01-identity-service-entra-id`  
-**Target Layer**: CrossCuttingConcerns  
+**Target Layer**: Foundation (Implementation in `Src/Foundation/services/Identity/`)  
 **Database**: `NorthStar_Identity_DB` (PostgreSQL 17)  
 **Schema Version**: 1.0.0  
 **Created**: 2025-11-20  
@@ -32,6 +32,11 @@ The Identity Service data model supports Microsoft Entra ID-based authentication
 - **Role-Based Access Control (RBAC)**: Roles with JSONB permissions
 - **External Provider Links**: Mapping between NorthStar users and Entra ID accounts
 - **Security Auditing**: Comprehensive logging of all authentication and authorization events
+
+**⚠️ IMPORTANT: Authentication vs Session Management**
+- **Authentication**: Handled entirely by Microsoft Entra ID - NO local password storage or validation
+- **Session Management**: NorthStar stores session metadata (user ID, tenant context, expiration) to support server-side session invalidation and multi-tenant context switching
+- **Access Token Hash**: Used for session validation and revocation, NOT password storage. Tokens are issued by Entra ID and hashed for secure session tracking.
 
 **Design Principles**:
 - ✅ **Clean Architecture**: Domain entities have no infrastructure dependencies
@@ -277,7 +282,7 @@ public class Session : Entity<string>
 
 **Business Rules**:
 - Session ID format: `lms_session_{guid}` (validated by value object)
-- Access token stored as SHA256 hash (security: prevent token leakage)
+- **Access token hash**: SHA256 hash of Entra ID-issued access token for session validation and revocation (NOT password hashing - all authentication is via Entra ID)
 - Expiration: 8 hours for staff, 1 hour for admins (sliding window)
 - Cannot refresh session within 1 minute of last refresh (rate limiting)
 

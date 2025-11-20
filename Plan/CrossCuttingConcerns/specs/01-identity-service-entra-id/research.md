@@ -1,7 +1,7 @@
 # Technology Research & Decisions: Identity Service with Entra ID
 
 **Feature ID**: `01-identity-service-entra-id`  
-**Target Layer**: CrossCuttingConcerns  
+**Target Layer**: Foundation (Implementation in `Src/Foundation/services/Identity/`)  
 **Research Version**: 1.0.0  
 **Created**: 2025-11-20  
 **Status**: Complete
@@ -28,6 +28,13 @@
 ## Executive Summary
 
 This research document captures technology decisions for the Identity Service implementation with Microsoft Entra ID integration. Key decisions prioritize **official Microsoft libraries** (Microsoft.Identity.Web), **hybrid session management** (PostgreSQL primary + Redis cache), and **Backend-for-Frontend (BFF) pattern** for token handling.
+
+**⚠️ IMPORTANT: NO Local Identity Server or Password Storage**
+- This implementation uses **Microsoft Entra ID** as the sole identity provider
+- **NO local password hashing, storage, or validation** - all authentication is delegated to Entra ID
+- **NO local identity server** (e.g., Duende, IdentityServer) - Entra ID handles all identity operations
+- The "Identity Service" in this spec refers to NorthStar's integration layer that validates Entra ID tokens and manages application sessions
+- Any references to "IdentityServer" in this document refer to the **legacy system being replaced**, not a new implementation
 
 **Critical Decisions**:
 1. ✅ **Microsoft.Identity.Web** for Entra ID integration (official, maintained, battle-tested)
