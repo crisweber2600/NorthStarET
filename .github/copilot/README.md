@@ -206,9 +206,35 @@ kubectl logs -n arc-systems -l app.kubernetes.io/component=runner-scale-set-list
 - **Secrets**: Use GitHub Secrets, never commit tokens to `mcp-servers.json`
 - **MCP Server Trust**: Only use official `@modelcontextprotocol` and `@microsoft` packages
 
+## Custom Agents
+
+This repository includes custom agents for automating development workflows. See [agents/README.md](../agents/README.md) for complete documentation.
+
+**Quick Start with Agents:**
+
+```bash
+# Process all scenarios to generate specs and plans
+/speckit.scenario Plan/Foundation/Plans/scenarios
+
+# Create a specification from description
+/speckit.specify Add user authentication
+
+# Generate implementation plan
+/speckit.plan
+
+# Break down into tasks
+/speckit.tasks
+
+# Begin implementation
+/speckit.implement
+```
+
+Available agents: `specify`, `plan`, `tasks`, `implement`, `scenario`, `analyze`, `clarify`, `checklist`, `constitution`, `taskstoissues`, `coach`
+
 ## Resources
 
 - [Copilot Coding Agent Docs](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/coding-agent)
+- [Custom Agents Documentation](../agents/README.md)
 - [ARC Documentation](https://github.com/actions/actions-runner-controller)
 - [MCP Specification](https://modelcontextprotocol.io/)
 - [.NET Aspire Docs](https://learn.microsoft.com/en-us/dotnet/aspire/)
