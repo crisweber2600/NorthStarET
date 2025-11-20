@@ -1,20 +1,72 @@
-# NorthStarET.NextGen.Lms Development Guidelines
+<!-- Concise AI Agent Guidance (merged, supersedes legacy content below). See constitution v2.0.0 and LAYERS.md for full policy. -->
 
-Auto-generated from all feature plans. Last updated: 2025-10-25
+# NorthStarET AI Coding Agent Instructions
 
-## Architecture Overview
+_Last updated: 2025-11-20_
 
-This is a .NET 9.0 Clean Architecture LMS with strict tenant isolation, orchestrated via .NET Aspire. The solution enforces vertical slice boundaries:
+## 1. Big Picture (Mono-Repo Layers)
+- **Foundation Layer** (`Src/Foundation/`): Core LMS modernization (Identity, ApiGateway, Configuration, etc.).
+- **Shared Infrastructure** (`Src/Foundation/shared/{ServiceDefaults,Domain,Application,Infrastructure}`): The ONLY cross-layer dependencies allowed (see Constitution Principle 6).
+- **AppHost** (`Src/Foundation/AppHost/`): .NET Aspire orchestration; runs all services + PostgreSQL (per-service DB), Redis, RabbitMQ.
+- Deeper reference: `Plan/Foundation/LAYERS.md` and `docs/architecture/`.
 
-- **Domain** (`src/NorthStarET.NextGen.Lms.Domain`) — Pure business entities, repositories interfaces, domain events. No dependencies.
-- **Application** (`src/NorthStarET.NextGen.Lms.Application`) — Use case orchestration via MediatR commands/queries, FluentValidation. Depends on Domain only.
-- **Infrastructure** (`src/NorthStarET.NextGen.Lms.Infrastructure`) — EF Core 9 (PostgreSQL 16), Redis Stack, Entra ID integration. Implements Domain interfaces.
-- **API** (`src/NorthStarET.NextGen.Lms.Api`) — ASP.NET Core Minimal APIs + Controllers. Custom session authentication. Depends on Application.
-- **Web** (`src/NorthStarET.NextGen.Lms.Web`) — Razor Pages frontend. Depends on API via HTTP.
-- **AppHost** (`src/NorthStarET.NextGen.Lms.AppHost`) — Aspire orchestration defining PostgreSQL, Redis, API, Web service topology.
-- **ServiceDefaults** (`src/NorthStarET.NextGen.Lms.ServiceDefaults`) — Shared telemetry, health checks, resilience policies applied to all services.
+## 2. Architecture & Patterns
+- Clean Architecture vertical slices: Domain → Application (CQRS via MediatR) → Infrastructure (EF Core, Redis, Messaging) → API.
+- Multi-tenancy: Every entity includes `TenantId`; enforced via EF interceptors & global query filters (`TenantInterceptor`, `AuditInterceptor`).
+- Event-driven first: Use MassTransit (RabbitMQ local, Azure Service Bus prod); synchronous calls require documented latency budgets.
+- Idempotency & soft delete patterns are standardized in Infrastructure shared utilities.
 
-**Key Pattern**: Use `DependencyInjection.cs` in Application/Infrastructure to register services; API's `Program.cs` calls `.AddApplication()` and `.AddInfrastructure(configuration)`.
+## 3. Critical Workflows
+```bash
+# Orchestrate full stack
+dotnet run --project Src/Foundation/AppHost
+
+# Build (treat warnings as errors)
+dotnet build --configuration Debug --verbosity normal /warnaserror
+
+# Tests (unit + integration + BDD + coverage)
+dotnet test --configuration Debug --verbosity normal
+dotnet test --collect:"XPlat Code Coverage"
+
+# UI journeys (Playwright)
+pwsh tests/ui/playwright.ps1
+```
+Red → Green evidence MUST be captured (constitution §2). Always run tests BEFORE implementation to record failing state.
+
+## 4. Spec & Planning (Speckit Agents)
+- Use `/speckit.specify` → spec, `/speckit.plan` → plan, `/speckit.tasks` → task list.
+- All feature artifacts live under `Plan/Foundation/specs/<feature-id>/`.
+- Each artifact must declare **Target Layer** and shared infrastructure usage (templates already enforce).
+
+## 5. Mandatory Tool Use (AI Sessions)
+- Start with `#think` (sequential reasoning) and consult official docs via `#microsoft.docs.mcp` for .NET/Azure.
+- For new UI (not migration) extract design tokens via `#figma/dev-mode-mcp-server`; migration parity UI skips Figma (constitution §3).
+- Use Playwright MCP tools for UI automation and Chrome DevTools MCP for runtime inspection.
+
+## 6. Data & Isolation
+- Database-per-service pattern (see AppHost `Program.cs`).
+- Enforce RLS + tenant_id columns; never query across tenants without explicit authorization & review.
+- Caching: Redis for sessions, feature flags, idempotency envelopes.
+
+## 7. Security & Auth
+- Identity Service (Duende + Entra ID) issues JWT; session caching uses Redis with sliding expiration.
+- API Gateway (YARP) validates tokens, applies rate limits, handles Strangler Fig migration routing.
+
+## 8. Project Conventions
+- Commands/Queries: Records implementing `ICommand` / `IQuery<T>`; handlers return `Result` / `Result<T>`.
+- DI: Each slice has `DependencyInjection.cs`; API `Program.cs` wires `.AddApplication()`, `.AddInfrastructure()`, `builder.AddServiceDefaults()`.
+- No UI → Infrastructure references; all flow through Application layer.
+
+## 9. Quality Gates
+- ≥80% coverage at phase boundaries; attach Red/Green transcripts (dotnet + Playwright).
+- Phase review pushes: `git push origin HEAD:[feature]review-Phase[N]` (never directly to main).
+
+## 10. When Unsure
+- Cross-check with: `.specify/memory/constitution.md` (v2.0.0), `Plan/Foundation/MIGRATION_READINESS.md`, service READMEs under `Src/Foundation/services/`.
+- If pattern not found in codebase, DO NOT invent—search or escalate.
+
+---
+Legacy extended guidelines retained below for deep reference.
 
 ## Constitution Compliance (Version 1.5.0)
 
