@@ -37,14 +37,15 @@ public interface IDomainEvent
 public abstract record DomainEvent : IDomainEvent
 {
     /// <summary>
-    /// Unique identifier for this event instance (auto-generated)
+    /// Unique identifier for this event instance (must be explicitly provided)
     /// </summary>
-    public Guid EventId { get; init; } = Guid.NewGuid();
+    public required Guid EventId { get; init; }
     
     /// <summary>
-    /// UTC timestamp when the event was created (auto-generated)
+    /// UTC timestamp when the event was created (must be provided explicitly)
+    /// Recommended: Use IDateTimeProvider.UtcNow for testability
     /// </summary>
-    public DateTime OccurredAt { get; init; } = DateTime.UtcNow;
+    public required DateTime OccurredAt { get; init; }
 }
 ```
 
@@ -88,6 +89,48 @@ public abstract record TenantAwareDomainEvent : DomainEvent
 | `UserId` | `Guid` | Recommended | User who triggered the event (if user-initiated) |
 | `CorrelationId` | `Guid` | Recommended | For tracing requests across services |
 | `CausationId` | `Guid` | Optional | ID of the command that caused this event |
+
+### Creating Events with Explicit Properties
+
+Events must be created with explicit `EventId` and `OccurredAt` values for testability and determinism:
+
+```csharp
+// In production code - use IDateTimeProvider for testability
+public class CreateStudentCommandHandler
+{
+    private readonly IDateTimeProvider _dateTimeProvider;
+    
+    public async Task Handle(CreateStudentCommand command)
+    {
+        var student = new Student(/* ... */);
+        
+        var @event = new StudentCreatedEvent(
+            EventId: Guid.NewGuid(),
+            TenantId: command.TenantId,
+            StudentId: student.Id,
+            // ... other properties
+            OccurredAt: _dateTimeProvider.UtcNow
+        );
+        
+        await _eventPublisher.PublishAsync(@event);
+    }
+}
+
+// In tests - use fixed timestamps for deterministic assertions
+var fixedTime = new DateTime(2025, 11, 20, 12, 0, 0, DateTimeKind.Utc);
+var @event = new StudentCreatedEvent(
+    EventId: knownGuid,
+    TenantId: tenantId,
+    StudentId: studentId,
+    // ... other properties
+    OccurredAt: fixedTime
+);
+```
+
+**Why explicit values?**
+- **Testability**: Tests can use fixed timestamps and GUIDs for deterministic assertions
+- **Idempotency**: EventId can be derived from aggregate state for exact-once processing
+- **Auditability**: OccurredAt represents the actual event time, not publishing time
 
 ---
 
@@ -590,16 +633,26 @@ Test event creation and properties:
 public void StudentCreatedEvent_Should_Contain_Required_Properties()
 {
     // Arrange
+    var eventId = Guid.NewGuid();
     var studentId = Guid.NewGuid();
     var tenantId = Guid.NewGuid();
+    var occurredAt = new DateTime(2025, 11, 20, 12, 0, 0, DateTimeKind.Utc);
     
     // Act
     var @event = new StudentCreatedEvent(
-        studentId, tenantId, Guid.NewGuid(), 5, "John", "Doe");
+        EventId: eventId,
+        StudentId: studentId,
+        TenantId: tenantId,
+        SchoolId: Guid.NewGuid(),
+        GradeLevel: 5,
+        FirstName: "John",
+        LastName: "Doe",
+        OccurredAt: occurredAt
+    );
     
     // Assert
-    @event.EventId.Should().NotBeEmpty();
-    @event.OccurredAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
+    @event.EventId.Should().Be(eventId);
+    @event.OccurredAt.Should().Be(occurredAt);
     @event.StudentId.Should().Be(studentId);
     @event.TenantId.Should().Be(tenantId);
 }
@@ -618,7 +671,15 @@ public async Task Should_Publish_And_Consume_StudentCreatedEvent()
     
     // Act
     await _bus.Publish(new StudentCreatedEvent(
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 5, "Jane", "Smith"));
+        EventId: Guid.NewGuid(),
+        StudentId: Guid.NewGuid(),
+        TenantId: Guid.NewGuid(),
+        SchoolId: Guid.NewGuid(),
+        GradeLevel: 5,
+        FirstName: "Jane",
+        LastName: "Smith",
+        OccurredAt: DateTime.UtcNow
+    ));
     
     // Assert
     (await harness.Published.Any<StudentCreatedEvent>()).Should().BeTrue();

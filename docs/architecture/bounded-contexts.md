@@ -233,7 +233,7 @@ Manage assessment definitions, administration, scoring, and benchmarks.
 ### Exposed Events
 - `AssessmentCreatedEvent`
 - `AssessmentUpdatedEvent`
-- `AssessmentCompletedEvent`
+- `AssessmentResultRecordedEvent`
 - `BenchmarkDefinedEvent`
 - `AssessmentAvailabilityChangedEvent`
 
@@ -275,7 +275,7 @@ Plan, track, and manage student interventions and intervention groups.
 
 ### Subscribed Events
 - `StudentEnrolledEvent`
-- `AssessmentCompletedEvent`
+- `AssessmentResultRecordedEvent`
 - `StaffUpdatedEvent`
 
 ### Exposed Events
@@ -665,8 +665,8 @@ graph TD
     Student -.->|events| Config
     Staff -.->|events| Config
     Assessment -->|StudentEnrolledEvent| Student
-    Intervention -->|StudentEnrolledEvent<br/>AssessmentCompletedEvent| Student
-    Intervention -->|AssessmentCompletedEvent| Assessment
+    Intervention -->|StudentEnrolledEvent<br/>AssessmentResultRecordedEvent| Student
+    Intervention -->|AssessmentResultRecordedEvent| Assessment
     Intervention -->|StaffUpdatedEvent| Staff
     Section -->|StudentEnrolledEvent| Student
     Section -->|StaffCreatedEvent| Staff
