@@ -106,8 +106,6 @@ find_feature_dir_by_prefix() {
         return
     fi
 
-    local prefix="${BASH_REMATCH[1]}"
-
     # Search for directories in specs/ that start with this prefix
     local matches=()
     if [[ -d "$specs_dir" ]]; then
