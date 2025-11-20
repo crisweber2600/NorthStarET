@@ -5,7 +5,7 @@ on:
 
 jobs:
   copilot-setup-steps:
-    runs-on: arc-runner-set
+    runs-on: ubuntu-latest
     
     env:
       GITHUB_HOST: github.com
@@ -98,7 +98,7 @@ jobs:
           echo "✅ Copilot Coding Agent Ready"
           echo "========================================" 
           echo ""
-          echo "Runner: arc-runner-set"
+          echo "Runner: ubuntu-latest (GitHub hosted)"
           echo ".NET: $(dotnet --version)"
           echo "Docker: $(docker --version)"
           echo "Node.js: $(node --version)"

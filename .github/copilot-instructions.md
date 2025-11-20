@@ -368,11 +368,11 @@ Feature specs live in `specs/[###-feature-name]/`:
 
 ## GitHub Copilot Coding Agent
 
-This repository is configured for **GitHub Copilot Coding Agent** to execute code on self-hosted ARC runners.
+This repository is configured for **GitHub Copilot Coding Agent** to execute code on GitHub-hosted runners.
 
 ### Quick Reference
 
-**Runner Label**: `arc-runner-set` (use this in workflows that need code execution)
+**Runner**: GitHub-hosted `ubuntu-latest` (default; no custom ARC runner required)
 
 **Available Environment**:
 - ✅ .NET 10 SDK with Aspire workload
@@ -435,5 +435,5 @@ Or through GitHub UI: **Actions** → **Enable Copilot Coding Agent** → **Run 
 ---
 
 **Configuration Location**: `.github/copilot/`  
-**Runner Image**: `ghcr.io/crisweber2600/arc-runner-aspire:latest`  
-**Last Updated**: November 12, 2025
+**Runner**: GitHub-hosted `ubuntu-latest`  
+**Last Updated**: November 20, 2025

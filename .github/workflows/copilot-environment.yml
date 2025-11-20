@@ -1,7 +1,7 @@
 name: Enable Copilot Coding Agent
 
 # This workflow configures the repository for GitHub Copilot Coding Agent
-# to run on self-hosted ARC runners with .NET 10, Aspire, and MCP servers
+# to run on GitHub-hosted runners (ubuntu-latest) with .NET, Aspire, and MCP servers
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   configure-copilot-environment:
-    runs-on: arc-runner-set
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
@@ -85,7 +85,7 @@ jobs:
           echo "✅ Copilot Coding Agent Environment Ready"
           echo "========================================" 
           echo ""
-          echo "Runner: arc-runner-set"
+          echo "Runner: ubuntu-latest (GitHub hosted)"
           echo ".NET SDK: $(dotnet --version)"
           echo "Docker: $(docker --version)"
           echo "Node.js: $(node --version)"
@@ -101,4 +101,4 @@ jobs:
           echo "  Dashboard: http://localhost:15000"
           echo ""
           echo "GitHub Copilot Coding Agent can now execute code"
-          echo "with full access to .NET 10, Aspire, and Docker!"
+          echo "with full access to .NET, Aspire, and Docker!"
