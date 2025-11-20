@@ -1,0 +1,83 @@
+﻿<div ng-controller="BenchmarkDataImportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/">System</a></li>
+            <li>State Test Data Import</li>
+        </ol>
+        <h1>Benchmark Test Data Import</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <div class="btn-group" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle">
+                        Export as <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+            </div>
+        </div>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div class="col-md-12">
+        <uib-alert ng-show="settings.uploadComplete" type="success"><b>Note:</b> If there were any issues while uploading your data, you can view them by downloading the <a class="btn btn-success" ng-click="downloadResult()"> Log File <i class="fa fa-download"></i></a></uib-alert>
+    </div>
+    <div style="clear:both"></div>
+    <div class="container-fluid">
+        <panel panel-class="panel-midnightblue" heading="Import Data">
+            <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+                <fieldset>
+                    <legend>Details</legend>
+                    <ns-filter-options-container-directive vertical-mode="true" school-year-required="true" benchmark-date-enabled="true" benchmark-date-required="true" school-year-enabled="true"></ns-filter-options-container-directive>
+                    <div class="form-group">
+                        <label for="fieldname" class="col-md-3 control-label">Recorder</label>
+                        <div class="col-md-6"><input id="recorder" name="recorder" ui-select2="getTeacherRemoteOptions" ng-model="settings.Recorder" required style="width: 100%" /></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Choose Data File To Upload</legend>
+                    <div class="form-group" ng-hide="settings.hasFiles">
+                        <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                        <div class="col-md-6">
+                            <h3>Select .CSV or .XLSX file to import</h3>
+                            <input type="file" id="newPhotos" class="uploadFile" accept="*.csv,*.xlsx,*.xls" eg-files="theFiles" has-files="settings.hasFiles">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="settings.hasFiles">
+                        <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li><strong>file:</strong></li>
+                                <li ng-repeat="photo in theFiles"> {{photo.name}}</li>
+                            </ul>
+                            <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                            <button class="btn btn-danger" id="formReset" type="reset" value="cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </panel>
+    </div>
+</div>
+<style>
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+
+    /*.select2-container.ng-invalid > a {
+        border-color: #D44950 !important;
+    }*/
+</style>

@@ -1,0 +1,11 @@
+﻿#page-leftbar {
+    width: 230px
+}
+
+#page-content {
+    margin-left: 230px
+}
+
+body.collapse-leftbar #page-content {
+    margin-left: 40px;
+}

@@ -1,0 +1,127 @@
+﻿<div ng-controller="StudentServicesConsolidationController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>District</li>
+            <li class="active">Consolidate Student Services</li>
+        </ol>
+        <h1>Consolidate Multiple Student Services Into a Single Service</h1>
+    </div>
+
+    <div class="col-md-12" ng-show="moveSettings.moveComplete">
+        <uib-alert type="success"><b>Success!</b> The student services have been consolidated successfully.  <a href="" ng-click="resetForm()">Consolidate Additional Services?</a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-show="!moveSettings.moveComplete">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <div ng-if="checkCircularReference()">
+                <uib-alert type="danger"><b>Error!</b> One of the student services you are consolidating is also the target service.  Please remove this circular reference to continue.</uib-alert>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div style="width:800px">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select the target Student Service that other services will be consolidated into:</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStudentServiceSingle" ng-model="moveSettings.servicesPrimary" />
+                </div>
+                <div ng-if="moveSettings.servicesPrimary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemDetail">
+                        <h3><strong>{{moveSettings.servicesPrimary.text}}</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Internal ID</td>
+                                    <td>{{moveSettings.servicesPrimary.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{moveSettings.servicesPrimary.Name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>{{moveSettings.servicesPrimary.Description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="text-align:center">
+            <div style="width:600px;">
+                <i class="fa fa-arrow-circle-up" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-circle-up" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-circle-up" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-circle-up" style="color:green;font-size:40px"></i>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:800px;">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select one or more Student Services to consolidate from (these services will no longer exist):</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStudentServiceMultiple" ng-model="moveSettings.servicesSecondary" />
+                </div>
+                <div ng-if="moveSettings.servicesSecondary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemTargetDetail">
+                        <h3><strong>Selected Services to Consolidate</strong></h3>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Internal ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="svc in moveSettings.servicesSecondary">
+                                    <td>{{svc.id}}</td>
+                                    <td>{{svc.Name}}</td>
+                                    <td>{{svc.Description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="padding-top:20px;">
+            <button type="button" ng-disabled="!canProcess()" ng-click="processMove()" class="btn btn-primary"><i class="fa fa-check"></i> Process Consolidation</button>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .selectedItemDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #4697ce;
+    }
+
+        .selectedItemDetail h3 {
+            color: white;
+        }
+
+    .selectedItemTargetDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #ff6a00;
+    }
+
+        .selectedItemTargetDetail h3 {
+            color: white;
+        }
+
+    .select2OptGroupHeader {
+        border-bottom: 1px solid #888888;
+    }
+</style>

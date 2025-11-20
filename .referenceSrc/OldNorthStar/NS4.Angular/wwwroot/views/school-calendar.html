@@ -1,0 +1,50 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Administration</li>
+        <li>School</li>
+        <li class="active">School Holiday Calendar</li>
+    </ol>
+    <h1>Manage School Holidays</h1>
+</div>
+<div class="container-fluid" ng-controller="SchoolCalendarController">
+    <div class="row">
+        <div class="col-md-12 ng-scope">
+            <ns-filter-options-container-directive school-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="School Calendar">
+                <div ng-show="filterOptions.selectedSchoolYear != null">
+                    <div data-full-calendar-custom="{ events: dataManager.CalendarItems }" mgr="dataManager"></div>
+                </div>
+                <div ng-show="filterOptions.selectedSchoolYear == null">
+                    <uib-alert type="info">Please select a school to see its calendar.</uib-alert>
+                </div>
+            </panel>
+        </div>
+    </div>
+    <script type="text/ng-template" id="editevent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Editing Holiday on {{selectedEvent.start.format('dddd, MMMM DD, YYYY')}}</h3>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" placeholder="event title" type="text" ng-model="selectedEvent.title" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="saveEvent(selectedEvent)"><i class="fa fa-save"></i> Save</button>
+            <button class="btn btn-danger" ng-click="deleteEvent(selectedEvent)"><i class="fa fa-trash"></i> Delete</button>
+            <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="addevent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add New Holiday on {{selectedEvent.start.format('dddd, MMMM DD, YYYY')}}</h3>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" placeholder="event title" type="text" ng-model="selectedEvent.title" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="saveEvent(selectedEvent)"><i class="fa fa-save"></i> Save</button>
+            <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+</div>

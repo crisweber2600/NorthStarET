@@ -1,0 +1,73 @@
+﻿<div ng-controller="StaffListController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Staff</li>
+            <li class="active">Manage Staff</li>
+        </ol>
+        <h1>Manage Staff</h1>
+    </div>
+    <div class="col-md-12 ng-scope">
+        <ns-filter-options-container-directive staff-quick-search-enabled="true" quick-search-callback="processQuickSearchStaff" benchmark-date-enabled="false" school-year-enabled="false" school-enabled="true" grade-enabled="false" teacher-enabled="false"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+    </div>
+
+    <div style="min-height:350px;" class="col-md-12">
+        <spinner name="tableSpinner">
+            <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                <div class="sk-cube-grid">
+                    <div class="sk-cube sk-cube1"></div>
+                    <div class="sk-cube sk-cube2"></div>
+                    <div class="sk-cube sk-cube3"></div>
+                    <div class="sk-cube sk-cube4"></div>
+                    <div class="sk-cube sk-cube5"></div>
+                    <div class="sk-cube sk-cube6"></div>
+                    <div class="sk-cube sk-cube7"></div>
+                    <div class="sk-cube sk-cube8"></div>
+                    <div class="sk-cube sk-cube9"></div>
+                </div>
+            </div>
+        </spinner>
+        <panel panel-class="panel-midnightblue" heading="Manage Staff">
+            <panel-controls>
+                <a href="#/staff-edit/-1"><i class="fa fa-plus"></i> Add New Staff</a>
+            </panel-controls>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Delete</th>
+                            <th>Edit</th>
+                            <th><div style="cursor: pointer" ng-click="sort('FullName')">Name <i class="{{sortClasses['FullName']}}"></i></div></th>
+                            <th><div style="cursor: pointer" ng-click="sort('Email')">Email <i class="{{sortClasses['Email']}}"></i></div></th>
+                            <th><div style="cursor: pointer" ng-click="sort('TeacherIdentifier')">Teacher Key <i class="{{sortClasses['TeacherIdentifier']}}"></i></div></th>
+                            <th><div style="cursor: pointer" ng-click="sort('AccessLevel')">Access Level <i class="{{sortClasses['AccessLevel']}}"></i></div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="staff in staffs | orderBy: sortColumns.column">
+                            <td>
+                                <a ng-if="::staff.CanModify" class="btn btn-sm btn-danger" href="" ng-click="deleteStaff(staff.Id)"><i class="fa fa-times"></i></a>
+                                <span ng-if="::!staff.CanModify" class="label label-info">No Access</span>
+                            </td>
+                            <td>
+                                <a ng-if="::staff.CanModify" class="btn btn-sm btn-primary" href="#/staff-edit/{{::staff.Id}}"><i class="fa fa-pencil"></i></a>
+                                <span ng-if="::!staff.CanModify" class="label label-info">No Access</span>
+                            </td>
+                            <td class="ng-binding">{{::staff.FullName}}</td>
+                            <td>{{::staff.Email}}</td>
+                            <td>{{::staff.TeacherIdentifier}}</td>
+                            <td>
+                                <span ng-if="::staff.AccessLevel == 'District Administrator'" class="label label-danger">District Administrator</span>
+                                <span ng-if="::staff.AccessLevel == 'School Administrator'" class="label label-success">School Administrator</span>
+                                <span ng-if="::staff.AccessLevel == 'Grade Access'" class="label label-orange">Grade Access</span>
+                                <span ng-if="::staff.AccessLevel == 'User'" class="label label-primary">User</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </panel>
+    </div>
+</div>

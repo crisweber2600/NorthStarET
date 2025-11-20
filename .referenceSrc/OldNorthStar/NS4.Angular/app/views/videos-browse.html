@@ -1,0 +1,149 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Videos</li>
+        <li class="active">Browse Videos</li>
+    </ol>
+    <h1>Browse and Search Videos</h1>
+</div>
+<div class="container-fluid" ng-controller="ViewVideosController">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-midnightblue">
+                <div class="panel-heading">
+                    <h4>Available Videos</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <!--<div class="col-md-12">
+                            <p>The videos below are available in your school district.  You can search by video name or grade.</p>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Search by Video Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="Enter search text..." ng-model="searchText" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Search by Grade</label>
+                                <div class="col-md-7">
+                                    <div ui-select2="remoteOptions.AllGradesRemoteOptions" ng-model="selectedGrade" />
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-orange" ng-click="selectedGrade = null"><i class="fa fa-times-circle-o"></i> Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:0; margin-bottom:15px;margin-top:15px;">
+
+                    <!--<div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group clearfix">
+                                <div class="btn-group">
+                                    <button class="galleryfilter btn btn-default active" data-group="all">All</button>
+                                    <button class="galleryfilter btn btn-default" data-group="22">Pre-K</button>
+                                    <button class="galleryfilter btn btn-default" data-group="2">Kdg</button>
+                                    <button class="galleryfilter btn btn-default" data-group="3">1st</button>
+                                    <button class="galleryfilter btn btn-default" data-group="11">2nd</button>
+                                    <button class="galleryfilter btn btn-default" data-group="12">3rd</button>
+                                    <button class="galleryfilter btn btn-default" data-group="13">4th</button>
+                                    <button class="galleryfilter btn btn-default" data-group="14">5th</button>
+                                    <button class="galleryfilter btn btn-default" data-group="15">6th</button>
+                                    <button class="galleryfilter btn btn-default" data-group="16">7th</button>
+                                    <button class="galleryfilter btn btn-default" data-group="17">8th</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="pull-right">
+                                <div class="form-group clearfix">
+                                    <div class="btn-group">
+                                        <button class="gallerysort btn btn-default sort active" data-sort="default" data-order="desc">Default</button>
+                                        <button class="gallerysort btn btn-default sort" data-sort="data-name" data-order="desc"><i class="fa fa-sort-alpha-asc"></i><span class="hidden-xs"> Name</span></button>
+                                        <button class="gallerysort btn btn-default sort" data-sort="data-name" data-order="asc"><i class="fa fa-sort-alpha-desc"></i><span class="hidden-xs"> Name</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+
+                    <ul class="gallery">
+
+                        <li dir-paginate="video in videos | filter: { VideoName: searchText } | inArray: 'Grades' : 'id' : selectedGrade.id | itemsPerPage: 15" data-groups='{{video.GradeGroup}}' class="item" data-name="{{video.VideoName}}">
+                            <a title="{{::video.Description}}" href="" ng-click="displayVideoDialog(video, $event)">
+                                <img ng-src="https://view.vzaar.com/{{::video.VideoStreamId}}/thumb">
+                            </a>
+                            <span class="small">{{::video.VideoLength | minutes}} minutes</span>
+                            <br />
+                            <a class="vlinkColor" title="{{::video.Description}}" href="" ng-click="displayVideoDialog(video, $event)">
+                                {{::video.VideoName}}
+                            </a>
+                        </li>                      
+                    </ul>
+                </div>
+                <dir-pagination-controls class="mb5"></dir-pagination-controls>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="playVideo.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{selectedVideo.VideoName}}</h3>
+        </div>
+        <div class="modal-body">
+            <div id="currentVideo">
+                <table>
+                    <tr>
+                        <td>
+                            <iframe src="{{getSrc()}}" width="850" height="600" allowFullScreen allowTransparency="true" class="vzaar-video-player" frameborder="0" id="vzaarplayer" mozallowfullscreen name="vzaar" title="vzaar video player" type="text/html" webkitAllowFullScreen></iframe>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{selectedVideo.Description}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times"></i> Close</button>
+        </div>
+    </script>
+</div>
+<style>
+    .gallery { overflow : visible;}
+    .gallery .item a h4 {
+    position: relative;
+    text-align: left;
+    background-color: white;
+    color: black;
+}
+    .gallery img {
+        width: 150px;
+        margin-bottom: 1px;
+    }
+    .gallery .item {
+        height: 245px;
+        margin-right:20px;
+        width: 175px;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+        border: 1px solid #eeeeee;
+        border-radius: 5px;
+        padding:10px;
+    }
+    a:link.vlinkColor, a:hover.vlinkColor, a.vlinkColor{
+        color: #167ac6;
+        font-weight: bold;
+        font-size: 12px;
+    }
+    .small {
+        color: #767676;
+    }
+</style>

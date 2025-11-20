@@ -1,0 +1,460 @@
+openapi: 3.0.3
+info:
+  title: Domain Events Schema
+  description: |
+    Schema definitions for domain events emitted and consumed by the authentication
+    and authorization system. Events are exchanged via MassTransit message bus.
+  version: 1.0.0
+  contact:
+    name: NorthStarET LMS Team
+
+components:
+  schemas:
+    # Events produced by this system
+    
+    UserAuthenticatedEvent:
+      type: object
+      description: Raised when a user successfully authenticates via Entra
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - userId
+        - sessionId
+        - tenantId
+        - authenticatedAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        eventType:
+          type: string
+          const: UserAuthenticated
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised
+          example: "2025-10-20T15:30:00Z"
+        userId:
+          type: string
+          format: uuid
+          description: Authenticated user ID
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        sessionId:
+          type: string
+          format: uuid
+          description: Created session ID
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        tenantId:
+          type: string
+          format: uuid
+          description: Initial active tenant
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        authenticatedAt:
+          type: string
+          format: date-time
+          description: When authentication occurred
+          example: "2025-10-20T15:30:00Z"
+        ipAddress:
+          type: string
+          description: Client IP address
+          example: 192.168.1.100
+          nullable: true
+        userAgent:
+          type: string
+          description: Client user agent
+          example: Mozilla/5.0...
+          nullable: true
+
+    TenantSwitchedEvent:
+      type: object
+      description: Raised when a user switches their active tenant context
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - userId
+        - sessionId
+        - previousTenantId
+        - newTenantId
+        - switchedAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier
+          example: b2c3d4e5-f6a7-8901-bcde-f23456789012
+        eventType:
+          type: string
+          const: TenantSwitched
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised
+          example: "2025-10-20T15:35:00Z"
+        userId:
+          type: string
+          format: uuid
+          description: User ID
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        sessionId:
+          type: string
+          format: uuid
+          description: Session ID
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        previousTenantId:
+          type: string
+          format: uuid
+          description: Previous active tenant
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        newTenantId:
+          type: string
+          format: uuid
+          description: New active tenant
+          example: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+        switchedAt:
+          type: string
+          format: date-time
+          description: When switch occurred
+          example: "2025-10-20T15:35:00Z"
+
+    SessionExpiredEvent:
+      type: object
+      description: Raised when a session expires (time-based or manual revocation)
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - sessionId
+        - userId
+        - reason
+        - expiredAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier
+          example: c3d4e5f6-a7b8-9012-cdef-3456789012ab
+        eventType:
+          type: string
+          const: SessionExpired
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised
+          example: "2025-10-20T16:00:00Z"
+        sessionId:
+          type: string
+          format: uuid
+          description: Expired session ID
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        userId:
+          type: string
+          format: uuid
+          description: User ID
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        reason:
+          type: string
+          enum: [Timeout, ManualRevocation, SecurityPolicy]
+          description: Why session expired
+          example: Timeout
+        expiredAt:
+          type: string
+          format: date-time
+          description: When expiration occurred
+          example: "2025-10-20T16:00:00Z"
+        revokedBy:
+          type: string
+          format: uuid
+          description: User ID who revoked (if ManualRevocation)
+          example: null
+          nullable: true
+
+  # Events consumed from the LMS Identity module
+
+    RoleMembershipChangedEvent:
+      type: object
+      description: |
+        Consumed from the LMS Identity module when a user's role or tenant membership changes.
+        Triggers local cache invalidation and membership sync.
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - userId
+        - tenantId
+        - roleId
+        - changeType
+        - changedAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier (from LMS Identity module)
+          example: d4e5f6a7-b8c9-0123-def4-56789012abcd
+        eventType:
+          type: string
+          const: RoleMembershipChanged
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised by the LMS Identity module
+          example: "2025-10-20T14:00:00Z"
+        userId:
+          type: string
+          format: uuid
+          description: Affected user ID
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        tenantId:
+          type: string
+          format: uuid
+          description: Affected tenant ID
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        roleId:
+          type: string
+          format: uuid
+          description: Affected role ID
+          example: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+        roleName:
+          type: string
+          description: Role name
+          example: District Admin
+        changeType:
+          type: string
+          enum: [Granted, Revoked, Updated]
+          description: Type of change
+          example: Granted
+        changedAt:
+          type: string
+          format: date-time
+          description: When change occurred in the LMS Identity module
+          example: "2025-10-20T14:00:00Z"
+        changedBy:
+          type: string
+          format: uuid
+          description: User ID who made the change
+          example: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+          nullable: true
+
+    RoleUpdatedEvent:
+      type: object
+      description: |
+        Consumed from the LMS Identity module when a role's permissions are updated.
+        Triggers local role cache refresh.
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - roleId
+        - roleName
+        - updatedAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier (from LMS Identity module)
+          example: e5f6a7b8-c9d0-1234-ef56-789012abcdef
+        eventType:
+          type: string
+          const: RoleUpdated
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised by the LMS Identity module
+          example: "2025-10-20T13:00:00Z"
+        roleId:
+          type: string
+          format: uuid
+          description: Updated role ID
+          example: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+        roleName:
+          type: string
+          description: Role name
+          example: Teacher
+        permissions:
+          type: array
+          description: Updated permissions
+          items:
+            type: object
+            required:
+              - resource
+              - action
+            properties:
+              resource:
+                type: string
+                description: Protected resource
+                example: Grades
+              action:
+                type: string
+                enum: [Read, Write, Delete, Manage]
+                description: Action allowed
+                example: Write
+        updatedAt:
+          type: string
+          format: date-time
+          description: When role was updated
+          example: "2025-10-20T13:00:00Z"
+        updatedBy:
+          type: string
+          format: uuid
+          description: User ID who updated the role
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+          nullable: true
+
+    TenantCreatedEvent:
+      type: object
+      description: |
+        Consumed from the LMS Identity module when a new tenant is created.
+        Triggers local tenant cache refresh.
+      required:
+        - eventId
+        - eventType
+        - timestamp
+        - tenantId
+        - name
+        - type
+        - createdAt
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique event identifier (from LMS Identity module)
+          example: f6a7b8c9-d0e1-2345-f678-9012abcdef01
+        eventType:
+          type: string
+          const: TenantCreated
+          description: Event type discriminator
+        timestamp:
+          type: string
+          format: date-time
+          description: When the event was raised by the LMS Identity module
+          example: "2025-10-20T12:00:00Z"
+        tenantId:
+          type: string
+          format: uuid
+          description: Created tenant ID
+          example: 8c9a0b1d-2e3f-4567-89ab-cdef01234567
+        name:
+          type: string
+          description: Tenant name
+          example: Washington Middle School
+        type:
+          type: string
+          enum: [District, School]
+          description: Tenant type
+          example: School
+        parentTenantId:
+          type: string
+          format: uuid
+          description: Parent tenant ID (for schools)
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          nullable: true
+        externalId:
+          type: string
+          description: External system identifier
+          example: WASH-MS-001
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: When tenant was created
+          example: "2025-10-20T12:00:00Z"
+        createdBy:
+          type: string
+          format: uuid
+          description: User ID who created the tenant
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+          nullable: true
+
+  # Message envelope for MassTransit
+
+  examples:
+    UserAuthenticatedEventExample:
+      summary: User authenticated successfully
+      value:
+        eventId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        eventType: UserAuthenticated
+        timestamp: "2025-10-20T15:30:00Z"
+        userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        sessionId: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        tenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        authenticatedAt: "2025-10-20T15:30:00Z"
+        ipAddress: 192.168.1.100
+        userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)...
+
+    TenantSwitchedEventExample:
+      summary: User switched tenant context
+      value:
+        eventId: b2c3d4e5-f6a7-8901-bcde-f23456789012
+        eventType: TenantSwitched
+        timestamp: "2025-10-20T15:35:00Z"
+        userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        sessionId: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        previousTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        newTenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+        switchedAt: "2025-10-20T15:35:00Z"
+
+    SessionExpiredEventExample:
+      summary: Session expired due to timeout
+      value:
+        eventId: c3d4e5f6-a7b8-9012-cdef-3456789012ab
+        eventType: SessionExpired
+        timestamp: "2025-10-20T16:00:00Z"
+        sessionId: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        reason: Timeout
+        expiredAt: "2025-10-20T16:00:00Z"
+        revokedBy: null
+
+    RoleMembershipChangedEventExample:
+      summary: User granted District Admin role
+      value:
+        eventId: d4e5f6a7-b8c9-0123-def4-56789012abcd
+        eventType: RoleMembershipChanged
+        timestamp: "2025-10-20T14:00:00Z"
+        userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        tenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        roleId: 4e3d2c1b-0a9f-8e7d-6c5b-4a3f2e1d0c9b
+        roleName: District Admin
+        changeType: Granted
+        changedAt: "2025-10-20T14:00:00Z"
+        changedBy: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+
+    RoleUpdatedEventExample:
+      summary: Teacher role permissions updated
+      value:
+        eventId: e5f6a7b8-c9d0-1234-ef56-789012abcdef
+        eventType: RoleUpdated
+        timestamp: "2025-10-20T13:00:00Z"
+        roleId: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+        roleName: Teacher
+        permissions:
+          - resource: Grades
+            action: Write
+          - resource: Students
+            action: Read
+          - resource: Assignments
+            action: Manage
+        updatedAt: "2025-10-20T13:00:00Z"
+        updatedBy: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+
+    TenantCreatedEventExample:
+      summary: New school tenant created
+      value:
+        eventId: f6a7b8c9-d0e1-2345-f678-9012abcdef01
+        eventType: TenantCreated
+        timestamp: "2025-10-20T12:00:00Z"
+        tenantId: 8c9a0b1d-2e3f-4567-89ab-cdef01234567
+        name: Washington Middle School
+        type: School
+        parentTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        externalId: WASH-MS-001
+        createdAt: "2025-10-20T12:00:00Z"
+        createdBy: 1a2b3c4d-5e6f-7890-abcd-ef1234567890

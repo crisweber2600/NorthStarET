@@ -1,0 +1,32 @@
+﻿<div class="btn-toolbar">
+    <a href="" class="dropdown-toggle btn btn-danger" ng-click="openAttributeChooser()">Change Selected Student Attributes <i class="fa fa-bars"></i></a>
+</div>
+<script type="text/ng-template" id="attributeChooser.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Change Student Attribute Visibility</h3>
+    </div>
+    <div class="modal-body" style="overflow-y:auto;height:600px;">
+        <h3>Student Attributes</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Attribute Name
+                    </th>
+                    <th>
+                        Visible?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="attribute in attributeService.Attributes">
+                    <td>{{::attribute.Name}}</td>
+                    <td><switch class="green" ng-model="attribute.Visible" ng-change="updateSelectedAttribute(attribute)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="refreshAttributes()" class="btn btn-success"><i class="fa-save fa"></i> Save and Update</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</button>
+    </div>
+</script>

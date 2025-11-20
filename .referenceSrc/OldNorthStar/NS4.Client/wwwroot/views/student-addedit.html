@@ -1,0 +1,164 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/student-list">Manage Students</a></li>
+        <li class="active">Add / Edit Student</li>
+    </ol>
+    <h1>Add/Edit student</h1>
+
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Modify Student">
+
+                <form novalidate angular-validator angular-validator-submit="savestudent()" name="student_form" class="form-horizontal" ng-controller="StudentEditController">
+                    <alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+                    <fieldset>
+                        <legend>Details</legend>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">First Name</label>
+                            <div class="col-md-6">
+                                <input id="firstname" class="form-control" name="firstname" type="text" placeholder="First Name" required-message="'First Name is required'" required ng-model="student.FirstName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Middle Name</label>
+                            <div class="col-md-6">
+                                <input id="middlename" class="form-control" name="middlename" type="text" placeholder="Middle Name" ng-model="student.MiddleName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Last Name</label>
+                            <div class="col-md-6">
+                                <input id="lastname" class="form-control" name="lastname" type="text" placeholder="Last Name" required-message="'Last Name is required'" required ng-model="student.LastName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Student ID</label>
+                            <div class="col-md-6">
+                                <input id="studentid" 
+                                       class="form-control" 
+                                       name="studentid" 
+                                       required-message="'Student ID is required'" 
+                                       type="text" 
+                                       placeholder="Student ID" 
+                                       validate-on="dirty" 
+                                       invalid-message="''" 
+                                       ng-remote-validate2="{{remoteStudentIdValidationPath}}" 
+                                       ng-remote-method="POST"
+                                       ng-remote-throttle="500"
+                                       required 
+                                       ng-model="student.StudentIdentifier" />
+                                <label ng-show="student_form.studentid.$error.ngRemoteValidate2" class="control-label has-error">This Student ID is already being used by another student</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldemail" class="col-md-3 control-label">Date of Birth</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="student.DOB" is-open="datePopupStatus.opened" required invalid-message="Please enter a valid date" required-message="Please select a date of birth" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="datePopupStatus.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldurl" class="col-md-3 control-label">Graduation Year</label>
+                            <div class="col-md-6">
+                                <input id="gradyear" name="gradyear" class="form-control" type="number" data-low="2000" data-high="2100" required  required-message="'Graduation Year is required'" placeholder="Graduation Year" ng-model="student.GraduationYear" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldurl" class="col-md-3 control-label">Enrollment Year</label>
+                            <div class="col-md-6"><span class="form-control" style="font-weight:bold;border:none;">{{::student.EnrollmentYear}}</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Active</label>
+                            <div class="col-md-6">
+                                <switch class="green" ng-model="student.IsActive"></switch>
+                                <p class="help-block">Uncheck this to archive student</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>District Attributes</legend>
+                        <div class="form-group" ng-repeat="attribute in allAttributes.AllAttributes">
+                            <label for="fieldnick" class="col-md-3 control-label">{{::attribute.AttributeName}}</label>
+                            <div class="col-md-6">
+                                <select class="form-control" ng-model="student.StudentAttributes[attribute.Id]" ng-options="v.LookupValueId as v.LookupValue for v in attribute.LookupValues">
+                                    <option value="">-select-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Education Services</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Selected Services</label>
+                            <div class="col-md-6"><div ui-select2="studentSpedLabelRemoteOptions" ng-model="student.SpecialEdLabels" style="width: 100%" /></div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>School Registrations</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Add New Registration</label>
+                            <div class="col-md-2">
+                                <select class="form-control" ng-model="AddYear" ng-options="v.YearVerbose for v in schoolsAndYears.SchoolYears">
+                                    <option value="">-school year-</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" ng-model="AddSchool" ng-options="v.Name for v in schoolsAndYears.Schools">
+                                    <option value="">-school-</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1"><a ng-click="addStudentToSchoolAndYear()" class="btn btn-primary">Add <i class="fa fa-plus"></i></a></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldnick" class="col-md-3 control-label">Current Registrations</label>
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Remove Registration</th>
+                                            <th>School Year</th>
+                                            <th>School</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="registration in student.StudentSchools">
+                                            <td>
+                                                <a class="btn btn-danger btn-xs" ng-click="removeStudentSchool(registration)">Remove <i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                            <td>{{::registration.SchoolYearLabel}}</td>
+                                            <td>{{::registration.SchoolName}}<span ng-show="registration.isNew" style="padding-left:20px;"><i style="color:blue" class="glyphicon glyphicon-exclamation-sign"></i>new</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save student</button> <a href="#/student-list" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+                </form>
+            </panel>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+
+</style>

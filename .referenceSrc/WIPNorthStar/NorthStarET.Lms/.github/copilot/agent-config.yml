@@ -1,0 +1,20 @@
+# Copilot Agent Configuration
+# This configures Copilot Coding Agent behavior for self-hosted runners
+
+agent:
+  # Disable CodeQL for Copilot-generated workflows (optional)
+  skip_codeql: true
+  
+  # GitHub host configuration
+  github_host: github.com
+  api_url: https://api.github.com
+  
+  # Self-hosted runner compatibility
+  allow_self_hosted: true
+  
+  # CRITICAL: Tell Copilot to run our custom setup steps
+  # This ensures GITHUB_HOST and other env vars are set before the agent runs
+  setup_workflow: .github/copilot-setup-steps.yml
+  
+  # Firewall must be disabled in repository settings
+  # Settings → Copilot → Agent Firewall → Disabled

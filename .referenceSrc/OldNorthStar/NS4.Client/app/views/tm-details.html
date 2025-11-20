@@ -1,0 +1,178 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/tm-manage">Team Meetings</a></li>
+        <li class="active">Modify Team Meeting</li>
+    </ol>
+    <h1>Add/Edit Team Meeting</h1>
+    <div class="options">
+        <observation-summary-field-chooser></observation-summary-field-chooser>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Modify Team Meeting">
+
+                <form novalidate angular-validator angular-validator-submit="saveTeamMeeting()" name="section_form" class="form-horizontal" ng-controller="TeamMeetingEditController">
+                    <alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+                    <fieldset>
+                        <legend>Details</legend>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Team Meeting Name</label>
+                            <div class="col-md-6">
+                                <input id="meetingtitle" class="form-control" name="meetingtitle" type="text" placeholder="Meeting Title" required ng-model="meeting.Title" required-message="'Team meeting name is required'" />
+                            </div>
+                        </div>
+                        <ns-filter-options-container-directive vertical-mode="true" school-year-enabled="true" school-year-required="true" benchmark-date-enabled="true" benchmark-date-required="true"></ns-filter-options-container-directive>
+                        <div class="form-group">
+                            <label for="fieldemail" class="col-md-3 control-label" style="margin-top:34px;">Meeting Time</label>
+                            <div class="col-md-3">
+                                <div class="input-group" style="margin-top:34px;">
+                                    <input name="meetingStartDate" type="text" class="form-control" required required-message="'Meeting time is required'" placeholder="Start date" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="meeting.MeetingTime" is-open="meeting.startOpened" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="meeting.startOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <uib-timepicker ng-model="meeting.MeetingTime" hour-step="1" minute-step="5" show-meridian="true" class="timepicker"></uib-timepicker>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldemail" class="col-md-3 control-label">Comments</label>
+                            <div class="col-md-6">
+                                <textarea rows="5" id="meetingcomments" class="form-control" type="text" name="meetingcomments" ng-model="meeting.Comments"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Meeting Managers</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Co-Managers</label>
+                            <div class="col-md-6">
+                                <div ui-select2="getCoTeacherRemoteOptions" ng-model="meeting.Managers" style="width: 100%" />
+                                <p class="help-block">Note: You don't need to add yourself here.  You are automatically given access as the creator of the meeting.</p>
+                            </div>                            
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Attendees</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Attendees</label>
+                            <div class="col-md-5">
+                                <div ui-select2="getCoTeacherRemoteOptions" ng-model="meeting.Attendees" style="width: 100%" />
+                            </div>
+                            <div class="col-md-1">
+                                <button ng-click="createNewAttendeeGroup(meeting.Attendees)" type="button" class="btn btn-info"><i class="fa fa-plus"></i> Create New Group</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Your Attendee Groups</label>
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Delete Group</th>
+                                            <th>Remove From Meeting</th>
+                                            <th>Add To Meeting</th>
+                                            <th>Group Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="group in meeting.AttendeeGroups">
+                                            <td>
+                                                <a class="btn btn-danger btn-xs" ng-click="deleteGroup(group.Id)">Delete <i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning btn-xs" ng-click="removeGoup(group.Id)">Remove <i class="glyphicon glyphicon-minus"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-success btn-xs" ng-click="addGroup(group.Id)">Add <i class="glyphicon glyphicon-plus"></i></a>
+                                            </td>
+                                            <td>{{::group.GroupName}}<span ng-show="student.isNew" style="padding-left:20px;"><i style="color:blue" class="glyphicon glyphicon-exclamation-sign"></i>new</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Students To Be Discussed</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Load Students From New Class</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div ui-select2="chooseSectionRemoteOptions" ng-model="meeting.DynamicSection" style="width: 100%" />
+                                    <div class="input-group-btn">
+                                        <button ng-click="loadStudentsForSection(meeting.DynamicSection)" type="button" class="btn btn-info"><i class="fa fa-cloud-download"></i> Load Students From This Section</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            <h4>Sections Included <span class="badge badge-primary">Number of students</span></h4>
+                                        </div>
+                                        <div class="list-group" id="sectionListDiv">
+                                            <a class="list-group-item" ng-class="{active:selectedSection == section}" ng-click="loadSection(section)" ng-repeat="section in meeting.Sections"><span class="badge badge-primary">{{section.NumStudents}}</span><b>{{::section.StaffLastName}}</b> - {{::section.Name}} ({{::section.Grade}})</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div ng-if="selectedSection === null">
+                                        <uib-alert type="info">Please select a section</uib-alert>
+                                    </div>
+                                    <div ng-if="selectedSection !== null" class="panel panel-danger">
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading">
+                                                <h4>Current Section: <b>{{selectedSection.StaffFullName}}</b> - {{selectedSection.Name}} ({{selectedSection.Grade}})</h4>
+                                            </div>
+                                            <ns-observation-summary-section team-meeting-sections="meeting.Sections" selected-staff-id="selectedSection.StaffID" team-meeting-students="meeting.TeamMeetingStudents" show-checkboxes="true" selected-benchmark-date-id="filterOptions.selectedBenchmarkDate.id" selected-section-id="selectedSection.Id"></ns-observation-summary-section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+</fieldset>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Team Meeting</button> <a href="#/tm-manage" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+                </form>
+            </panel>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+                .switch.checked small {
+            left: 15px !important;
+        }
+
+        .switch small {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
+        .switch {
+            width: 35px !important;
+            height: 20px !important;
+            top: 2px;
+        }
+
+        .switchLabel {
+            padding-left: 5px;
+            font-size: 16px;
+        }
+</style>

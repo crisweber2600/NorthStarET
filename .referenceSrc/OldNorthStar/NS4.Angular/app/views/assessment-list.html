@@ -1,0 +1,55 @@
+﻿<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="#/">Assessement</a></li>
+		<li class="active">Manage Assessments</li>
+	</ol>
+	<h1>Manage Assessments</h1>
+</div>
+<div class="container-fluid">
+    <ns-error-display></ns-error-display>
+	<div class="row">
+		<div class="col-md-12">
+            <p>
+                <a href="/#/assessment-edit" class="btn btn-primary">Add New Assessment</a>
+            </p>
+
+			<table class="table table-striped" ng-controller="AssessmentListController">
+				<thead>
+				<tr> 
+					<th>Edit</th>
+                    <th>Delete</th>
+                    <th>Copy To Intervention</th>
+                    <th>Simple Copy</th>
+                    <th>Test Type</th>
+					<th>Assessment Name</th>
+					<th>Description</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="assessment in assessments">
+					<td>
+						<a href="/#/assessment-edit/{{assessment.Id}}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+					</td>
+                    <td>
+                        <a href="#/assessment-list" ng-click="remove(assessment.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                    <td>
+                        <a ng-click="copyAsInterventionTest(assessment.Id)" class="btn btn-success btn-xs"><i class="fa fa-copy"></i> Copy to Intervention</a>
+                    </td>
+                    <td>
+                        <a ng-click="simpleCopy(assessment.Id)" class="btn btn-success btn-xs"><i class="fa fa-copy"></i> Simple Copy</a>
+                    </td>
+                    <td>
+                        <div ng-if="assessment.TestType == 1">Benchmark Assessment</div>
+                        <div ng-if="assessment.TestType == 2">Intervention Assessment</div>
+                        <div ng-if="assessment.TestType == 3">State Test</div>
+                    </td>
+					<td class="ng-binding">{{assessment.AssessmentName}}</td>
+					<td class="ng-binding">{{assessment.Description}}</td>
+				</tr>
+				</tbody>
+			</table>
+            
+		</div>
+		</div>
+	</div>

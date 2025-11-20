@@ -1,0 +1,246 @@
+﻿<div ng-controller="KNTCSectionReportController">
+
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>KNTC</li>
+            <li class="active">Class Roster</li>
+        </ol>
+        <h1 class="hidden-print">Class Roster</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="false" source-benchmark-date="sourceTddSettings.sourceDate" print-multi-page="true" sort-array="sortArray" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit="false"></print-button>
+                <observation-summary-field-chooser></observation-summary-field-chooser>
+            </div>
+        </div> 
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-12 ng-scope" id="nsFilterOptions">
+                    <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+                </div>
+                <div class="col-md-12">
+                    <standard-report-header heading="dataMgr.assessment.AssessmentName + ' Class Roster'" options="filterOptions"></standard-report-header>
+                </div>
+                <uib-tabset tab-theme="orange">
+                    <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                        <uib-tab-heading>
+                            <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></div><div class="col-md-10">{{tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                        </uib-tab-heading>
+                    </uib-tab>
+                </uib-tabset>
+                <div style="min-height:350px;">
+                    <spinner name="tableSpinner">
+                        <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                            <div class="sk-cube-grid">
+                                <div class="sk-cube sk-cube1"></div>
+                                <div class="sk-cube sk-cube2"></div>
+                                <div class="sk-cube sk-cube3"></div>
+                                <div class="sk-cube sk-cube4"></div>
+                                <div class="sk-cube sk-cube5"></div>
+                                <div class="sk-cube sk-cube6"></div>
+                                <div class="sk-cube sk-cube7"></div>
+                                <div class="sk-cube sk-cube8"></div>
+                                <div class="sk-cube sk-cube9"></div>
+                            </div>
+                        </div>
+                    </spinner>
+                    <table class="table table-bordered  table-striped">
+                        <thead>
+                            <tr>
+                                <th class="nsCenterAlignedText" ng-repeat="header in dataMgr.HeaderFields | filter: { FieldName: 'guidedreadinggroup'}"><div style="cursor: pointer" ng-click="sort('GuidedReadingGroupId')">{{header.DisplayLabel}} <i class="{{manualSortHeaders.guidedReadingGroupClass}}"></i></div></th>
+                                <th><div style="cursor: pointer" ng-click="sort('StudentName')">Student <i class="{{manualSortHeaders.studentNameHeaderClass}}"></i></div></th>
+                                <th class="nsCenterAlignedText"><div style="cursor: pointer" ng-click="sort('FPValueID')">BAS <i class="{{manualSortHeaders.fpValueIDHeaderClass}}"></i></div></th>
+                                <th class="nsCenterAlignedText">
+                                    <div>Name Services</div>
+                                    <div style="width:250px;margin:auto;">
+                                        <div class="col-md-12 nsCenterAlignedText" style="margin-bottom:8px;margin-top:5px;font-weight:normal !important;">
+                                            <div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{sourceTddSettings.sourceDate.Hex}}"></div></div><div class="col-md-10" style="text-align:left">{{sourceTddSettings.sourceDate.text}} <i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                    <div><a href="" ng-click="openSourceTddDialog();" class="btn btn-orange btn-sm hidden-print">Data Benchmark Date <i class="fa fa-calendar"></i></a></div>
+                                </th>
+                                <th class="nsCenterAlignedText" ng-repeat="header in dataMgr.HeaderFields | filter: { FieldName: '!guidedreadinggroup'}">{{header.DisplayLabel}}</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr style="page-break-after:always" ng-repeat="studentResult in dataMgr.studentSectionReportResults | orderBy:sortArray">
+                                <td ng-repeat="fieldResult in studentResult.FieldResults | filter: { DbColumn: 'guidedreadinggroup'}" style="vertical-align:top;width:90px;" class="nsCenterAlignedText">
+                                    <div style="font-size:14pt;font-weight:bold;" ng-class="::guidedReadingColor(fieldResult.IntValue)">{{::guidedReadingText(fieldResult.IntValue)}}</div>
+                                </td>
+                                <td class="nsCenterAlignedText" style="vertical-align:top;width:100px;">
+                                    <span ng-show="studentResult.ImageUrl != '' && studentResult.ImageUrl != null">
+                                        <img ng-src="{{::studentResult.ImageUrl}}" height="130" alt="{{::studentResult.StudentName}}" />
+                                    </span>
+                                    <span ng-if="studentResult.ImageUrl == '' || studentResult.ImageUrl == null">
+                                        <img src="/assets/img/placeholder_person.jpg" width="95" height="130" />
+                                    </span>
+                                    <div style="margin-bottom:20px;">
+                                        <span style="font-size: 16pt;" student-dashboard-link student-id="studentResult.StudentId" student-name="studentResult.StudentName"></span>
+                                        <div>{{::studentResult.pronunciation}}</div>
+                                    </div>
+                                </td>
+                                <td class="nsCenterAlignedText" style="vertical-align:top;width:80px;">
+                                    {{::studentResult.FPText}}
+                                </td>
+                                <td style="vertical-align:top;width:200px;">
+                                    <div style="margin-bottom:20px;">
+                                        <h3><strong>Student Info</strong></h3>
+                                        <table class="table table-condensed osVTable">
+                                            <tbody>
+                                                <tr ng-repeat="attribute in allAttributes.AllAttributes" ng-if="((attribute.Id == 3 || attribute.Id == 5 || attribute.Id == 6 || attribute.Id == 7) && getAttributeLookupValue(studentResult.StudentId, attribute.Id) != 0) || (attribute.Id != 3 && attribute.Id != 5 && attribute.Id != 6 && attribute.Id != 7)">
+                                                    <td class="verticalOSCell vosLeft">{{::attribute.AttributeName}}: </td>
+                                                    <td class="verticalOSCell">{{::getAttributeValue(studentResult.StudentId, attribute.Id)}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div style="margin-bottom:20px;" student-services long-format="true" student-id="studentResult.StudentId" all-student-services="dataMgr.studentServices" show-header="true"></div>
+                                    <div style="margin-bottom:20px;" active-intervention-string student-id="studentResult.StudentId" intervention-records="dataMgr.interventionRecords"></div>
+                                    <div ng-repeat="osAssessment in observationSummaryManager.Scores.HeaderGroups | filter : { AssessmentName: '!Know Need Teach Check' }">
+                                        <div vertical-assessment
+                                                assessment-id="osAssessment.AssessmentId"
+                                                assessment-name="osAssessment.AssessmentName"
+                                                student-id="studentResult.StudentId"
+                                                benchmarks-by-grade="observationSummaryManager.BenchmarksByGrade"
+                                                all-student-results="observationSummaryManager.Scores.StudentResults"
+                                                fields="observationSummaryManager.Scores.Fields"></div>
+                                    </div>
+                                </td>
+                                <td style="vertical-align:top;" ng-repeat="fieldResult in studentResult.FieldResults | filter: { DbColumn: '!guidedreadinggroup'}">
+                                    <span ng-bind-html="fieldResult.StringValue | safe_html"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="sourceTddChooser.html">
+        <div class="modal-header">
+            <h3 class="modal-title">View Assessment Data <b>FROM:</b></h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText">
+                            All SOURCE Benchmark Dates
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Select SOURCE Benchmark Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="tdd in filterOptions.multiYearBenchmarkDates">
+                        <td class="nsCenterAlignedText">
+                            <table style="margin:auto"><tr><td style="padding:5px;"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></td><td>{{tdd.text}} <i class="fa fa-calendar"></i></td></tr></table>
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <input type="radio" icheck name="benchmarkDate" ng-value="tdd" ng-model="sourceTddSettings.newSourceDate" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="setSourceDate()"><i class="fa fa-check"></i> Select</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+</div>
+
+<style>
+     nobr br {display: none;}
+
+    img {
+    page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-inside: avoid; /* or 'auto' */
+}
+    small {
+        font-weight:600;
+        display: inline-block;
+        width: 160px;
+        margin-right:10px;
+    }
+    small.boldSmall {
+        font-weight: bold;
+        text-decoration: underline;
+        display: block;
+        text-transform: uppercase;
+    }
+    
+    .yellowbg {
+        background-color: yellow !important;
+        color: black;
+        font-weight: bold;
+    }
+
+    .whitebg {
+        color: black;
+        font-weight: bold;
+    }
+
+    .bluebg {
+        background-color: #4697ce !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    .obsGreen {
+        color: black;
+    }
+
+    .panel-heading h4 {
+        font-weight: bold;
+    }
+</style>
+<style>
+    .vertical {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+
+    .tab-container {
+        margin-bottom: 4px;
+    }
+</style>

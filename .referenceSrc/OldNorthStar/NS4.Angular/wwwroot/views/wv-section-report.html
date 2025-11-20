@@ -1,0 +1,144 @@
+﻿<div ng-controller="WVSectionReportController">
+
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Writing Vocabulary</li>
+        <li class="active">Section Report</li>
+    </ol>
+    <h1> Classroom</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <print-button print-landscape="false" print-multi-page="false" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 ng-scope" id="nsFilterOptions">
+                <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" ></ns-filter-options-container-directive>
+            </div>
+            <div class="col-md-12">
+                <standard-report-header heading="'Writing Vocabulary Section Report'" options="filterOptions"></standard-report-header>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr ng-repeat="scaleRow in dataMgr.scale"
+                        wv-section-report-table-row
+                        scale-row="scaleRow"
+                        studentresults="dataMgr.studentSectionReportResults"
+                        tdds="dataMgr.tdds"></tr>
+                    <tr>
+                        <td>Comments</td>
+                        <td fp-comments-cell
+                            ng-repeat="studentResult in dataMgr.studentSectionReportResults"
+                            studentResult="studentResult"
+                            soy-benchmark="dataMgr.soyBenchmark"
+                            eoy-benchmark="dataMgr.eoyBenchmark"
+                            target-zone="dataMgr.targetZone"
+                            scale="dataMgr.scale"
+                            tdds="dataMgr.tdds"></td>
+                    </tr>
+                    <tr ng-repeat="tdd in dataMgr.tdds" ng-class="{'bottomBlackThickBorder': $last, 'topBlackThickBorder': $first}">
+                        <td class="leftDoubleBorder" style="background-color:{{::tdd.Hex}}">{{::tdd.DisplayDate}}</td>
+                        <td ng-class="{'rightDoubleBorder': $last}" ng-repeat="studentResult in dataMgr.studentSectionReportResults"><div wv-score-by-tdd student-result="studentResult" tdd="tdd"></div></td>
+                    </tr>
+                    <tr>
+                        <td style='width: 3%; vertical-align: top !important;' class='ng-scope verticalTd'><div class='vertical ng-binding' style=';padding-right: 2px;font-weight:bold'>Student Name</div></td>
+                        <td ng-repeat="studentResult in dataMgr.studentSectionReportResults" style='width: 3%; vertical-align: top !important;' class='ng-scope verticalTd'><div class='vertical ng-binding' style=';padding-right: 2px'><span student-dashboard-link student-id="studentResult.StudentId" student-name="studentResult.LastName + ' ,' + studentResult.FirstName"></span></div></td>
+                    </tr>                  
+                </tbody>
+            </table>
+            <div test-due-date-footer tdds="dataMgr.tdds">
+            </div>
+        </div>
+    </div>
+    <style ng-repeat="tdd in dataMgr.tdds">
+    .tddBg{{tdd.Id}}
+    {
+        background-color: {{tdd.Hex;}};
+    }
+</style>
+<style>
+    .topBlackThickBorder {
+        border-top: 3px solid black !important;
+    }
+    .bottomBlackThickBorder {
+        border-bottom: 3px solid black !important;
+    }
+    .targetZone {
+        background-color: silver;
+    }
+
+    .soyBenchmark {
+        border-top: 3px solid black !important;
+    }
+
+    .eoyBenchmark {
+        border-bottom: 3px solid black !important;
+    }
+
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .vertical {
+        ;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>
+    </div>
+</div>

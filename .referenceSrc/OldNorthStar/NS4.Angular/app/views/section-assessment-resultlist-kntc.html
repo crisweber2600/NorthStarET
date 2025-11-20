@@ -1,0 +1,385 @@
+﻿<div ng-controller="SectionDataEntryKNTCController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Data Entry</li>
+            <li class="active">Edit Assessment Data</li>
+        </ol>
+        <h1>Edit Assessment Results for {{assessment.AssessmentName}}</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <a ng-if="assessment.CanImport" ng-click="getTemplate()" class="btn btn-primary hidden-xs"><i class="fa fa-download"></i> Download Export Template</a>
+                <a ng-if="assessment.CanImport" ng-click="openImportDialog()" class="btn btn-success hidden-xs"><i class="fa fa-upload"></i> Import Data</a>
+
+                <print-button print-landscape="true" source-benchmark-date="sourceTddSettings.sourceDate" print-multi-page="true" sort-array="sortArray" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit="false"></print-button>
+                <observation-summary-field-chooser></observation-summary-field-chooser>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 ng-scope" id="mainfilter">
+        <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <ns-error-display></ns-error-display>
+        <div class="col-md-12">
+            <uib-alert ng-show="uploadSettings.uploadComplete" type="success"><b>Note:</b> If there were any issues while uploading your data, you can view them by downloading the <a class="btn btn-success" ng-click="downloadResult()"> Log File <i class="fa fa-download"></i></a></uib-alert>
+        </div>
+    </div>
+
+    <div class="col-md-12" ng-if="filterOptions.selectedSection != null">
+        <standard-report-header heading="assessment.AssessmentName  + ' Data Entry'" options="filterOptions"></standard-report-header>
+    </div>
+     
+    <div style="min-height:350px;">
+        <spinner name="tableSpinner">
+            <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                <div class="sk-cube-grid">
+                    <div class="sk-cube sk-cube1"></div>
+                    <div class="sk-cube sk-cube2"></div>
+                    <div class="sk-cube sk-cube3"></div>
+                    <div class="sk-cube sk-cube4"></div>
+                    <div class="sk-cube sk-cube5"></div>
+                    <div class="sk-cube sk-cube6"></div>
+                    <div class="sk-cube sk-cube7"></div>
+                    <div class="sk-cube sk-cube8"></div>
+                    <div class="sk-cube sk-cube9"></div>
+                </div>
+            </div>
+        </spinner>
+        <div class="col-md-12 table-vertical">
+            <uib-tabset tab-theme="orange">
+                <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                    <uib-tab-heading>
+                        <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></div><div class="col-md-10">{{tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                    </uib-tab-heading>
+                    <div ng-if="filterOptions.selectedSection == null">
+                        <uib-alert type="info"><b>Note:</b> You must select a section in order to view the dashboard.</uib-alert>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+
+
+            <!-- DIV Version -->
+            <div ng-if="filterOptions.selectedSection != null">
+
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="fixedCol1 ns-table-cell text-center">Edit</div>
+                            <div class="fixedCol2 ns-table-cell text-center" ng-if="assessment.BaseType != 7">
+                                Copy<br />
+                                <a href="" ng-click="openCopyDialog(null, true);" class="btn btn-success btn-xs"><i class="fa fa-copy"></i></a>
+                            </div>
+                            <div class="fixedCol3 ns-table-cell text-center">Delete</div>
+                            <div class="fixedCol4 ns-table-cell"><div style="cursor: pointer" ng-click="sort('StudentName')">Student Name <i class="{{staticColumnsObj.studentNameHeaderClass}}"></i></div></div>
+                            <div class="ns-table-cell nsCenterAlignedText">
+                                <div>Assessment Data </div>
+                                <div style="width:250px;margin:auto;">
+                                    <div class="col-md-12 nsCenterAlignedText" style="margin-bottom:8px;margin-top:5px;font-weight:normal !important;">
+                                        <div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{sourceTddSettings.sourceDate.Hex}}"></div></div><div class="col-md-10" style="text-align:left">{{sourceTddSettings.sourceDate.text}} <i class="fa fa-calendar"></i></div>
+                                    </div>
+                                    <div><a href="" ng-click="openSourceTddDialog();" class="btn btn-orange btn-sm hidden-print">Data Benchmark Date <i class="fa fa-calendar"></i></a></div>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" ng-repeat="header in fields"><div style="cursor: pointer" ng-click="sort($index)">{{header.DisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div></div>
+
+                        </div>
+                        <form class="ns-table-row" ng-repeat="studentResult in studentResults | orderBy:sortArray" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveAssessmentData(studentResult)">
+
+                            <div class="fixedCol1 ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-xs" ng-click="defaultEditAction(studentResult, rowform)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <div class="extraHeader">Edit</div>
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="fixedCol2 ns-table-cell text-center" data-title="Copy" ng-if="assessment.BaseType != 7">
+                                <div ng-show="rowform.$visible" class="extraHeader">Copy</div>
+                                <a href="" ng-click="openCopyDialog(studentResult, false);" class="btn btn-success btn-xs"><i class="fa fa-copy"></i></a>
+                            </div>
+                            <div class="fixedCol3 ns-table-cell text-center" data-title="Delete">
+                                <div ng-show="rowform.$visible" class="extraHeader">Delete</div>
+                                <a class="btn btn-danger btn-xs" ng-click="deleteAssessmentData(studentResult)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="fixedCol4 ns-table-cell" data-title="FirstName">
+                                <div ng-show="rowform.$visible" class="extraHeader">Student Name</div>
+                                <span ng-show="studentResult.ImageUrl != '' && studentResult.ImageUrl != null">
+                                    <img ng-src="{{::studentResult.ImageUrl}}" height="130" alt="{{::studentResult.StudentName}}" />
+                                </span>
+                                <span ng-if="studentResult.ImageUrl == '' || studentResult.ImageUrl == null">
+                                    <img src="/assets/img/placeholder_person.jpg" width="95" height="130" />
+                                </span>
+                                <div style="margin-bottom:20px;">
+                                    <span ng-show="studentResult.IsCopied">*</span>
+                                    <span student-dashboard-link student-id="studentResult.StudentId" student-name="studentResult.StudentName"></span>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" ng-if="observationSummaryManager.Scores.HeaderGroups.length > 0">
+                                <div style="margin-bottom:20px;">
+                                    <h3><strong>Student Info</strong></h3>
+                                    <table class="table table-condensed osVTable">
+                                        <tbody>
+                                            <tr ng-repeat="attribute in allAttributes.AllAttributes" ng-if="((attribute.Id == 3 || attribute.Id == 5 || attribute.Id == 6 || attribute.Id == 7) && getAttributeLookupValue(studentResult.StudentId, attribute.Id) != 0) || (attribute.Id != 3 && attribute.Id != 5 && attribute.Id != 6 && attribute.Id != 7)">
+                                                <td class="verticalOSCell vosLeft">{{::attribute.AttributeName}}: </td>
+                                                <td class="verticalOSCell">{{::getAttributeValue(studentResult.StudentId, attribute.Id)}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="margin-bottom:20px;" student-services long-format="true" student-id="studentResult.StudentId" all-student-services="observationSummaryManager.StudentServices" show-header="true"></div>
+                                <div style="margin-bottom:20px;" active-intervention-string student-id="studentResult.StudentId" intervention-records="observationSummaryManager.InterventionRecords"></div>
+                                <div ng-repeat="osAssessment in observationSummaryManager.Scores.HeaderGroups | filter : { AssessmentName: '!Know Need Teach Check' }">
+                                    <div vertical-assessment
+                                         assessment-id="osAssessment.AssessmentId"
+                                         assessment-name="osAssessment.AssessmentName"
+                                         student-id="studentResult.StudentId"
+                                         benchmarks-by-grade="observationSummaryManager.BenchmarksByGrade"
+                                         all-student-results="observationSummaryManager.Scores.StudentResults"
+                                         fields="observationSummaryManager.Scores.Fields"></div>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" ng-repeat="fieldResult in studentResult.FieldResults | filter: { DbColumn: 'guidedreadinggroup'}">
+                                <div ng-class="::guidedReadingColor(fieldResult.IntValue)">
+                                    <ns-assessment-field mode="'grideditable'" e-form="rowform" result="fieldResult" field-required="fieldResult.Field.IsRequired" all-results="studentResult.FieldResults" ckeditor-options="ckeditorOptions"></ns-assessment-field>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" ng-repeat="fieldResult in studentResult.FieldResults | filter: { DbColumn: '!guidedreadinggroup'}"">
+                                <div ng-show="rowform.$visible" class="extraHeader">{{::fieldResult.Field.DisplayLabel}}</div>
+                                <ns-assessment-field mode="'grideditable'" e-form="rowform" result="fieldResult" field-required="fieldResult.Field.IsRequired" all-results="studentResult.FieldResults" ckeditor-options="ckeditorOptions"></ns-assessment-field>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="sourceTddChooser.html">
+        <div class="modal-header">
+            <h3 class="modal-title">View Assessment Data <b>FROM:</b></h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText">
+                            All SOURCE Benchmark Dates
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Select SOURCE Benchmark Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="tdd in filterOptions.multiYearBenchmarkDates">
+                        <td class="nsCenterAlignedText">
+                            <table style="margin:auto"><tr><td style="padding:5px;"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></td><td>{{tdd.text}} <i class="fa fa-calendar"></i></td></tr></table>
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <input type="radio" icheck name="benchmarkDate" ng-value="tdd" ng-model="sourceTddSettings.newSourceDate" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="setSourceDate()"><i class="fa fa-check"></i> Select</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="importBenchmarkData.html">
+        <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Data To Test Date {{filterOptions.selectedBenchmarkDate.text}}</h3>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <div class="form-group" ng-hide="uploadSettings.hasFiles">
+                        <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                        <div class="col-md-6">
+                            <h3>Select .CSV file to import</h3>
+                            <input type="file" id="newPhotos" class="uploadFile" accept="*.csv" eg-files="theFiles" has-files="uploadSettings.hasFiles">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="uploadSettings.hasFiles">
+                        <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li><strong>file:</strong></li>
+                                <li ng-repeat="photo in theFiles"> {{photo.name}}</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+            </div>
+        </form>
+
+    </script>
+    <script type="text/ng-template" id="copyFieldTddChooser.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Copy {{popupHeader()}} Data From Test Date {{filterOptions.selectedBenchmarkDate.text}}</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText">
+                            Target Benchmark Date
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Select Target Benchmark Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="tdd in filterOptions.benchmarkDates">
+                        <td class="nsCenterAlignedText">
+                            <table style="margin:auto"><tr><td style="padding:5px;"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></td><td>{{tdd.text}} <i class="fa fa-calendar"></i></td></tr></table>
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <input ng-disabled="tdd.id == filterOptions.selectedBenchmarkDate.id" type="radio" icheck name="benchmarkDate" ng-value="tdd" ng-model="copySettings.targetCopyDate" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="copyData()"><i class="fa fa-copy"></i> Copy</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+
+</div>
+<style>
+    nobr br {display: none;}
+
+    img {
+        page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+        page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+        page-break-inside: avoid; /* or 'auto' */
+    }
+
+    small {
+        font-weight: 600;
+        display: inline-block;
+        width: 160px;
+        margin-right: 10px;
+    }
+
+        small.boldSmall {
+            font-weight: bold;
+            text-decoration: underline;
+            display: block;
+            text-transform: uppercase;
+        }
+
+    .yellowbg {
+        background-color: yellow !important;
+        color: black;
+        font-weight: bold;
+    }
+
+    .whitebg {
+        color: black;
+        font-weight: bold;
+    }
+
+    .bluebg {
+        background-color: #4697ce !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    .obsGreen {
+        color: black;
+    }
+
+    .panel-heading h4 {
+        font-weight: bold;
+    }
+</style>
+<style>
+    .has-feedback .form-control-feedback {
+        top: 10px;
+    }
+
+    .tab-container {
+        margin-bottom: 4px;
+    }
+    /*.headerMinHeight{
+        min-height:42px;
+    }
+    .cellMinHeight{
+        min-height:25px;
+    }
+    .fixedCol1{
+        position:absolute;
+        width:38px;
+        left:0;
+        top:auto;
+    }
+        .fixedCol2{
+        position:absolute;
+        width:38px;
+        left:38px;
+        top:auto;
+    }
+            .fixedCol3{
+        position:absolute;
+        width:38px;
+        left:76px;
+        top:auto;
+    }
+                .fixedCol4{
+        position:absolute;
+        width:200px;
+        left:114px;
+        top:auto;
+    }*/
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .extraHeader {
+        font-weight: bold;
+        color: #333333;
+        margin-bottom: 15px;
+        height: 55px;
+    }
+</style>
+

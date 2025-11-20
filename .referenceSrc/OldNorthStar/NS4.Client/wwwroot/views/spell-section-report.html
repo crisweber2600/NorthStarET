@@ -1,0 +1,136 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Spelling Inventory</a></li>
+        <li class="active">Section Report</li>
+    </ol>
+    <h1> Class</h1>
+
+</div>
+<div class="container-fluid" ng-controller="SpellingInventorySectionReportController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 ng-scope">
+                <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" student-enabled="false"></ns-filter-options-container-directive>
+                <div class="well well-sm" style="background: url(/assets/img/gray32logo.png) no-repeat 5px center; background-color: #EDEEF0; padding-left:40px;">
+                    <span style="font-size:14px;"><b>North Star</b> Educational Tools</span>  | <b>School Year:</b> {{filterOptions.selectedSchoolYear.text}}  | <b>Benchmark Date:</b> {{filterOptions.selectedBenchmarkDate.text}} | <b>School:</b> {{filterOptions.selectedSchool.text}} | <b>Grade:</b> {{ filterOptions.selectedGrade.text}} | <b>Teacher:</b> {{ filterOptions.selectedTeacher.text}} | <b>Section:</b> {{ filterOptions.selectedSection.text}}
+                </div>
+            </div>
+            <uib-tabset tab-theme="orange">
+                <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                    <uib-tab-heading>
+                        <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></div><div class="col-md-10">{{tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                    </uib-tab-heading>
+                </uib-tab>
+            </uib-tabset>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2">Possible Points --></th>
+                        <th ng-repeat="header in dataMgr.HeaderFields">{{header.OutOfHowMany}}</th>
+                    </tr>
+                    <tr>
+                        <th><div style="cursor: pointer" ng-click="sort('StudentName')">Students' Name <i class="{{firstNameHeaderClass}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('FPValueSortOrder')">Reading Level <i class="{{fpValueIDHeaderClass}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('totalScore')">Total Feature Points and Words <i class="{{headerClassArray[0]}}"></i></div></th>
+                        <th ng-repeat="header in dataMgr.HeaderFields | filter: {DisplayLabel: '!Total Score'}"><div style="cursor: pointer" ng-click="sort($index + 1)">{{header.DisplayLabel}} <i class="{{headerClassArray[$index + 1]}}"></i></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="studentResult in dataMgr.studentResults | orderBy:sortArray">
+                        <td align="left" data-title="FirstName">{{studentResult.StudentName}}</td>
+                        <td>
+                            {{studentResult.FPText}}
+                        </td>
+                        <td>
+                            {{totalFPAndWords(studentResult)}}
+                        </td>
+                        <td ng-class="spellingCellBgColor(fieldResult)"  ng-repeat="fieldResult in studentResult.FieldResults | filter: {DbColumn : '!totalScore'} | filter: {DbColumn : '!totalFP'} |  filter: {DbColumn : '!totalWSC'} " data-title="{{fieldResult.Field.DisplayLabel}}">
+                            <ns-assessment-field result="fieldResult" all-results="studentResult.FieldResults" mode="'readonly'"></ns-assessment-field> 
+                        </td>
+                    </tr>
+                </tbody>
+             </table>
+        </div>
+    </div>
+</div>
+<style>
+    .yellowbg {
+        background-color: yellow !important;
+        color: black;
+        font-weight: bold;
+    }
+
+    .whitebg {
+        color: black;
+        font-weight: bold;
+    }
+
+    .bluebg {
+        background-color: #4697ce !important;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+<style>
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .vertical {
+        ;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

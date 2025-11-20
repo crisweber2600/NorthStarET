@@ -1,0 +1,67 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Personal Settings</li>
+        <li class="active">Contact North Star Support</li>
+    </ol>
+    <h1>Contact North Star Support</h1>
+</div>
+
+<div class="container-fluid" ng-controller="PersonalContactNorthStarSupportController">
+    <div class="col-md-12" ng-if="settings.pageStatus == 'success'">
+        <uib-alert type="success">Your Email has been sent!  <a href="" ng-click="resetForm()">Send another?</a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-if="settings.pageStatus != 'success'">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+        </div>
+        <div class="col-md-12">
+            <form name="pwdForm" class="form-horizontal" novalidate angular-validator angular-validator-submit="sendMail(info.subject, info.message)">
+
+                <panel panel-class="panel-midnightblue" heading="Email a Question">
+                    <fieldset>
+                        <legend>
+                            Use this form to contact North Star Support<br />
+                            <small style="font-size:12px">You should contact North Star support for system or data errors</small>
+                        </legend>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Subject</label>
+                            <div class="col-md-6">
+                                <input id="subject"
+                                       class="form-control"
+                                       name="subject"
+                                       type="text"
+                                       placeholder="Enter a subject"
+                                       required
+                                       required-message="'Subject is required'"
+                                       validate-on="dirty"
+                                       ng-model="info.subject" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Message</label>
+                            <div class="col-md-6">
+                                <textarea name="message" id="message" cols="80" rows="20" class="ckeditor" ng-model="info.message" ckeditor="{language: 'en',allowedContent: true,entities: false}"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </panel>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope"></i> Send Email</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>

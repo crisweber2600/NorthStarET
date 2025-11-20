@@ -1,0 +1,45 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Tier
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                # of Lessons
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Staff Initials
+            </th>
+            <th>
+                Dashboard
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="intervention in dataManager.Interventions">
+            <td>{{::intervention.Tier}}</td>
+            <td>{{::intervention.InterventionType}}</td>
+            <td>{{::intervention.Description}}</td>
+            <td>{{::intervention.NumLessons}}</td>
+            <td>{{::intervention.StartOfInterventionString}}</td>
+            <td>{{::intervention.EndOfInterventionString}}</td>
+            <td>{{::intervention.StaffInitials}}</td>
+            <td>
+                <intervention-dashboard-link intervention="intervention"></intervention-dashboard-link>
+                <!--<button class="btn btn-xs btn-primary" ng-click="goToDashboard(intervention.SchoolYear, intervention.SchoolId, intervention.InterventionistId, intervention.InterventionGroupId, intervention.StudentID, intervention.Id)"><i class="fa fa-dashboard"></i> Go</button>-->
+            </td>
+        </tr>
+    </tbody>
+</table>

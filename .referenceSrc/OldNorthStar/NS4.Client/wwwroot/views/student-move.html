@@ -1,0 +1,135 @@
+﻿<div ng-controller="StudentMoveController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Students</li>
+            <li class="active">Move Student</li>
+        </ol>
+        <h1>Move Students Between Classes and Schools</h1>
+    </div>
+
+    <div class="col-md-12" ng-show="moveSettings.moveComplete">
+        <uib-alert type="success"><b>Success!</b> The student has been moved successfully.  <a href="" ng-click="resetForm()">Move Another?</a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-show="!moveSettings.moveComplete">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <div ng-if="checkDifferentYears()">
+                <uib-alert type="warning"><b>Warning!</b> You are moving a student between SCHOOL YEARS.  Be sure that you intend to do this before continuing. (NOT COMMON)</uib-alert>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div style="width:600px">
+                <div class="col-md-12">
+                    <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Select Student and Section to Move FROM:</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStudent" ng-model="moveSettings.studentToMove" />
+                </div>
+                <div ng-if="moveSettings.studentToMove != null" class="col-md-12">
+                    <div class="table-responsive selectedItemDetail">
+                        <h3><strong>{{moveSettings.studentToMove.LastName}}, {{moveSettings.studentToMove.FirstName}} {{moveSettings.studentToMove.MiddleName}} ({{moveSettings.studentToMove.StudentIdentifier}})</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>School Year</td>
+                                    <td>{{moveSettings.studentToMove.SchoolYearVerbose}}</td>
+                                </tr>
+                                <tr>
+                                    <td>School</td>
+                                    <td>{{moveSettings.studentToMove.SchoolName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Teacher</td>
+                                    <td>{{moveSettings.studentToMove.StaffName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Grade</td>
+                                    <td>{{moveSettings.studentToMove.GradeName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Section Name</td>
+                                    <td>{{moveSettings.studentToMove.SectionName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="text-align:center">
+            <div style="width:600px;">
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:600px;">
+                <div class="col-md-12">
+                    <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Select Destination Section:</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchSection" ng-model="moveSettings.targetSection" />
+                </div>
+                <div ng-if="moveSettings.targetSection != null" class="col-md-12">
+                    <div class="table-responsive selectedItemTargetDetail">
+                        <h3><strong>{{moveSettings.targetSection.StaffName}}</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>School Year</td>
+                                    <td>{{moveSettings.targetSection.SchoolYearVerbose}}</td>
+                                </tr>
+                                <tr>
+                                    <td>School</td>
+                                    <td>{{moveSettings.targetSection.SchoolName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Grade</td>
+                                    <td>{{moveSettings.targetSection.GradeName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Section Name</td>
+                                    <td>{{moveSettings.targetSection.SectionName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="padding-top:20px;">
+            <button type="button" ng-click="processMove()" class="btn btn-primary"><i class="fa fa-truck"></i> Process Move</button>
+        </div>
+    </div>
+    
+</div>
+
+<style>
+    .selectedItemDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #4697ce;
+    }
+    .selectedItemDetail h3 {
+        color: white;
+    }
+    .selectedItemTargetDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #7dcc93;
+    }
+    .selectedItemTargetDetail h3 {
+        color: white;
+    }
+    .select2OptGroupHeader {
+        border-bottom: 1px solid #888888;
+    }
+</style>

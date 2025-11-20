@@ -1,0 +1,70 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Stacked Bar Graphs</a></li>
+        <li class="active">Summary</li>
+    </ol>
+    <h1>Score Group Summary</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    Export as <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid"  ng-controller="StackedBarGraphSummaryController as vm">
+
+    <div class="row">
+        <div class="col-md-12" style="padding-bottom:10px;">
+            <a href="#/stackedbargraph-groups/1" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Back to Bar Graph</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Summary">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Student Name</th>
+                            <th rowspan="2">Student ID</th>
+                            <th rowspan="2">Special Ed.</th>
+                            <th rowspan="2">Student Svcs.</th>
+                            <th rowspan="2">School / Grade (Teacher) </th>
+                            <th class="text-center" ng-repeat="tdd in vm.DataManager.TestDueDates" style="border-left:3px solid black; border-right: 3px solid black;border-top:3px solid black;" colspan="{{vm.DataManager.Fields.length}}">{{tdd.DisplayDate}}</th>
+                        </tr>
+                        <tr ns-summary-field-headers tdds="vm.DataManager.TestDueDates" fields="vm.DataManager.Fields">
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="record in vm.DataManager.SummaryRecords"  ns-summary-field tdds="vm.DataManager.TestDueDates" fields="vm.DataManager.Fields" student-result="record">
+                            <td>
+                                <a href="#/student-dashboard/{{record.StudentID}}">{{record.Student}}</a>
+                            </td>
+                            <td>
+                                {{::record.StudentIdentifier}}
+                            </td>
+                            <td>{{record.SpecialED}}</td>
+                            <td>{{record.Services}}</td>
+                            <td>
+                                <div ng-repeat="location in record.SchoolsSectionsList">
+                                    {{::location}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </panel>
+        </div>
+    </div>
+</div>

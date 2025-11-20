@@ -1,0 +1,75 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Assessement</a></li>
+        <li class="active">Syndicate Assessments</li>
+    </ol>
+    <h1>Syndicate Assessments</h1>
+</div>
+<div class="container-fluid" ng-controller="AssessmentSyndicationController">
+    <ns-error-display></ns-error-display>
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Syndicate To Other Districts</th>
+                        <th>Test Type</th>
+                        <th>Assessment Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="assessment in assessments">
+                        <td>
+                            <a ng-click="openDistrictSelectionDialog(assessment)" class="btn btn-primary btn-xs"><i class="fa fa-share"></i> Send to other districts</a>
+                        </td>
+                        <td>
+                            <div ng-if="assessment.TestType == 1">Benchmark Assessment</div>
+                            <div ng-if="assessment.TestType == 2">Intervention Assessment</div>
+                            <div ng-if="assessment.TestType == 3">State Test</div>
+                        </td>
+                        <td class="ng-binding">{{assessment.AssessmentName}}</td>
+                        <td class="ng-binding">{{assessment.Description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script type="text/ng-template" id="targetDistrictChooser.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Copy Assessment {{selectedAssessment.AssessmentName}} to new District</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText">
+                            Target District
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Execute Migration
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="district in allDistricts">
+                        <td>
+                            {{district.Name}}
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <button class="btn btn-orange" ng-click="copyAssessment(district)"><i class="fa fa-copy"></i> Execute</button>
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <span class="label {{district.status}}">{{district.message}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+</div>

@@ -1,0 +1,37 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">District Assessments</li>
+    </ol>
+    <h1>Manage Available Assessments - District</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Available Assessments">
+                <table class="table table-striped" ng-controller="DistrictAssessmentsController as vm">
+                    <thead>
+                        <tr>
+                            <th>Allow Users To Access?</th>
+                            <th>Assessment Name</th>
+                            <th>Assessment Type</th>
+                            <th>Assessment Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="assessment in vm.dataManager.Assessments">
+                            <td><switch ng-model="assessment.AssessmentIsAvailable" ng-change="vm.saveAvailability(assessment)"></switch></td>
+                            <td>{{::assessment.AssessmentName}}</td>
+                            <td>
+                                <div ng-if="assessment.TestType == 1">Benchmark Assessment</div>
+                                <div ng-if="assessment.TestType == 2">Intervention Assessment</div>
+                                <div ng-if="assessment.TestType == 3">State Test</div>
+                            </td>
+                            <td>{{::assessment.AssessmentDescription}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </panel>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Manage Interventions</li>
+    </ol>
+    <h1>Customize District Interventions</h1>
+
+</div>
+<div class="container-fluid" ng-controller="ManageInterventionTypesController">
+    <div class="row">
+        <ns-error-display></ns-error-display>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Available Interventions">
+                <panel-controls>
+                    <a href="" ng-click="showNewInterventionModal()">Add New Intervention <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Intervention</div>
+                            <div class="ns-table-cell text-center">Description</div>
+                            <div class="ns-table-cell text-center">Is Enabled</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="intervention in interventions" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveIntervention(intervention)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-sm" ng-click="startEdit(rowform)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-success">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-sm" ng-click="deleteIntervention(intervention)"><i class="fa fa-trash"></i></a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Name">
+                                <span editable-text="intervention.InterventionType" e-required e-form="rowform">{{ intervention.InterventionType || '' }}</span>
+                            </div>
+                            <div class="ns-table-cell" data-title="Name">
+                                <span editable-text="intervention.Description" e-form="rowform">{{ intervention.Description || '' }}</span>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Description">
+                                <span editable-checkbox="intervention.bDisplay" e-form="rowform">{{ intervention.bDisplay && 'Yes' || 'No' }}</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </panel>
+        </div>
+    </div>
+    <style>
+        .editable-wrap.editable-checkbox {
+            display: block;
+        }
+        .editable-wrap.editable-checkbox .editable-input {width: 32px;}
+    </style>
+    <script type="text/ng-template" id="newIntervention.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add A New Intervention</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Intervention</label>
+                    <div class="col-md-6">
+                        <input id="firstname" class="form-control" name="intervention" type="text" placeholder="Intervention" required ng-model="settings.newIntervention.InterventionType" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Description</label>
+                    <div class="col-md-6">
+                        <input id="middlename" class="form-control" name="description" type="text" placeholder="Description" ng-model="settings.newIntervention.Description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Is Enabled</label>
+                    <div class="col-md-6">
+                        <span class="editable-wrap editable-checkbox"><span class="editable-controls"><input type="checkbox" class="editable-input" ng-model="settings.newIntervention.bDisplay"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="saveNewIntervention(settings.newIntervention)"><i class="fa fa-save"></i> Save</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+</div>

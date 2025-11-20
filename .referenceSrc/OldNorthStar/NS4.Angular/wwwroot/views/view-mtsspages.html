@@ -1,0 +1,75 @@
+﻿<div ng-controller="InterventionViewPagesController">
+<div id="page-heading" class="ng-scope">
+
+    <ol class="breadcrumb">
+        <li><a href="#/toolkit-browse">Intervention Toolkit</a></li>
+        <li>MTSS Overview</li>
+    </ol>
+
+
+    <h1>MTSS Overview</h1>
+
+    <div class="options" ng-if="currentUser.IsPowerUser || currentUser.IsSA">
+        <div class="btn-toolbar">
+            <a href="#/view-mtsspage-cbm/-1"> <i class="fa fa-plus"></i> Create New Page </a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <panel panel-class="panel-inverse" heading="Multi-Tiered System of Support Overview">
+        <div class="list-group">
+            <a ng-repeat="page in pages" href="#/view-mtsspage-cbm/{{page.Id}}" class="list-group-item">
+                <div>
+                    <h3><strong>{{::page.Title}}</strong> <span class="btn btn-danger btn-xs" ng-if="currentUser.IsPowerUser || currentUser.IsSA" style="float:right;" ng-click="delete(page.Id, $event)" href=""><i class="fa fa-trash-o"></i> Delete</span></h3>
+                </div>
+            </a>
+            <!--<a href="#/view-mtsspage-cbm" class="list-group-item">
+                <div>
+                    <h3><strong>Overview of Capacity Building MTSS Model</strong></h3>
+                </div>
+            </a>
+            <a href="#/view-mtsspage-cim" class="list-group-item">
+                <div>
+                    <h3><strong>Overview of Continuous Improvement Model</strong></h3>
+                </div>
+            </a>
+            <a href="#/view-mtsspage-gi" class="list-group-item">
+                <div>
+                    <h3><strong>Overview of Guided Inquiry</strong></h3>
+                </div>
+            </a>
+            <a href="#/view-mtsspage-um" class="list-group-item">
+                <div>
+                    <h3><strong>Overview of Unit Maps</strong></h3>
+                </div>
+            </a>-->
+        </div>
+    </panel>
+    <style>
+        .panel-body > .list-group {
+            margin: 0px;
+        }
+
+        [class*=panel-].panel .panel-body {
+            background-color: #4f5259;
+        }
+
+        .panel-body > .list-group .list-group-item:first-child {
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+        /* This overrides an override from NSStypes, DONT REMOVE */
+        [class*=panel-].panel .panel-body {
+            border-left: none;
+            border-right: none;
+        }
+        .panel-heading h4 {
+            text-transform: none;
+            font-size: 24px;
+            letter-spacing:normal;
+            font-weight: bold;
+        }
+    </style>
+</div>
+  
+</div>

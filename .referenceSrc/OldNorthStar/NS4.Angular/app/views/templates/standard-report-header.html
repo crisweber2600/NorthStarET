@@ -1,0 +1,72 @@
+﻿<panel panel-class="panel-primary" heading="{{heading}}">
+    <div class="row">
+        <div class="col-md-2">
+            <img style="height:50px" src="/assets/img/northstar-logo-grayscale.png">
+        </div>
+        <div class="col-md-5" style="padding-left:25px;border-left:1px solid #cccccc;border-right:1px solid #cccccc">
+            <div ng-show="options.schoolYearEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">School Year</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedSchoolYear.text, '-not selected-', options.quickSearchStudent.SchoolYearVerbose)}}
+                </div>
+            </div>
+            <div ng-show="options.schoolEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">School</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedSchool.text, '-not selected-', options.quickSearchStudent.SchoolName)}}
+                </div>
+            </div>
+            <div ng-show="options.gradeEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Grade</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedGrade.text, '-not selected-', options.quickSearchStudent.GradeName)}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5" style="padding-left:25px;">
+            <div ng-show="options.teacherEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Teacher</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedTeacher.text, '-not selected-', options.quickSearchStudent.StaffName)}}
+                </div>
+            </div>
+            <div ng-show="options.interventionistEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Interventionist</label>
+                <div class="col-sm-8">
+                    {{options.selectedInterventionist.text || '-not selected-'}}
+                </div>
+            </div>
+            <div ng-show="options.sectionEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Section</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedSection.text, '-not selected-', options.quickSearchStudent.SectionName)}}
+                </div>
+            </div>
+            <div ng-show="options.interventionGroupEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Intervention Group</label>
+                <div class="col-sm-8">
+                    {{options.selectedInterventionGroup.text || '-not selected-'}}
+                </div>
+            </div>
+            <div ng-show="options.interventionStudentEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Student</label>
+                <div class="col-sm-8">
+                    {{options.selectedInterventionStudent.text || '-not selected-'}}
+                </div>
+            </div>
+            <div ng-show="options.sectionStudentEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Student</label>
+                <div class="col-sm-8">
+                    {{getFieldDisplayTest(options.selectedSectionStudent.text, '-not selected-', options.quickSearchStudent.LastName + ', ' + options.quickSearchStudent.FirstName)}}
+                </div>
+            </div>
+            <div ng-show="options.benchmarkDateEnabled" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Benchmark Date</label>
+                <div class="col-sm-8">
+                    {{options.selectedBenchmarkDate.text || '-not selected-'}}
+                </div>
+            </div>
+        </div>
+    </div>
+</panel>
+   

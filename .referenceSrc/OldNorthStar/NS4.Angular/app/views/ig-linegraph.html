@@ -1,0 +1,149 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Reports</li>
+        <li>Intervention Groups</li>
+        <li class="active">Line Graphs</li>
+    </ol>
+    <h1 class="hidden-print">Progress Monitoring Line Graph</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <print-button print-landscape="false" print-multi-page="false" fit-viewer-height="true" fit-width="true" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="LineGraphIGController as vm">
+        <div class="col-md-12 hidden-print">
+            <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true"  intervention-group-assessment-field-enabled="true" show-hr="true" interventionist-enabled="true" intervention-group-enabled="true" intervention-student-enabled="true"></ns-filter-options-container-directive>
+
+            <!--<panel panel-class="panel-midnightblue" heading="Select Field to Manage" panel-icon="fa fa-check-square-o">
+                <div class="tiles-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Assessment Field:</span>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" ng-model="vm.filterOptions.selectedInterventionGroupAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in vm.dataManager.assessments | filter: {DisplayInLineGraphs : true}">
+                                <option value=""> -- Choose a Field -- </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </panel>-->
+        </div>
+    <div class="col-md-12">
+        <standard-report-header heading="'Progress Monitoring Line Graph'" options="vm.filterOptions"></standard-report-header>
+    </div>
+    <div class="col-md-12">
+      
+        <div class="col-md-12">
+            <div>
+                <highchart id="chart1" config="vm.dataManager.chartConfig"></highchart>
+            </div>
+            <div>
+                <line-graph-detail-ig data-data-manager="vm.dataManager"></line-graph-detail-ig>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: This will be a directive eventually that we can re-use -->
+    <div class="col-md-12">
+        <panel panel-class="panel-primary" heading="Interventions">
+            <student-interventions data-data-manager="vm.studentDataManager"></student-interventions>
+        </panel>
+    </div>
+</div>
+
+
+<style>
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: #ABF09C !important;
+        color: black;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .interventionCell {
+        border: 3px dotted blue !important;
+    }
+
+            .verticalTdDate {
+            text-align:center;
+    white-space:nowrap;
+    transform: rotate(90deg);
+    }
+
+    .verticalTdDate div {
+         margin:0 -999px;/* virtually reduce space needed on width to very little */
+    display:inline-block;
+    }
+        .verticalTdDate div:before {
+            content:'';
+    width:0;
+    padding-top:110%;
+    /* takes width as reference, + 10% for faking some extra padding */
+    display:inline-block;
+    vertical-align:middle;
+        }
+
+    /*.verticalDate {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform-origin: bottom left;
+        transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .verticalTdDate {
+        height: 80px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+        position: relative;
+        top: -35px;
+        left: 3px;
+    }*/
+
+    .table-lowPadding > thead > tr > th, .table-lowPadding > tbody > tr > td {
+        padding: 3px 3px !important;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

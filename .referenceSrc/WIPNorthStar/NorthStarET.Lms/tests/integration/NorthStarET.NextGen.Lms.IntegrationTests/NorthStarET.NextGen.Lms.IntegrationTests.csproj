@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Testing" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.AppHost\NorthStarET.NextGen.Lms.AppHost.csproj" />
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Net" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Aspire.Hosting" />
+    <Using Include="Aspire.Hosting.ApplicationModel" />
+    <Using Include="Aspire.Hosting.Testing" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

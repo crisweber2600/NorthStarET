@@ -1,0 +1,2 @@
+﻿<i ng-if="result.StringValue && result.StringValue != '' && !displayTextAreas" class="fa fa-comments" style="margin-left:5px;cursor:pointer" ng-click="commentsModal(result.StringValue)"></i>
+<span ng-if="displayTextAreas" ng-bind-html="result.StringValue | safe_html"></span>

@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: Schools & Grades API
+  version: 0.1.0
+  description: Tenant-scoped endpoints for managing schools and grade offerings.
+servers:
+  - url: https://localhost:7001/api
+paths:
+  /districts/{districtId}/schools:
+    get:
+      summary: List schools for the active district
+      operationId: listSchools
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Optional case-insensitive search against name and code.
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [name-asc, name-desc]
+          description: Sort order (default name-asc).
+      responses:
+        "200":
+          description: Schools scoped to the district
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SchoolListItem"
+                  totalCount:
+                    type: integer
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      summary: Create a school within the district
+      operationId: createSchool
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSchoolRequest"
+      responses:
+        "201":
+          description: School created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URL to the created school resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolDetail"
+        "409":
+          description: Duplicate school name or code within district
+        "422":
+          description: Validation error payload
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+      security:
+        - sessionAuth: []
+      headers:
+        Idempotency-Key:
+          schema:
+            type: string
+          description: Required idempotency key for 10-minute dedupe window.
+  /districts/{districtId}/schools/{schoolId}:
+    get:
+      summary: Retrieve school detail including grade assignments
+      operationId: getSchool
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+        - $ref: "#/components/parameters/SchoolId"
+      responses:
+        "200":
+          description: School detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolDetail"
+        "404":
+          description: School not found in district
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    put:
+      summary: Update school metadata
+      operationId: updateSchool
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+        - $ref: "#/components/parameters/SchoolId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSchoolRequest"
+      responses:
+        "200":
+          description: School updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolDetail"
+        "409":
+          description: Concurrency conflict or duplicate values
+        "422":
+          description: Validation error payload
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+      headers:
+        Idempotency-Key:
+          schema:
+            type: string
+          description: Required idempotency key for 10-minute dedupe window.
+    delete:
+      summary: Soft delete a school
+      operationId: deleteSchool
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+        - $ref: "#/components/parameters/SchoolId"
+      responses:
+        "204":
+          description: School soft deleted
+        "409":
+          description: Concurrent update conflict
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+      headers:
+        Idempotency-Key:
+          schema:
+            type: string
+          description: Required idempotency key for 10-minute dedupe window.
+  /districts/{districtId}/schools/{schoolId}/grades:
+    put:
+      summary: Replace grade offerings for a school
+      operationId: setGrades
+      parameters:
+        - $ref: "#/components/parameters/DistrictId"
+        - $ref: "#/components/parameters/SchoolId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetGradesRequest"
+      responses:
+        "200":
+          description: Updated grade offerings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolDetail"
+        "409":
+          description: Concurrency conflict
+        "422":
+          description: Validation error payload
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+      headers:
+        Idempotency-Key:
+          schema:
+            type: string
+          description: Required idempotency key for 10-minute dedupe window.
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: SessionToken
+  parameters:
+    DistrictId:
+      in: path
+      name: districtId
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SchoolId:
+      in: path
+      name: schoolId
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    Unauthorized:
+      description: Session missing or expired
+    Forbidden:
+      description: Tenant isolation or authorization failure
+  schemas:
+    GradeSelection:
+      type: object
+      properties:
+        gradeId:
+          type: string
+        schoolType:
+          type: string
+          enum: [Elementary, Middle, High, Other]
+        selected:
+          type: boolean
+    SchoolListItem:
+      type: object
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [Active, Inactive]
+        gradeRangeMin:
+          type: string
+          nullable: true
+        gradeRangeMax:
+          type: string
+          nullable: true
+        lastUpdated:
+          type: string
+          format: date-time
+    SchoolDetail:
+      type: object
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+        districtId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        status:
+          type: string
+        gradeSelections:
+          type: array
+          items:
+            $ref: "#/components/schemas/GradeSelection"
+        concurrencyStamp:
+          type: string
+        audit:
+          type: object
+          properties:
+            createdBy:
+              type: string
+              format: uuid
+            createdAt:
+              type: string
+              format: date-time
+            updatedBy:
+              type: string
+              format: uuid
+            updatedAt:
+              type: string
+              format: date-time
+    CreateSchoolRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        gradeSelections:
+          type: array
+          items:
+            $ref: "#/components/schemas/GradeSelection"
+    UpdateSchoolRequest:
+      type: object
+      required: [name, concurrencyStamp]
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        concurrencyStamp:
+          type: string
+    SetGradesRequest:
+      type: object
+      required: [concurrencyStamp, gradeSelections]
+      properties:
+        concurrencyStamp:
+          type: string
+        gradeSelections:
+          type: array
+          items:
+            $ref: "#/components/schemas/GradeSelection"

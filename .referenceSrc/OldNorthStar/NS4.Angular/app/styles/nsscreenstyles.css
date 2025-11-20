@@ -1,0 +1,26 @@
+﻿
+    #page-leftbar {
+        width: 230px;
+    }
+
+    #page-content {
+        margin: 0 0 0 230px;
+    }
+
+
+    /*body.collapse-leftbar #page-content {
+        margin-left: 40px;
+    }*/
+
+@media (max-width: 767px) {
+    #page-content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    body.show-leftbar #page-content {
+        margin-left: 230px;
+    }
+}

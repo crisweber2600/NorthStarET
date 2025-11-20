@@ -1,0 +1,210 @@
+using FluentAssertions;
+using Moq;
+using NorthStarET.NextGen.Lms.Application.Audit.Queries;
+using NorthStarET.NextGen.Lms.Domain.Auditing;
+using Xunit;
+
+namespace NorthStarET.NextGen.Lms.Application.Tests.Audit;
+
+public sealed class GetAuditRecordsQueryHandlerTests
+{
+    private readonly Mock<IAuditRepository> _auditRepositoryMock;
+    private readonly GetAuditRecordsQueryHandler _sut;
+
+    public GetAuditRecordsQueryHandlerTests()
+    {
+        _auditRepositoryMock = new Mock<IAuditRepository>();
+        _sut = new GetAuditRecordsQueryHandler(_auditRepositoryMock.Object);
+    }
+
+    [Fact]
+    public async Task Should_ReturnAuditRecords_When_QueryExecuted()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        var auditRecords = new List<AuditRecord>
+        {
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Created", "District", Guid.NewGuid().ToString(), "{}", districtId),
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Updated", "District", Guid.NewGuid().ToString(), "{}", districtId)
+        };
+
+        _auditRepositoryMock
+            .Setup(x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(auditRecords);
+
+        var query = new GetAuditRecordsQuery(districtId, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().AllSatisfy(r => r.DistrictId.Should().Be(districtId));
+    }
+
+    [Fact]
+    public async Task Should_ReturnPaginatedResults_When_PaginationProvided()
+    {
+        // Arrange
+        var pageNumber = 2;
+        var pageSize = 10;
+        var auditRecords = new List<AuditRecord>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            auditRecords.Add(AuditRecord.Create(
+                "admin-001",
+                ActorRole.SystemAdmin,
+                "Updated",
+                "District",
+                Guid.NewGuid().ToString(),
+                $"{{\"iteration\":{i}}}",
+                Guid.NewGuid()
+            ));
+        }
+
+        _auditRepositoryMock
+            .Setup(x => x.GetPagedAsync(pageNumber, pageSize, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(auditRecords);
+
+        var query = new GetAuditRecordsQuery(null, pageNumber, pageSize);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().HaveCount(10);
+        _auditRepositoryMock.Verify(
+            x => x.GetPagedAsync(pageNumber, pageSize, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task Should_FilterByDistrict_When_DistrictIdProvided()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        var auditRecords = new List<AuditRecord>
+        {
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Created", "District", Guid.NewGuid().ToString(), "{}", districtId)
+        };
+
+        _auditRepositoryMock
+            .Setup(x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(auditRecords);
+
+        var query = new GetAuditRecordsQuery(districtId, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().HaveCount(1);
+        result.First().DistrictId.Should().Be(districtId);
+        _auditRepositoryMock.Verify(
+            x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+    }
+
+    [Fact]
+    public async Task Should_ReturnAllRecords_When_NoFiltersProvided()
+    {
+        // Arrange
+        var auditRecords = new List<AuditRecord>
+        {
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Created", "District", Guid.NewGuid().ToString(), "{}", Guid.NewGuid()),
+            AuditRecord.Create("admin-002", ActorRole.DistrictAdmin, "Updated", "DistrictAdmin", Guid.NewGuid().ToString(), "{}", Guid.NewGuid())
+        };
+
+        _auditRepositoryMock
+            .Setup(x => x.GetAllAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(auditRecords);
+
+        var query = new GetAuditRecordsQuery(null, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Should_ReturnEmptyList_When_NoRecordsFound()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        _auditRepositoryMock
+            .Setup(x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<AuditRecord>());
+
+        var query = new GetAuditRecordsQuery(districtId, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Should_OrderByOccurredAtDescending_When_QueryingRecords()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        var now = DateTimeOffset.UtcNow;
+        var auditRecords = new List<AuditRecord>
+        {
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Created", "District", Guid.NewGuid().ToString(), "{}", districtId),
+            AuditRecord.Create("admin-001", ActorRole.SystemAdmin, "Updated", "District", Guid.NewGuid().ToString(), "{}", districtId)
+        };
+
+        _auditRepositoryMock
+            .Setup(x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(auditRecords.OrderByDescending(r => r.OccurredAtUtc).ToList());
+
+        var query = new GetAuditRecordsQuery(districtId, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().BeInDescendingOrder(r => r.OccurredAtUtc);
+    }
+
+    [Fact]
+    public async Task Should_MapToResponse_When_QueryExecuted()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        var auditRecord = AuditRecord.Create(
+            "admin-001",
+            ActorRole.SystemAdmin,
+            "Created",
+            "District",
+            Guid.NewGuid().ToString(),
+            "{\"name\":\"Test\"}",
+            districtId
+        );
+
+        _auditRepositoryMock
+            .Setup(x => x.GetByDistrictIdAsync(districtId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<AuditRecord> { auditRecord });
+
+        var query = new GetAuditRecordsQuery(districtId, null, null);
+
+        // Act
+        var result = await _sut.Handle(query, CancellationToken.None);
+
+        // Assert
+        var response = result.First();
+        response.ActorId.Should().Be("admin-001");
+        response.ActorRole.Should().Be("SystemAdmin");
+        response.Action.Should().Be("Created");
+        response.EntityType.Should().Be("District");
+        response.AfterPayload.Should().Be("{\"name\":\"Test\"}");
+    }
+}

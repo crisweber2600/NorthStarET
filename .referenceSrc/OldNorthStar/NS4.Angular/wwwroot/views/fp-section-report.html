@@ -1,0 +1,141 @@
+﻿<div ng-controller="FPSectionReportController">
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Benchmark Assessment System</li>
+        <li class="active">Section Report</li>
+    </ol>
+    <h1 class="hidden-print"> Classroom</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <print-button print-landscape="false" print-multi-page="false" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12" id="nsFilterOptions">
+                <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" ></ns-filter-options-container-directive>
+            </div>
+            <div style="clear:both"></div>
+            <div class="col-md-12" ng-if="filterOptions.selectedSection != null">
+                <standard-report-header heading="'Benchmark Assessment System Section Report'" options="filterOptions"></standard-report-header>
+            </div>
+            <div style="clear:both"></div>
+            <div class="col-md-12" ng-show="filterOptions.selectedSection == null">
+                <uib-alert type="info"><b>Note:</b> You must select a section in order to view a report.</uib-alert>
+            </div>
+            <div class="col-md-12">
+                <spinner name="tableSpinner">
+                    <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div> 
+                </spinner> 
+                <div ng-if="filterOptions.selectedSection != null" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr ng-repeat="scaleRow in dataMgr.scale"
+                                fp-section-report-table-row
+                                benchmarks-by-grade="dataMgr.benchmarksByGrade"
+                                scale-row="scaleRow"
+                                previous-grade-scores="dataMgr.previousGradeScores"
+                                studentresults="dataMgr.studentSectionReportResults"
+                                tdds="dataMgr.tdds"
+                                soy-benchmark="dataMgr.soyBenchmark"
+                                eoy-benchmark="dataMgr.eoyBenchmark"
+                                target-zone="dataMgr.targetZone"></tr>
+                            <tr>
+                                <td style='width: 40px; vertical-align: top !important;' class='verticalTd'><div class='vertical' style=';padding-right: 2px'>GRADE</div></td>
+                                <td style='width: 40px; vertical-align: top !important;' class='verticalTd'><div class='vertical' style=';padding-right: 2px'>DRA</div></td>
+                                <td style='width: 40px; vertical-align: top !important;' class='verticalTd'><div class='vertical' style=';padding-right: 2px'>RR</div></td>
+                                <td style='width: 40px; vertical-align: top !important;' class='verticalTd'><div class='vertical' style=';padding-right: 2px'>F&amp;P</div></td>
+                                <td style="width:65px;">Lexiles / Student Name</td>
+                                <td ng-repeat="studentResult in dataMgr.studentSectionReportResults" style='vertical-align: top !important;' class='ng-scope verticalTd'><div class='vertical ng-binding' style='padding-right: 2px'><span student-dashboard-link student-id="studentResult.StudentId" student-name="studentResult.LastName + ', ' + studentResult.FirstName"></span></div></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" rowspan="{{5 + dataMgr.tdds.length}}">
+                                    <div class="well">
+                                        <u>Bold Black Border</u><br>Low entry bench mark FP: <b>{{ lowBenchmark()}}</b><br />
+                                        High end of year bench mark FP: <b>{{ highBenchmark()}}</b><br /><br />
+                                        <u>Shaded Lines-Target Zone</u><br />
+                                        For Current Period FP: <b>{{targetZone()}}</b>
+                                    </div>
+                                </td>
+                                <td>Comments</td>
+                                <td fp-comments-cell
+                                    ng-repeat="studentResult in dataMgr.studentSectionReportResults"
+                                    studentResult="studentResult"
+                                    soy-benchmark="dataMgr.soyBenchmark"
+                                    eoy-benchmark="dataMgr.eoyBenchmark"
+                                    target-zone="dataMgr.targetZone"
+                                    scale="dataMgr.scale"
+                                    tdds="dataMgr.tdds"></td>
+                            </tr>
+                            <tr ng-repeat="tdd in dataMgr.tdds">
+                                <td style="font-weight:bold;white-space:nowrap" class="tddBg{{tdd.Id}}">
+                                    {{tdd.DueDate | nsDateFormat}}
+                                </td>
+                                <td ng-repeat="studentRecord in dataMgr.studentSectionReportResults">
+                                    <div fp-test-score tdd="tdd" scale="dataMgr.scale" student-result="studentRecord"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tier III
+                                </td>
+                                <td ng-repeat="studentRecord in dataMgr.studentSectionReportResults">
+                                    <div intervention-string student-id="studentRecord.StudentId" tier="3" intervention-records="dataMgr.interventionRecords"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tier II
+                                </td>
+                                <td ng-repeat="studentRecord in dataMgr.studentSectionReportResults">
+                                    <div intervention-string student-id="studentRecord.StudentId" tier="2" intervention-records="dataMgr.interventionRecords"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tier I
+                                </td>
+                                <td ng-repeat="studentRecord in dataMgr.studentSectionReportResults">
+                                    <div intervention-string student-id="studentRecord.StudentId" tier="1" intervention-records="dataMgr.interventionRecords"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    SPED Categories
+                                </td>
+                                <td ng-repeat="studentRecord in dataMgr.studentSectionReportResults">
+                                    <div student-services student-id="studentRecord.StudentId" all-student-services="dataMgr.studentServices"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div test-due-date-footer tdds="dataMgr.tdds">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style ng-repeat="tdd in dataMgr.tdds">
+    .tddBg{{tdd.Id}}
+    {
+        background-color: {{tdd.Hex;}};
+    }
+</style>
+
+</div>
+    </div>

@@ -1,0 +1,202 @@
+﻿<form novalidate angular-validator angular-validator-submit="saveAssessmentData(studentResult)" name="dataentry_form" ng-controller="SectionStudentResultAVMRDataEntryController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Data Entry</li>
+            <li>Classrooms</li>
+            <li class="active">{{assessment.AssessmentName}}</li>
+        </ol>
+        <h1><b>{{::studentResult.StudentName}}</b></h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="false" print-multi-page="true" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <panel panel-class="panel-midnightblue" heading="{{assessment.AssessmentName}}">
+            <div class="col-md-12 form-horizontal nsHeader">
+                <div class="col-md-4">
+                    <div class="row" ng-if="isInterventionMode == false">
+                        <label class="col-md-6 control-label">
+                            Benchmark Date
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{filterOptions.selectedBenchmarkDate.Hex}}"></div></div><div class="col-md-10 ng-binding">{{filterOptions.selectedBenchmarkDate.text}} <i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6 control-label" style="padding-top:15px;">
+                            Recorder
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <input name="primaryteacher" id="primaryteacher" validator="validateRecorder()" ui-select2="getTeacherRemoteOptions" invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6 control-label" style="padding-top:15px;">
+                            Date Test Taken
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <p class="input-group">
+                                <input style="cursor:pointer" type="text" name="pikaday" id="pikaday" class="form-control" picka-day ng-model="studentResult.TestDate" required invalid-message="Please enter a valid date" required-message="'Please select a date'" default-date="{{studentResult.TestDate}}" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" ng-repeat="field in assessment.Fields | filter: { AltDisplayLabel: 'left'}">
+                        <label class="col-md-6 control-label">
+                            {{::field.DisplayLabel}}
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <assessment-edit-field-custom student-result="studentResult" groups="assessment.FieldGroups" fields="assessment.Fields" current-field="field"></assessment-edit-field-custom>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" ng-repeat="field in assessment.Fields | filter: {AltDisplayLabel:'right'} ">
+                        <label class="col-md-6 control-label">
+                            {{::field.DisplayLabel}}
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <assessment-edit-field-custom student-result="studentResult" groups="assessment.FieldGroups" fields="assessment.Fields" current-field="field"></assessment-edit-field-custom>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </panel>
+
+        <div class="row">
+            <div class="col-md-12">
+                <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            </div>
+        </div>
+
+        <div class="row">
+            <!--<div class="col-md-12">
+                <div class="col-md-1"><b>100% Correct:</b></div><div class="col-md-1"> <switch class="green" ng-change="toggleAll()" ng-model="checkAll.checked"></switch></div>
+            </div>-->
+            <div class="col-md-12">
+
+                <uib-tabset justified="false">
+                    <uib-tab ng-repeat="section in assessment.FieldSubCategories">
+                        <uib-tab-heading>
+                            <i class="fa fa-tasks"></i> {{::section.DisplayName}}
+                        </uib-tab-heading>
+                        <h1 ng-if="settings.printMode == true">
+                            {{::section.DisplayName}}
+                        </h1>
+                        <div class="table-responsive" ng-style="{ 'page-break-after' : ($index != assessment.FieldSubCategories.length - 1 ? 'always' : 'never')}">
+                            <div class="col-md-12 hidden-print">
+                                <div class="col-md-1" style="padding-top:2px;width:40px;"> <switch class="green" ng-change="toggleAll(section)" ng-model="section.checked"></switch></div><div class="col-md-11 hidden-print"><span class="badge badge-success">Toggle Task Group 100% Correct</span></div>
+                            </div>
+                            <div class="col-md-12">
+                                <fieldset ng-repeat="container in section.Containers">
+                                    <legend>
+                                        {{::container.DisplayName}}                                
+
+                                    </legend>
+                                    <div class="col-md-1  hidden-print" style="padding-top:2px; width:40px"> <switch class="green" ng-change="toggleContainer(container)" ng-model="container.checked"></switch></div><div class="col-md-11 hidden-print"><span class="badge badge-info">Toggle Section 100% Correct</span></div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th ng-repeat="category in container.Categories">
+                                                    <div class="col-md-12">
+                                                        <div class="hidden-print" style="padding-top:2px;width:40px;float:left" ng-if="category.ContainsCheckboxes == true"><switch class="green" ng-change="toggleCategory(category, container)" ng-model="category.checked"></switch></div><div style="float:left">{{::category.DisplayName}}</div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="group in container.FieldGroups | orderBy : 'SortOrder'">
+                                                <td ng-repeat="cat in container.Categories">
+                                                    <!-- need an orderby -->
+                                                    <div ng-class="{ 'col-md-12' : filteredResults.length == 1, 'col-md-6': filteredResults.length == 2 }" ng-repeat="field in filteredResults = (group.FieldCell.Fields |  filter: { CategoryId: cat.Id } : true)">
+                                                        <assessment-edit-field-custom student-result="studentResult" lookup-fields-array="lookupFieldsArray" current-field="field"></assessment-edit-field-custom>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+
+                <button type="submit" ng-click="shouldClose = false" class="btn btn-success hidden-print"><i class="fa fa-save"></i>  Save and Continue</button>
+                <button type="submit" ng-click="shouldClose = true" class="btn btn-primary hidden-print"><i class="fa fa-save"></i>  Save and Close</button>
+                <a ng-click="cancel()" class="btn btn-danger hidden-print"><i class="fa fa-times"></i> Cancel</a>
+            </div>
+        </div>
+    </div>
+    <style ng-if="settings.printMode == true">
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+        .tab-container .nav-tabs {
+            display: none !important;
+        }
+
+        .tab-primary.tab-container .tab-content {
+            border: none !important;
+        }
+    </style>
+</form>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+        .table > tbody > tr > td > assessment-edit-field-custom > span {
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch.checked small {
+        left: 15px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+</style>

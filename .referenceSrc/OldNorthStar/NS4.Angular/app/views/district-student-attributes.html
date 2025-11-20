@@ -1,0 +1,150 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Manage Student Attributes</li>
+    </ol>
+    <h1>Manage Student Attributes</h1>
+
+</div>
+
+<div class="container-fluid" ng-controller="StudentAttributeController">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Modify Attributes">
+                <panel-controls>
+                    <a href="" ng-click="showNewAttributeModal()">Add New Attribute <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <div class="form-horizontal">
+                    <ns-error-display></ns-error-display>   
+                    <div style="clear:both"></div>            
+                    <div ng-repeat="attribute in dataMgr.attributes">
+                        <form editable-form name="attForm" novalidate angular-validator onbeforesave="before(attForm);" angular-validator-submit="saveAttribute(attribute)">
+                            <div class="nsFakeLegend"><span editable-text="attribute.AttributeName" e-required e-form="rowform">{{ attribute.AttributeName || '' }}</span>
+                                <span style="float:right"  ng-show="!attForm.$visible">
+                                    <a class="btn btn-default btn-xs" ng-click="startEdit(attForm)"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-danger btn-xs" ng-click="deleteAttribute(attribute)"><i class="fa fa-trash"></i></a> 
+                                </span>
+                                <span style="float:right" ng-show="attForm.$visible">
+                                    <button title="Save" type="submit" ng-disabled="attForm.$waiting" class="btn btn-xs btn-success">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button title="Cancel" type="button" ng-disabled="attForm.$waiting" ng-click="attForm.$cancel()" class="btn btn-xs btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Add New Attribute Value</label>
+                            <div class="col-md-3">
+                                <input class="form-control" placeholder="Attribute Name" ng-model="attribute.addAttributeLookupValue" style="width: 100%" />
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" placeholder="Attribute Description" ng-model="attribute.addAttributeDescription" style="width: 100%" />
+                            </div>
+                            <div class="col-md-1"><a ng-click="saveNewAttributeValue(attribute)" class="btn btn-primary">Add <i class="fa fa-plus"></i></a></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldnick" class="col-md-3 control-label">Current Attribute Values</label>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <div class="container-fluid ns-table">
+                                        <div class="ns-table-row ns-table-header">
+                                            <div class="ns-table-cell text-center">Edit</div>
+                                            <div class="ns-table-cell text-center">Delete</div>
+                                            <div class="ns-table-cell text-center">Name</div>
+                                            <div class="ns-table-cell text-center">Description</div>
+                                            <div ng-if="attribute.Id == 4" class="ns-table-cell text-center">Is Special Ed. Label</div>
+                                        </div>
+                                        <form class="ns-table-row" ng-repeat="lookupValue in attribute.LookupValues" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveAttributeValue(lookupValue)">
+
+                                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                                <div ng-show="!rowform.$visible">
+                                                    <a class="btn btn-primary btn-sm" ng-click="startEdit(rowform)"><i class="fa fa-pencil"></i></a>
+                                                </div>
+                                                <div ng-show="rowform.$visible">
+                                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-success">
+                                                        <i class="fa fa-save"></i>
+                                                    </button>
+                                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="ns-table-cell text-center" data-title="Delete">
+                                                <a class="btn btn-danger btn-sm" ng-click="deleteAttributeValue(lookupValue)"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                            <div class="ns-table-cell" data-title="Name">
+                                                <span editable-text="lookupValue.LookupValue" e-required e-form="rowform">{{ lookupValue.LookupValue || '' }}</span>
+                                            </div>
+                                            <div class="ns-table-cell" data-title="Description">
+                                                <span editable-text="lookupValue.Description" e-form="rowform">{{ lookupValue.Description || '' }}</span>
+                                            </div>
+                                            <div ng-if="attribute.Id == 4" class="ns-table-cell text-center" data-title="Is Special Ed. Label">
+                                                <span editable-checkbox="lookupValue.IsSpecialEd" e-form="rowform">{{ lookupValue.IsSpecialEd && 'Yes' || 'No' }}</span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </panel>
+        </div>
+    </div>
+    <script type="text/ng-template" id="newAttribute.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add A New Student Attribute</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Attribute Name</label>
+                    <div class="col-md-6">
+                        <input id="firstname" class="form-control" name="attribute" type="text" placeholder="Attribute Name" ng-model="settings.newAttribute.AttributeName" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="saveNewAttribute(settings.newAttribute)"><i class="fa fa-save"></i> Save</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+</div>
+
+<style>
+            .editable-wrap.editable-checkbox {
+            display: block;
+        }
+        .editable-wrap.editable-checkbox .editable-input {width: 32px;}
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+    .nsFakeLegend {
+    padding-bottom: 5px;
+    font-weight: 300;
+    font-size: 19px;
+}
+    .nsFakeLegend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 19px;
+    font-size: 19.5px;
+    line-height: inherit;
+    color: #656b79;
+    border: 0;
+    border-bottom: 1px solid #e6e7e8;
+}
+</style>

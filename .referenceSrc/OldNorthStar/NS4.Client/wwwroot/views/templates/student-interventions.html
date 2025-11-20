@@ -1,0 +1,38 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Tier
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                # of Lessons
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Staff Initials
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="intervention in dataManager.Interventions">
+            <td>{{::intervention.Tier}}</td>
+            <td>{{::intervention.InterventionType}}</td>
+            <td>{{::intervention.Description}}</td>
+            <td>{{::intervention.NumLessons}}</td>
+            <td>{{::dataManager.formatDate2(intervention.StartOfIntervention)}}</td>
+            <td>{{::dataManager.formatDate2(intervention.EndOfIntervention)}}</td>
+            <td>{{::intervention.StaffInitials}}</td>
+        </tr>
+    </tbody>
+</table>

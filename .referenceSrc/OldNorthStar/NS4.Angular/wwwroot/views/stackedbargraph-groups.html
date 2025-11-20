@@ -1,0 +1,195 @@
+﻿<div ng-controller="StackedBarGraphGroupsController">
+    <div id="page-heading">
+        <ol class="breadcrumb hidden-print">
+            <li>Reports</li>
+            <li class="active">Stacked Bar Graphs - By Test Due Date</li>
+        </ol>
+        <h1 class="hidden-print">Stacked Bar Graphs - By Test Due Date</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button graph-settings="settings" groups-factory="groupsFactory" print-landscape="true" sort-array="sortArray" print-multi-page="true" fit-viewer-height="false" fit-width="true" html-viewer-height="0" html-viewer-width="" stretch-to-fit=""></print-button>
+                <stacked-bar-graph-summary-attribute-chooser></stacked-bar-graph-summary-attribute-chooser>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 hidden-print">
+                <panel panel-class="panel-midnightblue" heading="{{groupsFactory.name}}" panel-icon="fa fa-group">
+                    <ns-stacked-bar-graph-custom-group-options assessment-field-enabled="true" group-factory="groupsFactory" group-name="groupsFactory.name"></ns-stacked-bar-graph-custom-group-options>
+                </panel>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-2 hidden-print" ng-show="!settings.summaryMode">
+                    <button ng-click="generateGraph()" class="btn btn-orange"><i class="fa fa-bar-chart-o"></i> Generate Graph</button>
+                </div>
+                <div class="form-group col-md-10 hidden-print" ng-show="!settings.summaryMode">
+                    <label for="radio" style="font-weight:bold;font-size:14px;padding-right:15px;" class="control-label">Report By</label>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.stacking" value="normal" name="stacking" checked> Number of Students</label></div>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.stacking" value="percent" name="stacking"> Percent of Students</label></div>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div ng-if="!settings.graphGenerated || !settings.anyResults">
+                <uib-alert type="info"><b>Note:</b> Either you have not yet generated a report or the selections you've made do not return any results.</uib-alert>
+            </div>
+            <div style="min-height:350px;">
+                <spinner name="tableSpinner">
+                    <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div>
+                </spinner>
+                <div ng-if="settings.graphGenerated && settings.anyResults" class="col-md-12">
+                    <div class="col-md-12" style="margin-top:5px;" ng-if="settings.graphGenerated">
+                        <ns-stacked-bar-graph-legend title="'Stacked Bar Graph'" options="groupsFactory.options" zone="settings.summaryScoreGrouping" summary-mode="settings.summaryMode" category="settings.summaryCategory"></ns-stacked-bar-graph-legend>
+                    </div>
+                    <div class="col-md-12" ng-if="settings.graphGenerated" ng-show="!settings.summaryMode">
+                        <highchart id="chart1" config="chartConfig"></highchart>
+                    </div>
+                    <div class="col-md-12" ng-if="settings.summaryMode">
+                        <div class="row">
+                            <div class="col-md-2" style="padding-bottom:10px;">
+                                <a ng-click="changeToChartMode()" class="btn btn-danger hidden-print"><i class="fa fa-arrow-circle-left"></i> Back to Bar Graph</a>
+                            </div>
+                            <div class="form-group col-md-10" ng-hide="groupsFactory.options.selectedAssessmentField.TestType == 3">
+                                <label for="radio" style="font-weight:bold;font-size:14px;padding-right:15px;" class="control-label">View</label>
+                                <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" ng-change="changeSummaryMode()" value="Current Year Only (Sortable)" name="view" checked> Current Year Only (Sortable)</label></div>
+                                <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" ng-change="changeSummaryMode()" value="All Years (Non-Sortable)" name="view"> All Years (Non-Sortable)</label></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <panel panel-class="panel-midnightblue" heading="{{settings.summaryView}}">
+                                    <div style="overflow-x:auto;width:100%">
+                                        <table class="table table-striped" ng-if="settings.summaryView == 'Current Year Only (Sortable)'">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Student')">Student Name <i class="{{manualSortHeaders['Student']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('StudentIdentifier')">Student ID <i class="{{manualSortHeaders['StudentIdentifier']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att1Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att1')">{{::attributeHeaders['Att1']}} <i class="{{manualSortHeaders['Att1']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att2Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att2')">{{::attributeHeaders['Att2']}} <i class="{{manualSortHeaders['Att2']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att3Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att3')">{{::attributeHeaders['Att3']}} <i class="{{manualSortHeaders['Att3']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att4Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att4')">{{::attributeHeaders['Att4']}} <i class="{{manualSortHeaders['Att4']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att5Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att5')">{{::attributeHeaders['Att5']}} <i class="{{manualSortHeaders['Att5']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att6Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att6')">{{::attributeHeaders['Att6']}} <i class="{{manualSortHeaders['Att6']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att7Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att7')">{{::attributeHeaders['Att7']}} <i class="{{manualSortHeaders['Att7']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att8Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att8')">{{::attributeHeaders['Att8']}} <i class="{{manualSortHeaders['Att8']}}"></i></div></th>
+                                                    <th ng-if="groupsFactory.Att9Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att9')">{{::attributeHeaders['Att9']}} <i class="{{manualSortHeaders['Att9']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('SpecialED')">Special Ed. <i class="{{manualSortHeaders['SpecialED']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Services')">Student Svcs. <i class="{{manualSortHeaders['Services']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('School')">School <i class="{{manualSortHeaders['School']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('GradeOrder')">Grade <i class="{{manualSortHeaders['GradeOrder']}}"></i></div></th>
+                                                    <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Teacher')">Teacher <i class="{{manualSortHeaders['Teacher']}}"></i></div></th>
+                                                    <!--<th rowspan="2">School / Grade (Teacher) </th>-->
+                                                    <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{getSummaryHeader(tdd.DisplayDate)}}</th>
+                                                </tr>
+                                                <tr ns-summary-field-headers sort-array="sortArray" sortable="true" data-rows="groupsFactory" tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" sort-mgr="sortMgr" header-class-array="headerClassArray"></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="record in groupsFactory.SummaryRecords | orderBy:sortArray" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields"  student-result="record">
+                                                    <td>
+                                                        <span student-dashboard-link student-id="record.StudentID" student-name="record.Student"></span>
+                                                    </td>
+                                                    <td>
+                                                        {{::record.StudentIdentifier}}
+                                                    </td>
+                                                    <td ng-if="groupsFactory.Att1Visible">{{::record.Att1}}</td>
+                                                    <td ng-if="groupsFactory.Att2Visible">{{::record.Att2}}</td>
+                                                    <td ng-if="groupsFactory.Att3Visible">{{::record.Att3}}</td>
+                                                    <td ng-if="groupsFactory.Att4Visible">{{::record.Att4}}</td>
+                                                    <td ng-if="groupsFactory.Att5Visible">{{::record.Att5}}</td>
+                                                    <td ng-if="groupsFactory.Att6Visible">{{::record.Att6}}</td>
+                                                    <td ng-if="groupsFactory.Att7Visible">{{::record.Att7}}</td>
+                                                    <td ng-if="groupsFactory.Att8Visible">{{::record.Att8}}</td>
+                                                    <td ng-if="groupsFactory.Att9Visible">{{::record.Att9}}</td>
+                                                    <td>{{::record.SpecialED}}</td>
+                                                    <td>{{::record.Services}}</td>
+                                                    <td>{{::record.School}}</td>
+                                                    <td>{{::record.Grade}}</td>
+                                                    <td>{{::record.Teacher}}</td>
+                                                    <!--<td>
+                                                        <div ng-repeat="location in record.SchoolsSectionsList">
+                                                            {{::location}}
+                                                        </div>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table" ng-if="settings.summaryView == 'All Years (Non-Sortable)'">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2">Student Name</th>
+                                                    <th rowspan="2">Student ID</th>
+                                                    <th ng-if="groupsFactory.Att1Visible" rowspan="2">{{::attributeHeaders['Att1']}}</th>
+                                                    <th ng-if="groupsFactory.Att2Visible" rowspan="2">{{::attributeHeaders['Att2']}}</th>
+                                                    <th ng-if="groupsFactory.Att3Visible" rowspan="2">{{::attributeHeaders['Att3']}}</th>
+                                                    <th ng-if="groupsFactory.Att4Visible" rowspan="2">{{::attributeHeaders['Att4']}}</th>
+                                                    <th ng-if="groupsFactory.Att5Visible" rowspan="2">{{::attributeHeaders['Att5']}}</th>
+                                                    <th ng-if="groupsFactory.Att6Visible" rowspan="2">{{::attributeHeaders['Att6']}}</th>
+                                                    <th ng-if="groupsFactory.Att7Visible" rowspan="2">{{::attributeHeaders['Att7']}}</th>
+                                                    <th ng-if="groupsFactory.Att8Visible" rowspan="2">{{::attributeHeaders['Att8']}}</th>
+                                                    <th ng-if="groupsFactory.Att9Visible" rowspan="2">{{::attributeHeaders['Att9']}}</th>
+                                                    <th rowspan="2">Special Ed.</th>
+                                                    <th rowspan="2">Student Svcs.</th>
+                                                    <th rowspan="2">School </th>
+                                                    <th rowspan="2">Section </th>
+                                                    <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{tdd.PeriodName}}</th>
+                                                </tr>
+                                                <tr ns-summary-field-headers tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields"></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="record in groupsFactory.HistoricalSummaryRecords" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" student-result="record">
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                                        <span student-dashboard-link student-id="record.StudentID" student-name="record.Student"></span>
+                                                    </td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                                        {{::record.StudentIdentifier}}
+                                                    </td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att1Visible && record.FirstRecord">{{::record.Att1}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att2Visible && record.FirstRecord">{{::record.Att2}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att3Visible && record.FirstRecord">{{::record.Att3}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att4Visible && record.FirstRecord">{{::record.Att4}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att5Visible && record.FirstRecord">{{::record.Att5}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att6Visible && record.FirstRecord">{{::record.Att6}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att7Visible && record.FirstRecord">{{::record.Att7}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att8Visible && record.FirstRecord">{{::record.Att8}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att9Visible && record.FirstRecord">{{::record.Att9}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.SpecialED}}</td>
+                                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.Services}}</td>
+                                                    <td rowspan="{{record.SchoolRowSpan}}" ng-if="record.FirstSchoolRecord">
+                                                        {{record.SchoolName}}
+                                                    </td>
+                                                    <td>
+                                                        {{record.Section}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </panel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <style>
+     .radio {display: inline;}
+         stacked-bar-graph-summary-attribute-chooser .btn-toolbar {
+        display: inline-block;
+    }
+ </style>

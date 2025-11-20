@@ -1,0 +1,44 @@
+﻿<div ng-repeat="currentPage in printPages">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th rowspan="2"><div style="cursor: pointer" ng-click="sort('TestDate')">Benchmark Date <i class="{{manualSortHeaders.tddHeaderClass}}"></i></div></th>
+                <th rowspan="2"><div style="cursor: pointer" ng-click="sort('GradeOrder')">Grade <i class="{{manualSortHeaders.gradeNameHeaderClass}}"></i></div></th>
+                <th rowspan="2"><div style="cursor: pointer" ng-click="sort('DelimitedTeachers')">Teachers <i class="{{manualSortHeaders.teachersHeaderClass}}"></i></div></th>
+                <th style="text-align: center" scope="col" ng-repeat="headerGroup in observationSummaryManager.Scores.HeaderGroups | filter: { page : currentPage.page}" colspan="{{headerGroup.FieldCount}}">
+                    <a href="" ng-click="hideAssessment(headerGroup)" class="pull-right"><i class="fa fa-minus"></i></a> {{headerGroup.AssessmentName}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" ng-repeat="field in observationSummaryManager.Scores.Fields | filter: { page : currentPage.page}">
+                    <a href="" ng-click="hideField(field)" class="pull-right"><i class="fa fa-minus"></i></a>
+
+                    <div style="cursor: pointer" ng-click="sort($index)"><span ng-bind-html="field.FieldName | safe_html"></span> <i class="{{headerClassArray[$index]}}"></i></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="studentResult in observationSummaryManager.Scores.StudentResults | orderBy:sortArray">
+                <td align="left" data-title="FirstName">
+                    {{studentResult.TestDate | nsDateFormat }}
+                </td>
+                <td align="left">
+                    {{studentResult.GradeName }}
+                </td>
+                <td align="left">
+                    {{studentResult.DelimitedTeachers }}
+                </td>
+                <td ng-class="getBackgroundClass(studentResult.GradeId, studentResult.TestLevelPeriodId, fieldResult)" ng-repeat="fieldResult in studentResult.OSFieldResults  | filter: { page : currentPage.page}">
+                    <ns-assessment-field mode="'readonly'" result="fieldResult" all-results="studentResult.OSFieldResults"></ns-assessment-field>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-md-12 breaker" ng-if="$index != printPages.length - 1" style="height:50px;">&nbsp;</div>
+</div>
+<style>
+
+    a i.fa-minus {
+        color: #cccccc;
+    }
+</style>

@@ -1,0 +1,74 @@
+﻿<panel panel-class="panel-primary" heading="{{title}} Selected Options">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">School Year</label>
+                <div class="col-sm-8">
+                    {{schoolYear()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedSchools.length > 0" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">School</label>
+                <div class="col-sm-8">
+                    {{schools()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedGrades.length > 0" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Grade</label>
+                <div class="col-sm-8">
+                    {{grades()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedSections.length > 0" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Sections</label>
+                <div class="col-sm-8">
+                    {{sections()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedInterventionTypes.length > 0" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Intervention Types</label>
+                <div class="col-sm-8">
+                    {{interventionTypes()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedSpedTypes != null" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Special Ed</label>
+                <div class="col-sm-8">
+                    {{specialEd()}}
+                </div>
+            </div>
+            <div ng-show="options.selectedAssessmentField != null" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Assessment Field</label>
+                <div class="col-sm-8">
+                    {{assessmentField()}}
+                </div>
+            </div>
+            <div class="row" ng-if="summaryMode">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Zone</label>
+                <div class="col-sm-8">
+                    {{scoreGrouping()}}
+                </div>
+            </div>
+            <div class="row" ng-if="summaryMode">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">Stack</label>
+                <div class="col-sm-8">
+                    <span ng-bind-html="whichStack()"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="padding-left:25px;">
+            <div  ng-repeat="attributeType in options.attributeTypes"  ng-show="attributeType.selectedData.length > 0" class="row">
+                <label style="font-weight:bold;margin-bottom:0px" class="col-sm-4 control-label">{{attributeType.Name}}</label>
+                <div class="col-sm-8">
+                    {{attributeValue(attributeType.Name, attributeType.selectedData)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</panel>
+
+<style>
+    .panel-primary{
+        margin-bottom: 5px !important;
+    }
+</style>

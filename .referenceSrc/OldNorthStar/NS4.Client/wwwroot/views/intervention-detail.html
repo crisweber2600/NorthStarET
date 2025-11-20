@@ -1,0 +1,553 @@
+﻿<div ng-controller="InterventionDetailController">
+    <div id="page-heading" class="ng-scope">
+
+        <ol class="breadcrumb">
+            <li><a href="#/toolkit-browse">Intervention Toolkit</a></li>
+            <li><a href="#/Intervention-view-tier/{{intervention.InterventionTierID}}">Tier {{intervention.InterventionTierID}}</a></li>
+            <li class="active">{{intervention.Description}}</li>
+        </ol>
+
+        <h1>{{intervention.Description}} ({{intervention.InterventionType}})</h1>
+        
+
+        <div class="options">
+            <div class="btn-toolbar">
+                <a ng-show="settings.IsEditing == false" ng-click="edit()"> <i class="fa fa-pencil"></i> Edit </a>
+                <a ng-show="settings.IsEditing == true" ng-click="save()" class="nsPanelButton btn btn-success"><i class="fa fa-save"></i> Save</a>
+                <a ng-show="settings.IsEditing == true" ng-click="cancel()" class="nsPanelButton btn btn-danger"><i class="fa fa-times-circle"></i> Cancel</a> 
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div style="clear:both"></div>
+        <uib-tabset panel-tabs="true" tab-theme="{{intervention.TierLabel}}">
+            <uib-tab>
+                <uib-tab-heading>
+                    Overview
+                </uib-tab-heading>
+                <table class="fullwidth">
+
+                    <tr ng-if="settings.IsEditing == true">
+                        <td>
+                            <h3 class="toolkitHeading">Other Settings</h3>
+                        </td>
+                    </tr>
+                    <tr ng-if="settings.IsEditing == true">
+                        <td class="toolkitDataCell">
+                            <table class="fullwidth" cellspacing="5">
+                                <tr>
+                                    <td class="oneThird">
+                                        Intervention Title: <br />
+                                        <input type="text" class="form-control" ng-model="intervention.Description" />
+                                    </td>
+                                    <td class="oneThird">
+                                        Intervention Abbreviation:<br />
+                                        <input type="text" class="form-control" ng-model="intervention.InterventionType" />
+                                    </td>
+                                    <td class="oneThird">
+                                        Workshop: <br />
+                                        <div class="form-group">
+                                            <div ui-select2="workshopOptions" ng-model="intervention.InterventionWorkshop" style="width: 80%;float:left;" />
+                                            <button style="width:18%;float:left;margin-left:5px;" type="button" class="btn btn-danger" ng-click="intervention.InterventionWorkshop = null"><i class="fa fa-times-circle"></i> Clear</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Brief Intervention Description</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.BriefDescriptionTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="intervention.BriefDescription | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Appropriate For</h3>
+                                    </td>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Usual Time of Year</h3>
+                                    </td>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Type of Intervention</h3>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ui-select2="gradeOptions" ng-model="intervention.InterventionGrades" style="width: 100%" />
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span style="margin-right:3px;margin-top:5px;width:105px;" ng-repeat="grade in intervention.InterventionGrades" class="badge badge-primary">{{grade.text}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.TimeOfYear"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="intervention.TimeOfYear | safe_html"></span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <select ng-model="intervention.InterventionTierIDTemp" class="form-control">
+                                                <option value="">--select a tier--</option>
+                                                <option value="1">Tier 1</option>
+                                                <option value="2">Tier 2</option>
+                                                <option value="3">Tier 3</option>
+                                            </select>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span style="padding-left:20px;padding-right:20px;" class="label label-{{intervention.TierLabel}}">Tier {{intervention.InterventionTierID}}</span>
+                                        </div>                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="half">
+                                        <h3 class="toolkitHeading">Entrance Criteria</h3>
+                                    </td>
+                                    <td class="half">
+                                        <h3 class="toolkitHeading">Exit Criteria</h3>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="toolkitDataCell half">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.EntranceCriteriaTemp"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="intervention.EntranceCriteria | safe_html"></span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell half">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.ExitCriteriaTemp"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="intervention.ExitCriteria | safe_html"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Description of Learner Need</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.LearnerNeedTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="intervention.LearnerNeed | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Detailed Description of Intervention</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="intervention.DetailedDescriptionTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="intervention.DetailedDescription | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </uib-tab>
+            <uib-tab heading="Tools">
+                <uib-tab-heading>
+                    <i class="fa fa-wrench"></i> Tools
+                </uib-tab-heading>
+                <h2>Intervention Tools</h2>
+
+                <h3>Upload New Tool</h3>
+                <input type="text" placeholder="name" /> <button type="button" class="btn btn-primary">Upload</button>
+
+                <h3>Assign Existing Tool</h3>
+                Search Box  <button type="button" class="btn btn-primary">Assign to Intervention</button>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Edit
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                            <th>
+                                <switch></switch>
+                            </th>
+                            <th>
+                                Tool Name
+                            </th>
+                            <th>
+                                Tool File
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                   <i class="fa fa-video-camera"></i> Videos
+                </uib-tab-heading>
+            </uib-tab>
+        </uib-tabset>
+        <style>
+            .panel-body > .list-group {
+                margin: 0px;
+            }
+
+            [class*=panel-].panel .panel-body {
+                background-color:  {{intervention.TierColor}};
+            }
+
+            .tab-container .tab-content {
+            background-color:  {{intervention.TierColor}} !important;
+            }
+
+            .panel-body > .list-group .list-group-item:first-child {
+                border-top-right-radius: 3px;
+                border-top-left-radius: 3px;
+            }
+            .panel-heading .options {
+    float: right!important;
+    float: right;
+}
+            /* This overrides an override from NSStypes, DONT REMOVE */
+            [class*=panel-].panel .panel-body {
+                border-left: none;
+                border-right: none;
+            }
+
+            .toolkitHeading {
+                color: white;
+                margin-top: 10px;
+                font-weight: 500;
+            }
+
+            .toolkitDataCell {
+                background-color: white;
+                padding: 10px;
+                border: 1px solid black;
+            }
+
+   
+
+            .oneThird {
+                width: 33%;
+            }
+
+            .half {
+                width: 50%;
+            }
+            .panel-heading .options .btn.nsPanelButton{
+                padding-bottom: 8px;
+                padding-top:8px;
+                margin: 2px 5px;
+            }
+            .fullwidth {
+                width: 100%;
+            }
+            /* Yellow color for Tier 2 #F4EC2F*/
+                    .panel-heading h4 {
+            text-transform: none;
+            font-size: 24px;
+            letter-spacing:normal;
+            font-weight: bold;
+        }
+        </style>
+        <script type="text/ng-template" id="interventionToolsModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Intervention Tools</h3>
+            </div>
+            <div class="modal-body">
+                <table class="rgMasterTable" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00" style="width:100%;table-layout:auto;empty-cells:show;">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="rgHeader rgCheck"><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl02_ctl00_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl02$ctl00$SelectionSelectCheckBox" onclick="$find(&quot;ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts&quot;)._selectAllRows(&quot;ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00&quot;, &quot;&quot;, event);"></th>
+                            <th scope="col" class="rgHeader">Type</th>
+                            <th scope="col" class="rgHeader">Name (of tool)</th>
+                            <th scope="col" class="rgHeader">Long Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rgRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__0">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl04_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl04$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Change Over Time Text_bae618e3-4ddd-4a04-b2c5-8a17f7df6db0.pdf">Change Over Time Text</a>
+                            </td>
+                            <td>An Observation Survey of Early Literacy Achievement, revised second addition copymaster </td>
+                        </tr>
+                        <tr class="rgAltRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__1">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl06_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl06$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Cumulative Writing Vocab Chart_a9c43f27-551f-4a92-a12b-9a759561c2ec.pdf">Cumulative WV Chart</a>
+                            </td>
+                            <td>District 196 WV Card referred to in An Observation Survey</td>
+                        </tr>
+                        <tr class="rgRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__2">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl08_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl08$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/DailyLessonRecord_1and2-1_c50b4389-7b87-428c-8e7d-d53a18632d70.pdf">Daily Lesson Record Template</a>
+                            </td>
+                            <td>An Observation Survey of Early Literacy Achievement, revised second addition copymaster </td>
+                        </tr>
+                        <tr class="rgAltRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__3">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl10_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl10$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Discontinue Recommendations Before Final Assessment 1_c7ce8ab2-a5ac-4931-ae55-9fc83fc9f3d5.pdf">Discontinue Recommendations Before Final Assessments</a>
+                            </td>
+                            <td>RRCNA</td>
+                        </tr>                       
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="close()">Close</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="studentDataModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Intervention Tools</h3>
+            </div>
+            <div class="modal-body">
+                Coming soon
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="close()">Close</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="assessmentToolsModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Assessment Tools</h3>
+            </div>
+            <div class="modal-body">
+                <table class="rgMasterTable" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00" style="width:100%;table-layout:auto;empty-cells:show;">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="rgHeader rgCheck"><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl02_ctl00_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl02$ctl00$SelectionSelectCheckBox" onclick="$find(&quot;ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts&quot;)._selectAllRows(&quot;ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00&quot;, &quot;&quot;, event);"></th>
+                            <th scope="col" class="rgHeader">Type</th>
+                            <th scope="col" class="rgHeader">Name (of tool)</th>
+                            <th scope="col" class="rgHeader">Long Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rgRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__0">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl04_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl04$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Change Over Time Text_bae618e3-4ddd-4a04-b2c5-8a17f7df6db0.pdf">Change Over Time Text</a>
+                            </td>
+                            <td>An Observation Survey of Early Literacy Achievement, revised second addition copymaster </td>
+                        </tr>
+                        <tr class="rgAltRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__1">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl06_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl06$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Cumulative Writing Vocab Chart_a9c43f27-551f-4a92-a12b-9a759561c2ec.pdf">Cumulative WV Chart</a>
+                            </td>
+                            <td>District 196 WV Card referred to in An Observation Survey</td>
+                        </tr>
+                        <tr class="rgRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__2">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl08_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl08$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/DailyLessonRecord_1and2-1_c50b4389-7b87-428c-8e7d-d53a18632d70.pdf">Daily Lesson Record Template</a>
+                            </td>
+                            <td>An Observation Survey of Early Literacy Achievement, revised second addition copymaster </td>
+                        </tr>
+                        <tr class="rgAltRow" id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00__3">
+                            <td><input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl01_rgDistricts_ctl00_ctl10_SelectionSelectCheckBox" type="checkbox" name="ctl00$ctl00$ContentPlaceHolderDefault$ctl16$ctl01$rgDistricts$ctl00$ctl10$SelectionSelectCheckBox"></td>
+                            <td>.pdf</td>
+                            <td>
+                                <a class="link" href="/InterventionTools/Discontinue Recommendations Before Final Assessment 1_c7ce8ab2-a5ac-4931-ae55-9fc83fc9f3d5.pdf">Discontinue Recommendations Before Final Assessments</a>
+                            </td>
+                            <td>RRCNA</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="close()">Close</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="progressMonitoringToolsModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Progress Monitoring Tools</h3>
+            </div>
+            <div class="modal-body">
+                    <a href="/InterventionTools/North%20Star%20Rollover%20Data%20Formats%20-%202014_67d63701-a4ad-4106-95dd-41df7ba6db98.docx" target="_blank">Test</a><br><a href="/InterventionTools/Letter%20ID%20Score%20Sheet_1b369362-2994-43f5-a778-818bff0bcd4e.pdf" target="_blank">Letter ID Score Sheet</a><br><a href="/InterventionTools/OH_Word_Test_Admin_Sheet_4f819f34-1f40-403e-81be-d781461f8b2d.pdf" target="_blank">Ohio Word Test - Admin Sheet</a><br><a href="/InterventionTools/OH_Word_Test_Score_Sheet_54da2f0f-5ba7-4f7c-8ca3-60938b29b637.pdf" target="_blank">Ohio Word Test - Score Sheet</a><br><a href="/InterventionTools/Concepts%20About%20Print-1_46157f69-2226-48a3-8a0e-166e90521a56.pdf" target="_blank">Concepts About Print</a><br><a href="/InterventionTools/Writing%20Vocab%20Obs%20Sheet_2274502d-7fa3-4d0c-a8a2-ff79cab6352f.pdf" target="_blank">WV Observation Sheet</a><br><a href="/InterventionTools/Hearing%20Recording%20Sounds%20in%20Words_8ee6f364-e243-436c-9f2d-43702eb423f6.pdf" target="_blank">Hearing Recording Sounds in Words</a><br><a href="/InterventionTools/Running%20Record%20Sheets%20front%20and%20back_b3aa4dfb-a98c-4747-82ab-1cbc4ed1daa5.pdf" target="_blank">Running Record Sheets</a><br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="close()">Close</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="videosModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Related Videos</h3>
+            </div>
+            <div class="modal-body">
+                <table cellpadding="0" cellspacing="0" style="margin-top: 20px;" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td style="padding:15px;">
+
+
+                                <div id="currentVideo" style="display: none;margin-bottom:10px;">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <iframe allowfullscreen="" allowtransparency="true" class="vzaar-video-player" frameborder="0" height="252" id="vzaarplayer" mozallowfullscreen="" name="vzaar" title="vzaar video player" type="text/html" webkitallowfullscreen="" width="448"></iframe>
+                                                </td>
+                                                <td>
+                                                    <div id="segmentSection" style="margin-left: 10px;"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <table style="border-spacing: 5px; border-collapse: separate">
+                                    <tbody>
+                                        <tr></tr>
+                                        <tr>
+                                            <td>
+                                                <a href="javascript:;" onclick="swapLoadedVideo(5457280);return false;"><img border="0" src="https://view.vzaar.com/5457280/thumb" height="" width=""></a>
+                                            </td>
+                                            <td style="padding-left: 5px;">
+                                                <a style="color: #468ACA; font-weight: bold; font-size: 14px;" href="javascript:;" onclick="swapLoadedVideo(5457280);return false;">2015-03-04 NV 1Gr Putz Siham Writing Conference Punctuation</a>
+                                                <br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;">Description:</span> <span style="font-size: 100%; color: #999;"></span><br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;"> Duration:</span> <span style="font-size: 100%; color: #999;">784.08</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div id="subvideo_5457280" style="display: none;"></div>
+
+                                <table style="border-spacing: 5px; border-collapse: separate">
+                                    <tbody>
+                                        <tr></tr>
+                                        <tr>
+                                            <td>
+                                                <a href="javascript:;" onclick="swapLoadedVideo(5457287);return false;"><img border="0" src="https://view.vzaar.com/5457287/thumb" height="" width=""></a>
+                                            </td>
+                                            <td style="padding-left: 5px;">
+                                                <a style="color: #468ACA; font-weight: bold; font-size: 14px;" href="javascript:;" onclick="swapLoadedVideo(5457287);return false;">2015-03-05 NV 1Gr Putz Siham Writing Conference Paragraph</a>
+                                                <br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;">Description:</span> <span style="font-size: 100%; color: #999;"></span><br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;"> Duration:</span> <span style="font-size: 100%; color: #999;">1652.75</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div id="subvideo_5457287" style="display: none;"></div>
+
+                                <table style="border-spacing: 5px; border-collapse: separate">
+                                    <tbody>
+                                        <tr></tr>
+                                        <tr>
+                                            <td>
+                                                <a href="javascript:;" onclick="swapLoadedVideo(5457290);return false;"><img border="0" src="https://view.vzaar.com/5457290/thumb" height="" width=""></a>
+                                            </td>
+                                            <td style="padding-left: 5px;">
+                                                <a style="color: #468ACA; font-weight: bold; font-size: 14px;" href="javascript:;" onclick="swapLoadedVideo(5457290);return false;">2015-03-05 NV 1Gr Putz Siham Writing Conference Sharing</a>
+                                                <br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;">Description:</span> <span style="font-size: 100%; color: #999;"></span><br>
+                                                <span style="font-size: 100%; font-weight: bold; color: #999;"> Duration:</span> <span style="font-size: 100%; color: #999;">668.73</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div id="subvideo_5457290" style="display: none;"></div>
+                                <input id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl02_rlvMain_ClientState" name="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl02_rlvMain_ClientState" type="hidden" autocomplete="off"><span id="ctl00_ctl00_ContentPlaceHolderDefault_ctl16_ctl02_rlvMain" style="display:none;"></span>
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="close()">Close</button>
+            </div>
+        </script>
+        <script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿
+<div ng-controller="TeamMeetingNotesController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/tm-attend-list">Attend a Team Meeting</a></li>
+            <li><a href="#/tm-attend/{{::teamMeetingId}}">Current Team Meeting</a></li>
+            <li class="active">Notes</li>
+        </ol>
+        <h1>Edit Team Meeting Notes for {{::meeting.CurrentStudent.LastName}}, {{::meeting.CurrentStudent.FirstName}}</h1>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <panel panel-class="panel-midnightblue" heading="Edit Team Meeting Notes">
+                    <div class="panel-chat well">
+                        <div ng-repeat="note in meeting.CurrentNotes" class="chat-message" ng-class="::getNoteClass(note.Staff.Id, $index)">
+                            <div class="chat-contact">
+                                <i class="fa fa-user fa-user chat-icon"></i>
+                            </div>
+                            <div class="chat-text">
+                                <div class="chat-header">
+                                    <span class="date">{{::note.NoteDate | nsLongDateFormatWithTime}}</span>
+                                    <span class="author"><a title="edit" class="btn btn-primary btn-xs" ng-if="canEditNote(note.Staff.Id)" ng-click="editNote(note.ID)"><i class="fa fa-pencil"></i></a> <a title="delete" class="btn btn-danger btn-xs" ng-if="canEditNote(note.Staff.Id)" ng-click="deleteNote(note)"><i class="fa fa-times"></i></a>  {{::note.Staff.LastName}}, {{::note.Staff.FirstName}}</span>
+                                    
+                                </div>
+                                <div ng-if="isEditing(note.ID)">
+                                    <div ng-bind-html="note.Note" class="clearboth editableNote"  contenteditable="true" id="editableNote" wysiwyg-ckeditor="{ inline: true }"></div>
+                                    <div class="chat-footer clearboth">
+                                        <a ng-click="saveExistingNote(note)" class="btn btn-success"><i class="fa fa-save"></i> Save Note</a> <a ng-click="cancel(note)" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                                    </div>
+                                </div>
+                                <div ng-if="!isEditing(note.ID)">
+                                    <div class="clearboth" ng-bind-html="note.Note | unsafe"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <textarea ng-bind-html="NewNote.Note" name="ckeditor" contenteditable="true" id="mainEditor" cols="80" rows="20" class="ckeditor" wysiwyg-ckeditor></textarea>
+                    <div class="ckeditor-footer-buttons clearboth">
+                        <a ng-click="saveNewNote()" class="btn btn-primary"><i class="fa fa-save"></i> Save New Note</a> <a ng-click="cancelAndReturn()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+                    </div>
+                </panel>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .editableNote {
+        background:white;
+        border:1px solid #666666;
+        padding:10px;
+        margin-bottom: 15px;
+        min-height:50px;
+    }
+    .panel-chat
+    {
+        height: auto !important;
+    }
+    .chat-icon
+    {
+        font-size: 32px;
+        width: 40px;
+    }
+    .clearboth{
+        clear:both;
+    }
+    .ckeditor-footer-buttons {
+        margin-top: 15px;
+    }
+    .chat-header{
+    padding: 0 0 30px;
+    color: rgba(255,255,255,.75);
+    font-weight:bold;
+    }
+       .me .chat-header{
+    padding: 0 0 30px;
+    color: rgba(16, 17, 17, 0.75);
+    font-weight:bold;
+    }
+    .chat-header .date{
+            float: left;
+    text-transform: uppercase;
+    }
+    .chat-header .author {
+                    float: right;
+    font-size: 12px;
+    }
+    .modal-content {
+    }
+
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>
+<script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>

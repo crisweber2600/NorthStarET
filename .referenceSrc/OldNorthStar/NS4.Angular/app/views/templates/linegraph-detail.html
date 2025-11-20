@@ -1,0 +1,67 @@
+﻿<table class="table table-striped table-lowPadding table-bordered">
+    <thead>
+        <tr>
+            <th class="">Dates</th>
+            <th ng-repeat="date in dataManager.BenchmarkDates" class="verticalTdDate">
+                <div class="verticalDate">{{::dataManager.formatDate(date.DueDate)}}</div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Score</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates" ng-class="dataManager.getBackgroundClass(date.Result, date.TestDueDateID)">
+                {{ ::dataManager.getDisplayValue(date.Result.FieldValueID)}}
+            </td>
+        </tr>
+        <tr>
+            <th>Grade</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::date.GradeShortName}}
+            </td>
+        </tr>
+        <tr>
+            <th>Test No.</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::date.TestNumber }}
+            </td>
+        </tr>
+        <tr ng-repeat="field in dataManager.Fields">
+            <th>{{field.DisplayLabel}}</th>
+            <td ng-repeat="date in field.BenchmarkDates">
+                <span ng-if="field.FieldType == 'Textarea'">
+                    <line-graph-comments-cell comments="date.Result.StringValue"></line-graph-comments-cell>
+                </span>
+                <span ng-if="field.FieldType != 'Textarea'">
+                    <span ng-show="::date.Result.StringValue">{{::field.AltDisplayLabel}}</span>{{::date.Result.StringValue}}
+                </span>
+            </td>
+        </tr>
+        <tr ng-if="dataManager.bUseExceeds">
+            <th>Exceeds Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{::dataManager.getDisplayValue(date.Exceeds)}}
+            </td>
+        </tr>
+        <tr ng-if="dataManager.bUseMeets">
+            <th>
+                Meets Expectations
+            </th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{::dataManager.getDisplayValue(date.Meets) }}
+            </td>
+        </tr>
+        <tr ng-if="dataManager.bUseApproaches">
+            <th>Approaches Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::dataManager.getDisplayValue(date.Approaches) }}
+            </td>
+        </tr>
+        <tr ng-if="dataManager.bUseDoesNotMeet">
+            <th>Does Not Meet Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::dataManager.getDisplayValue(date.DoesNotMeet) }}
+            </td>
+        </tr>
+    </tbody>
+</table>

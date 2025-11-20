@@ -1,0 +1,51 @@
+﻿<div ng-controller="TeamMeetingAttendListController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>RTI</li>
+            <li class="active">Attend a Team Meeting</li>
+        </ol>
+        <h1>Attend a Team Meeting</h1>
+
+    </div>
+    <div class="col-md-12 ng-scope">
+        <ns-filter-options-container-directive school-year-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <panel panel-class="panel-midnightblue" heading="Your Team Meetings">
+                    <div ng-if="teamMeetings.length == 0">
+                        <uib-alert type="info"><b>Note:</b> You have not created or do not have access to any team meetings during this school year.</uib-alert>
+                    </div>
+                    <table class="table table-striped" ng-if="teamMeetings.length > 0">
+                        <thead>
+                            <tr>
+                                <th>Attend Meeting</th>
+                                <th>Meeting Time</th>
+                                <th>Creator</th>
+                                <th>Meeting Title</th>
+                                <th>Number of Your Students</th>
+                                <th>Invited / Attended</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="meeting in teamMeetings">
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="#/tm-attend/{{::meeting.Id}}"><i class="fa fa-calendar-check-o"></i></a>
+                                </td>
+                                <td>{{::meeting.MeetingTime | nsLongDateFormatWithTime}}</td>
+                                <td>{{::meeting.Creator}}</td>
+                                <td>{{::meeting.Title}}</td>
+                                <td>{{::meeting.NumStudents}}</td>
+                                <td>{{::meeting.NumStaffInvited}} / {{::meeting.NumStaffAttended}}</td>
+                                <td>{{::meeting.Comments}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </panel>
+            </div>
+        </div>
+    </div>
+</div>

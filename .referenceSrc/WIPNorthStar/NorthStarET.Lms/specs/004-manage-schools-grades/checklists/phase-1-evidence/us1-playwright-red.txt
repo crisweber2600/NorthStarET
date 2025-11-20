@@ -1,0 +1,1312 @@
+Playwright UI Test Runner
+Configuration: Debug
+Test Project: D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright
+Restoring packages...
+  Determining projects to restore...
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj]
+  All projects are up-to-date for restore.
+Building test project...
+  NorthStarET.NextGen.Lms.Contracts -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Contracts.dll
+  NorthStarET.NextGen.Lms.ServiceDefaults -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.ServiceDefaults\bin\Debug\net10.0\NorthStarET.NextGen.Lms.ServiceDefaults.dll
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+  NorthStarET.NextGen.Lms.Domain -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Domain.dll
+  NorthStarET.NextGen.Lms.Application -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Application.dll
+  NorthStarET.NextGen.Lms.Infrastructure -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Infrastructure.dll
+  NorthStarET.NextGen.Lms.Web -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Web\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Web.dll
+  NorthStarET.NextGen.Lms.Api -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Api.dll
+  NorthStarET.NextGen.Lms.AppHost -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.AppHost\bin\Debug\net10.0\NorthStarET.NextGen.Lms.AppHost.dll
+  NorthStarET.NextGen.Lms.Playwright -> D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Playwright.dll
+
+Build succeeded.
+
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+    8 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:06.72
+Installing Playwright browsers...
+Running Playwright tests...
+Command: dotnet test --configuration Debug --no-build --logger trx --logger console;verbosity=normal
+Test run for D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Playwright.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+NUnit Adapter 6.0.0.0: Test execution started
+Running all tests in D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Playwright.dll
+   NUnit3TestExecutor discovered 48 of 48 NUnit test cases using Current Discovery mode, Non-Explicit run
+Should_CancelDeletion_When_CancelButtonClicked: Skipped - No Figma
+Should_CreateSchool_When_ValidDataProvided: Skipped - No Figma
+Should_DeleteSchool_When_ConfirmationAccepted: Skipped - No Figma
+Should_DisplaySchoolList_When_NavigatingToSchoolManagement: Skipped - No Figma
+Should_DisplayValidationError_When_DuplicateNameEntered: Skipped - No Figma
+Should_FilterSchools_When_SearchTermEntered: Skipped - No Figma
+Should_OnlyShowOwnDistrictSchools_When_DistrictAdminAuthenticated: Skipped - No Figma
+Should_SortSchools_When_SortControlClicked: Skipped - No Figma
+Should_UpdateSchool_When_EditIconClicked: Skipped - No Figma
+  Skipped Should_CancelDeletion_When_CancelButtonClicked [3 ms]
+  Skipped Should_CreateSchool_When_ValidDataProvided [< 1 ms]
+  Skipped Should_DeleteSchool_When_ConfirmationAccepted [< 1 ms]
+  Skipped Should_DisplaySchoolList_When_NavigatingToSchoolManagement [< 1 ms]
+  Skipped Should_DisplayValidationError_When_DuplicateNameEntered [< 1 ms]
+  Skipped Should_FilterSchools_When_SearchTermEntered [< 1 ms]
+  Skipped Should_OnlyShowOwnDistrictSchools_When_DistrictAdminAuthenticated [< 1 ms]
+  Skipped Should_SortSchools_When_SortControlClicked [< 1 ms]
+  Skipped Should_UpdateSchool_When_EditIconClicked [< 1 ms]
+BackgroundTokenRefresh_ExtendsSessionTransparently: OneTimeSetUp: Blocked: awaiting session expiration Figma frames to finalize selectors and assertions.
+NonMemberTenant_NotDisplayedInSwitcher: OneTimeSetUp: Blocked: awaiting tenant switcher Figma frames to finalize selectors and assertions.
+SignInJourney_DisplaysUserContextAcrossPortals: OneTimeSetUp: Blocked: awaiting sign-in flow Figma frames to finalize selectors and assertions.
+ExpiredSession_DisplaysRenewalPrompt: OneTimeSetUp: Blocked: awaiting session expiration Figma frames to finalize selectors and assertions.
+TenantSwitch_CompletesUnder200Milliseconds: OneTimeSetUp: Blocked: awaiting tenant switcher Figma frames to finalize selectors and assertions.
+MultipleActiveSessions_HandleIndependently: OneTimeSetUp: Blocked: awaiting session expiration Figma frames to finalize selectors and assertions.
+TenantSwitch_PersistsAcrossNavigation: OneTimeSetUp: Blocked: awaiting tenant switcher Figma frames to finalize selectors and assertions.
+RevokedSession_DeniesAccess: OneTimeSetUp: Blocked: awaiting session expiration Figma frames to finalize selectors and assertions.
+TenantSwitch_UpdatesUIContext: OneTimeSetUp: Blocked: awaiting tenant switcher Figma frames to finalize selectors and assertions.
+  Skipped BackgroundTokenRefresh_ExtendsSessionTransparently [5 ms]
+  Skipped NonMemberTenant_NotDisplayedInSwitcher [5 ms]
+  Skipped SignInJourney_DisplaysUserContextAcrossPortals [5 ms]
+  Skipped ExpiredSession_DisplaysRenewalPrompt [5 ms]
+  Skipped TenantSwitch_CompletesUnder200Milliseconds [5 ms]
+  Skipped MultipleActiveSessions_HandleIndependently [5 ms]
+  Skipped TenantSwitch_PersistsAcrossNavigation [5 ms]
+  Skipped RevokedSession_DeniesAccess [5 ms]
+  Skipped TenantSwitch_UpdatesUIContext [5 ms]
+TenantSwitcher_DisplaysAvailableTenants: OneTimeSetUp: Blocked: awaiting tenant switcher Figma frames to finalize selectors and assertions.
+  Skipped TenantSwitcher_DisplaysAvailableTenants [5 ms]
+  Failed AdminList_DisplaysAllRelevantColumns [1 s]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed CancelButton_NavigatesBackToList [1 s]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed AdminList_DisplaysEmptyStateWhenNoAdmins [9 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed CreateDistrictButton_IsVisible [10 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed AdminList_DisplaysStatusBadges [12 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed CreateDistrictFlow_DisplaysFormWithRequiredFields [11 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed InviteFlow_RejectsEmailWithWrongSuffix [6 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+DistrictList_DisplaysPaginationWhenNeeded: Requires authentication setup and seeded test data
+  Failed CreateDistrictFlow_SubmitsSuccessfully [6 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed InviteFlow_SubmitsSuccessfullyWithMatchingSuffix [7 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed CreateDistrictFlow_ValidatesRequiredFields [7 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed DeleteDistrictFlow_DisplaysConfirmationWithWarning [18 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed InviteForm_ClearsAfterSuccessfulSubmission [18 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed DistrictList_DisplaysEmptyStateWhenNoDistricts [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Skipped DistrictList_DisplaysPaginationWhenNeeded [< 1 ms]
+  Failed InviteForm_DisplaysAllRequiredFields [6 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed DistrictManagementPage_LoadsSuccessfully [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed InviteForm_ValidatesEmailFormat [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed EditDistrictFlow_LoadsExistingDistrictData [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed InviteForm_ValidatesRequiredFields [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed NavigationFlow_BackToListFromCreate [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed ManageAdminsPage_LoadsSuccessfully [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed Navigation_BackToDistrictsFromManageAdmins [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed RemoveButton_DisplaysConfirmationWithWarning [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed RemoveButton_IsVisibleForAllAdmins [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed RemoveFlow_RemovesAdminFromList [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed ResendButton_DisplaysConfirmationModal [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed ResendButton_IsVisibleForUnverifiedAdmins [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed ResendFlow_UpdatesInvitationTimestamp [5 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+  Failed VerifiedAdmins_DoNotShowResendButton [4 ms]
+  Error Message:
+   SetUp : Microsoft.Playwright.PlaywrightException : Executable doesn't exist at D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net10.0\.playwright\package\.local-browsers\chromium_headless_shell-1194\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+  --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+1) --SetUp
+   at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 201
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType, Nullable`1 connectOptions) in /_/src/Playwright.NUnit/BrowserService.cs:line 66
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 47
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+
+NUnit Adapter 6.0.0.0: Test execution complete
+Results File: D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\TestResults\CrisWeber_DESKTOP-Q9P29V1_2025-11-11_18_22_36.trx
+
+Test Run Failed.
+Total tests: 48
+     Failed: 28
+    Skipped: 20
+ Total time: 29.4098 Seconds
+Some Playwright tests failed (exit code: 1)
+Test results available in: D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\TestResults

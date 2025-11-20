@@ -1,0 +1,103 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('LastName')">Last Name <i class="{{manualSortHeaders.lastNameHeaderClass}}"></i></div></th>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('FirstName')">First Name <i class="{{manualSortHeaders.firstNameHeaderClass}}"></i></div></th>
+            <th rowspan="2">Modify Notes</th>
+            <th rowspan="2">
+                Assign Intervention
+            </th>
+            <th rowspan="2">Current Interventions</th>
+            <th style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="headerGroup in observationSummaryManager.Scores.HeaderGroups" colspan="{{headerGroup.FieldCount}}">
+                {{headerGroup.AssessmentName}}
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="field in observationSummaryManager.Scores.Fields">
+                <div style="cursor: pointer" ng-click="sort($index)">{{field.FieldName}} <i class="{{headerClassArray[$index]}}"></i></div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="observationSummaryManager.Scores.StudentResults.length == 0">
+            <td colspan="100">
+                No students selected
+            </td>
+        </tr>
+        <tr ns-repeat-complete ng-repeat="studentResult in observationSummaryManager.Scores.StudentResults | orderBy:sortArray">
+            <td align="left" data-title="LastName">{{studentResult.LastName}}</td>
+            <td align="left" data-title="FirstName">
+                {{studentResult.FirstName}}
+            </td>
+            <td>
+                 <a class="btn btn-xs btn-midnightblue" href="#/tm-attend-notes/{{::selectedTeamMeetingId}}/{{::studentResult.StudentId}}"><i class="fa fa-file-text-o"></i> {{::studentResult.NoteCount}} Notes</a>
+            </td>
+            <td>
+                <a href="" ng-click="assignStudentToIntervention(studentResult)" class="btn btn-xs btn-primary"><i class="fa fa-bolt"></i> Assign</a>
+            </td>
+            <td class="smallAccordion">
+                <span class="badge badge-success" ng-if="!studentResult.Interventions">no interventions</span>
+                <button class="btn-xs btn btn-sky" ng-if="studentResult.Interventions.InterventionsBySchoolYear.length > 0" ng-click="openInterventionPopup(studentResult)"><i class="fa fa-eye"></i> View</button>
+            </td>
+            <td ng-class="getBackgroundClass(studentResult.GradeId, fieldResult)" ng-repeat="fieldResult in studentResult.OSFieldResults">
+                <observation-summary-view-field lookup-fields-array="observationSummaryManager.LookupLists" result="fieldResult" all-results="studentResult.OSFieldResults"></observation-summary-view-field>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/ng-template" id="interventionList.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Intervention History for {{::selectedStudentResult.LastName}}, {{::selectedStudentResult.FirstName}}</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-repeat="interventionYear in selectedStudentResult.Interventions.InterventionsBySchoolYear">
+            <h2 style="font-weight:bold">{{::interventionYear.SchoolYear}}</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">
+                            Dashboard
+                        </th>
+                        <th width="20%">
+                            Intervention Group Name
+                        </th>
+                        <th width="20%">
+                            Type (Description)
+                        </th>
+                        <th width="25%">
+                            Start Date
+                        </th>
+                        <th width="25%">
+                            End Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="intervention in interventionYear.InterventionList">
+                        <td>
+                            <button class="btn btn-xs btn-primary" ng-click="goToDashboard(intervention.SchoolYear, intervention.SchoolId, intervention.InterventionistId, intervention.InterventionGroupId, intervention.StudentId, intervention.Id)"><i class="fa fa-dashboard"></i> Go</button>
+                        </td>
+                        <td>
+                            {{::intervention.InterventionGroupName}}
+                        </td>
+                        <td><span class="badge badge-danger">{{::intervention.InterventionType}}</span> ({{::intervention.InterventionTypeLong}})</td>
+                        <td>{{::intervention.StartDate | nsLongDateFormat}}</td>
+                        <td>{{::intervention.EndDate == null ? 'no end date' : intervention.EndDate | nsLongDateFormat}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="cancel()"><i class="fa fa-times"></i> Close</button>
+    </div>
+</script>
+
+<style>
+    .smallAccordion .panel-heading{
+        height: 20px;
+    }
+    .smallAccordion accordion h4.panel-title a{
+        line-height: 20px;
+    }
+</style>

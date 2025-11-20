@@ -1,0 +1,1 @@
+Playwright tests skipped - requires running application and UI implementation is blocked pending Figma assets.

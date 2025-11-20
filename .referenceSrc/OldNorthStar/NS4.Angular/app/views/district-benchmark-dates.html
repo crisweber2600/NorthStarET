@@ -1,0 +1,165 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Set Benchmark Dates</li>
+    </ol>
+    <h1>Set Benchmark Dates</h1>
+    <br />
+    <h4 style="float:left"><small>Choose the dates and associated colors for your district's benchmarks.</small></h4>
+
+</div>
+<div class="container-fluid" ng-controller="BenchmarkDatesController as vm">
+    <div class="row">
+        <div class="col-md-12" id="nsFilterOptions">
+            <ns-filter-options-container-directive school-year-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <ns-error-display></ns-error-display>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Benchmark Dates">
+                <panel-controls>
+                    <a href="" ng-click="addNew();">Add New Benchmark Date <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <div class="table-responsive" style="min-height:500px">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Benchmark Period</div>
+                            <div class="ns-table-cell text-center">Benchmark Date</div>
+                            <div class="ns-table-cell text-center">Default To This Due Date On</div>
+                            <div class="ns-table-cell text-center">Test Color</div>
+                            <div class="ns-table-cell text-center">Notes</div>
+                            <div class="ns-table-cell text-center">Supplemental Test Date?</div>
+                        </div>
+                        <form ng-if="settings.newItem != null" class="ns-table-row" editable-form name="newitemform" novalidate angular-validator onbeforesave="before(newitemform);" angular-validator-submit="saveBenchmarkPeriod(settings.newItem)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+                                    <button type="submit" ng-disabled="newitemform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="newitemform.$waiting" ng-click="settings.newItem = null" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                &nbsp;
+                            </div>
+                            <div class="ns-table-cell" data-title="Benchmark Period">
+                                    <select name="benchmarkPeriod" required ng-model="settings.newItem.TestLevelPeriodIDTemp">
+                                        <option value="">- select a period -</option>
+                                        <option value="1">Beginning of Year</option>
+                                        <option value="2">1st Interval Assessment</option>
+                                        <option value="3">2nd Interval Assessment</option>
+                                        <option value="4">End of Year</option>
+                                    </select>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Benchmark Date">
+                                <div style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="settings.newItem.DueDateTemp" is-open="settings.newItem.bopened" required invalid-message="'Please enter a valid date'" required-message="'Please select a date'" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="settings.newItem.bopened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Default On Date">
+                                <div style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="settings.newItem.StartDateTemp" is-open="settings.newItem.dopened" required invalid-message="'Please enter a valid date'" required-message="'Please select a date'" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="settings.newItem.dopened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Test Color">
+                                <div style="width:150px;" class="input-group color">
+                                    <input data-colorpicker type="text" class="form-control" value="" ng-model="settings.newItem.HexTemp">
+                                    <span class="input-group-addon"><i ng-style="{ 'background-color': settings.newItem.HexTemp, 'margin-left': '8px'}"></i></span>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Notes">
+                                    <textarea name="txtNotes" ng-model="settings.newItem.NotesTemp"></textarea>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Is Supplemental">
+                                    <switch ng-model="settings.newItem.IsSupplementalTemp"></switch>
+                            </div>
+                        </form>
+                        <form class="ns-table-row" ng-repeat="period in benchmarkdates | orderBy:-date" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveBenchmarkPeriod(period)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-sm" ng-click="startEdit(rowform, period)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-xs" ng-click="deleteBenchmark(period)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Benchmark Period">
+                                <div ng-show="rowform.$visible">
+                                    <select name="benchmarkPeriod" required ng-model="period.TestLevelPeriodIDTemp">
+                                        <option value="">- select a period -</option>
+                                        <option value="1">Beginning of Year</option>
+                                        <option value="2">1st Interval Assessment</option>
+                                        <option value="3">2nd Interval Assessment</option>
+                                        <option value="4">End of Year</option>
+                                    </select>
+                                </div>
+                                <div ng-show="!rowform.$visible">{{period.PeriodName}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Benchmark Date">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="period.DueDateTemp" is-open="period.bopened" required invalid-message="'Please enter a valid date'" required-message="'Please select a date'" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="period.bopened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{period.DueDate | nsDateFormat}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Default On Date">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-yyyy'}}" ng-model="period.StartDateTemp" is-open="period.dopened" required invalid-message="'Please enter a valid date'" required-message="'Please select a date'" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="period.dopened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{period.StartDate | nsDateFormat}}
+                                </div> 
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Test Color">
+                                <div ng-show="rowform.$visible" style="width:150px;" class="input-group color">
+                                    <input data-colorpicker type="text" class="form-control" value="" ng-model="period.HexTemp">
+                                    <span class="input-group-addon"><i ng-style="{ 'background-color': period.HexTemp, 'margin-left': '8px'}"></i></span>
+                                </div>
+                                <div ng-show="!rowform.$visible" style="height:20px;width:20px;border:2px solid black;background-color:{{period.Hex}}">&nbsp;</div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Notes">
+                                <div ng-show="rowform.$visible">
+                                    <textarea name="txtNotes" ng-model="period.NotesTemp"></textarea>
+                                </div>
+                                <div ng-show="!rowform.$visible">{{period.Notes}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Is Supplemental">
+                                <div ng-show="rowform.$visible">
+                                    <switch ng-model="period.IsSupplementalTemp"></switch>
+                                </div>
+                                <div ng-show="!rowform.$visible">{{period.IsSupplemental}}</div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </panel>
+        </div>
+    </div>
+</div>

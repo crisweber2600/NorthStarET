@@ -1,0 +1,27 @@
+  Determining projects to restore...
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+  All projects are up-to-date for restore.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+  NorthStarET.NextGen.Lms.Domain -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Domain.dll
+  NorthStarET.NextGen.Lms.Contracts -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Contracts.dll
+  NorthStarET.NextGen.Lms.Application -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Application.dll
+  NorthStarET.NextGen.Lms.Infrastructure -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Infrastructure.dll
+bin\Debug\net9.0\Features\AuditAndEvents.feature.cs : warning : For codebehind file 'bin\Debug\net9.0\Features\AuditAndEvents.feature.cs', no feature file was found. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+  NorthStarET.NextGen.Lms.Bdd -> D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.dll
+Test run for D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    32, Skipped:     0, Total:    32, Duration: 455 ms - NorthStarET.NextGen.Lms.Bdd.dll (net10.0)

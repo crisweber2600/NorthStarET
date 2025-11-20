@@ -1,0 +1,20 @@
+﻿<div class="row">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Children's Names</th>
+                <th ng-repeat="category in detailReportMgr.categories | orderBy : 'SortOrder'" class="nsCenterAlignedText">
+                    {{::category.DisplayName}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="studentResult in detailReportMgr.studentDetailResults | orderBy : 'StudentName'">
+                <td>{{::studentResult.StudentName}}</td>
+                <td ng-repeat="fieldResult in studentResult.GroupFieldResults" class="nsCenterAlignedText">
+                    <ns-assessment-field mode="'readonly'" display-text-areas="displayTextAreas" lookup-fields-array="lookupFieldsArray" result="fieldResult" all-results="studentResult.FieldResults"></ns-assessment-field>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

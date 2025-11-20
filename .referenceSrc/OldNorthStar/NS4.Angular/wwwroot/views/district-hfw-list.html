@@ -1,0 +1,78 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Customize District HFW List</li>
+    </ol>
+    <h1>Customize District HFW List</h1>
+    
+</div>
+<div class="container-fluid" ng-controller="HFWListController">
+    <div class="row">
+        <div class="col-md-12" id="nsFilterOptions">
+            <ns-filter-options-container-directive hfw-sort-order-enabled="true" hfw-range-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <ns-error-display></ns-error-display>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="HFW List">
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Word</div>
+                            <div class="ns-table-cell text-center">Kindergarten Word</div>
+                            <div class="ns-table-cell text-center">Default Order</div>
+                            <div class="ns-table-cell text-center">Teaching Order</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="word in words" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveWord(word)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-sm" ng-click="startEdit(rowform, word)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Word">
+                                <div ng-show="rowform.$visible">
+                                    <input class="form-control" ng-model="word.DisplayNameTemp" />
+                                </div>
+                                <div ng-show="!rowform.$visible">{{word.DisplayName}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Kindergarten Word">
+                                <div ng-show="rowform.$visible" style="width:140px">
+                                    <switch ng-model="word.IsKdgTemp"></switch>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{word.IsKdg}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Sort Order">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="number" min="1" max="1000" ng-model="word.SortOrderTemp" class="form-control" />
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{word.SortOrder}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Teaching Order">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="number" min="1" max="1000" ng-model="word.AltOrderTemp" class="form-control" />
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{word.AltOrder}}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </panel>
+        </div>
+    </div>
+</div>

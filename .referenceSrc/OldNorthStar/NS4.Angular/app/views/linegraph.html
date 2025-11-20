@@ -1,0 +1,168 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Reports</li>
+        <li>Classrooms</li>
+        <li class="active">Line Graphs</li>
+    </ol>
+    <h1 class="hidden-print">Student Classroom Line Graph</h1> 
+    <div class="options">
+        <div class="btn-toolbar">
+            <print-button print-landscape="true" print-multi-page="false" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="LineGraphController as vm">
+    <div class="col-md-12 hidden-print">
+        <div class="col-md-12">
+            <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" classroom-assessment-field-enabled="true" show-hr="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" section-student-enabled="true"></ns-filter-options-container-directive>
+        
+            <!--<panel panel-class="panel-midnightblue" heading="Select Field to Manage" panel-icon="fa fa-check-square-o">
+                <div class="tiles-heading">
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Assessment Field:</span>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" ng-change="updateSelectedAssessmentField()" ng-model="vm.settings.selectedAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in vm.dataManager.assessments | filter: {DisplayInLineGraphs : true}">
+                                <option value=""> -- Choose a Field -- </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </panel>-->
+        </div>
+    </div>
+    <div class="col-md-12" style="margin-left:10px;"  ng-if="vm.settings.batchPrint">
+        <h2>{{vm.filterOptions.selectedSectionStudent.text}}</h2>
+    </div>
+    <div class="col-md-12" ng-if="!vm.settings.batchPrint">
+        <standard-report-header heading="'Student Line Graph'" options="vm.filterOptions"></standard-report-header>
+    </div>
+    <div class="col-md-12">
+        <div style="clear:both"></div>
+        <div class="col-md-12" ng-show="vm.filterOptions.selectedSectionStudent == null || vm.filterOptions.selectedClassroomAssessmentField == null">
+            <uib-alert type="info"><b>Note:</b> You must select a student and assessment field in order to view a report.</uib-alert>
+        </div>
+        <div>
+            <spinner name="tableSpinner">
+                <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <div class="col-md-12" ng-show="vm.filterOptions.selectedSectionStudent != null && vm.filterOptions.selectedClassroomAssessmentField != null">
+                <div>
+                    <highchart id="chart1" config="vm.dataManager.chartConfig"></highchart>
+                </div>
+                <div>
+                    <table style="width:383px;margin-left:auto;margin-right:auto;margin-top:0px;margin-bottom:20px;">
+                        <tbody>
+                            <tr>
+                                <td style="padding-right:5px;">
+                                    <span style="border-radius:5px;border:1px solid #2244BB;display:inline-block;height:10px;width:10px;Background-color:#2244BB;"></span>
+                                </td>
+                                <td style="padding-right:10px">
+                                    Live Recorded Data
+                                </td>
+                                <td style="padding-right:5px;">
+                                    <span style="border-radius:5px;border:2px solid #2244BB;display:inline-block;height:10px;width:10px;Background-color:#FFF;"></span>
+                                </td>
+                                <td style="padding-right:10px">
+                                    Copied From Previous Test Date
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <line-graph-detail data-data-manager="vm.dataManager"></line-graph-detail>
+                </div>
+                <div>
+                    <panel panel-class="panel-primary" heading="Interventions">
+                        <student-interventions data-data-manager="vm.studentDataManager"></student-interventions>
+                    </panel>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<style>
+
+    .interventionCell{
+        border: 3px dotted blue !important;
+    }
+
+    .verticalTdDate {
+            text-align:center;
+    white-space:nowrap;
+    transform: rotate(90deg);
+        /*-webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform-origin:bottom left;
+        transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;*/
+    }
+
+    .verticalTdDate div {
+         margin:0 -999px;/* virtually reduce space needed on width to very little */
+    display:inline-block;
+        /*height: 80px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+        position:relative;
+        top: -35px;
+        left: 3px;*/
+    }
+        .verticalTdDate div:before {
+            content:'';
+    width:0;
+    padding-top:110%;
+    /* takes width as reference, + 10% for faking some extra padding */
+    display:inline-block;
+    vertical-align:middle;
+        }
+    .table-lowPadding > thead > tr > th, .table-lowPadding > tbody > tr > td{
+        padding: 3px 3px !important;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

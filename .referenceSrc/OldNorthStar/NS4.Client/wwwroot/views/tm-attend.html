@@ -1,0 +1,43 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/tm-attend-list">Attend a Team Meeting</a></li>
+        <li class="active">Current Team Meeting</li>
+    </ol>
+    <h1>Attending A Team Meeting</h1>
+    <div class="options">
+        <observation-summary-field-chooser></observation-summary-field-chooser>
+    </div>
+</div>
+<div class="col-md-12 ng-scope">
+    <ns-filter-options-container-directive school-year-enabled="true" team-meeting-enabled="true" team-meeting-staff-enabled="true"></ns-filter-options-container-directive>
+</div>
+<div class="container-fluid" ng-controller="TeamMeetingAttendController">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Manage Team Meeting Invitations">
+                <ns-observation-summary-tm-attend selected-benchmark-date-id="meeting.TestDueDateId" selected-team-meeting-id="filterOptions.selectedTeamMeeting.id" selected-staff-id="filterOptions.selectedTeamMeetingStaff.id"></ns-observation-summary-tm-attend>
+
+            </panel>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .modal-content {
+    }
+
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>

@@ -1,0 +1,551 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NorthStarET.NextGen.Lms.Domain -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.dll
+  ReqnrollFeatureFiles: 
+  NorthStarET.NextGen.Lms.Domain.Tests -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Domain.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.Tests.dll
+Test run for C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Domain.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.Tests.dll (.NETCoreApp,Version=v9.0)
+  -> Using reqnroll.json
+  ReqnrollGeneratedFiles: 
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    50, Skipped:     0, Total:    50, Duration: 132 ms - NorthStarET.NextGen.Lms.Domain.Tests.dll (net9.0)
+  NorthStarET.NextGen.Lms.Contracts -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Contracts.dll
+  NorthStarET.NextGen.Lms.ServiceDefaults -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.ServiceDefaults\bin\Debug\net8.0\NorthStarET.NextGen.Lms.ServiceDefaults.dll
+  NorthStarET.NextGen.Lms.Application -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Application.dll
+  NorthStarET.NextGen.Lms.Infrastructure -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Infrastructure.dll
+  NorthStarET.NextGen.Lms.Web -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Web\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Web.dll
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\Eventing\DomainEventPublisherTests.cs(5,48): error CS0234: The type or namespace name 'Events' does not exist in the namespace 'NorthStarET.NextGen.Lms.Domain.Districts' (are you missing an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\NorthStarET.NextGen.Lms.Infrastructure.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\StepDefinitions\AuditSteps.cs(4,7): error CS0246: The type or namespace name 'Shouldly' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\StepDefinitions\AuditSteps.cs(15,18): error CS0246: The type or namespace name 'DomainEvent' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+  NorthStarET.NextGen.Lms.Api -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.dll
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\UpdateDistrictCommandHandlerTests.cs(18,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'UpdateDistrictCommandHandler.UpdateDistrictCommandHandler(IDistrictRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(27,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(28,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(35,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(42,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'HaveCount' and no accessible extension method 'HaveCount' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(43,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'AllSatisfy' and no accessible extension method 'AllSatisfy' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\UpdateDistrictCommandHandlerTests.cs(26,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\UpdateDistrictCommandHandlerTests.cs(88,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(58,27): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(68,27): error CS1061: 'IAuditRepository' does not contain a definition for 'GetPagedAsync' and no accessible extension method 'GetPagedAsync' accepting a first argument of type 'IAuditRepository' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(71,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+Test run for C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Api.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.Tests.dll (.NETCoreApp,Version=v9.0)
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(77,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'HaveCount' and no accessible extension method 'HaveCount' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(79,20): error CS1061: 'IAuditRepository' does not contain a definition for 'GetPagedAsync' and no accessible extension method 'GetPagedAsync' accepting a first argument of type 'IAuditRepository' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(91,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(98,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(104,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'HaveCount' and no accessible extension method 'HaveCount' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(105,16): error CS1061: 'PagedAuditRecordsResponse' does not contain a definition for 'First' and no accessible extension method 'First' accepting a first argument of type 'PagedAuditRecordsResponse' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\UpdateDistrictCommandHandlerTests.cs(120,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\UpdateDistrictCommandHandlerTests.cs(144,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(118,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(119,25): error CS7036: There is no argument given that corresponds to the required parameter 'beforePayload' of 'AuditRecord.Create(Guid, Guid, Guid, ActorRole, string, string, Guid?, string?, string?, Guid, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(123,27): error CS1061: 'IAuditRepository' does not contain a definition for 'GetAllAsync' and no accessible extension method 'GetAllAsync' accepting a first argument of type 'IAuditRepository' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(126,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(132,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'HaveCount' and no accessible extension method 'HaveCount' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(144,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(150,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'BeEmpty' and no accessible extension method 'BeEmpty' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(161,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+  NorthStarET.NextGen.Lms.Api.Tests -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Api.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.Tests.dll
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(162,55): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(167,65): error CS1061: 'AuditRecord' does not contain a definition for 'OccurredAtUtc' and no accessible extension method 'OccurredAtUtc' accepting a first argument of type 'AuditRecord' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+VSTest version 17.14.1 (x64)
+
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(169,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(175,25): error CS1061: 'ObjectAssertions' does not contain a definition for 'BeInDescendingOrder' and no accessible extension method 'BeInDescendingOrder' accepting a first argument of type 'ObjectAssertions' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(185,23): error CS0117: 'ActorRole' does not contain a definition for 'SystemAdmin' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(197,25): error CS1729: 'GetAuditRecordsQuery' does not contain a constructor that takes 3 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Audit\GetAuditRecordsQueryHandlerTests.cs(203,31): error CS1061: 'PagedAuditRecordsResponse' does not contain a definition for 'First' and no accessible extension method 'First' accepting a first argument of type 'PagedAuditRecordsResponse' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(26,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(27,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(28,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(72,39): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(73,40): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(74,25): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'District.Delete(IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(101,35): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(130,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(131,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\ListDistrictsQueryTests.cs(132,22): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\GetDistrictQueryTests.cs(25,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(17,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'RevokeDistrictAdminCommandHandler.RevokeDistrictAdminCommandHandler(IDistrictAdminRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\GetDistrictQueryTests.cs(70,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\GetDistrictQueryTests.cs(100,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\GetDistrictQueryTests.cs(102,18): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'District.Delete(IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\DeleteDistrictCommandHandlerTests.cs(18,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DeleteDistrictCommandHandler.DeleteDistrictCommandHandler(IDistrictRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\DeleteDistrictCommandHandlerTests.cs(26,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\DeleteDistrictCommandHandlerTests.cs(82,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\DeleteDistrictCommandHandlerTests.cs(103,33): error CS1501: No overload for method 'Create' takes 2 arguments [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\DeleteDistrictCommandHandlerTests.cs(105,18): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'District.Delete(IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(26,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(20,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'InviteDistrictAdminCommandHandler.InviteDistrictAdminCommandHandler(IDistrictRepository, IDistrictAdminRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(56,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(57,15): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Verify(IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(28,40): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'string' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(28,69): error CS1503: Argument 3: cannot convert from 'string' to 'NorthStarET.NextGen.Lms.Domain.Common.Interfaces.IDateTimeProvider' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(107,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(95,40): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'string' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(95,69): error CS1503: Argument 3: cannot convert from 'string' to 'NorthStarET.NextGen.Lms.Domain.Common.Interfaces.IDateTimeProvider' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(134,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\RevokeDistrictAdminCommandHandlerTests.cs(135,15): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Revoke(string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(17,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'ResendInviteCommandHandler.ResendInviteCommandHandler(IDistrictAdminRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(124,40): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'string' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(124,69): error CS1503: Argument 3: cannot convert from 'string' to 'NorthStarET.NextGen.Lms.Domain.Common.Interfaces.IDateTimeProvider' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(125,43): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\Districts\CreateDistrictCommandHandlerTests.cs(20,24): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'CreateDistrictCommandHandler.CreateDistrictCommandHandler(IDistrictRepository, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(26,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(156,40): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'string' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\InviteDistrictAdminCommandHandlerTests.cs(156,69): error CS1503: Argument 3: cannot convert from 'string' to 'NorthStarET.NextGen.Lms.Domain.Common.Interfaces.IDateTimeProvider' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(78,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(105,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(106,15): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Verify(IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(133,35): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Create(Guid, Guid, string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\DistrictAdmins\ResendInviteCommandHandlerTests.cs(134,15): error CS7036: There is no argument given that corresponds to the required parameter 'dateTimeProvider' of 'DistrictAdmin.Revoke(string, IDateTimeProvider)' [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj]
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    28, Skipped:     0, Total:    28, Duration: 343 ms - NorthStarET.NextGen.Lms.Api.Tests.dll (net9.0)
+  NorthStarET.NextGen.Lms.AppHost -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.AppHost\bin\Debug\net9.0\NorthStarET.NextGen.Lms.AppHost.dll
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\DistrictAdminTests.cs(58,41): error CS1061: 'HttpClient' does not contain a definition for 'PostAsJsonAsync' and no accessible extension method 'PostAsJsonAsync' accepting a first argument of type 'HttpClient' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\NorthStarET.NextGen.Lms.AspireTests.csproj]
+C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\DistrictAdminTests.cs(192,37): error CS1061: 'HttpClient' does not contain a definition for 'PostAsJsonAsync' and no accessible extension method 'PostAsJsonAsync' accepting a first argument of type 'HttpClient' could be found (are you missing a using directive or an assembly reference?) [C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\NorthStarET.NextGen.Lms.AspireTests.csproj]
+  NorthStarET.NextGen.Lms.Playwright -> C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Playwright.dll
+Test run for C:\Users\CrisWeber\Downloads\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Playwright.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  Skipped SignInJourney_DisplaysUserContextAcrossPortals [< 1 ms]
+  Skipped BackgroundTokenRefresh_ExtendsSessionTransparently [12 ms]
+  Skipped AdminList_DisplaysAllRelevantColumns [1 ms]
+  Skipped ExpiredSession_DisplaysRenewalPrompt [50 ms]
+  Skipped MultipleActiveSessions_HandleIndependently [61 ms]
+  Skipped NonMemberTenant_NotDisplayedInSwitcher [< 1 ms]
+  Skipped RevokedSession_DeniesAccess [75 ms]
+  Skipped TenantSwitch_CompletesUnder200Milliseconds [7 ms]
+  Skipped TenantSwitch_PersistsAcrossNavigation [19 ms]
+  Skipped TenantSwitch_UpdatesUIContext [33 ms]
+  Skipped TenantSwitcher_DisplaysAvailableTenants [43 ms]
+  Failed CancelButton_NavigatesBackToList [1 s]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed AdminList_DisplaysEmptyStateWhenNoAdmins [1 s]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped AdminList_DisplaysStatusBadges [< 1 ms]
+  Skipped InviteFlow_RejectsEmailWithWrongSuffix [< 1 ms]
+  Failed CreateDistrictButton_IsVisible [12 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped InviteFlow_SubmitsSuccessfullyWithMatchingSuffix [< 1 ms]
+  Failed CreateDistrictFlow_DisplaysFormWithRequiredFields [10 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed InviteForm_ClearsAfterSuccessfulSubmission [15 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped CreateDistrictFlow_SubmitsSuccessfully [< 1 ms]
+  Failed InviteForm_DisplaysAllRequiredFields [8 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed CreateDistrictFlow_ValidatesRequiredFields [7 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed InviteForm_ValidatesEmailFormat [10 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped DeleteDistrictFlow_DisplaysConfirmationWithWarning [< 1 ms]
+  Failed DistrictList_DisplaysEmptyStateWhenNoDistricts [12 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed InviteForm_ValidatesRequiredFields [13 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped DistrictList_DisplaysPaginationWhenNeeded [< 1 ms]
+  Failed ManageAdminsPage_LoadsSuccessfully [12 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Failed DistrictManagementPage_LoadsSuccessfully [8 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped EditDistrictFlow_LoadsExistingDistrictData [< 1 ms]
+  Failed Navigation_BackToDistrictsFromManageAdmins [14 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped RemoveButton_DisplaysConfirmationWithWarning [< 1 ms]
+  Skipped RemoveButton_IsVisibleForAllAdmins [< 1 ms]
+  Failed NavigationFlow_BackToListFromCreate [7 ms]
+  Error Message:
+   Microsoft.Playwright.PlaywrightException : Executable doesn't exist at C:\Users\CrisWeber\AppData\Local\ms-playwright\chromium_headless_shell-1148\chrome-win\headless_shell.exe
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pwsh bin/Debug/netX/playwright.ps1 install             ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+  Stack Trace:
+     at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/Playwright/Transport/Connection.cs:line 206
+   at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal) in /_/src/Playwright/Transport/Connection.cs:line 535
+   at Microsoft.Playwright.Core.BrowserType.LaunchAsync(BrowserTypeLaunchOptions options) in /_/src/Playwright/Core/BrowserType.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.CreateBrowser(IBrowserType browserType) in /_/src/Playwright.NUnit/BrowserService.cs:line 56
+   at Microsoft.Playwright.NUnit.BrowserService.<>c__DisplayClass5_0.<<Register>b__0>d.MoveNext() in /_/src/Playwright.NUnit/BrowserService.cs:line 46
+--- End of stack trace from previous location ---
+   at Microsoft.Playwright.NUnit.WorkerAwareTest.RegisterService[T](String name, Func`1 factory) in /_/src/Playwright.NUnit/WorkerAwareTest.cs:line 55
+   at Microsoft.Playwright.NUnit.BrowserTest.BrowserSetup() in /_/src/Playwright.NUnit/BrowserTest.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUpOrTearDownMethod(TestExecutionContext context, IMethodInfo method)
+   at NUnit.Framework.Internal.Commands.SetUpTearDownItem.RunSetUp(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+  Skipped RemoveFlow_RemovesAdminFromList [< 1 ms]
+  Skipped ResendButton_DisplaysConfirmationModal [< 1 ms]
+  Skipped ResendButton_IsVisibleForUnverifiedAdmins [< 1 ms]
+  Skipped ResendFlow_UpdatesInvitationTimestamp [< 1 ms]
+  Skipped VerifiedAdmins_DoNotShowResendButton [< 1 ms]
+
+Failed!  - Failed:    14, Passed:     0, Skipped:    25, Total:    39, Duration: 1 s - NorthStarET.NextGen.Lms.Playwright.dll (net9.0)

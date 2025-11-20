@@ -1,0 +1,78 @@
+# ARC Runner Scale Set Values
+# Use with: helm upgrade arc-runner-set -f arc-runner-values.yaml ...
+
+githubConfigUrl: https://github.com/crisweber2600/NorthStarET.Lms
+githubConfigSecret:
+  github_token: <YOUR_PAT_HERE>  # Replace with your PAT
+controllerServiceAccount:
+  namespace: arc-systems
+  name: arc-gha-rs-controller
+runnerGroup: default
+minRunners: 0
+maxRunners: 10
+
+template:
+  spec:
+    securityContext:
+      fsGroup: 1000
+    containers:
+    - name: runner
+      image: ghcr.io/crisweber2600/arc-runner-aspire:latest
+      imagePullPolicy: IfNotPresent
+      command: ["/home/runner/run.sh"]
+      env:
+      # CRITICAL: Required for Copilot Coding Agent CodeQL support
+      - name: GITHUB_HOST
+        value: "github.com"
+      # CRITICAL: Required for CodeQL tools cache location
+      - name: AGENT_TOOLSDIRECTORY
+        value: "/opt/hostedtoolcache"
+      # Docker-in-Docker configuration
+      - name: DOCKER_HOST
+        value: "tcp://localhost:2376"
+      - name: DOCKER_TLS_VERIFY
+        value: "1"
+      - name: DOCKER_CERT_PATH
+        value: "/certs/client"
+      resources:
+        requests:
+          cpu: "2"
+          memory: 4Gi
+        limits:
+          cpu: "4"
+          memory: 8Gi
+      volumeMounts:
+      - name: work
+        mountPath: /home/runner/_work
+      - name: dind-certs
+        mountPath: /certs
+    
+    - name: dind
+      image: docker:26-dind
+      env:
+      - name: DOCKER_TLS_CERTDIR
+        value: "/certs"
+      securityContext:
+        privileged: true
+      resources:
+        requests:
+          cpu: "1"
+          memory: 2Gi
+        limits:
+          cpu: "2"
+          memory: 4Gi
+      volumeMounts:
+      - name: work
+        mountPath: /home/runner/_work
+      - name: dind-storage
+        mountPath: /var/lib/docker
+      - name: dind-certs
+        mountPath: /certs
+    
+    volumes:
+    - name: work
+      emptyDir: {}
+    - name: dind-storage
+      emptyDir: {}
+    - name: dind-certs
+      emptyDir: {}

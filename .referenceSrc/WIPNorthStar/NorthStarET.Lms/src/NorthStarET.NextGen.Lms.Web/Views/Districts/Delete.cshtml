@@ -1,0 +1,67 @@
+@model NorthStarET.NextGen.Lms.Web.Models.Districts.DeleteDistrictViewModel
+
+@{
+    ViewData["Title"] = "Delete District";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="display-6">Delete District</h1>
+                <a asp-controller="Districts" asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <i class="bi bi-exclamation-triangle"></i> Confirm Deletion
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <strong>Warning:</strong> This action cannot be undone. Deleting this district will:
+                        <ul class="mb-0 mt-2">
+                            <li>Permanently delete the district record</li>
+                            <li>Archive all associated district admins (@Model.AdminCount admin(s))</li>
+                            <li>Revoke access immediately for all admins</li>
+                        </ul>
+                    </div>
+
+                    <dl class="row mb-4">
+                        <dt class="col-sm-3">District Name</dt>
+                        <dd class="col-sm-9"><strong>@Model.Name</strong></dd>
+                        
+                        <dt class="col-sm-3">Suffix</dt>
+                        <dd class="col-sm-9"><code>@Model.Suffix</code></dd>
+                        
+                        <dt class="col-sm-3">Associated Admins</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.AdminCount > 0)
+                            {
+                                <span class="badge bg-warning text-dark">@Model.AdminCount admin(s) will be archived</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">None</span>
+                            }
+                        </dd>
+                    </dl>
+
+                    <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-controller="Districts" asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Confirm Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<div class="btn-toolbar">
+    <div class="dropdown" uib-dropdown is-open="settings.menuOpen" auto-close="outsideClick">
+        <a href="" class="dropdown-toggle btn btn-sky" uib-dropdown-toggle>Change Selected Assessments/Fields <i class="fa fa-bars"></i></a>
+        <div style="min-width:450px;" class="dropdown-menu userinfo arrow" uib-dropdown-menu>
+            <div class="col-md-12 nsRowBorderBottom" style="padding-top:2px;padding-bottom:2px;" ng-repeat="assessment in assessmentService.BenchmarkAssessments">
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                </div>
+                <div class="col-md-8" style="color:#656b79">
+                    {{::assessment.text}}
+                </div>
+                <div class="col-md-2">
+                    <switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)">
+                </div>
+            </div>
+            <div ng-if="assessmentService.StateTests.length > 0" class="divider col-md-12"></div>
+            <div class="col-md-12 nsRowBorderBottom" style="padding-top:2px;padding-bottom:2px;" ng-repeat="assessment in assessmentService.StateTests">
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                </div>
+                <div class="col-md-8" style="color:#656b79">
+                    {{::assessment.text}}
+                </div>
+                <div class="col-md-2">
+                    <switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)">
+                </div>
+            </div>
+            <div style="margin-top:15px; margin-bottom:15px;" class="col-md-12">
+                <button ng-click="refreshAssessments()" class="btn btn-success"><i class="fa-save fa"></i> Save and Update Report</button>
+            </div>
+        </div>
+    </div>
+</div>

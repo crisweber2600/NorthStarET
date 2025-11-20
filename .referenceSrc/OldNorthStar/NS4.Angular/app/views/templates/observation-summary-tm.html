@@ -1,0 +1,32 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('LastName')">Last Name <i class="{{manualSortHeaders.lastNameHeaderClass}}"></i></div></th>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('FirstName')">First Name <i class="{{manualSortHeaders.firstNameHeaderClass}}"></i></div></th>
+            <th style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="headerGroup in observationSummaryManager.Scores.HeaderGroups" colspan="{{headerGroup.FieldCount}}">
+                {{headerGroup.AssessmentName}}
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="field in observationSummaryManager.Scores.Fields">
+                <div style="cursor: pointer" ng-click="sort($index)"><span ng-bind-html="field.FieldName | safe_html"></span> <i class="{{headerClassArray[$index]}}"></i></div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="observationSummaryManager.Scores.StudentResults.length == 0">
+            <td colspan="100">
+                No students selected
+            </td>
+        </tr>
+        <tr ns-repeat-complete ng-repeat="studentResult in observationSummaryManager.Scores.StudentResults | orderBy:sortArray">
+            <td align="left" data-title="LastName">{{studentResult.LastName}}</td>
+            <td align="left" data-title="FirstName">
+                {{studentResult.FirstName}}
+            </td>
+            <td ng-class="getBackgroundClass(studentResult.GradeId, fieldResult)" ng-repeat="fieldResult in studentResult.OSFieldResults">
+                <observation-summary-view-field lookup-fields-array="observationSummaryManager.LookupLists" result="fieldResult" all-results="studentResult.OSFieldResults"></observation-summary-view-field>
+            </td>
+        </tr>
+    </tbody>
+</table>

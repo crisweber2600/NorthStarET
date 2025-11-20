@@ -1,0 +1,167 @@
+﻿<div ng-controller="AVMRSingleDateSectionReportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>{{assessment.AssessmentName}}</li>
+            <li class="active">Section Report</li>
+        </ol>
+        <div class="options" style="position:relative;top:-20px;">
+            <div class="btn-toolbar">
+                <print-button print-landscape="true" print-multi-page="false" sort-array="sortArray" fit-viewer-height="" fit-width="" html-viewer-height="1300" html-viewer-width="1900" stretch-to-fit=""></print-button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12" id="nsFilterOptions">
+                    <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+                </div>
+                <div class="col-md-12">
+                    <standard-report-header heading="assessment.AssessmentName + ' Section Report'" options="filterOptions"></standard-report-header>
+                </div>
+                <uib-tabset tab-theme="orange">
+                    <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                        <uib-tab-heading>
+                            <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></div><div class="col-md-10">{{tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                        </uib-tab-heading>
+                    </uib-tab>
+                </uib-tabset>
+                <div class="col-md-12">
+                    <spinner name="tableSpinner">
+                        <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                            <div class="sk-cube-grid">
+                                <div class="sk-cube sk-cube1"></div>
+                                <div class="sk-cube sk-cube2"></div>
+                                <div class="sk-cube sk-cube3"></div>
+                                <div class="sk-cube sk-cube4"></div>
+                                <div class="sk-cube sk-cube5"></div>
+                                <div class="sk-cube sk-cube6"></div>
+                                <div class="sk-cube sk-cube7"></div>
+                                <div class="sk-cube sk-cube8"></div>
+                                <div class="sk-cube sk-cube9"></div>
+                            </div>
+                        </div>
+                    </spinner>
+                    <div ng-if="filterOptions.selectedSection != null" style="overflow-x:auto">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="4" class="nsWhiteCell"><div><i class="{{nameHeaderClass}}"></i> Children's Names</div></th>
+                                    <th class="nsWhiteCell leftDoubleBorder rightDoubleBorder" style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="subcat in assessment.FieldSubCategories" colspan="{{::subCategoryColSpan(subcat.Id)}}">
+                                        {{::subcat.DisplayName}}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th ng-class="container.cssClass" style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="container in assessment.FieldGroupContainers" colspan="{{::fieldGroupContainerColSpan(container.Id)}}">
+                                        {{::container.DisplayName}}
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <td class="nsCenterAlignedText" style="width:3.5%;cursor:pointer;" ng-class="$index % 2 == 0 ? ( field.cssClass) : ('nsWhiteCell ' + field.cssClass)" ng-repeat="field in HeaderFields" ng-click="detailPopup(field.GroupId, field.AltDisplayLabel)">
+                                        <i class="fa fa-external-link" title="Drill in to details"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:top !important; width:3.5%" ng-class="$index % 2 == 0 ? ('verticalTd ' + field.cssClass) : ('verticalTd nsWhiteCell ' + field.cssClass)" scope="col" ng-repeat="field in HeaderFields" >
+                                        <div class="vertical" style="font-weight:bold;padding-right: 2px">{{field.AltDisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="studentResult in studentSectionReportResults | orderBy:sortArray" avmr-section-report-table-row headerfields="HeaderFields" studentresult="studentResult" tdd="filterOptions.selectedBenchmarkDate"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+                <style>
+                    .tab-container {
+                        margin-bottom: 4px;
+                    }
+
+                    .selectedDateBg { background-color: {{ filterOptions.selectedBenchmarkDate.Hex;}};
+                    }
+                </style>
+            </div>
+    <script type="text/ng-template" id="avmrDetailDialog.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{::detailReportMgr.subCategory.DisplayName}} / {{::detailReportMgr.groupContainer.DisplayName}} / <b>{{::detailReportMgr.altDisplayLabel}}</b></h3>
+            <div class="options" style="float:right;position:relative;top:-30px;">
+                <div class="btn-toolbar">
+                    <print-button url="avmrDetailPrintUrl()" print-landscape="true" print-multi-page="false" sort-array="sortArray" fit-viewer-height="" fit-width="" html-viewer-height="1300" html-viewer-width="1900" stretch-to-fit=""></print-button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" style="overflow:auto;height:600px;">
+            <div avmr-detail detail-report-mgr="detailReportMgr" display-text-areas="true"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</button>
+        </div>
+</script>
+</div>
+<style>
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .vertical {
+        ;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 22px;
+        height: 20px;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 140px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

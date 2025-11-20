@@ -1,0 +1,148 @@
+  Determining projects to restore...
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\NorthStarET.NextGen.Lms.Contracts.csproj (in 196 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj (in 196 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj (in 464 ms).
+  Restored D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Domain.Tests\NorthStarET.NextGen.Lms.Domain.Tests.csproj (in 483 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.AppHost\NorthStarET.NextGen.Lms.AppHost.csproj (in 515 ms).
+  Restored D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\NorthStarET.NextGen.Lms.Application.Tests.csproj (in 513 ms).
+  Restored D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\NorthStarET.NextGen.Lms.Infrastructure.Tests.csproj (in 513 ms).
+  Restored D:\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\NorthStarET.NextGen.Lms.AspireTests.csproj (in 515 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.ServiceDefaults\NorthStarET.NextGen.Lms.ServiceDefaults.csproj (in 521 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj (in 521 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Web\NorthStarET.NextGen.Lms.Web.csproj (in 529 ms).
+  Restored D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Web.Tests\NorthStarET.NextGen.Lms.Web.Tests.csproj (in 530 ms).
+  Restored D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\NorthStarET.NextGen.Lms.Playwright.csproj (in 535 ms).
+  Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\NorthStarET.NextGen.Lms.Api.csproj (in 535 ms).
+  Restored D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Api.Tests\NorthStarET.NextGen.Lms.Api.Tests.csproj (in 537 ms).
+  Restored D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj (in 538 ms).
+  ReqnrollFeatureFiles: bin\Debug\net9.0\Features\DistrictManagement.feature
+  -> Using reqnroll.json
+  ReqnrollGeneratedFiles: bin\Debug\net9.0\Features\DistrictManagement.feature.cs
+  NorthStarET.NextGen.Lms.Contracts -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Contracts.dll
+  NorthStarET.NextGen.Lms.Domain -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.dll
+  NorthStarET.NextGen.Lms.ServiceDefaults -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.ServiceDefaults\bin\Debug\net8.0\NorthStarET.NextGen.Lms.ServiceDefaults.dll
+  NorthStarET.NextGen.Lms.Domain.Tests -> D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Domain.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.Tests.dll
+Test run for D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Domain.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Domain.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+  NorthStarET.NextGen.Lms.Application -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Application.dll
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    50, Skipped:     0, Total:    50, Duration: 106 ms - NorthStarET.NextGen.Lms.Domain.Tests.dll (net9.0)
+  NorthStarET.NextGen.Lms.Infrastructure -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Infrastructure.dll
+D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\Eventing\DomainEventPublisherTests.cs(42,50): warning CS0252: Possible unintended reference comparison; to get a value comparison, cast the left hand side to type 'DistrictCreatedEvent' [D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\NorthStarET.NextGen.Lms.Infrastructure.Tests.csproj]
+  NorthStarET.NextGen.Lms.Infrastructure.Tests -> D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Infrastructure.Tests.dll
+Test run for D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Infrastructure.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  NorthStarET.NextGen.Lms.Application.Tests -> D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Application.Tests.dll
+Test run for D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Application.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Application.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+bin\Debug\net9.0\Features\AuditAndEvents.feature.cs : warning : For codebehind file 'bin\Debug\net9.0\Features\AuditAndEvents.feature.cs', no feature file was found. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  NorthStarET.NextGen.Lms.Api -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Api\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.dll
+  NorthStarET.NextGen.Lms.Bdd -> D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Bdd.dll
+Test run for D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Bdd.dll (.NETCoreApp,Version=v9.0)
+  NorthStarET.NextGen.Lms.Web -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Web\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Web.dll
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    65, Skipped:     0, Total:    65, Duration: 388 ms - NorthStarET.NextGen.Lms.Application.Tests.dll (net9.0)
+  NorthStarET.NextGen.Lms.Api.Tests -> D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Api.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.Tests.dll
+Test run for D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Api.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Api.Tests.dll (.NETCoreApp,Version=v9.0)
+  NorthStarET.NextGen.Lms.Web.Tests -> D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Web.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Web.Tests.dll
+Test run for D:\NorthStarET.Lms\tests\unit\NorthStarET.NextGen.Lms.Web.Tests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Web.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+
+Passed!  - Failed:     0, Passed:    54, Skipped:     0, Total:    54, Duration: 1 s - NorthStarET.NextGen.Lms.Infrastructure.Tests.dll (net9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  NorthStarET.NextGen.Lms.AppHost -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.AppHost\bin\Debug\net9.0\NorthStarET.NextGen.Lms.AppHost.dll
+
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 462 ms - NorthStarET.NextGen.Lms.Bdd.dll (net9.0)
+
+Passed!  - Failed:     0, Passed:    28, Skipped:     0, Total:    28, Duration: 197 ms - NorthStarET.NextGen.Lms.Api.Tests.dll (net9.0)
+
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 75 ms - NorthStarET.NextGen.Lms.Web.Tests.dll (net9.0)
+  NorthStarET.NextGen.Lms.AspireTests -> D:\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.AspireTests.dll
+Test run for D:\NorthStarET.Lms\tests\aspire\NorthStarET.NextGen.Lms.AspireTests\bin\Debug\net9.0\NorthStarET.NextGen.Lms.AspireTests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  NorthStarET.NextGen.Lms.Playwright -> D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Playwright.dll
+Test run for D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\bin\Debug\net9.0\NorthStarET.NextGen.Lms.Playwright.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 468 ms - NorthStarET.NextGen.Lms.AspireTests.dll (net9.0)
+  Skipped SignInJourney_DisplaysUserContextAcrossPortals [2 ms]
+  Skipped NonMemberTenant_NotDisplayedInSwitcher [2 ms]
+  Skipped BackgroundTokenRefresh_ExtendsSessionTransparently [2 ms]
+  Skipped TenantSwitch_CompletesUnder200Milliseconds [2 ms]
+  Skipped TenantSwitch_PersistsAcrossNavigation [3 ms]
+  Skipped TenantSwitch_UpdatesUIContext [3 ms]
+  Skipped TenantSwitcher_DisplaysAvailableTenants [3 ms]
+  Skipped ExpiredSession_DisplaysRenewalPrompt [3 ms]
+  Skipped MultipleActiveSessions_HandleIndependently [3 ms]
+  Skipped RevokedSession_DeniesAccess [3 ms]
+  Skipped AdminList_DisplaysAllRelevantColumns [1 s]
+  Skipped AdminList_DisplaysEmptyStateWhenNoAdmins [408 ms]
+  Skipped AdminList_DisplaysStatusBadges [234 ms]
+  Skipped InviteFlow_RejectsEmailWithWrongSuffix [227 ms]
+  Skipped InviteFlow_SubmitsSuccessfullyWithMatchingSuffix [257 ms]
+  Skipped InviteForm_ClearsAfterSuccessfulSubmission [229 ms]
+  Skipped InviteForm_DisplaysAllRequiredFields [271 ms]
+  Skipped InviteForm_ValidatesEmailFormat [286 ms]
+  Skipped InviteForm_ValidatesRequiredFields [293 ms]
+  Skipped ManageAdminsPage_LoadsSuccessfully [252 ms]
+  Skipped Navigation_BackToDistrictsFromManageAdmins [274 ms]
+  Skipped RemoveButton_DisplaysConfirmationWithWarning [385 ms]
+  Skipped RemoveButton_IsVisibleForAllAdmins [338 ms]
+  Skipped RemoveFlow_RemovesAdminFromList [286 ms]
+  Skipped ResendButton_DisplaysConfirmationModal [301 ms]
+  Skipped ResendButton_IsVisibleForUnverifiedAdmins [291 ms]
+  Skipped ResendFlow_UpdatesInvitationTimestamp [234 ms]
+  Skipped VerifiedAdmins_DoNotShowResendButton [274 ms]
+  Failed CreateDistrictFlow_SubmitsSuccessfully [51 s]
+  Error Message:
+   System.TimeoutException : Timeout 30000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "Load"
+============================================================
+  ----> System.TimeoutException : Timeout 30000ms exceeded.
+  Stack Trace:
+     at Microsoft.Playwright.Core.Waiter.WaitForPromiseAsync[T](Task`1 task, Action dispose) in /_/src/Playwright/Core/Waiter.cs:line 226
+   at Microsoft.Playwright.Core.Frame.WaitForNavigationInternalAsync(Waiter waiter, String urlString, Func`2 urlFunc, Regex urlRegex, Nullable`1 waitUntil) in /_/src/Playwright/Core/Frame.cs:line 310
+   at Microsoft.Playwright.Core.Frame.RunAndWaitForNavigationAsync(Func`1 action, FrameRunAndWaitForNavigationOptions options) in /_/src/Playwright/Core/Frame.cs:line 274
+   at NorthStarET.NextGen.Lms.Playwright.Tests.DistrictManagementTests.CreateDistrictFlow_SubmitsSuccessfully() in D:\NorthStarET.Lms\tests\ui\NorthStarET.NextGen.Lms.Playwright\Tests\DistrictManagementTests.cs:line 119
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+   at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+--TimeoutException
+   at Microsoft.Playwright.Helpers.TaskHelper.<>c__DisplayClass2_0.<WithTimeout>b__0() in /_/src/Playwright/Helpers/TaskHelper.cs:line 73
+   at Microsoft.Playwright.Helpers.TaskHelper.WithTimeout(Task task, Func`1 timeoutAction, TimeSpan timeout, CancellationToken cancellationToken) in /_/src/Playwright/Helpers/TaskHelper.cs:line 109
+   at Microsoft.Playwright.Core.Waiter.WaitForPromiseAsync[T](Task`1 task, Action dispose) in /_/src/Playwright/Core/Waiter.cs:line 218
+
+  Skipped DeleteDistrictFlow_DisplaysConfirmationWithWarning [10 s]
+  Skipped DistrictList_DisplaysPaginationWhenNeeded [< 1 ms]
+  Skipped EditDistrictFlow_LoadsExistingDistrictData [10 s]
+
+Failed!  - Failed:     1, Passed:     7, Skipped:    29, Total:    37, Duration: 2 m 49 s - NorthStarET.NextGen.Lms.Playwright.dll (net9.0)

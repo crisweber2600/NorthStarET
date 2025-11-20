@@ -1,0 +1,212 @@
+﻿<div>
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/ig-manage">Manage Intervention Groups</a></li>
+            <li class="active">Add / Edit Intervention Groups</li>
+        </ol>
+        <h1>Add/Edit Intervention Group</h1>
+    </div>
+    <ns-display-assigning-student></ns-display-assigning-student>
+    <div class="col-md-12 ng-scope">
+        <form  ng-controller="InterventionGroupEditController" novalidate angular-validator angular-validator-submit="saveGroup()" class="form-horizontal" name="igform">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <panel panel-class="panel-midnightblue" heading="Modify Intervention Group">
+                <p>Use this form to edit intervention groups</p>
+
+
+                <fieldset>
+                    <legend>Details</legend>
+                    <div ng-if="group.Id == 0">
+                        <ns-filter-options-container-directive vertical-mode="true" school-year-required="true" school-year-enabled="true" school-enabled="true" school-required="true"></ns-filter-options-container-directive>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldname" class="col-md-3 control-label">Group Name</label>
+                        <div class="col-md-6">
+                            <input id="fieldname" class="form-control" name="groupName" placeholder="group name" type="text" required ng-model="group.Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldemail" class="col-md-3 control-label">Description</label>
+                        <div class="col-md-6">
+                            <input id="fieldemail" class="form-control" type="text" name="description" ng-model="group.Description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldurl" class="col-md-3 control-label">Intervention Type</label>
+                        <div class="col-md-6">
+                            <input name="interventionType" ui-select2="InterventionTypeRemoteOptions" ng-model="group.Intervention" required style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="interventionTier" class="col-md-3 control-label">Intervention Tier</label>
+                        <div class="col-md-6">
+                            <select class="form-control" name="interventionTier" ng-model="group.selectedTier" ng-options="item.text for item in group.tiers" required style="width: 100%">
+                                <option value="">- Select Tier -</option>    
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Staff</legend>
+                    <div class="form-group">
+                        <label for="fieldnick" class="col-md-3 control-label">Primary Interventionist</label>
+                        <div class="col-md-6">
+                            <input name="primaryInterventionist" ui-select2="PrimaryInterventionistRemoteOptions" required ng-model="group.PrimaryTeacher" style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldabout" class="col-md-3 control-label">Co-Interventionists</label>
+                        <div class="col-md-6"><div ui-select2="CoInterventionistsRemoteOptions" ng-model="group.CoTeachers" style="width: 100%" /></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Schedule</legend>
+                    <div class="form-group">
+                        <label for="fieldnick" class="col-md-3 control-label">Start Time</label>
+                        <div class="col-md-6">
+                            <uib-timepicker ng-model="group.StartTime" hour-step="1" minute-step="5" show-meridian="true" class="timepicker"></uib-timepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldnick" class="col-md-3 control-label">End Time</label>
+                        <div class="col-md-6">
+                            <uib-timepicker ng-model="group.EndTime" hour-step="1" minute-step="5" show-meridian="true" class="timepicker"></uib-timepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="meetingDays" class="col-md-3 control-label">Meeting Days</label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <switch ng-model="group.MondayMeet" class="green"></switch>
+                                <label for="meetingDays" class="control-label" style="vertical-align: top">Monday</label><!-- TODO: Inline style fix-->
+                            </div>
+
+                            <div class="form-group">
+                                <switch ng-model="group.TuesdayMeet" class="green"></switch>
+                                <label for="meetingDays" class="control-label" style="vertical-align: top">Tuesday</label><!-- TODO: Inline style fix-->
+                            </div>
+
+                            <div class="form-group">
+                                <switch ng-model="group.WednesdayMeet" class="green"></switch>
+                                <label for="meetingDays" class="control-label" style="vertical-align: top">Wednesday</label><!-- TODO: Inline style fix-->
+                            </div>
+
+                            <div class="form-group">
+                                <switch ng-model="group.ThursdayMeet" class="green"></switch>
+                                <label for="meetingDays" class="control-label" style="vertical-align: top">Thursday</label><!-- TODO: Inline style fix-->
+                            </div>
+
+                            <div class="form-group">
+                                <switch ng-model="group.FridayMeet" class="green"></switch>
+                                <label for="meetingDays" class="control-label" style="vertical-align: top">Friday</label><!-- TODO: Inline style fix-->
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Students</legend>
+                    <div class="form-group">
+                        <ng-form name="newStintForm" class="noValidBorder">
+                            <label for="fieldabout" class="col-md-3 control-label">Add New Stint</label>
+                            <div class="col-md-3">
+                                <div ui-select2="StudentQuickSearchRemoteOptions" ng-model="newStint.quickSearchStudent" />
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <input style="cursor:pointer" placeholder="Start Date" type="text" name="newStintStart" id="newStintStart" class="form-control" picka-day ng-model="newStint.startDate" invalid-message="Please enter a valid date" default-date="{{newStint.startDate}}" />
+                                </div>
+                                <label ng-show="(igform.newStintForm.newStintStart.$invalid ||  newStint.startDate == null) && igform.newStintForm.$pending" class="control-label has-error">Please enter a valid start date</label>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <input style="cursor:pointer" placeholder="End Date" type="text" name="newStintEnd" id="newStintEnd" class="form-control" picka-day ng-model="newStint.endDate" invalid-message="Please enter a valid date" default-date="{{newStint.endDate}}" />
+                                </div>
+                                <label ng-show="igform.newStintForm.newStintEnd.$invalid && igform.newStintForm.$pending" class="control-label has-error">Please enter a valid end date</label>
+                            </div>
+                            <div class="col-md-1"><a ng-click="addNewStint()" class="btn btn-primary">Add <i class="fa fa-plus"></i></a></div>
+                        </ng-form>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldnick" class="col-md-3 control-label">Current Students</label>
+                        <div class="col-md-6" ng-if="group.StintsByStudent.length == 0">
+                            <uib-alert type="{{'info'}}">No students added yet</uib-alert>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="callout" ng-repeat="student in group.StintsByStudent">
+                                <h4>{{student.StudentName}}</h4>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Remove Stint</th>
+                                            <th>Edit Stint</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="stint in student.Stints">
+                                            <td>
+                                                <a class="btn btn-danger btn-xs" ng-click="removeStint(stint)"><i class="fa fa-trash-o"></i> Remove</a>
+                                            </td>
+                                            <td>
+                                                <a ng-if="!stint.editMode" class="btn btn-primary btn-xs" ng-click="editStint(stint)"><i class="fa fa-pencil"></i> Edit</a>
+
+                                                <span ng-if="stint.editMode">
+                                                    <a class="btn btn-success btn-xs" ng-click="saveStint(stint, stint.newStartDate, stint.newEndDate, student.Stints, student.StudentId)"><i class="fa fa-save"></i> Save</a>
+                                                    <a class="btn btn-default btn-xs" ng-click="stint.editMode = false"><i class="fa fa-times-circle"></i> Cancel</a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div ng-if="!stint.editMode">{{stint.StartDateText}}</div>
+                                                <div ng-if="stint.editMode" class="input-group" style="width:150px;">
+                                                    <input style="cursor:pointer" placeholder="Start Date" type="text" name="stintStart" id="stintStart" class="form-control" picka-day ng-model="stint.newStartDate" invalid-message="Please enter a valid date" default-date="{{stint.newStartDate}}" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div ng-if="!stint.editMode">{{stint.EndDateText}}</div>
+                                                <div ng-if="stint.editMode" class="input-group" style="width:150px;">
+                                                    <input style="cursor:pointer" placeholder="End Date" type="text" name="stintEnd" id="stintEnd" class="form-control" picka-day ng-model="stint.newEndDate" invalid-message="Please enter a valid date" default-date="{{stint.newEndDate}}" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Group</button> <a href="#/ig-manage" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+            </panel>
+        </form>
+    </div>
+</div>
+
+<style>
+    .callout {
+
+        border-radius: 3px;
+        margin: 10px 0px;
+        border: 1px solid #eee;
+        padding: 20px;
+                border-left-color: #63b7e6;
+        border-left-width: 5px;
+    }
+    .callout h4 {
+            margin-top: 0;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+        .select2-container.has-error > a.select2-choice {
+    border-color: #D44950 !important;
+}
+    form .ng-dirty.ng-invalid {
+    color: #656B79 !important;
+}
+        label.has-error {
+    color: #D44950 !important;
+}
+        .noValidBorder.ng-dirty.ng-valid {
+    border: none;
+    color: #656b79;
+}
+</style>

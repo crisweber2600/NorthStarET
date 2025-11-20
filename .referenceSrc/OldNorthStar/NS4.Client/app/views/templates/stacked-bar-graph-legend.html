@@ -1,0 +1,55 @@
+﻿<div class="nsLegend">
+    <h3 style="text-align:center">{{title}} Selected Options</h3>
+    <table style="margin:auto">
+        <tr>
+            <td style="padding-right:20px;">
+                <table>
+                    <tr>
+                        <td class="legendHeading">School Year</td>
+                        <td class="legendText">{{schoolYear()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Schools</td>
+                        <td class="legendText">{{schools()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Grades</td>
+                        <td class="legendText">{{grades()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Teachers</td>
+                        <td class="legendText">{{teachers()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Sections</td>
+                        <td class="legendText">{{sections()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Intervention Types</td>
+                        <td class="legendText">{{interventionTypes()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="legendHeading">Assessment Field</td>
+                        <td class="legendText">{{assessmentField()}}</td>
+                    </tr>
+                    <tr ng-if="summaryMode">
+                        <td class="legendHeading">Zone</td>
+                        <td class="legendText">{{scoreGrouping()}}</td>
+                    </tr>
+                    <tr ng-if="summaryMode">
+                        <td class="legendHeading">Stack</td>
+                        <td class="legendText">{{whichStack()}}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr ng-repeat="attributeType in options.attributeTypes">
+                        <td class="legendHeading">{{attributeType.Name}}</td>
+                        <td class="legendText">{{attributeValue(attributeType.Name, attributeType.selectedData)}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

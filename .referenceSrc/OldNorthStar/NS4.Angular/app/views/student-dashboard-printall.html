@@ -1,0 +1,81 @@
+﻿
+<div class="container-fluid" ng-controller="StudentDashboardPrintController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12" ng-if="!settings.studentLoaded">
+                <uib-alert type="info"><b>Note:</b> Please select a student</uib-alert>
+            </div>
+            <div class="col-md-12" ng-show="settings.studentLoaded">
+                <student-dashboard-print student="settings.selectedStudent" tab="settings.tab"></student-dashboard-print>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+
+</style>
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    .tab-primary.tab-container .tab-content {
+        /*border: none !important;*/
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .timeline-month {
+        width: 100%;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        text-align: left;
+        font-weight: 700;
+        font-size: 19px;
+    }
+
+    .timeline > li .timeline-header span.author {
+        float: right;
+        font-size: 12px;
+        display: block;
+    }
+
+    h4 small {
+        color: #777;
+    }
+
+    observation-summary-field-chooser .btn-toolbar {
+        display: inline-block;
+    }
+
+    .btn-orange-alt {
+        color: #f0934e;
+    }
+</style>
+<script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>

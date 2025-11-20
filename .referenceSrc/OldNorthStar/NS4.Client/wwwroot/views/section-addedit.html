@@ -1,0 +1,105 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/section-list">Manage Sections</a></li>
+        <li class="active">Add / Edit Section</li>
+    </ol>
+    <h1>Add/Edit Section</h1>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Modify Section">
+
+                <form novalidate angular-validator angular-validator-submit="saveSection()" name="section_form" class="form-horizontal" ng-controller="SectionEditController">
+                    <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+                    <fieldset>
+                        <legend>Details</legend>
+                        <ns-filter-options-container-directive vertical-mode="true" school-year-required="true" school-year-enabled="true" school-enabled="true" school-required="true"></ns-filter-options-container-directive>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Section Name</label>
+                            <div class="col-md-6">
+                                <input id="sectionname" class="form-control" name="sectionname" type="text" placeholder="Section Name" required ng-model="section.Name"  />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldemail" class="col-md-3 control-label">Description</label>
+                            <div class="col-md-6">
+                                <input id="fieldemail" class="form-control" type="text" name="description" ng-model="section.Description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldurl" class="col-md-3 control-label">Grade</label>
+                            <div class="col-md-6">
+                                <select name="gradeId" class="form-control" ng-options="grade.id as grade.text for grade in gradeList" required ng-model="section.GradeId">
+                                    <option value="">-select a grade-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Staff</legend>
+                        <div class="form-group">
+                            <label for="fieldnick" class="col-md-3 control-label">Primary Teacher</label>
+                            <div class="col-md-6">
+                                <input name="primaryteacher" id="primaryteacher" ui-select2="getTeacherRemoteOptions" ng-model="section.PrimaryTeacher" required style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Co-Teachers</label>
+                            <div class="col-md-6"><div ui-select2="getCoTeacherRemoteOptions" ng-model="section.CoTeachers" style="width: 100%" /></div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Students</legend>
+                        <div class="form-group">
+                            <label for="fieldabout" class="col-md-3 control-label">Add New Student</label>
+                            <div class="col-md-4">
+                                <input ui-select2="addStudentToSectionRemoteOptions" ng-model="section.addStudent" style="width: 100%" />
+                            </div>
+                            <div class="col-md-1"><a ng-click="addStudentToSection()" class="btn btn-primary">Add <i class="fa fa-plus"></i></a></div>
+                            <label for="fieldname" class="control-label col-md-1"><strong>Expand Search</strong></label>
+                            <div class="col-md-1"><switch class="green" ng-model="section.expandedSearch"></switch></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldnick" class="col-md-3 control-label">Currently In Class</label>
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Remove From Class</th>
+                                            <th>Student</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="student in section.Students">
+                                            <td>
+                                                <a class="btn btn-danger btn-xs" ng-click="removeStudentFromSection(student.id)">Remove <i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                            <td>{{::student.text}}<span ng-show="student.isNew" style="padding-left:20px;"><i style="color:blue" class="glyphicon glyphicon-exclamation-sign"></i>new</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Section</button> <a href="#/section-list" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+                </form>
+            </panel>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+    border-color: #D44950 !important;
+}
+    form .ng-dirty.ng-invalid {
+    color: #656B79 !important;
+}
+        label.has-error {
+    color: #D44950 !important;
+}
+</style>

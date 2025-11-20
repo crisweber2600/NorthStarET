@@ -1,0 +1,431 @@
+openapi: 3.0.3
+info:
+  title: LMS Identity Module Authorization Endpoints
+  description: |
+    Contract for invoking the LMS API's embedded Identity module to perform authorization decisions
+    and tenant membership queries. These endpoints are part of the LMS API surface and are consumed
+    by application services and other LMS components.
+  version: 1.0.0
+  contact:
+    name: NorthStarET LMS Team
+
+servers:
+  - url: https://lms-api.northstaret.com/v1/identity
+    description: Production LMS Identity module
+  - url: https://lms-api-dev.northstaret.com/v1/identity
+    description: Development LMS Identity module
+  - url: https://localhost:7002/v1/identity
+    description: Local LMS Identity module (Aspire)
+
+tags:
+  - name: Authorization
+    description: Permission check operations
+  - name: Tenants
+    description: Tenant membership queries
+
+paths:
+  /authorize/check:
+    post:
+      summary: Check user permission for a specific action
+      description: |
+        Validates whether a user has permission to perform a specific action
+        on a resource within a tenant context. Responds within 50ms (P95).
+      operationId: checkPermission
+      tags:
+        - Authorization
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckPermissionRequest'
+            examples:
+              teacherReadGrades:
+                summary: Teacher reading student grades
+                value:
+                  userId: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+                  tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                  resource: Grades
+                  action: Read
+              adminManageSchool:
+                summary: Admin managing school settings
+                value:
+                  userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+                  tenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  resource: Schools
+                  action: Manage
+      responses:
+        '200':
+          description: Authorization decision made
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckPermissionResponse'
+              examples:
+                allowed:
+                  summary: Permission granted
+                  value:
+                    allowed: true
+                    userId: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+                    tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                    resource: Grades
+                    action: Read
+                    roleId: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+                    roleName: Teacher
+                    checkedAt: "2025-10-20T15:30:00Z"
+                denied:
+                  summary: Permission denied
+                  value:
+                    allowed: false
+                    userId: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+                    tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                    resource: Schools
+                    action: Manage
+                    reason: User does not have the required role (District Admin or School Admin) to manage schools
+                    checkedAt: "2025-10-20T15:30:00Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /authorize/batch:
+    post:
+      summary: Check multiple permissions in a single request
+      description: |
+        Validates multiple permission checks in a single request to reduce
+        round-trip latency when checking multiple permissions.
+      operationId: batchCheckPermissions
+      tags:
+        - Authorization
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchCheckPermissionRequest'
+      responses:
+        '200':
+          description: Batch authorization decisions made
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCheckPermissionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /tenants/{userId}:
+    get:
+      summary: Get user's tenant memberships
+      description: |
+        Returns all tenants a user has access to, along with their roles.
+      operationId: getUserTenants
+      tags:
+        - Tenants
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: User unique identifier
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+      responses:
+        '200':
+          description: User tenants retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTenantsResponse'
+              examples:
+                multiTenant:
+                  summary: User with multiple tenant memberships
+                  value:
+                    userId: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+                    tenants:
+                      - tenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                        name: Springfield School District
+                        type: District
+                        roleId: 4e3d2c1b-0a9f-8e7d-6c5b-4a3f2e1d0c9b
+                        roleName: District Admin
+                        grantedAt: "2025-01-01T00:00:00Z"
+                      - tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                        name: Lincoln High School
+                        type: School
+                        roleId: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+                        roleName: Teacher
+                        grantedAt: "2025-02-15T00:00:00Z"
+        '404':
+          description: User not found or has no tenant memberships
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    CheckPermissionRequest:
+      type: object
+      required:
+        - userId
+        - tenantId
+        - resource
+        - action
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: User attempting the action
+          example: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+        tenantId:
+          type: string
+          format: uuid
+          description: Tenant context for the permission check
+          example: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+        resource:
+          type: string
+          description: Resource being accessed
+          example: Grades
+        action:
+          type: string
+          enum: [Read, Write, Delete, Manage]
+          description: Action being performed
+          example: Read
+        context:
+          type: object
+          description: Additional context for fine-grained permission checks (e.g., parent checking own child's grades)
+          additionalProperties: true
+
+    CheckPermissionResponse:
+      type: object
+      required:
+        - allowed
+        - userId
+        - tenantId
+        - resource
+        - action
+        - checkedAt
+      properties:
+        allowed:
+          type: boolean
+          description: Whether the permission is granted
+          example: true
+        userId:
+          type: string
+          format: uuid
+          description: User ID from request
+          example: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+        tenantId:
+          type: string
+          format: uuid
+          description: Tenant ID from request
+          example: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+        resource:
+          type: string
+          description: Resource from request
+          example: Grades
+        action:
+          type: string
+          description: Action from request
+          example: Read
+        roleId:
+          type: string
+          format: uuid
+          description: Role that granted the permission (if allowed)
+          example: 5d4c3b2a-1f9e-8d7c-6b5a-4f3e2d1c0b9a
+          nullable: true
+        roleName:
+          type: string
+          description: Role name (if allowed)
+          example: Teacher
+          nullable: true
+        reason:
+          type: string
+          description: Explanation if denied
+          example: User does not have the required role to manage schools
+          nullable: true
+        checkedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the authorization check
+          example: "2025-10-20T15:30:00Z"
+
+    BatchCheckPermissionRequest:
+      type: object
+      required:
+        - checks
+      properties:
+        checks:
+          type: array
+          description: List of permission checks to perform
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/CheckPermissionRequest'
+
+    BatchCheckPermissionResponse:
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          description: Results for each permission check (same order as request)
+          items:
+            $ref: '#/components/schemas/CheckPermissionResponse'
+
+    UserTenantsResponse:
+      type: object
+      required:
+        - userId
+        - tenants
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: User unique identifier
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        tenants:
+          type: array
+          description: Tenants user has access to
+          items:
+            $ref: '#/components/schemas/TenantMembershipDto'
+
+    TenantMembershipDto:
+      type: object
+      required:
+        - tenantId
+        - name
+        - type
+        - roleId
+        - roleName
+        - grantedAt
+      properties:
+        tenantId:
+          type: string
+          format: uuid
+          description: Tenant unique identifier
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          description: Tenant display name
+          example: Springfield School District
+        type:
+          type: string
+          enum: [District, School]
+          description: Tenant type
+          example: District
+        parentTenantId:
+          type: string
+          format: uuid
+          description: Parent tenant ID (for schools)
+          example: null
+          nullable: true
+        roleId:
+          type: string
+          format: uuid
+          description: User's role in this tenant
+          example: 4e3d2c1b-0a9f-8e7d-6c5b-4a3f2e1d0c9b
+        roleName:
+          type: string
+          description: Role name
+          example: District Admin
+        grantedAt:
+          type: string
+          format: date-time
+          description: When membership was granted
+          example: "2025-01-01T00:00:00Z"
+        expiresAt:
+          type: string
+          format: date-time
+          description: When membership expires (optional)
+          example: null
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: PERMISSION_DENIED
+        message:
+          type: string
+          description: Human-readable error message
+          example: User does not have permission to perform this action
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+        traceId:
+          type: string
+          description: Request trace ID for debugging
+          example: 0HN1GKQVF2Q5S:00000001
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidUserId:
+              summary: Invalid user ID format
+              value:
+                error: INVALID_REQUEST
+                message: UserId must be a valid UUID
+                traceId: 0HN1GKQVF2Q5S:00000001
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            serverError:
+              summary: Unexpected error
+              value:
+                error: INTERNAL_ERROR
+                message: An unexpected error occurred. Please try again later.
+                traceId: 0HN1GKQVF2Q5S:00000002
+
+    ServiceUnavailable:
+  description: Identity module temporarily unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            serviceDown:
+              summary: Service temporarily unavailable
+              value:
+                error: SERVICE_UNAVAILABLE
+                message: The LMS Identity module is temporarily unavailable. Please try again later.
+                traceId: 0HN1GKQVF2Q5S:00000003
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer token issued by the LMS API authentication pipeline
+
+security:
+  - BearerAuth: []

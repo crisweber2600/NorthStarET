@@ -1,0 +1,66 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="">Personal Settings</a></li>
+        <li class="active">Change Your Email Address</li>
+    </ol>
+    <h1>Change Your Email Address</h1>
+</div>
+
+<div class="container-fluid" ng-controller="PersonalUsernameChangeController">
+    <div class="col-md-12" ng-if="settings.pageStatus == 'success'">
+        <uib-alert type="success">Your Username has been successfully changed!  <a href="" ng-click="logOut()"><b>Log Out and Log In Again</b></a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-if="settings.pageStatus != 'success'">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+        </div>
+        <div class="col-md-12">
+            <form name="usernameForm" class="form-horizontal" novalidate angular-validator angular-validator-submit="changeUsername()">
+
+                <panel panel-class="panel-midnightblue" heading="Change Your Email Address">
+                    <fieldset>
+                        <legend>Use this form to change your username<br /><small style="font-size:12px"><b>Note</b>:  You will be required to log out after changing your email address</small></legend>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">New Email Address</label>
+                            <div class="col-md-6">
+                                <input id="username"
+                                       class="form-control"
+                                       name="username"
+                                       type="text"
+                                       placeholder="Enter new email address"
+                                       required
+                                       required-message="'Email address is required'"
+                                       ng-remote-validate2="{ 'http://localhost:16726/api/staff/ValidateUsernameChange' : 'unique', 'http://localhost:16726/api/staff/ValidateEmailFormat' : 'emailformat' }"
+                                       ng-remote-method="POST"
+                                       ng-remote-throttle="500"
+                                       validate-on="dirty"
+                                       invalid-message="''"
+                                       ng-model="userInfo.username" />
+                                        <label ng-show="usernameForm.username.$error.unique" class="control-label has-error">This email address is already in use by another user</label>
+                                        <label ng-show="usernameForm.username.$error.emailformat" class="control-label has-error">Please enter a valid email address</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Confirm New Username</label>
+                            <div class="col-md-6">
+                                <input id="confirm"
+                                       class="form-control"
+                                       name="confirm"
+                                       type="email"
+                                       placeholder="Re-type username"
+                                       validator="userInfo.username === userInfo.confirm"
+                                       validate-on="dirty"
+                                       invalid-message="'Usernames do not match!'"
+                                       required
+                                       required-message="'Please confirm username'"
+                                       ng-model="userInfo.confirm" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </panel>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-user"></i> Change Username</button>
+            </form>
+        </div>
+    </div>
+</div> 

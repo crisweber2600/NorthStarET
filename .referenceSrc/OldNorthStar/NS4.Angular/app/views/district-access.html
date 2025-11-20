@@ -1,0 +1,64 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a>System Administration</a></li>
+        <li class="active">Log In To Other Districts</li>
+    </ol>
+    <h1>Log In To Other Districts</h1>
+</div>
+<div class="container-fluid" ng-controller="DistrictAccessController">
+    <ns-error-display></ns-error-display>
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>District Name</th>
+                        <th class="nsCenterAlignedText">Sign In to District</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="district in allDistricts">
+                        <td>
+                            {{district.Name}}
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <button class="btn btn-orange" ng-click="logInToDistrict(district)"><i class="fa fa-sign-in"></i> Log In</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script type="text/ng-template" id="createNewDistrict.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Copy Assessment {{selectedAssessment.AssessmentName}} to new District</h3>
+        </div>
+        <div class="modal-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText">
+                            Target District
+                        </th>
+                        <th class="nsCenterAlignedText">
+                            Sign In to District
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="district in allDistricts">
+                        <td>
+                            {{district.Name}}
+                        </td>
+                        <td class="nsCenterAlignedText">
+                            <button class="btn btn-orange" ng-click="logIntoDistrict(district)"><i class="fa fa-sign-in"></i> Log In</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+</div>

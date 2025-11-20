@@ -1,0 +1,208 @@
+﻿<div ng-controller="IGDataEntryController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Intervention Data Entry</li>
+            <li class="active">Edit Assessment Data</li>
+        </ol>
+        <h1>Edit Assessment Results for {{assessment.AssessmentName}}</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <a ng-if="assessment.CanImport" ng-click="getTemplate()" class="btn btn-primary hidden-xs"><i class="fa fa-download"></i> Download Export Template</a>
+                <a ng-if="assessment.CanImport" ng-click="openImportDialog()" class="btn btn-success hidden-xs"><i class="fa fa-upload"></i> Import Data</a>
+                <a ng-click="print()" class="btn btn-orange hidden-xs"><i class="fa fa-print"></i> Print</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" interventionist-enabled="true" intervention-group-enabled="true" intervention-student-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <ns-error-display></ns-error-display>
+        <div class="col-md-12">
+            <uib-alert ng-show="uploadSettings.uploadComplete" type="success"><b>Note:</b> If there were any issues while uploading your data, you can view them by downloading the <a class="btn btn-success" ng-click="downloadResult()"> Log File <i class="fa fa-download"></i></a></uib-alert>
+        </div>
+    </div>
+    <div class="col-md-12" ng-show="filterOptions.selectedInterventionStudent == null">
+        <uib-alert type="info">Please select a student to enter data.</uib-alert>
+    </div>    
+    <div class="container-fluid" ng-show="filterOptions.selectedInterventionStudent != null">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <button style="margin:0px 0px 20px 20px" class="btn btn-success" ng-click="addNewRow()"><i class="fa fa-plus"></i> Add New Record</button>
+            </div>
+            <div class="col-md-8" style="font-size:18px;">
+                <span class="label label-primary">STUDENT</span> <span student-dashboard-link student-id="filterOptions.selectedInterventionStudent.id" student-name="filterOptions.selectedInterventionStudent.text"></span>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="studentResults.length == 0">
+            <uib-alert type="info">No data added yet.</uib-alert>
+        </div>
+
+        <div style="min-height:350px;">
+            <spinner name="tableSpinner">
+                <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <div ng-show="studentResults.length > 0" class="col-md-12 table-vertical">
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <!--<div class="ns-table-cell"><div style="cursor: pointer" ng-click="sort('StudentName')">Student Name <i class="{{staticColumnsObj.studentNameHeaderClass}}"></i></div></div>-->
+                            <div class="ns-table-cell">Recorder</div>
+                            <div class="ns-table-cell"><div style="cursor: pointer" ng-click="sort('TestDate')">Date Test Taken </div></div>
+                            <div class="ns-table-cell text-center" ng-repeat="header in fields"><div style="cursor: pointer" ng-click="sort($index)">{{header.DisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div></div>
+
+                        </div>
+
+
+                        <form class="ns-table-row" ng-class="{'unSavedResult' : studentResult.ResultId == -1}" ng-repeat="studentResult in studentResults | orderBy:sortArray" shown="studentResult==addNewResult" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveAssessmentData(studentResult)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-xs" ng-click="defaultEditAction(studentResult, rowform)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <div class="extraHeader">Edit</div>
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <div ng-show="rowform.$visible" class="extraHeader">Delete</div>
+                                <a class="btn btn-danger btn-xs" ng-click="deleteAssessmentData(studentResult)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Recorder">
+                                <div ng-show="rowform.$visible">
+                                    <div class="extraHeader">Recorder</div>
+                                    <input name="primaryteacher" id="primaryteacher" validator="validateRecorder(studentResult)" ui-select2="getTeacherRemoteOptions" invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 120px" />
+                                </div>
+                                <div ng-show="!rowform.$visible">{{::studentResult.Recorder.text}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="TestDate">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <div class="extraHeader">Date Test Taken</div>
+                                   <!-- <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="studentResult.TestDate" is-open="popup1.opened" required invalid-message="Please enter a valid date" required-message="Please select a date" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                       -->
+                                    <input style="cursor:pointer" type="text" name="pikaday" id="pikaday" class="form-control" picka-day ng-model="studentResult.TestDate" required invalid-message="Please enter a valid date" required-message="'Please select a date'" default-date="{{studentResult.TestDate}}" />
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{::studentResult.TestDateDisplay}}
+                                </div> 
+                            </div>
+                            <div class="ns-table-cell text-center" ng-repeat="fieldResult in studentResult.FieldResults" data-title="{{::fieldResult.Field.DisplayLabel}}">
+                                <div ng-show="rowform.$visible" class="extraHeader">{{::fieldResult.Field.DisplayLabel}}</div>
+                                <ns-assessment-field mode="'grideditable'" e-form="rowform" result="fieldResult" field-required="fieldResult.Field.IsRequired" all-results="studentResult.FieldResults" show-inline-textareas="" ckeditor-options="ckeditorOptions"></ns-assessment-field>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="importBenchmarkData.html">
+        <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Intervention Data For Student {{filterOptions.selectedInterventionStudent.text}}</h3>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <div class="form-group" ng-hide="uploadSettings.hasFiles">
+                        <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                        <div class="col-md-6">
+                            <h3>Select .CSV or .XLSX file to import</h3>
+                            <input type="file" id="newPhotos" class="uploadFile" accept="*.csv,*.xlsx,*.xls" eg-files="theFiles" has-files="uploadSettings.hasFiles">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="uploadSettings.hasFiles">
+                        <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                        <div class="col-md-6">
+                            <ul class="list-inline">
+                                <li><strong>file:</strong></li>
+                                <li ng-repeat="photo in theFiles"> {{photo.name}}</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+            </div>
+        </form>
+
+    </script>
+
+
+</div>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+    form.unSavedResult {
+        border: 2px dashed #7dcc93;
+    }
+            .extraHeader {
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 15px;
+            height: 55px;
+        }
+</style>
+
+<style>
+    
+
+
+</style>

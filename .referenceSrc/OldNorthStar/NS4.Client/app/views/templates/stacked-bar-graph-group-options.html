@@ -1,0 +1,77 @@
+﻿
+    <div class="tiles-heading">
+        <div class="row">
+            <div class="col-md-6 vertical-separator">
+                <div class="row">
+                    <h3 class="dotted-underline">Options</h3>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">School Year</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SchoolYearOptions" ng-model="filterOptions.selectedSchoolYear" ng-change="changeSchoolYears(filterOptions.selectedSchoolYear, {{filterOptions.selectedSchoolYear}})" data-placeholder="Select school year" style="width:100%"></div>
+                    </div>
+                </div>
+                <div ng-show="tddEnabled" class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Benchmark Date</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2BenchmarkDateOptions" ng-model="filterOptions.selectedTestDueDate" data-placeholder="- Select Benchmark Date -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Schools</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SchoolOptions" ng-model="filterOptions.selectedSchools" ng-change="changeSchools(filterOptions.selectedSchools, {{filterOptions.selectedSchools}})" data-placeholder="- All schools in district -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Grades</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2GradeOptions" ng-model="filterOptions.selectedGrades" ng-change="changeGrades(filterOptions.selectedGrades, {{filterOptions.selectedGrades}})" data-placeholder="- All grades -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Teachers</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2TeacherOptions" ng-model="filterOptions.selectedTeachers" ng-change="changeTeachers(filterOptions.selectedTeachers, {{filterOptions.selectedTeachers}})" data-placeholder="- All teachers -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Sections</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SectionOptions" ng-model="filterOptions.selectedSections" data-placeholder="- All sections -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Intervention Types</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionTypeOptions" ng-model="filterOptions.selectedInterventionTypes" data-placeholder="- All Intervention Types -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Assessment Field</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" ng-model="filterOptions.selectedAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in filterOptions.assessments | filter: {DisplayInLineGraphs : true}">
+                            <option value=""> -- Choose a Field -- </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-left:25px">
+                <div class="row">
+                    <h3 class="dotted-underline">Student Attributes</h3>
+                </div>
+                <div class="row filterRowMargin" ng-repeat="attributeType in filterOptions.attributeTypes">
+                    <label class="col-sm-4 control-label">{{attributeType.Name}}</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="{minimumInputLength: 0, data: attributeType.DropDownData, multiple: true, width: 'resolve'}" ng-model="attributeType.selectedData" data-placeholder="- All {{attributeType.Name}} -" style="width:100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    /*.tab-content {
+        height: 310px;
+    }*/
+</style>

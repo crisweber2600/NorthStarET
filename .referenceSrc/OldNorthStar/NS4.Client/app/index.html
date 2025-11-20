@@ -1,0 +1,534 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>North Star Educational Tools</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="North Star Educational Tools">
+    <meta name="author" content="Ndevr Studios & The Red Team">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <!-- prochtml:remove:dist -->
+    <link href="assets/less/styles.less" rel="stylesheet/less" media="all">
+    <!-- /prochtml -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" href="assets/css/ie8.css">
+      <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+      <script type="text/javascript" src="assets/plugins/charts-flot/excanvas.min.js"></script>
+      <script type='text/javascript' src='assets/plugins/misc/placeholdr.js'></script>
+    <![endif]-->
+    <!--[if IE 9]>
+      <script type="text/javascript" src="assets/plugins/misc/media.match.min.js"></script>
+    <![endif]-->
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    <!-- prochtml:css assets/css/vendor.css -->
+    <!-- build:css assets/css/vendor.css -->
+    <link rel="stylesheet" href="../bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" />
+    <link rel="stylesheet" href="../bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+    <link rel="stylesheet" href="../bower_components/ng-grid/ng-grid.css" />
+    <link rel="stylesheet" href="../bower_components/angular-xeditable/dist/css/xeditable.css" />
+    <link rel="stylesheet" href="../bower_components/select2/select2.css" />
+    <link rel="stylesheet" href="../bower_components/jScrollPane/style/jquery.jscrollpane.css" />
+    <link rel="stylesheet" href="../bower_components/jScrollPane/style/jquery.jscrollpane.css" />
+    <link rel="stylesheet" href="../bower_components/pnotify/pnotify.core.css" />
+    <link rel="stylesheet" href="../bower_components/pnotify/pnotify.buttons.css" />
+    <link rel="stylesheet" href="../bower_components/pnotify/pnotify.history.css" />
+    <link rel="stylesheet" href="../bower_components/angular-ui-switch/angular-ui-switch.css" />
+    <link rel="stylesheet" href="../bower_components/angular-ui-select/dist/select.css" />
+    <link rel='stylesheet' type='text/css' href='assets/fonts/glyphicons/css/glyphicons.min.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/icheck/all.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-multiselect/css/multi-select.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-fseditor/fseditor.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-tokenfield/bootstrap-tokenfield.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/datepaginator/bootstrap-datepaginator.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/jquery-fileupload/css/jquery.fileupload-ui.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/bootstro.js/bootstro.min.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/progress-skylo/skylo.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/jcrop/css/jquery.Jcrop.min.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-daterangepicker/daterangepicker-bs3.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-markdown/css/bootstrap-markdown.min.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/codeprettifier/prettify.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/form-select2/select2.css' />
+    <link rel='stylesheet' type='text/css' href='assets/plugins/fullcalendar/fullcalendar.css' />
+    <!-- endbuild -->
+    <!-- /prochtml -->
+    <!-- prochtml:css assets/css/northstar.css -->
+    <!-- build:css assets/css/northstar.css -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- endbuild -->
+    <!-- /prochtml -->
+    <!-- prochtml:remove:dist -->
+    <script type="text/javascript">less = {}; less.env = 'development';</script>
+    <script type="text/javascript" src="assets/plugins/misc/less.js"></script>
+    <!-- /prochtml -->
+    <link rel="stylesheet" href="styles/nsstyles.css">
+    <link rel="stylesheet" media="screen" href="styles/nsscreenstyles.css">
+    <link rel="stylesheet" media="print" href="styles/nsprintstyles.css">
+    <style type="text/css">
+        [ng-cloak] {
+            display: none;
+        }
+
+        .topNegative1000 {
+            top: -1000px !important;
+        }
+
+        .topZero {
+            top: 0 !important;
+        }
+
+        .mainview-animation {
+            position: relative;
+        }
+
+            .mainview-animation.ng-enter {
+                -webkit-transition: .3s linear all; /* Safari/Chrome */
+                -moz-transition: .3s linear all; /* Firefox */
+                -o-transition: .3s linear all; /* Opera */
+                transition: .3s linear all; /* IE10+ and Future Browsers */
+            }
+
+            .mainview-animation.ng-enter {
+                opacity: 0;
+            }
+
+                .mainview-animation.ng-enter.ng-enter-active {
+                    opacity: 1;
+                }
+
+        .navbar.navbar-default.ng-hide {
+            display: none;
+        }
+
+        .fc-grid .fc-day-number {
+            padding: 5px 6px;
+        }
+    </style>
+</head>
+<body class=""
+      ng-app="themesApp"
+      ng-controller="MainController"
+      ng-class="{
+              'static-header': !style_fixedHeader,
+              'focusedform': style_fullscreen,
+              'layout-horizontal': style_layoutHorizontal,
+              'fixed-layout': style_layoutBoxed,
+              'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
+              'show-rightbar': style_rightbarCollapsed,
+              'show-leftbar': style_leftbarShown
+            }"
+      ng-click="hideSearchBar();hideHeaderBar();"
+      ng-cloak>
+    <!--<div id="headerbar" ng-class="{topNegative1000: style_headerBarHidden, topZero: !style_headerBarHidden}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-brown">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-pencil"></i></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Create Post
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-grape">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-group"></i></div>
+                            <div class="pull-right"><span class="badge">2</span></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Contacts
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-primary">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-envelope-o"></i></div>
+                            <div class="pull-right"><span class="badge">10</span></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Messages
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-inverse">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-camera"></i></div>
+                            <div class="pull-right"><span class="badge">3</span></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Gallery
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-midnightblue">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-cog"></i></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Settings
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <a href="#" class="shortcut-tiles tiles-orange">
+                        <div class="tiles-body">
+                            <div class="pull-left"><i class="fa fa-wrench"></i></div>
+                        </div>
+                        <div class="tiles-footer">
+                            Plugins
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>-->
+    <header class="navbar navbar-inverse" ng-class="{'navbar-fixed-top': style_fixedHeader, 'navbar-static-top': !style_fixedHeader}" role="banner">
+        <a id="leftmenu-trigger" tooltip-placement="right" tooltip="Toggle Sidebar" ng-click="toggleLeftBar()"></a>
+        <!--<a id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle Infobar" ng-click="toggleRightBar()"></a>-->
+        <div class="navbar-header pull-left">
+            <a class="navbar-brand" href="#/">North Star <span class="navbar-brand-faded">Educational Tools</span></a>
+        </div>
+        <ul class="nav navbar-nav pull-right toolbar">
+            <li class="dropdown" ng-show="!isLoggedIn">
+                <a href="#/extras-login2" style="font-size: 14px"><i class="fa fa-sign-in"></i> Log in</a>
+            </li>
+            <li class="dropdown" uib-dropdown ng-show="isLoggedIn">
+                <a href="#" class="dropdown-toggle username" uib-dropdown-toggle ng-controller="StaffInfoController as uvm"><span class="hidden-xs">{{uvm.userInfo.currentUser.FirstName}} {{uvm.userInfo.currentUser.LastName}}</span><img src="assets/demo/avatar/_aniss.png" alt="Teacher" /></a>
+                <ul class="dropdown-menu userinfo arrow" uib-dropdown-menu>
+                    <li class="userlinks">
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Edit User Profile <i class="pull-right fa fa-fw fa-pencil"></i></a></li>
+                            <li><a href="#">Change Password <i class="pull-right fa fa-fw fa-user"></i></a></li>
+                            <li><a href="#">Change Username <i class="pull-right fa fa-fw fa-cog"></i></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Manage Available Assessments <i class="pull-right fa fa-fw fa-dollar"></i></a></li>
+                            <li><a href="#">Manage Your Calendar <i class="pull-right fa fa-fw fa-bars"></i></a></li>
+                            <li><a href="#">Contact District Adminsitrator <i class="pull-right fa fa-fw fa-credit-card"></i></a></li>
+                            <li class="divider"></li>
+                            <li><a href="" class="text-right" ng-click="logOut()">Sign Out</a></li>
+                            <li>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li style="display:none" ng-click="showHeaderBar($event)">
+                <a href="" id="headerbardropdown"><span><i class="fa fa-level-down"></i></span></a>
+            </li>
+            <li class="dropdown demodrop" ng-controller="ColorPickerController">
+                <a href="#" class="dropdown-toggle tooltips"><i class="fa fa-cog"></i></a>
+                <ul class="dropdown-menu arrow dropdown-menu-form" id="demo-dropdown">
+                    <li>
+                        <label for="demo-header-variations" class="control-label">Header Colors</label>
+                        <ul class="list-inline demo-color-variation" id="demo-header-variations">
+                            <li><a class="color-dark" href="javascript:;" ng-click="setHeaderStyle('default.css', $event)"></a></li>
+                            <li><a class="color-black" href="javascript:;" ng-click="setHeaderStyle('header-black.css', $event)"></a></li>
+                            <li><a class="color-inverse" href="javascript:;" ng-click="setHeaderStyle('header-inverse.css', $event)"></a></li>
+                            <li><a class="color-default" href="javascript:;" ng-click="setHeaderStyle('header-midnightblue.css', $event)"></a></li>
+                            <li><a class="color-dangerdark" href="javascript:;" ng-click="setHeaderStyle('header-dangerdark.css', $event)"></a></li>
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <label for="demo-color-variations" class="control-label">Sidebar Colors</label>
+                        <ul class="list-inline demo-color-variation">
+                            <li><a class="color-default" href="javascript:;" ng-click="setSidebarStyle('default.css', $event)"></a></li>
+                            <li><a class="color-inverse" href="javascript:;" ng-click="setSidebarStyle('sidebar-inverse.css', $event)"></a></li>
+                            <li><a class="color-primary" href="javascript:;" ng-click="setSidebarStyle('sidebar-primary.css', $event)"></a></li>
+                            <li><a class="color-gray" href="javascript:;" ng-click="setSidebarStyle('sidebar-gray.css', $event)"></a></li>
+                            <li><a class="color-indigo" href="javascript:;" ng-click="setSidebarStyle('sidebar-indigo.css', $event)"></a></li>
+                            <li><a class="color-dangerdark" href="javascript:;" ng-click="setSidebarStyle('sidebar-dangerdark.css', $event)"></a></li>
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <label for="fixedheader">Fixed Header</label>
+                        <div ng-click="$event.stopPropagation()">
+                            <toggle-switch model="headerFixed" class="success"></toggle-switch>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <label for="boxedlayout"><a href="#/layout-fixed">Boxed Layout</a></label>
+                        <div ng-click="$event.stopPropagation()">
+                            <toggle-switch model="layoutFixed" class="success"></toggle-switch>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <label for="layoutHorizontal">Horizontal Nav</label>
+                        <div ng-click="$event.stopPropagation()">
+                            <toggle-switch model="layoutHorizontal" class="success"></toggle-switch>
+                        </div>
+                    </li>
+                </ul>
+                <link rel="stylesheet" type="text/css" ng-href="assets/demo/variations/{{headerStylesheet}}">
+                <link rel="stylesheet" type="text/css" ng-href="assets/demo/variations/{{sidebarStylesheet}}">
+            </li>
+        </ul>
+    </header>
+    <nav class="navbar navbar-default ng-hide" role="navigation" ng-show="style_layoutHorizontal">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <i class="fa fa-reorder"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{'large-icons-nav': style_layoutHorizontalLargeIcons}" id="horizontal-navbar">
+            <ul ng-controller="NavigationController" id="top-nav" class="nav navbar-nav">
+                <li ng-repeat="item in menu"
+                    ng-if="!item.hideOnHorizontal"
+                    ng-class="{ hasChild: (item.children!==undefined && item.children.length > 0),
+                                    active: item.selected,
+                                      open: (item.children!==undefined && item.children.length > 0) && item.open }"
+                    ng-include="'templates/nav_renderer_horizontal.html'"></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="page-container" class="clearfix">
+        <!-- BEGIN SIDEBAR -->
+        <nav id="page-leftbar" role="navigation">
+            <div>
+                <ul ng-controller="NavigationController" id="sidebar" sticky-scroll="40">
+                    <li id="search" ng-class="{'keep-open':style_showSearchCollapsed}">
+                        <a href=""
+                           ng-class="{blockImportant:style_leftbarCollapsed && !style_showSearchCollapsed}"
+                           ng-click="showSearchBar($event)"><i class="fa fa-search opacity-control"></i></a>
+                        <form ng-show="!style_leftbarCollapsed || style_showSearchCollapsed"
+                              ng-style="{display: style_showSearchCollapsed? 'block':''}"
+                              ng-click="$event.stopPropagation()"
+                              ng-submit="goToSearch()">
+                            <input type="text" ng-model="searchQuery" class="search-query" placeholder="Search..."
+                                   ng-style="{width: style_showSearchCollapsed? 'auto':''}">
+                            <button type="submit" ng-click="goToSearch()"><i class="fa fa-search"></i></button>
+                        </form>
+                    </li>
+                    <li ng-repeat="item in menu"
+                        ng-class="{ hasChild: (item.children!==undefined && item.children.length > 0),
+                                    active: item.selected,
+                                      open: (item.children!==undefined && item.children.length > 0) && item.open }"
+                        ng-include="'templates/nav_renderer.html'"></li>
+                </ul>
+            </div>
+            <!-- END SIDEBAR MENU -->
+        </nav>
+        <!-- BEGIN RIGHTBAR -->
+        <!-- END RIGHTBAR -->
+        <div id="page-content" class="clearfix" fit-height>
+            <div id="wrap" ng-view="" class="mainview-animation">
+            </div> <!--wrap -->
+        </div> <!-- page-content -->
+        <footer role="contentinfo">
+            <div class="clearfix">
+                <ul class="list-unstyled list-inline pull-left">
+                    <li>North Star Educational Tools &copy; {{::currentYear}}</li>
+                </ul>
+                <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;"><i class="fa fa-angle-up"></i></button>
+            </div>
+        </footer>
+    </div> <!-- page-container -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=true'></script>
+    <script type="text/ng-template" id="assessmentFieldViewer.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Change Field Visibility for {{::selectedAssessment.text}}</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Field Name
+                        </th>
+                        <th>
+                            Visible?
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="field in selectedFields">
+                        <td>{{field.text}}</td>
+                        <td><switch class="green" ng-model="field.Visible" ng-change="updateSelectedField(field)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="saveFields()"><i class="fa fa-save"></i> Save</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+    <!-- prochtml:js scripts/vendor.js -->
+    <!-- build:js scripts/vendor.js -->
+    <script src="../bower_components/es5-shim/es5-shim.js"></script>
+    <script src="../bower_components/modernizr/modernizr.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../bower_components/jquery.ui/ui/jquery.ui.core.js"></script>
+    <script src="../bower_components/jquery.ui/ui/jquery.ui.widget.js"></script>
+    <script src="../bower_components/jquery.ui/ui/jquery.ui.mouse.js"></script>
+    <script src="../bower_components/jquery.ui/ui/jquery.ui.draggable.js"></script>
+    <script src="../bower_components/jquery.ui/ui/jquery.ui.resizable.js"></script>
+    <script src="../bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../bower_components/jquery.easing/js/jquery.easing.js"></script>
+    <script src="../bower_components/flot/jquery.flot.js"></script>
+    <script src="../bower_components/flot/jquery.flot.stack.js"></script>
+    <script src="../bower_components/flot/jquery.flot.pie.js"></script>
+    <script src="../bower_components/flot/jquery.flot.resize.js"></script>
+    <script src="../bower_components/flot.tooltip/js/jquery.flot.tooltip.js"></script>
+    <script src="../bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
+    <script src="../bower_components/jqvmap/jqvmap/jquery.vmap.js"></script>
+    <script src="../bower_components/jqvmap/jqvmap/maps/jquery.vmap.world.js"></script>
+    <script src="../bower_components/jqvmap/jqvmap/data/jquery.vmap.sampledata.js"></script>
+    <script src="../bower_components/ng-grid/build/ng-grid.js"></script>
+    <script src="../bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="../bower_components/select2/select2.js"></script>
+    <script src="../bower_components/angular-ui-select2/src/select2.js"></script>
+    <script src="../bower_components/iCheck/icheck.min.js"></script>
+    <script src="../bower_components/google-code-prettify/src/prettify.js"></script>
+    <script src="../bower_components/bootbox.js/bootbox.js"></script>
+    <script src="../bower_components/jquery-autosize/jquery.autosize.js"></script>
+    <script src="../bower_components/gmaps/gmaps.js"></script>
+    <script src="../bower_components/jquery.pulsate/jquery.pulsate.js"></script>
+    <script src="../bower_components/jquery.knob/js/jquery.knob.js"></script>
+    <script src="../bower_components/jquery.sparkline/index.js"></script>
+    <script src="../bower_components/jScrollPane/script/jquery.mousewheel.js"></script>
+    <script src="../bower_components/jScrollPane/script/mwheelIntent.js"></script>
+    <script src="../bower_components/jScrollPane/script/jquery.jscrollpane.min.js"></script>
+    <script src="../bower_components/enquire/dist/enquire.js"></script>
+    <script src="../bower_components/shufflejs/dist/jquery.shuffle.js"></script>
+    <script src="../bower_components/pnotify/pnotify.core.js"></script>
+    <script src="../bower_components/pnotify/pnotify.buttons.js"></script>
+    <script src="../bower_components/pnotify/pnotify.callbacks.js"></script>
+    <script src="../bower_components/pnotify/pnotify.confirm.js"></script>
+    <script src="../bower_components/pnotify/pnotify.desktop.js"></script>
+    <script src="../bower_components/pnotify/pnotify.history.js"></script>
+    <script src="../bower_components/pnotify/pnotify.nonblock.js"></script>
+    <script src="../bower_components/angular-upload/angular-upload.js"></script>
+    <script src="../bower_components/angular-md5/angular-md5.js"></script>
+    <script src="../bower_components/angularjs-oauth2/dist/angularJsOAuth2.js"></script>
+    <script src="../bower_components/angular-ui-switch/angular-ui-switch.js"></script>
+    <script src="../bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="../bower_components/ngstorage/index.js"></script>
+    <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="../bower_components/tg-angular-validator/dist/angular-validator.js"></script>
+    <script src="../bower_components/ng-remote-validate/release/ngRemoteValidate.js"></script>
+    <script src="../bower_components/angular-bootstrap-multiselect/angular-bootstrap-multiselect.js"></script>
+    <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="../bower_components/file-saver.js/FileSaver.js"></script>
+
+    <script type='text/javascript' src='assets/plugins/form-daterangepicker/daterangepicker.min.js'></script>
+    <script type='text/javascript' src='assets/plugins/form-datepicker/js/bootstrap-datepicker.js'></script>
+    <script type='text/javascript' src='assets/plugins/easypiechart/angular.easypiechart.js'></script>
+    <script type='text/javascript' src='assets/plugins/datepaginator/bootstrap-datepaginator.js'></script>
+    <script type='text/javascript' src='assets/plugins/form-multiselect/js/jquery.multi-select.min.js'></script>
+    <script type='text/javascript' src='assets/plugins/form-colorpicker/js/bootstrap-colorpicker.min.js'></script>
+    <script type='text/javascript' src='assets/plugins/form-fseditor/jquery.fseditor-min.js'></script>
+    <script type='text/javascript' src='assets/plugins/form-jasnyupload/fileinput.js'></script>
+    <script type='text/javascript' src='assets/plugins/progress-skylo/skylo.js'></script>
+
+    <script type='text/javascript' src='assets/plugins/bootstro.js/bootstro.min.js'></script>
+    <!-- endbuild -->
+    <!-- /prochtml -->
+
+    <script src="scripts/highcharts/highcharts.js"></script>
+    <script src="scripts/highcharts/highcharts-3d.js"></script>
+    <script src="scripts/shared/highcharts-ng.js"></script>
+    <script src="scripts/shared/Services.js"></script>
+    <script src="scripts/shared/BizObjectFactories.js"></script>
+    <script src="scripts/shared/Directives.js"></script>
+    <script src="scripts/shared/assessmentFields.js"></script>
+    <script src="scripts/shared/nsOauth2.js"></script>
+    <script src="scripts/maps/VectorMaps.js"></script>
+    <script src="scripts/maps/GoogleMaps.js"></script>
+    <script src="scripts/calendar/Calendar.js"></script>
+    <script src="scripts/gallery/Gallery.js"></script>
+    <script src="scripts/task/Tasks.js"></script>
+    <script src="scripts/ui-components/Ratings.js"></script>
+    <script src="scripts/ui-components/Modals.js"></script>
+    <script src="scripts/ui-components/Tiles.js"></script>
+    <script src="scripts/ui-components/Alerts.js"></script>
+    <script src="scripts/ui-components/Sliders.js"></script>
+    <script src="scripts/ui-components/Progressbars.js"></script>
+    <script src="scripts/ui-components/Paginations.js"></script>
+    <script src="scripts/ui-components/Carousel.js"></script>
+    <script src="scripts/ui-components/Tabs.js"></script>
+    <script src="scripts/ui-components/Nestable.js"></script>
+    <script src="scripts/ui-elements/Tables.js"></script>
+    <script src="scripts/ui-elements/Panels.js"></script>
+    <script src="scripts/form/Components.js"></script>
+    <script src="scripts/form/Directives.js"></script>
+    <script src="scripts/form/Validation.js"></script>
+    <script src="scripts/form/Inline.js"></script>
+    <script src="scripts/form/FileUploads.js"></script>
+    <script src="scripts/form/ImageCrop.js"></script>
+    <script src="scripts/table/ngGrid.js"></script>
+    <script src="scripts/table/Editable.js"></script>
+    <script src="scripts/chart/Flot.js"></script>
+    <script src="scripts/chart/SVG.js"></script>
+    <script src="scripts/chart/Canvas.js"></script>
+    <script src="scripts/chart/Inline.js"></script>
+    <script src="scripts/layout/Horizontal.js"></script>
+    <script src="scripts/layout/Boxed.js"></script>
+    <script src="scripts/pages/Controllers.js"></script>
+    <script src="scripts/templates/templates.js"></script>
+    <script src="scripts/templates/overrides.js"></script>
+    <script src="scripts/controllers/Navigation.js"></script>
+    <script src="scripts/controllers/Notifications.js"></script>
+    <script src="scripts/controllers/Messages.js"></script>
+    <script src="scripts/controllers/ColorPicker.js"></script>
+    <script src="scripts/controllers/Dashboard.js"></script>
+    <script src="scripts/controllers/Staff.js"></script>
+    <script src="scripts/controllers/Assessment.js"></script>
+    <script src="scripts/controllers/LineGraphs.js"></script>
+    <script src="scripts/controllers/Benchmarks.js"></script>
+    <script src="scripts/controllers/StackedBarGraphs.js"></script>
+    <script src="scripts/controllers/ImportStateTestData.js"></script>
+    <script src="scripts/controllers/ObservationSummary.js"></script>
+    <script src="scripts/controllers/InterventionGroups.js"></script>
+    <script src="scripts/controllers/InterventionToolkit.js"></script>
+    <script src="scripts/controllers/AvailableAssessments.js"></script>
+    <script src="scripts/controllers/CalendarManagement.js"></script>
+    <script src="scripts/controllers/SectionReports.js"></script>
+    <script src="scripts/controllers/SectionDataEntry.js"></script>
+    <script src="scripts/controllers/InterventionDataEntry.js"></script>
+    <script src="scripts/controllers/Section.js"></script>
+    <script src="scripts/controllers/Student.js"></script>
+    <script src="scripts/controllers/TeamMeetings.js"></script>
+    <script src="scripts/controllers/Login.js"></script>
+    <script src="scripts/controllers/StudentDashboard.js"></script>
+    <script src="scripts/controllers/InterventionDashboard.js"></script>
+    <script src="scripts/controllers/Videos.js"></script>
+    <script src="scripts/controllers/DistrictSettings.js"></script>
+    <script src="scripts/shared/filterOptions.js"></script>
+    <script src="scripts/controllers/PersonalSettings.js"></script>
+    <script src="scripts/controllers/angular-upload.js"></script>
+    <script src="scripts/shared/nsNGRemoteValidate.js"></script>
+    <script src="scripts/app.js"></script>
+
+</body>
+</html>

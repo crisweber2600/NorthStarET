@@ -1,0 +1,87 @@
+﻿<div ng-controller="AssessmentDataExportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Utilities</li>
+            <li>Benchamrk Assessment Data Export (Summary Fields Only)</li>
+        </ol>
+        <h1>Assessment Data Export</h1>
+        <div class="options">
+            <observation-summary-field-chooser></observation-summary-field-chooser>
+        </div>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div style="clear:both"></div>
+    <div class="col-md-12">
+        <ns-help help-field="'HelpPlaceHolder1'" help-format="'html'"></ns-help>
+    </div>
+    <div style="clear:both"></div>
+
+    <div class="col-md-12">
+        <panel panel-class="panel-midnightblue" heading="Create an Assessment Data Export" panel-icon="fa fa-filter">
+            <ns-stacked-bar-graph-custom-group-options tdd-enabled="true" group-factory="groupsFactory" group-name="groupsFactory.name"></ns-stacked-bar-graph-custom-group-options>
+        </panel>
+    </div>
+    
+    <div class="col-md-12" style="margin-bottom:15px;">
+        <button ng-click="getExportData()" class="btn btn-orange"><i class="fa fa-download"></i> Request Data Export</button>
+    </div>
+   
+    <div class="col-md-12">
+
+        <panel panel-class="panel-success" heading="Batch History">
+            <fieldset>
+                <legend>Previously Submitted Jobs</legend>
+                <div ng-if="dataMgr.HistoryItems.length == 0 || !dataMgr.HistoryItems">
+                    <uib-alert type="info">
+                        <b>Note:</b>  No jobs have been submitted yet.
+                    </uib-alert>
+                </div>
+                <div ng-if="dataMgr.HistoryItems.length > 0" class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Status</div>
+                            <div class="ns-table-cell text-center">Started</div>
+                            <div class="ns-table-cell text-center">Completed</div>
+                            <div class="ns-table-cell text-center">Number of Records</div>
+                            <div class="ns-table-cell text-center">Assessment</div>
+                            <div class="ns-table-cell text-center">School Year</div>
+                            <div class="ns-table-cell text-center">Benchmark Date</div>
+                            <div class="ns-table-cell text-center">Uploaded File</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="item in dataMgr.HistoryItems" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveIntervention(intervention)">
+
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-sm" ng-click="deleteHistoryItem(item)"><i class="fa fa-trash"></i></a>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Status">
+                                <span ng-if="item.Status == 'Processing'"><i class="fa fa-spinner fa-spin"></i></span> <span class="badge" ng-class="getStatusClass(item)">{{item.Status}}</span>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Start Date">
+                                {{item.StartDate | nsDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="End Date">
+                                {{item.EndDate | nsDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Assessment">
+                                {{item.RecordsProcessed}}
+                            </div>
+                            <div class="ns-table-cell" data-title="Assessment">
+                                {{item.Assessments}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="School Year">
+                                {{item.SchoolYearVerbose}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="School Year">
+                                {{item.BenchmarkDate | nsDateFormat}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="File">
+                                <button ng-if="item.Status == 'Complete'" ng-click="downloadExportFile(item)" class="btn btn-orange"><i class="fa fa-file-excel-o"></i> Download Export File</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </fieldset>
+        </panel>
+    </div>
+</div>

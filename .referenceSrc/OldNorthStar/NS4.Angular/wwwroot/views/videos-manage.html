@@ -1,0 +1,202 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Videos</li>
+        <li class="active">Manage Videos</li>
+    </ol>
+    <h1>Manage All Videos</h1>
+</div>
+<div class="container-fluid" ng-controller="ManageVideosController">
+    <div class="row">
+        <div class="col-md-12">
+            <ns-error-display></ns-error-display>
+        </div>
+        <div class="col-md-12">
+            <spinner name="tableSpinner">
+                <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <panel panel-class="panel-midnightblue" heading="Manage All Videos">
+                <panel-controls>
+                    <a href="" ng-click="newVideo()">Add New Video <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Play</div>
+                            <div class="ns-table-cell text-center">Title</div>
+                            <div class="ns-table-cell text-center">Uploaded Video File</div>
+                            <div class="ns-table-cell text-center">Grades</div>
+                            <div class="ns-table-cell text-center">Districts</div>
+                            <div class="ns-table-cell text-center">Interventions</div>
+                            <div class="ns-table-cell text-center">Description</div>
+                        </div>
+                        <!-- New Item Form -->
+                        <form ng-if="unsavedVideo != null" shown="true" class="ns-table-row unSavedResult" editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveVideo(unsavedVideo)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-success">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="cancelNewRowEdit(rowform)" class="btn btn-sm btn-default">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Play">
+                                <a href="" ng-click="displayVideoDialog(unsavedVideo, $event)" class="btn btn-orange btn-sm"><i class="fa fa-play-circle"></i> Play</a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Title">
+                                <span editable-text="unsavedVideo.VideoName" e-form="eForm">{{ unsavedVideo.VideoName || '' }}</span>
+                            </div>
+                            <div class="ns-table-cell" data-title="Video File">
+                                <div ng-if="!rowform.$visible">
+                                    <i>{{unsavedVideo.UploadedVideoFile.text}}</i>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.quickSearchVideos" ng-model="unsavedVideo.UploadedVideoFile" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Grades">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="grade in unsavedVideo.Grades" class="badge badge-primary">{{grade.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.GradeQuickSearchRemoteOptions" ng-model="unsavedVideo.Grades" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Districts">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="district in unsavedVideo.Districts" class="badge badge-success">{{district.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.MultiDistrictRemoteOptions" ng-model="unsavedVideo.Districts" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Interventions">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="intervention in unsavedVideo.Interventions" class="badge badge-danger">{{intervention.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.MultiInterventionTypeRemoteOptions" ng-model="unsavedVideo.Interventions" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Description">
+                                <span editable-textarea="unsavedVideo.Description" e-cols="40" e-rows="3" e-form="rowform">{{ unsavedVideo.Description || '' }}</span>
+                            </div>
+                        </form>
+                        <!-- End new item form -->
+                        <form class="ns-table-row" ng-repeat="video in videos" editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveVideo(video)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-sm" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-success">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-sm" ng-click="removeVideo(video)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Play">
+                                <a href="" ng-click="displayVideoDialog(video, $event)" class="btn btn-orange btn-sm"><i class="fa fa-play-circle"></i> Play</a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Title">
+                                <span editable-text="video.VideoName" e-form="eForm">{{ video.VideoName || '' }}</span>
+                            </div>
+                            <div class="ns-table-cell" data-title="Video File">
+                                <div ng-if="!rowform.$visible">
+                                    <i>{{video.UploadedVideoFile.text}}</i>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.quickSearchVideos" ng-model="video.UploadedVideoFile" style="width: 100%" />
+                                </div>
+                            </div>
+
+                            <div class="ns-table-cell" data-title="Grades">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="grade in video.Grades" class="badge badge-primary">{{grade.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.GradeQuickSearchRemoteOptions" ng-model="video.Grades" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Districts">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="district in video.Districts" class="badge badge-success">{{district.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.MultiDistrictRemoteOptions" ng-model="video.Districts" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Interventions">
+                                <div ng-if="!rowform.$visible">
+                                    <span style="margin-right:3px;margin-top:5px;" ng-repeat="intervention in video.Interventions" class="badge badge-danger">{{intervention.text}}</span>
+                                </div>
+                                <div ng-if="rowform.$visible">
+                                    <div ui-select2="nsSelect2RemoteOptions.MultiInterventionTypeRemoteOptions" ng-model="video.Interventions" style="width: 100%" />
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Description">
+                                <span editable-textarea="video.Description" e-cols="40" e-rows="3" e-form="rowform">{{ video.Description || '' }}</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </panel>
+</div>
+    </div>
+    <script type="text/ng-template" id="playVideo.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{selectedVideo.VideoName}}</h3>
+        </div>
+        <div class="modal-body">
+            <div id="currentVideo">
+                <table>
+                    <tr>
+                        <td>
+                            <iframe src="{{getSrc()}}" width="850" height="600" allowFullScreen allowTransparency="true" class="vzaar-video-player" frameborder="0" id="vzaarplayer" mozallowfullscreen name="vzaar" title="vzaar video player" type="text/html" webkitAllowFullScreen></iframe>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{selectedVideo.Description}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times"></i> Close</button>
+        </div>
+    </script>
+</div>
+<style>
+            form.unSavedResult {
+        border: 2px dashed #7dcc93;
+    }
+</style>

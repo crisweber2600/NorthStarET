@@ -1,0 +1,137 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Concepts About Print</a></li>
+        <li class="active">Section Report</li>
+    </ol>
+    <h1> Class</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    Export as <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="CAPSectionReportController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--<tabset panel-tabs="true" panel-class="panel-danger" heading="Current Assessments">
+                <tab>
+                    <tab-heading><i class="fa fa-desktop"></i></tab-heading>
+                    <p>Class Observation Summary.</p>
+                </tab>
+            </tabset>-->
+            <div class="col-md-12" id="nsFilterOptions">
+                <!--<a class="info-tiles tiles-midnightblue" ng-href="" data="item">
+                    <div class="tiles-heading">
+                        <div class="pull-left ng-binding">Filters</div>
+                        <div class="pull-right ng-binding">+25.4%</div>
+                    </div>
+                    <div class="tiles-body">
+                        <div class="pull-left"><i class="fa fa-filter"></i>
+                            School Year | School | Grade | Teacher | Class | Student
+                        </div>
+                    </div>
+                </a>-->
+                <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" student-enabled="false"></ns-filter-options-container-directive>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="nsWhiteCell"><div style="cursor: pointer" ng-click="sort('LastName')"><i class="{{nameHeaderClass}}"></i> Children's Names</div></th>
+                        <th ng-class="$index % 2 == 0 ? 'leftDoubleBorder rightDoubleBorder' : 'nsWhiteCell leftDoubleBorder rightDoubleBorder'" style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="subcat in assessment.FieldSubCategories" colspan="{{subCategoryColSpan(subcat.Id)}}">
+                             {{subcat.DisplayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top !important; width:3.5%" ng-class="$index % 2 == 0 ? ('verticalTd ' + field.cssClass) : ('verticalTd nsWhiteCell ' + field.cssClass)" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="field in HeaderFields" ng-click="sort($index)">
+                            <div class="vertical" style="cursor: pointer;padding-right: 2px" ng-click="sort($index)">{{field.AltDisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="studentResult in studentSectionReportResults | orderBy:sortArray" cap-section-report-table-row headerfields="HeaderFields" studentresult="studentResult" tdds="tdds">
+                    </tr>
+                </tbody>
+            </table>
+            <div test-due-date-footer tdds="tdds">
+            </div>
+        </div>
+    </div>
+    <style ng-repeat="tdd in tdds">
+        .tddBg{{tdd.Id}}
+        {
+            background-color: {{tdd.Hex;}};
+        }
+    </style>
+
+</div>
+<style>
+
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+.vertical {
+  ;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  white-space: nowrap;
+  display: block;
+  bottom: 0;
+  width: 10px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: normal;
+}
+.verticalTd {
+  height: 180px;
+  padding-top: 8px;
+  padding-left: 8px;
+  vertical-align: top;
+}
+.leftDoubleBorder{
+    border-left: 3px solid black !important;
+}
+.rightDoubleBorder{
+    border-right: 3px solid black !important;
+}
+.nsWhiteCell{
+    background-color: white !important;
+}
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+  border: 1px solid black;
+}
+.table-bordered {
+  border: 1px solid black;
+}
+</style>

@@ -1,0 +1,122 @@
+﻿<div ng-controller="StudentConsolidationController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Administration</li>
+            <li class="active">Consolidate Student</li>
+        </ol>
+        <h1>Consolidate Multiple Students Into a Single Student</h1>
+    </div>
+
+    <div class="col-md-12" ng-show="moveSettings.moveComplete">
+        <uib-alert type="success"><b>Success!</b> The student has been consolidated successfully.  <a href="" ng-click="resetForm()">Consolidate Another?</a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-show="!moveSettings.moveComplete">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <div ng-if="checkSameUser()">
+                <uib-alert type="warning"><b>Warning!</b> These students have different first and/or last names.  Are you 100% sure you are consolidating the same person? (NOT COMMON)</uib-alert>
+            </div>
+            <div ng-if="moveSettings.studentPrimary.id == moveSettings.studentSecondary.id && moveSettings.studentPrimary != null">
+                <uib-alert type="warning"><b>Warning!</b> These students have the same ID.  You cannot consolidate the same student.</uib-alert>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div style="width:800px">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select First Student (properties of this student will be used for consolidated student):</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStudent" ng-model="moveSettings.studentPrimary" />
+                </div>
+                <div ng-if="moveSettings.studentPrimary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemDetail">
+                        <h3><strong>{{moveSettings.studentPrimary.LastName}}, {{moveSettings.studentPrimary.FirstName}} ({{moveSettings.studentPrimary.StudentIdentifier}})</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Internal ID</td>
+                                    <td>{{moveSettings.studentPrimary.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Student Key</td>
+                                    <td>{{moveSettings.studentPrimary.StudentIdentifier}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="text-align:center">
+            <div style="width:600px;">
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:800px;">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select Second Student to Consolidate (attributes of this student will be lost):</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStudent" ng-model="moveSettings.studentSecondary" />
+                </div>
+                <div ng-if="moveSettings.studentSecondary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemTargetDetail">
+                        <h3><strong>{{moveSettings.studentSecondary.LastName}}, {{moveSettings.studentSecondary.FirstName}} ({{moveSettings.studentSecondary.StudentIdentifier}})</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Internal ID</td>
+                                    <td>{{moveSettings.studentSecondary.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Student Key</td>
+                                    <td>{{moveSettings.studentSecondary.StudentIdentifier}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="padding-top:20px;">
+            <button ng-disabled="moveSettings.studentPrimary.id == moveSettings.studentSecondary.id" type="button" ng-click="processMove()" class="btn btn-primary"><i class="fa fa-check"></i> Process Consolidation</button>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .selectedItemDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #4697ce;
+    }
+
+        .selectedItemDetail h3 {
+            color: white;
+        }
+
+    .selectedItemTargetDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #7dcc93;
+    }
+
+        .selectedItemTargetDetail h3 {
+            color: white;
+        }
+
+    .select2OptGroupHeader {
+        border-bottom: 1px solid #888888;
+    }
+</style>

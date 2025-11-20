@@ -1,0 +1,27 @@
+﻿<h2>{{ assessment.AssessmentName }}</h2>
+
+<div >
+	<div class="field row">
+		<div class="span2">Assessment ID:</div>
+		<div class="span4">{{ assessment.Id }}</div>
+	</div>
+	
+		<div ng-repeat="field in assessment.Fields">
+			<assessment-field field="field" all-fields="assessment.Fields"></assessment-field>
+		</div>
+	
+
+	<div class="form-actions">
+		<p class="text-center">
+			<button class="btn btn-success right" type="button" ng-disabled="!myForm.$valid" ng-click="submit()"><i class="icon-edit icon-white"></i> Submit Form</button>
+			<button class="btn btn-danger right" type="button" ng-click="cancel()"><i class="icon-remove icon-white"></i> Cancel</button>
+		</p>
+	</div>
+</div>
+<div >
+	<h3>Submitted Data</h3>
+	<div b="field in form.form_fields">
+		Field Title:  field.field_title  <br>
+		Field Value:  field.field_value  <br><br>
+	</div>
+</div>

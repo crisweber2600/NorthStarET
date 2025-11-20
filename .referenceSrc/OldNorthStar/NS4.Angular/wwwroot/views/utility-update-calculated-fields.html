@@ -1,0 +1,37 @@
+﻿<div ng-controller="UpdateCalculatedFieldsController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/">System</a></li>
+            <li>Update Calculated Fields</li>
+            <li class="active">Minnesota</li>
+        </ol>
+        <h1>Update Calculated Fields for Letter ID</h1>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div class="col-md-12">
+        <uib-alert ng-show="settings.uploadComplete" type="success"><b>Note:</b> Job Complete!</uib-alert>
+    </div>
+    <div style="clear:both"></div>
+    <div class="container-fluid">
+        <panel panel-class="panel-midnightblue" heading="Process Data">
+            <button class="btn btn-primary" type="button" value="update"  ng-click="run()"><i class="fa fa-gear"></i> Run Update</button>
+        </panel>
+    </div>
+</div>
+<style>
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+
+    /*.select2-container.ng-invalid > a {
+        border-color: #D44950 !important;
+    }*/
+</style>

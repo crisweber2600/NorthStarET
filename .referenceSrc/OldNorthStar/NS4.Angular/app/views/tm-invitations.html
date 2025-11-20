@@ -1,0 +1,131 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/tm-manage">Team Meetings</a></li>
+        <li class="active">Manage Team Meeting Invitations</li>
+    </ol>
+    <h1>Manage Team Meeting Invitations</h1>
+
+</div>
+<ns-error-display></ns-error-display>
+<div class="container-fluid" ng-controller="TeamMeetingInvitationController">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Manage Team Meeting Invitations">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="nsCenterAlignedText">Select All<br />
+                                <switch ng-model="meeting.SelectAll" ng-change="toggleAllSelected()"></switch>
+                            </th>
+                            <th class="nsCenterAlignedText" style="vertical-align:top">Staff</th>
+                            <th class="nsCenterAlignedText">
+                                Attended Meeting<br />
+                                <switch ng-model="meeting.AllAttended" ng-change="toggleAllAttended()"></switch>
+                            </th>
+                            <th class="nsCenterAlignedText">
+                                Include All Students in Invitation?
+                                <br />
+                                <switch ng-model="meeting.AllInclude" ng-change="toggleIncludeAllStudents()"></switch>
+                            </th>
+                            <th class="nsCenterAlignedText" style="vertical-align:top">Date Invitation Sent</th>
+                            <th class="nsCenterAlignedText" style="vertical-align:top">
+                                Preview Invitation
+                            </th>
+                            <th class="nsCenterAlignedText" style="vertical-align:top">
+                                Send Invitation     <br />
+                                <button style="margin: 5px 0px;" ng-click="sendSelectedInvites()" class="btn btn-xs btn-default"><i class="fa fa-check-square-o"></i> Invite Selected</button>        
+                            </th>
+                            <th class="nsCenterAlignedText" style="vertical-align:top">
+                                Send Meeting Concluded Notice  
+                                <br />
+                                <button style="margin: 5px 0px;" ng-click="sendSelectedConcluded()" class="btn btn-xs btn-default"><i class="fa fa-check-square-o"></i> Notify Selected</button>                                  
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="attendance in meeting.TeamMeetingAttendances">
+                            <td class="nsCenterAlignedText">
+                                <switch ng-model="attendance.Selected"></switch>
+                            </td>
+                            <td>
+                                {{::attendance.Staff.LastName}}, {{::attendance.Staff.FirstName}}
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <switch ng-model="attendance.Attended" ng-change="saveSingleTeamMeetingAttendance(attendance)"></switch>
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <switch ng-model="attendance.IncludeAllStudents" ng-change="saveSingleTeamMeetingAttendance(attendance)"></switch>
+                            </td>
+                            <td>
+                                {{::attendance.NoticeSent | nsLongDateFormatWithTime}}
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-primary btn-xs" ng-click="openDemoModal(attendance.StaffID)"><i class="fa fa-eye"></i> Preview</a>
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-primary btn-xs" ng-click="sendInvite(attendance.StaffID)"><i class="fa fa-envelope-o"></i> Invite</a>
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-primary btn-xs" ng-click="sendConcluded(attendance.StaffID)"><i class="fa fa-envelope"></i> Notify</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="display:none">
+                    <div id="emailTemplate" ng-if="status.sendEmailMode == true">
+                        <ns-observation-summary-tm selected-benchmark-date-id="meeting.TestDueDateId" selected-team-meeting-id="meeting.ID" selected-staff-id="meeting.selectedStaffId"></ns-observation-summary-tm>
+                    </div>
+                </div>
+                <script type="text/ng-template" id="demoModalContent.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Email Preview</h3>
+                    </div>
+                    <div class="modal-body" style="max-height:600px;overflow-x:scroll;overflow-y:scroll;">
+                        <span ng-bind-html="meeting.previewHtml | safe_html"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+                        <button class="btn btn-success" ng-click="sendInvite(meeting.selectedStaffId)"><i class="fa fa-envelope"></i> Send Email</button>
+                    </div>
+                </script>
+            </panel>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .modal-content{
+    }
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+            .switch.checked small {
+            left: 15px !important;
+        }
+
+        .switch small {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
+        .switch {
+            width: 35px !important;
+            height: 20px !important;
+        }
+
+        .switchLabel {
+            padding-left: 5px;
+            font-size: 16px;
+        }
+</style>

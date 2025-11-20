@@ -1,0 +1,98 @@
+﻿.hidden-print {
+    display: none !important;
+}
+.btn-toolbar {
+    display:none;
+}
+header.navbar {
+    display: none;
+}
+.breadcrumb {
+    display: none;
+}
+
+#mainfilter {
+    display:none;
+}
+
+    #page-leftbar {
+        width: 0px !important;
+        display: none !important;
+    }
+
+    body.collapse-leftbar #page-leftbar {
+        width: 0px;
+        display: none !important;
+    }
+
+    body.show-leftbar #page-content, body.collapse-leftbar #page-content, div#page-content, #page-content {
+        margin-left: 0px !important;
+    }
+
+    #page-container {
+        background-color: transparent !important;
+    }
+
+    #page-leftbar {
+        background-color: transparent !important;
+    }
+
+
+    #nsFilterOptions {
+        display: none;
+    }
+
+    #nsNoSelectionsMessage {
+        display: none;
+    }
+
+    #wrap {
+        overflow: visible;
+    }
+
+    body {
+        padding-top: 0px;
+        width: 100%;
+        margin: 0;
+        font-size: 16px;
+    }
+    .vertical {
+        font-size: 14px !important;
+    }
+    .verticalTd {
+        height: 200px !important;
+    }
+    .badge {font-size: 10px;}
+
+    #page-heading h1 {
+        padding: 15px 0px 0px 20px;
+    }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px 1px;
+    }
+
+    footer {
+        display: none;
+    }
+
+    #wrap > .container-fluid {
+        padding: 0px;
+    }
+
+    .badge {
+        padding: 2px 4px;
+    }
+
+    #page-content {
+        min-height: initial !important;
+    }
+        .jumboText {
+        font-size: 22pt;
+        line-height: 1 !important;
+        padding: 0px 1px !important;
+    }
+
+            .breaker {
+        page-break-after: always;
+}

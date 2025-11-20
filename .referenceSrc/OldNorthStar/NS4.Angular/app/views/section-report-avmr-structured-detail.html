@@ -1,0 +1,106 @@
+﻿<div ng-controller="AVMRSingleDateDetailSectionReportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>{{assessment.AssessmentName}}</li>
+            <li class="active">Detail Report</li>
+        </ol>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="true" print-multi-page="false" sort-array="sortArray" fit-viewer-height="" fit-width="" html-viewer-height="1300" html-viewer-width="1900" stretch-to-fit=""></print-button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12" id="nsFilterOptions">
+                    <ns-filter-options-container-directive benchmark-date-enabled="true" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+                </div>
+                <div class="col-md-12">
+                    <standard-report-header heading="'AVMR Structured Detail Report: ' + detailReportMgr.subCategory.DisplayName + ' / ' + detailReportMgr.groupContainer.DisplayName + ' / ' + detailReportMgr.altDisplayLabel" options="filterOptions"></standard-report-header>
+                </div>
+                <div class="col-md-12">
+                    <div avmr-detail detail-report-mgr="detailReportMgr" display-text-areas="true"></div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .selectedDateBg {
+                background-color:;
+
+            {
+
+            {
+                filterOptions .selectedBenchmarkDate.Hex;
+            }
+
+            }
+            ;
+            }
+        </style>
+    </div>
+
+</div>
+<style>
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .vertical {
+        ;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 80px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

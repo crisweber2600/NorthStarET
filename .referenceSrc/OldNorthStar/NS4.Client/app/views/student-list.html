@@ -1,0 +1,50 @@
+﻿<div ng-controller="StudentListController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Students</li>
+            <li class="active">Manage Students</li>
+        </ol>
+        <h1>Manage Students</h1>
+    </div>
+    <div class="col-md-12 ng-scope">
+        <ns-filter-options-container-directive student-quick-search-enabled="true" quick-search-callback="processQuickSearchStudent" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <panel panel-class="panel-midnightblue" heading="Manage Students">
+            <panel-controls>
+                <a href="#/student-addedit/-1">Add Student <i class="fa fa-plus"></i></a>
+            </panel-controls>
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                        <th><div style="cursor: pointer" ng-click="sort('LastName')">Last Name <i class="{{sortClasses['LastName']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('FirstName')">First Name <i class="{{sortClasses['FirstName']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('MiddleName')">Middle Name <i class="{{sortClasses['MiddleName']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('StudentIdentifier')">Student ID <i class="{{sortClasses['StudentIdentifier']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('DOB')">Date of Birth <i class="{{sortClasses['DOB']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('RegisteredForCurrentYear')">Enrolled This Year? <i class="{{sortClasses['RegisteredForCurrentYear']}}"></i></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students | orderBy: sortColumns.column">
+                        <td>
+                            <a class="btn btn-sm btn-danger" ng-click="deleteStudent(student.Id)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="#/student-addedit/{{::student.Id}}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                        <td>{{::student.LastName}}</td>
+                        <td>{{::student.FirstName}}</td>
+                        <td>{{::student.MiddleName}}</td>
+                        <td>{{::student.StudentIdentifier}}</td>
+                        <td>{{::student.DOB | nsDateFormat}}</td>
+                        <td>{{::student.RegisteredForCurrentYear}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </panel>
+    </div>
+</div>

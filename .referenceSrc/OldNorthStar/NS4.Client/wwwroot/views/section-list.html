@@ -1,0 +1,67 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Sections</a></li>
+        <li class="active">Manage Sections</li>
+    </ol>
+    <h1>Manage Sections</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    Export as <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 ng-scope">
+    <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true"></ns-filter-options-container-directive>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-primary" heading="Sections">
+                <panel-controls>
+                    <a href="#/section-addedit/-1">Add Section <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                    <table class="table table-striped" ng-controller="SectionListController">
+                        <thead>
+                            <tr>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Grade</th>
+                                <th>Section Name</th>
+                                <th>Primary Teacher</th>
+                                <th>Number of Students</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="section in sections">
+                                <td>
+                                    <a class="btn btn-primary" href="#/section-addedit/{{::section.Id}}"><i class="fa fa-pencil"></i></a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" ng-click="deleteSection(section.Id)"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                                <td>{{::section.Grade}}</td>
+                                <td>{{::section.Name}}</td>
+                                <td>{{::section.PrimaryTeacher}}</td>
+                                <td>{{::section.NumStudents}}</td>
+                                <td>{{::section.Description}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </panel>
+            </div>
+    </div>
+</div>

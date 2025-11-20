@@ -1,0 +1,404 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Administration</li>
+        <li>Intervention Groups</li>
+        <li class="active">Manage Intervention Attendance</li>
+    </ol>
+    <h1>Intervention Attendance</h1>
+
+</div>
+
+<div class="container-fluid" ng-controller="InterventionGroupAttendanceController">
+    <div class="col-md-12">
+        <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" intervention-group-enabled="true" interventionist-enabled="true"></ns-filter-options-container-directive>
+
+    </div>
+    <div style="clear: both;"></div>
+    <div ng-hide="showResults()">
+        <uib-alert type="info">Please select an interventionist</uib-alert>
+    </div>
+    <div ng-if="showResults()">
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-default btn-lg pull-right" ng-click="changeWeek(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i> Previous Week</button>
+            </div>
+            <div class="col-xs-4">
+                <div daterangepicker="drp_options" date-begin="drp_start" date-end="drp_start" class="pull-right" style="background: #fff; cursor: pointer; padding: 10px 10px; border: 1px solid #ccc; width: 100%">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                    <span class="font" style="margin-left: 5px;font-size:16px;font-weight:bold;">{{computedMonday}} <i class="fa fa-arrow-right"></i> {{computedFriday}}</span>  <b class="caret"></b>
+                </div>
+                <!--<div class="input-group">
+                    <input type="date" class="form-control" ng-model="dt" datepicker-popup is-open="opened" show-weeks="null" date-disabled="disabled(date, mode)" close-text="Close"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>-->
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-default btn-lg pull-left" ng-click="changeWeek(1)" tabindex="-1">Next Week <i class="glyphicon glyphicon-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="form-group" style="min-height:350px;overflow-x:auto">
+            <spinner name="tableSpinner">
+                <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <table class="table table-striped frozenheader table-bordered table-ns-attendance">
+                <thead>
+                    <tr>
+                        <th class="nsCenterAlignedText nsStandoutHeader">Student</th>
+                        <th class="nsCenterAlignedText nsStandoutHeader">Intervention Group</th>
+                        <th class="nsCenterAlignedText nsStandoutHeader">Start </th>
+                        <th class="nsCenterAlignedText nsStandoutHeader" style="border-right-width:5px;">End</th>
+                        <th ng-repeat="date in weekdays" class="nsCenterAlignedText nsStandoutHeader">
+                            {{::date.DayOfWeek}}
+                            <br />
+                            <div style="font-weight:normal;margin-bottom:8px;">{{::date.LongDate}}</div>
+                            Status:<br />
+                            <select ng-options="reason for reason in attendanceReasons" ng-model="date.Status">
+                                <option value="">-- choose status --</option>
+                            </select>
+                            <br />
+                            Notes:<br />
+                            <textarea ng-model="date.Notes"></textarea>
+                            <br />
+                            <button ng-click="applyStatusNotes(date)">Apply All</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="attendanceData.length == 0">
+                        <td colspan="9">
+                            <uib-alert type="info"><b>Note:</b> No students are in any intervention groups during this time frame.</uib-alert>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="studentResult in attendanceData">
+                        <td>{{::studentResult.Student}}</td>
+                        <td>{{::studentResult.SectionName}}</td>
+                        <td>{{::studentResult.InterventionStart}}</td>
+                        <td style="border-right-width:5px;">{{::studentResult.InterventionEnd}}</td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <attendance-badge ng-show="!mondayForm.$visible" day-status="studentResult.MondayStatus"></attendance-badge>
+                                        <select ng-show="mondayForm.$visible" ng-options="reason for reason in attendanceReasons" ng-model="studentResult.MondayStatusTemp">
+                                            <option value="">-- choose status --</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Notes:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span editable-textarea="studentResult.MondayNotes" e-rows="3" e-cols="25" e-form="mondayForm">
+                                            {{ studentResult.MondayNotes || 'none' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button ng-click="cellEnterEditMode(mondayForm, studentResult, 'MondayStatus')" ng-show="!mondayForm.$visible && studentResult.MondayCanEdit === true" title="edit" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-edit"></i> edit</button>
+                                        <button ng-click="saveSingleAttendanceDelivered(studentResult, 'MondayStatus', studentResult.StartEndDateID, studentResult.MondayStatus, studentResult.MondayNotes, weekdays[0].Date, studentResult.StudentID, studentResult.SectionID)" ng-show="!mondayForm.$visible && studentResult.MondayCanEdit === true && studentResult.MondayStatus != 'Intervention Delivered'" title="Shortcut to set intervention delivered" class="btn btn-xs btn-green"><i class="fa fa-fw fa-check-square-o"></i> Set Delivered</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="mondayForm.$visible">
+                                    <td>
+                                        <form editable-form name="mondayForm" onaftersave="saveSingleAttendance(studentResult, 'MondayStatus', studentResult.StartEndDateID, studentResult.MondayStatus, studentResult.MondayNotes, weekdays[0].Date, studentResult.StudentID, studentResult.SectionID)">
+                                            <button type="submit" ng-disabled="mondayForm.$waiting" class="btn btn-sm btn-success">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                            <button type="button" ng-disabled="mondayForm.$waiting" ng-click="mondayForm.$cancel()" class="btn btn-sm btn-default">
+                                                <i class="fa fa-times-circle"></i> Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <attendance-badge ng-show="!tuesdayForm.$visible" day-status="studentResult.TuesdayStatus"></attendance-badge>
+                                        <select ng-show="tuesdayForm.$visible" ng-options="reason for reason in attendanceReasons" ng-model="studentResult.TuesdayStatusTemp">
+                                            <option value="">-- choose status --</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Notes:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span editable-textarea="studentResult.TuesdayNotes" e-rows="3" e-cols="25" e-form="tuesdayForm">
+                                            {{ studentResult.TuesdayNotes || 'none' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button ng-click="cellEnterEditMode(tuesdayForm, studentResult, 'TuesdayStatus')" ng-show="!tuesdayForm.$visible && studentResult.TuesdayCanEdit === true" title="edit" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-edit"></i> edit</button>
+                                        <button ng-click="saveSingleAttendanceDelivered(studentResult, 'TuesdayStatus', studentResult.StartEndDateID, studentResult.TuesdayStatus, studentResult.TuesdayNotes, weekdays[1].Date, studentResult.StudentID, studentResult.SectionID)" ng-show="!tuesdayForm.$visible && studentResult.TuesdayCanEdit === true && studentResult.TuesdayStatus != 'Intervention Delivered'" title="Shortcut to set intervention delivered" class="btn btn-xs btn-green"><i class="fa fa-fw fa-check-square-o"></i> Set Delivered</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="tuesdayForm.$visible">
+                                    <td>
+                                        <form editable-form name="tuesdayForm" onaftersave="saveSingleAttendance(studentResult, 'TuesdayStatus', studentResult.StartEndDateID, studentResult.TuesdayStatus, studentResult.TuesdayNotes, weekdays[1].Date, studentResult.StudentID, studentResult.SectionID)">
+                                            <button type="submit" ng-disabled="tuesdayForm.$waiting" class="btn btn-success">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                            <button type="button" ng-disabled="tuesdayForm.$waiting" ng-click="tuesdayForm.$cancel()" class="btn btn-default">
+                                                <i class="fa fa-times-circle"></i> Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <attendance-badge ng-show="!wednesdayForm.$visible" day-status="studentResult.WednesdayStatus"></attendance-badge>
+                                        <select ng-show="wednesdayForm.$visible" ng-options="reason for reason in attendanceReasons" ng-model="studentResult.WednesdayStatusTemp">
+                                            <option value="">-- choose status --</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Notes:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span editable-textarea="studentResult.WednesdayNotes" e-rows="3" e-cols="25" e-form="wednesdayForm">
+                                            {{ studentResult.WednesdayNotes || 'none' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button ng-click="cellEnterEditMode(wednesdayForm, studentResult, 'WednesdayStatus')" ng-show="!wednesdayForm.$visible && studentResult.WednesdayCanEdit === true" title="edit" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-edit"></i> edit</button>
+                                        <button ng-click="saveSingleAttendanceDelivered(studentResult, 'WednesdayStatus', studentResult.StartEndDateID, studentResult.WednesdayStatus, studentResult.WednesdayNotes, weekdays[2].Date, studentResult.StudentID, studentResult.SectionID)" ng-show="!wednesdayForm.$visible && studentResult.WednesdayCanEdit === true && studentResult.WednesdayStatus != 'Intervention Delivered'" title="Shortcut to set intervention delivered" class="btn btn-xs btn-green"><i class="fa fa-fw fa-check-square-o"></i> Set Delivered</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="wednesdayForm.$visible">
+                                    <td>
+                                        <form editable-form name="wednesdayForm" onaftersave="saveSingleAttendance(studentResult, 'WednesdayStatus', studentResult.StartEndDateID, studentResult.WednesdayStatusTemp, studentResult.WednesdayNotes, weekdays[2].Date, studentResult.StudentID, studentResult.SectionID)">
+                                            <button type="submit" ng-disabled="wednesdayForm.$waiting" class="btn btn-success">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                            <button type="button" ng-disabled="wednesdayForm.$waiting" ng-click="wednesdayForm.$cancel()" class="btn btn-default">
+                                                <i class="fa fa-times-circle"></i> Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <attendance-badge ng-show="!thursdayForm.$visible" day-status="studentResult.ThursdayStatus"></attendance-badge>
+                                        <select ng-show="thursdayForm.$visible" ng-options="reason for reason in attendanceReasons" ng-model="studentResult.ThursdayStatusTemp">
+                                            <option value="">-- choose status --</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Notes:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span editable-textarea="studentResult.ThursdayNotes" e-rows="3" e-cols="25" e-form="thursdayForm">
+                                            {{ studentResult.ThursdayNotes || 'none' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button ng-click="cellEnterEditMode(thursdayForm, studentResult, 'ThursdayStatus')" ng-show="!thursdayForm.$visible && studentResult.ThursdayCanEdit === true" title="edit" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-edit"></i> edit</button>
+                                        <button ng-click="saveSingleAttendanceDelivered(studentResult, 'ThursdayStatus', studentResult.StartEndDateID, studentResult.ThursdayStatus, studentResult.ThursdayNotes, weekdays[3].Date, studentResult.StudentID, studentResult.SectionID)" ng-show="!thursdayForm.$visible && studentResult.ThursdayCanEdit === true && studentResult.ThursdayStatus != 'Intervention Delivered'" title="Shortcut to set intervention delivered" class="btn btn-xs btn-green"><i class="fa fa-fw fa-check-square-o"></i> Set Delivered</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="thursdayForm.$visible">
+                                    <td>
+                                        <form editable-form onaftersave="saveSingleAttendance(studentResult, 'ThursdayStatus', studentResult.StartEndDateID, studentResult.ThursdayStatus, studentResult.ThursdayNotes, weekdays[3].Date, studentResult.StudentID, studentResult.SectionID)" name="thursdayForm">
+                                            <button type="submit" ng-disabled="thursdayForm.$waiting" class="btn btn-success">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                            <button type="button" ng-disabled="thursdayForm.$waiting" ng-click="thursdayForm.$cancel()" class="btn btn-default">
+                                                <i class="fa fa-times-circle"></i> Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><b>Status:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <attendance-badge ng-show="!fridayForm.$visible" day-status="studentResult.FridayStatus"></attendance-badge>
+                                        <select ng-show="fridayForm.$visible" ng-options="reason for reason in attendanceReasons" ng-model="studentResult.FridayStatusTemp">
+                                            <option value="">-- choose status --</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Notes:</b></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span editable-textarea="studentResult.FridayNotes" e-rows="3" e-cols="25" e-form="fridayForm">
+                                            {{ studentResult.FridayNotes || 'none' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button ng-click="cellEnterEditMode(fridayForm, studentResult, 'FridayStatus')" ng-show="!fridayForm.$visible && studentResult.FridayCanEdit === true" title="edit" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-edit"></i> edit</button> 
+                                        <button ng-click="saveSingleAttendanceDelivered(studentResult, 'FridayStatus', studentResult.StartEndDateID, studentResult.FridayStatus, studentResult.FridayNotes, weekdays[4].Date, studentResult.StudentID, studentResult.SectionID)" ng-show="!fridayForm.$visible && studentResult.FridayCanEdit === true && studentResult.FridayStatus != 'Intervention Delivered'" title="Shortcut to set intervention delivered" class="btn btn-xs btn-green"><i class="fa fa-fw fa-check-square-o"></i> Set Delivered</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="fridayForm.$visible">
+                                    <td>
+                                        <form editable-form onaftersave="saveSingleAttendance(studentResult, 'FridayStatus', studentResult.StartEndDateID, studentResult.FridayStatus, studentResult.FridayNotes, weekdays[4].Date, studentResult.StudentID, studentResult.SectionID)" name="fridayForm">
+                                            <button type="submit" ng-disabled="fridayForm.$waiting" class="btn btn-success">
+                                                <i class="fa fa-save"></i> Save
+                                            </button>
+                                            <button type="button" ng-disabled="fridayForm.$waiting" ng-click="fridayForm.$cancel()" class="btn btn-default">
+                                                <i class="fa fa-times-circle"></i> Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <style>
+        .container {
+            width: 100%;
+            margin: auto;
+        }
+
+        thead tr {
+            background-color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .fixed {
+            top: 40px;
+            position: fixed;
+            width: auto;
+            display: none;
+            border: none;
+        }
+        .daterangepicker .calendar tr:hover td.available {
+            background-color:#eee;
+        }
+    </style>
+
+    <script>
+        ; (function ($) {
+            //floating header
+        //$.fn.fixMe = function () {
+        //    return this.each(function () {
+        //        var $this = $(this),
+        //           $t_fixed;
+        //        function init() {
+        //            $this.wrap('<div class="container" />');
+        //            $t_fixed = $this.clone();
+        //            $t_fixed.find("tbody").remove().end().addClass("fixed").insertBefore($this);
+        //            resizeFixed();
+        //        }
+        //        function resizeFixed() {
+        //            $t_fixed.find("th").each(function (index) {
+        //                $(this).css("width", $this.find("th").eq(index).outerWidth() + "px");
+        //            });
+        //        }
+        //        function scrollFixed() {
+        //            var offset = $(this).scrollTop(),
+        //            tableOffsetTop = $this.offset().top,
+        //            tableOffsetBottom = tableOffsetTop + $this.height() - $this.find("thead").height();
+        //            if (offset < tableOffsetTop || offset > tableOffsetBottom)
+        //                $t_fixed.hide();
+        //            else if (offset >= tableOffsetTop && offset <= tableOffsetBottom && $t_fixed.is(":hidden"))
+        //                $t_fixed.show();
+        //        }
+        //        $(window).resize(resizeFixed);
+        //        $(window).scroll(scrollFixed);
+        //        init();
+        //    });
+        //};
+        var a = $('.daterangepicker table.table-condensed tr');
+        a.on('mousemove', 'td',
+            function () {
+                $(this).find('td').addClass('hoverbg1');
+            });
+        //$('.daterangepicker table.table-condensed tr').on('mousemove', 'td', function () { $(this).find('td').addClass('hoverbg1'); });
+        //$('.daterangepicker table.table-condensed tr').on('mouseleave', 'td', function () { $(this).removeClass('hoverbg1'); });
+    })(jQuery);
+
+    //$(document).ready(function () {
+    //    $("table.frozenheader").fixMe();
+    //});
+    </script>
+<style>
+    .hoverbg1 {background-color: yellow}
+    .table-bordered.table-ns-attendance > thead > tr > th, .table-bordered.table-ns-attendance > tbody > tr > td, .table-bordered.table-ns-attendance {
+        border: 1px solid #000;
+    }
+    .table-bordered.table-ns-attendance > tbody > tr > td, .table-bordered.table-ns-attendance > thead > tr > th {
+        padding: 5px 5px;
+    }
+     .table-bordered.table-ns-attendance > thead > tr > th {
+         border-bottom: 3px solid #000;
+     }
+     .nsStandoutHeader {
+         background-color: #4697ce;
+         color: white;
+     }
+     .nsStandoutHeader input, .nsStandoutHeader button, .nsStandoutHeader textarea, .nsStandoutHeader select {
+         color: black; font-weight:normal;
+     }
+</style>

@@ -1,0 +1,353 @@
+﻿<div ng-controller="PLCInterventionPlanningController">
+
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li class="active">PLC Intervention Planning</li>
+        </ol>
+        <h1 class="hidden-print">PLC Intervention Planning</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="true" print-multi-page="false" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit="false"></print-button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-12 ng-scope" id="nsFilterOptions">
+                    <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true"></ns-filter-options-container-directive>
+                </div>
+                <div class="col-md-12">
+                    <standard-report-header heading="filterOptions.selectedSchool.text + ' - ' + filterOptions.selectedGrade.text + ' Grade PLC Intervention Planning'" options="filterOptions"></standard-report-header>
+                </div>
+                <uib-tabset tab-theme="orange">
+                    <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                        <uib-tab-heading>
+                            <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{tdd.Hex}}"></div></div><div class="col-md-10">{{tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                        </uib-tab-heading>
+                    </uib-tab>
+                </uib-tabset>
+                <div style="min-height:350px;" ng-show="filterOptions.selectedSchool == null || filterOptions.selectedBenchmarkDate == null || filterOptions.selectedGrade == null">
+                    <uib-alert type="info"><b>Note:</b> Please select a school, grade and benchmark date to view the report.</uib-alert>    
+                </div>
+                    <div style="min-height:350px;" ng-show="filterOptions.selectedSchool != null && filterOptions.selectedBenchmarkDate != null && filterOptions.selectedGrade != null">
+                        <spinner name="tableSpinner">
+                            <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                                <div class="sk-cube-grid">
+                                    <div class="sk-cube sk-cube1"></div>
+                                    <div class="sk-cube sk-cube2"></div>
+                                    <div class="sk-cube sk-cube3"></div>
+                                    <div class="sk-cube sk-cube4"></div>
+                                    <div class="sk-cube sk-cube5"></div>
+                                    <div class="sk-cube sk-cube6"></div>
+                                    <div class="sk-cube sk-cube7"></div>
+                                    <div class="sk-cube sk-cube8"></div>
+                                    <div class="sk-cube sk-cube9"></div>
+                                </div>
+                            </div>
+                        </spinner>
+       
+                        <table class="table table-bordered  table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Classroom and Number of Students</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Gen Ed*</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Sp Ed*</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Title*</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">EL*</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">GT*</div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Co-teachers</div></th>
+                                    <!--<th class="nsCenterAlignedText"><div style="cursor: pointer">Tier 3<br /><small>5-7 min daily 1-1 interventions (ex: reading or writing conferences)</small></div></th>
+                                    <th class="nsCenterAlignedText"><div style="cursor: pointer">Tier 2<br /><small>30-45 min reading, writing and word study (Ex: RR, LLI, LL)</small></div></th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="classResult in report.PLCSectionInfoList">
+                                    <td style="vertical-align:top">
+                                        <div style="font-size:14pt;font-weight:bold;">{{::classResult.TeacherName}} - <span>{{::classResult.StudentCount}}</span></div>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        <b>Total:</b> <span>{{::getResultCount(classResult.GenEdResults)}}</span><br />
+                                        <span style="cursor:pointer" ng-click="summaryPopup(score.ScoreGrouping, score.DueDate, 'GenEd', false, classResult.SectionId, classResult.StaffId)" class="badge" ng-class="::badgeClass(score.ScoreGrouping)" ng-repeat="score in classResult.GenEdResults" ng-show="score.NumberOfResults > 0">
+                                            {{score.NumberOfResults}}
+                                        </span>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        <b>Total:</b> <span>{{::getResultCount(classResult.SpEdResults)}}</span><br />
+                                        <span style="cursor:pointer" class="badge" ng-click="summaryPopup(score.ScoreGrouping, score.DueDate, 'SpEd', false, classResult.SectionId, classResult.StaffId)"  ng-class="::badgeClass(score.ScoreGrouping)" ng-repeat="score in classResult.SpEdResults" ng-show="score.NumberOfResults > 0">
+                                            {{score.NumberOfResults}}
+                                        </span>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        <b>Total:</b> <span>{{::getResultCount(classResult.T1Results)}}</span><br />
+                                        <span style="cursor:pointer" class="badge" ng-click="summaryPopup(score.ScoreGrouping, score.DueDate, 'Title', false, classResult.SectionId, classResult.StaffId)"  ng-class="::badgeClass(score.ScoreGrouping)" ng-repeat="score in classResult.T1Results" ng-show="score.NumberOfResults > 0">
+                                            {{score.NumberOfResults}}
+                                        </span>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        <b>Total:</b> <span>{{::getResultCount(classResult.ELResults)}}</span><br />
+                                        <span style="cursor:pointer" class="badge" ng-click="summaryPopup(score.ScoreGrouping, score.DueDate, 'EL', false, classResult.SectionId, classResult.StaffId)"  ng-class="::badgeClass(score.ScoreGrouping)" ng-repeat="score in classResult.ELResults" ng-show="score.NumberOfResults > 0">
+                                            {{score.NumberOfResults}}
+                                        </span>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        <b>Total:</b> <span>{{::getResultCount(classResult.GTResults)}}</span><br />
+                                        <span style="cursor:pointer" class="badge" ng-click="summaryPopup(score.ScoreGrouping, score.DueDate, 'GT', false, classResult.SectionId, classResult.StaffId)"  ng-class="::badgeClass(score.ScoreGrouping)" ng-repeat="score in classResult.GTResults" ng-show="score.NumberOfResults > 0">
+                                            {{score.NumberOfResults}}
+                                        </span>
+                                    </td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top">
+                                        {{::CoTeachers}}
+                                    </td>
+                                    <!--<td class="nsCenterAlignedText" style="vertical-align:top"></td>
+                                    <td class="nsCenterAlignedText" style="vertical-align:top"></td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <small style="width: 100%">Click on the individual numbers to see student details.  Students may be part of more than one group.</small><br />
+                            <b><i>* Numbers represent the number of children in each BAS Level<br /></i></b>
+                            <span class="badge badge-primary">Blue- Exceeds Expectations</span> <span class="badge badge-success">Green- Meets Expectations</span> <span class="badge badge-warning">Yellow - Partially Meets Expectations</span> <span class="badge badge-danger">Red - Does Not Meet Expectations</span><br />
+                            <br />
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+    </div>
+    
+    <script type="text/ng-template" id="stackedBarGraphSummary.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Summary Details</h3>
+        </div>
+        <div class="modal-body" style="overflow:auto;height:600px;">
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <label for="radio" style="font-weight:bold;font-size:14px;padding-right:15px;" class="control-label">View</label>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" ng-change="changeSummaryMode()" value="Current Year Only (Sortable)" name="view" checked> Current Year Only (Sortable)</label></div>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" ng-change="changeSummaryMode()" value="All Years (Non-Sortable)" name="view"> All Years (Non-Sortable)</label></div>
+                </div>
+            </div>
+            <div class="row" ng-if="groupsFactory.SummaryRecords.length > 0">
+                <div class="col-md-12">
+                    <panel panel-class="panel-midnightblue" heading="{{settings.summaryView}}">
+                        <div style="overflow-x:auto;width:100%">
+                            <table class="table table-striped" ng-if="settings.summaryView == 'Current Year Only (Sortable)'">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Student')">Student Name <i class="{{manualSortHeaders['Student']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('StudentIdentifier')">Student ID <i class="{{manualSortHeaders['StudentIdentifier']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att1Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att1')">{{::attributeHeaders['Att1']}} <i class="{{manualSortHeaders['Att1']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att2Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att2')">{{::attributeHeaders['Att2']}} <i class="{{manualSortHeaders['Att2']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att3Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att3')">{{::attributeHeaders['Att3']}} <i class="{{manualSortHeaders['Att3']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att4Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att4')">{{::attributeHeaders['Att4']}} <i class="{{manualSortHeaders['Att4']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att5Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att5')">{{::attributeHeaders['Att5']}} <i class="{{manualSortHeaders['Att5']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att6Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att6')">{{::attributeHeaders['Att6']}} <i class="{{manualSortHeaders['Att6']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att7Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att7')">{{::attributeHeaders['Att7']}} <i class="{{manualSortHeaders['Att7']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att8Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att8')">{{::attributeHeaders['Att8']}} <i class="{{manualSortHeaders['Att8']}}"></i></div></th>
+                                        <th ng-if="groupsFactory.Att9Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att9')">{{::attributeHeaders['Att9']}} <i class="{{manualSortHeaders['Att9']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('SpecialED')">Special Ed. <i class="{{manualSortHeaders['SpecialED']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Services')">Student Svcs. <i class="{{manualSortHeaders['Services']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('School')">School <i class="{{manualSortHeaders['School']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('GradeOrder')">Grade <i class="{{manualSortHeaders['GradeOrder']}}"></i></div></th>
+                                        <th rowspan="2"><div style="cursor: pointer;" ng-click="sort('Teacher')">Teacher <i class="{{manualSortHeaders['Teacher']}}"></i></div></th>
+                                        <!--<th rowspan="2">School / Grade (Teacher) </th>-->
+                                        <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{getSummaryHeader(tdd.DisplayDate)}}</th>
+                                    </tr>
+                                    <tr ns-summary-field-headers sort-array="sortArray" sortable="true" data-rows="groupsFactory" tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" sort-mgr="sortMgr" header-class-array="headerClassArray"></tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in groupsFactory.SummaryRecords | orderBy:sortArray" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" student-result="record">
+                                        <td>
+                                            <span student-dashboard-link student-id="record.StudentID" student-name="record.Student"></span>
+                                        </td>
+                                        <td>
+                                            {{::record.StudentIdentifier}}
+                                        </td>
+                                        <td ng-if="groupsFactory.Att1Visible">{{::record.Att1}}</td>
+                                        <td ng-if="groupsFactory.Att2Visible">{{::record.Att2}}</td>
+                                        <td ng-if="groupsFactory.Att3Visible">{{::record.Att3}}</td>
+                                        <td ng-if="groupsFactory.Att4Visible">{{::record.Att4}}</td>
+                                        <td ng-if="groupsFactory.Att5Visible">{{::record.Att5}}</td>
+                                        <td ng-if="groupsFactory.Att6Visible">{{::record.Att6}}</td>
+                                        <td ng-if="groupsFactory.Att7Visible">{{::record.Att7}}</td>
+                                        <td ng-if="groupsFactory.Att8Visible">{{::record.Att8}}</td>
+                                        <td ng-if="groupsFactory.Att9Visible">{{::record.Att9}}</td>
+                                        <td>{{::record.SpecialED}}</td>
+                                        <td>{{::record.Services}}</td>
+                                        <td>{{::record.School}}</td>
+                                        <td>{{::record.Grade}}</td>
+                                        <td>{{::record.Teacher}}</td>
+                                        <!--<td>
+                                    <div ng-repeat="location in record.SchoolsSectionsList">
+                                        {{::location}}
+                                    </div>
+                                </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table" ng-if="settings.summaryView == 'All Years (Non-Sortable)'">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Student Name</th>
+                                        <th rowspan="2">Student ID</th>
+                                        <th ng-if="groupsFactory.Att1Visible" rowspan="2">{{::attributeHeaders['Att1']}}</th>
+                                        <th ng-if="groupsFactory.Att2Visible" rowspan="2">{{::attributeHeaders['Att2']}}</th>
+                                        <th ng-if="groupsFactory.Att3Visible" rowspan="2">{{::attributeHeaders['Att3']}}</th>
+                                        <th ng-if="groupsFactory.Att4Visible" rowspan="2">{{::attributeHeaders['Att4']}}</th>
+                                        <th ng-if="groupsFactory.Att5Visible" rowspan="2">{{::attributeHeaders['Att5']}}</th>
+                                        <th ng-if="groupsFactory.Att6Visible" rowspan="2">{{::attributeHeaders['Att6']}}</th>
+                                        <th ng-if="groupsFactory.Att7Visible" rowspan="2">{{::attributeHeaders['Att7']}}</th>
+                                        <th ng-if="groupsFactory.Att8Visible" rowspan="2">{{::attributeHeaders['Att8']}}</th>
+                                        <th ng-if="groupsFactory.Att9Visible" rowspan="2">{{::attributeHeaders['Att9']}}</th>
+                                        <th rowspan="2">Special Ed.</th>
+                                        <th rowspan="2">Student Svcs.</th>
+                                        <th rowspan="2">School </th>
+                                        <th rowspan="2">Section </th>
+                                        <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{tdd.PeriodName}}</th>
+                                    </tr>
+                                    <tr ns-summary-field-headers tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields"></tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="record in groupsFactory.HistoricalSummaryRecords" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" student-result="record">
+                                        <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                            <span student-dashboard-link student-id="record.StudentID" student-name="record.Student"></span>
+                                        </td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                            {{::record.StudentIdentifier}}
+                                        </td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att1Visible && record.FirstRecord">{{::record.Att1}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att2Visible && record.FirstRecord">{{::record.Att2}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att3Visible && record.FirstRecord">{{::record.Att3}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att4Visible && record.FirstRecord">{{::record.Att4}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att5Visible && record.FirstRecord">{{::record.Att5}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att6Visible && record.FirstRecord">{{::record.Att6}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att7Visible && record.FirstRecord">{{::record.Att7}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att8Visible && record.FirstRecord">{{::record.Att8}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="groupsFactory.Att9Visible && record.FirstRecord">{{::record.Att9}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.SpecialED}}</td>
+                                        <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.Services}}</td>
+                                        <td rowspan="{{record.SchoolRowSpan}}" ng-if="record.FirstSchoolRecord">
+                                            {{record.SchoolName}}
+                                        </td>
+                                        <td>
+                                            {{record.Section}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </panel>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</button>
+        </div>
+    </script>
+</div>
+
+<style>
+    nobr br {
+        display: none;
+    }
+
+    img {
+        page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+        page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+        page-break-inside: avoid; /* or 'auto' */
+    }
+
+    small {
+        font-weight: 600;
+        display: inline-block;
+        width: 160px;
+        margin-right: 10px;
+    }
+
+        small.boldSmall {
+            font-weight: bold;
+            text-decoration: underline;
+            display: block;
+            text-transform: uppercase;
+        }
+
+    .yellowbg {
+        background-color: yellow !important;
+        color: black;
+        font-weight: bold;
+    }
+
+    .whitebg {
+        color: black;
+        font-weight: bold;
+    }
+
+    .bluebg {
+        background-color: #4697ce !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    .obsGreen {
+        color: black;
+    }
+
+    .panel-heading h4 {
+        font-weight: bold;
+    }
+    .badge{
+        margin: 2px 3px 0px 3px;
+    }
+    .badge-important {
+        background-color: rgba(100, 100, 100, 0.7);
+        font-size:12px;
+    }
+</style>
+<style>
+    .vertical {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+
+    .tab-container {
+        margin-bottom: 4px;
+    }
+</style>

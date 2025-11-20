@@ -1,0 +1,66 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/tm-manage">Personal Settings</a></li>
+        <li class="active">Customize Available Fields</li>
+    </ol>
+    <h1>Customize Available Fields</h1>
+
+</div>
+
+<div class="container-fluid" ng-controller="PersonalFieldsController">
+    <div class="row">
+        <div class="col-md-12">
+            <alert type="info">
+                <h3>Use this page to customize which fields are diplayed.</h3>
+                <p>You can use the checkboxes to determine where things are displayed.</p>
+            </alert>
+
+
+            <uib-accordion close-others="oneAtATime" class="panel-primary">
+                <uib-accordion-group ng-repeat="assessment in fieldsManager.Assessments" heading="{{::assessment.AssessmentName}}">
+                    <table class="table table-striped" ng-controller="SectionListController">
+                        <thead>
+                            <tr>
+                                <th>Visible in Observation Summary</th>
+                                <th>Visible in Line Graphs</th>
+                                <th>Visible in Edit Mode</th>
+                                <th style="width:50%">Field Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="field in assessment.Fields">
+                                <td>
+                                    <switch ng-model="field.DisplayInObsSummary" ng-change="changeFieldStatus(assessment.Id, field.Id, field.DisplayInObsSummary, 'observationsummary')"></switch>
+                                </td>
+                                <td>
+                                    <switch ng-model="field.DisplayInLineGraphs" ng-change="changeFieldStatus(assessment.Id, field.Id, field.DisplayInLineGraphs, 'linegraphs')"></switch>
+                                </td>
+                                <td>
+                                    <switch ng-model="field.DisplayInEditResultList" ng-change="changeFieldStatus(assessment.Id, field.Id, field.DisplayInEditResultList, 'editresults')"></switch>
+                                </td>
+                                <td>
+                                    {{::field.DisplayLabel}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>

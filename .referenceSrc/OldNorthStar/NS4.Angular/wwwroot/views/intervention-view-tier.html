@@ -1,0 +1,81 @@
+﻿<div ng-controller="InterventionViewTierController">
+<div id="page-heading" class="ng-scope">
+
+    <ol class="breadcrumb">
+        <li><a href="#/toolkit-browse">Intervention Toolkit</a></li>
+        <li>Browse Tier {{::tier.TierValue}} Interventions</li>
+    </ol>
+
+    <h1>Browse Tier {{::tier.TierValue}} Interventions</h1>
+
+    <div class="options"    ng-if="currentUser.IsPowerUser || currentUser.IsSA">
+        <div class="btn-toolbar">
+            <a href="#/intervention-detail/-1"> <i class="fa fa-plus"></i> Create New Intervention </a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <panel panel-class="panel-{{::tier.TierLabel}}" heading="Tier {{::tier.TierValue}}">
+        <panel-controls>
+            <div class="row" style="margin-top:10px;">
+                <div style="color:white;float:left;width:60px;font-weight:bold;">Grade: </div>
+                <div style="float:left;width:130px;">
+                    <select class="form-control" ng-model="selectedOptions.selectedGrade">
+                        <option value="-1">-All Grades-</option>
+                        <option ng-repeat="grade in grades" value="{{grade.Id}}">{{grade.LongName}}</option>
+                    </select>
+                </div>
+                <div style="color:white;float:left;width:95px;padding-left:20px;font-weight:bold;">Workshop: </div>
+                <div style="float:left;width:145px;padding-right:10px;">
+                    <select class="form-control" ng-model="selectedOptions.selectedWorkshop">
+                        <option value="-1">-All Workshops-</option>
+                        <option ng-repeat="workshop in workshops" value="{{workshop.Id}}">{{workshop.WorkshopName}}</option>
+                    </select>
+                </div>
+            </div>
+        </panel-controls>
+        <div class="list-group">
+            <div ng-if="interventions.length == 0" style="clear:both;">
+                <uib-alert type="info">No matching interventions found.</uib-alert>
+            </div>
+            <a ng-repeat="intervention in interventions" href="#/intervention-detail/{{intervention.Id}}" class="list-group-item">
+                <div>
+                    <h3><strong>{{::intervention.Description}}</strong> <span class="btn btn-danger btn-xs"  ng-if="currentUser.IsPowerUser || currentUser.IsSA" style="float:right;" ng-click="delete(intervention.Id, $event)" href=""><i class="fa fa-trash-o"></i> Delete</span></h3>
+                    <div><small ng-bind-html="intervention.EntranceCriteria | safe_html"></small></div>
+                    <br />
+                    <b>Grades:</b> <span style="margin-right:3px;margin-top:5px;" ng-repeat="grade in intervention.InterventionGrades" class="badge badge-primary">{{grade.text}}</span>
+                    <br />
+                    <b>Workshop</b>: {{ intervention.InterventionWorkshop.text || 'none'}}
+                </div>
+            </a>
+        </div>
+    </panel>
+    <style>
+        .panel-body > .list-group {
+            margin: 0px;
+        }
+
+        [class*=panel-].panel .panel-body {
+            background-color: {{::tier.TierColor}};
+        }
+
+        .panel-body > .list-group .list-group-item:first-child {
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+        /* This overrides an override from NSStypes, DONT REMOVE */
+        [class*=panel-].panel .panel-body {
+            border-left: none;
+            border-right: none;
+        }
+        .panel-heading h4 {
+            text-transform: none;
+            font-size: 24px;
+            letter-spacing:normal;
+            font-weight: bold;
+        }
+        /* Yellow color for Tier 2 #F4EC2F*/
+    </style>
+</div>
+  
+</div>

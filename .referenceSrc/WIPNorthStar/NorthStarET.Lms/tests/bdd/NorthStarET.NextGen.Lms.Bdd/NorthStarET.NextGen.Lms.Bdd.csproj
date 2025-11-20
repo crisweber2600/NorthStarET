@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+  <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  <PackageReference Include="Reqnroll.xUnit" />
+  <PackageReference Include="xunit" />
+  <PackageReference Include="xunit.runner.visualstudio" />
+  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+  <PackageReference Include="Aspire.Hosting.Testing" />
+  <PackageReference Include="FluentAssertions" />
+  <PackageReference Include="Shouldly" />
+  <PackageReference Include="Microsoft.Build.Tasks.Core" />
+  <PackageReference Include="Microsoft.Build.Utilities.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Drivers\" />
+    <Folder Include="Support\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\specs\002-bootstrap-tenant-access\features\DistrictManagement.feature" Link="Features\DistrictManagement.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\..\specs\004-manage-schools-grades\features\district-admin-manages-schools.feature" Link="Features\SchoolManagement.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\..\specs\004-manage-schools-grades\features\district-admin-configures-grades.feature" Link="Features\SchoolGradeConfiguration.feature">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

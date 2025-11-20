@@ -1,0 +1,267 @@
+﻿<span ng-if="!verticalMode">
+    <panel panel-class="panel-midnightblue" heading="Filters / Options" panel-icon="fa fa-filter">
+        <div class="tiles-heading">
+            <div class="row">
+                <!--<div class="col-md-1">
+                    <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Filters:</span>
+                </div>-->
+                <div class="col-md-1" ng-show="schoolYearEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.schoolYears" ng-model="filterOptions.selectedSchoolYear" ng-change="changeSchoolYear()">
+                        <option value="">-school year-</option>
+                    </select>
+                </div>
+                <div class="col-md-3" ng-if="filterOptions.select2MultiBenchmarkDateOptions && filterOptions.multiBenchmarkDateEnabled">
+                    <div ui-select2="filterOptions.select2MultiBenchmarkDateOptions" ng-change="changeMultiBenchmarkDates(filterOptions.selectedBenchmarkDates, {{filterOptions.selectedBenchmarkDates}})" ng-model="filterOptions.selectedBenchmarkDates" data-placeholder="- Select Benchmark Dates -" style="width:100%"></div>
+                </div>
+                <div class="col-md-1" ng-show="benchmarkDateEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.benchmarkDates" ng-model="filterOptions.selectedBenchmarkDate">
+                        <option value="">-benchmark date-</option>
+                    </select>
+                </div>
+                <div class="col-md-2" ng-show="schoolEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.schools" ng-model="filterOptions.selectedSchool" ng-change="changeSchool()">
+                        <option value="">-school-</option>
+                    </select>
+                </div>
+                <!--<div class="col-md-4" ng-show="teamMeetingEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.teamMeetings" ng-model="filterOptions.selectedTeamMeeting" ng-change="changeTeamMeeting()">
+                        <option value="">-team meeting-</option>
+                    </select>
+                </div>-->
+                <div class="col-md-2" ng-show="teamMeetingStaffEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.teamMeetingStaffs" ng-model="filterOptions.selectedTeamMeetingStaff">
+                        <option value="">-all attendees-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="gradeEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedGrade" ng-options="item.text for item in filterOptions.grades" ng-change="changeGrade()">
+                        <option value="">-grade-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="teacherEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.teachers" ng-model="filterOptions.selectedTeacher" ng-change="changeTeacher()">
+                        <option value="">-teacher-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="interventionistEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.interventionists" ng-model="filterOptions.selectedInterventionist" ng-change="changeInterventionist()">
+                        <option value="">-interventionist-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="sectionEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.sections" ng-model="filterOptions.selectedSection" ng-change="changeSection()">
+                        <option value="">-section-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="interventionGroupEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.interventionGroups" ng-model="filterOptions.selectedInterventionGroup" ng-change="changeInterventionGroup()">
+                        <option value="">-intv. group-</option>
+                    </select>
+                </div>
+                <div class="col-md-2" ng-show="sectionStudentEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedSectionStudent" ng-options="item.text for item in filterOptions.sectionStudents" ng-change="changeSectionStudent()">
+                        <option value="">-student-</option>
+                    </select>
+                </div>
+                <div class="col-md-2" ng-show="interventionStudentEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedInterventionStudent" ng-options="item.text for item in filterOptions.interventionStudents" ng-change="changeInterventionStudent()">
+                        <option value="">-student-</option>
+                    </select>
+                </div>
+                <div class="col-md-3" ng-show="stintEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedStint" ng-options="item.text for item in filterOptions.stints">
+                        <option value="">-all stints-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="hrsFormEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedHrsForm" ng-options="item.text for item in filterOptions.hrsForms" ng-change="changeHrsForm()">
+                        <option value="">-form-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="hrsForm2Enabled">
+                    <select class="form-control" ng-model="filterOptions.selectedHrsForm2" ng-options="item.text for item in filterOptions.hrsForms2" ng-change="changeHrsForm2()">
+                        <option value="">-form-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="hrsForm3Enabled">
+                    <select class="form-control" ng-model="filterOptions.selectedHrsForm3" ng-options="item.text for item in filterOptions.hrsForms3" ng-change="changeHrsForm3()">
+                        <option value="">-form-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="stateTestEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedStateTest" ng-options="item.text for item in filterOptions.stateTests">
+                        <option value="">-state test-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="benchmarkTestEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedBenchmarkTest" ng-options="item.text for item in filterOptions.benchmarkTests">
+                        <option value="">-benchmark test-</option>
+                    </select>
+                </div>
+                <div class="col-md-1" ng-show="interventionTestEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedInterventionTest" ng-options="item.text for item in filterOptions.interventionTests">
+                        <option value="">-intervention test-</option>
+                    </select>
+                </div>
+            </div>
+            <hr ng-if="showHr" />
+            <div>
+                <div class="col-md-3" ng-show="hfwRangeEnabled">
+                    <select class="form-control" ng-model="filterOptions.selectedHfwRange">
+                        <option value="">-HFW Range-</option>
+                        <option value="kdg">Kindergarten</option>
+                        <option value="1-100">1-100</option>
+                        <option value="101-200">101-200</option>
+                        <option value="201-300">201-300</option>
+                        <option value="301-400">301-400</option>
+                        <option value="401-500">401-500</option>
+                        <option value="501-600">501-600</option>
+                        <option value="601-700">601-700</option>
+                        <option value="701-800">701-800</option>
+                        <option value="801-900">801-900</option>
+                        <option value="901-1000">901-1000</option>
+                    </select>
+                </div>
+                <div class="col-md-3" ng-show="hfwMultiRangeEnabled">
+                    <div ui-select2="HfwMultiRangeRemoteOptions" ng-model="filterOptions.selectedHfwMultiRange" ng-change="changeHfwMultiRange()" />
+                </div>
+                <div class="col-md-3" ng-show="hfwSortOrderEnabled">
+                    <select class="form-control" ng-options="item.text for item in filterOptions.hfwOrders" ng-model="filterOptions.selectedHfwSortOrder" ng-change="changeHfwSortOrder()">
+                    </select>
+                </div>
+                <hr ng-if="staffQuickSearchEnabled || studentQuickSearchEnabled || studentDetailedQuickSearchEnabled" style="clear:both" />
+                <div class="col-md-12" ng-if="staffQuickSearchEnabled">
+                    <div class="col-md-2">
+                        <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">{{staffSearchCustomLabel || 'Staff Quick Search'}}:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <table style="width:700px;">
+                            <tr>
+                                <td><div ui-select2="StaffQuickSearchRemoteOptions" ng-model="filterOptions.quickSearchStaff" /></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-primary" ng-click="qsCallBack()"><i class="fa fa-check-square-o"></i> Select</button></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-danger" ng-click="clearQsStaff()"><i class="fa fa-refresh"></i> Reset</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                 </div>
+                <div class="col-md-12" ng-if="studentQuickSearchEnabled">
+                    <div class="col-md-2">
+                        <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Student Quick Search:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <table style="width:700px;">
+                            <tr>
+                                <td><div ui-select2="StudentQuickSearchRemoteOptions" ng-model="filterOptions.quickSearchStudent" /></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-primary" ng-click="qsCallBack()"><i class="fa fa-check-square-o"></i> Select</button></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-danger" ng-click="clearQsStudent()"><i class="fa fa-refresh"></i> Reset</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="studentDetailedQuickSearchEnabled">
+                    <div class="col-md-2">
+                        <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Student Quick Search:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <table style="width:700px;">
+                            <tr>
+                                <td><div ui-select2="StudentDetailedQuickSearchRemoteOptions" ng-model="filterOptions.quickSearchStudent" /></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-primary" ng-click="qsCallBack()"><i class="fa fa-check-square-o"></i> Select</button></td>
+                                <td style="width:90px;padding-left:10px;"><button class="btn btn-danger" ng-click="clearQsStudent()"><i class="fa fa-refresh"></i> Reset</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="classroomAssessmentFieldEnabled">
+                    <div class="col-md-2">
+                        <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Assessment Field:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <select ng-change="changeClassroomAssessmentField()" class="form-control" ng-model="filterOptions.selectedClassroomAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in filterOptions.classroomAssessmentFields | filter: {DisplayInLineGraphs : true}">
+                            <option value=""> -- Choose a Field -- </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="interventionGroupAssessmentFieldEnabled">
+                    <div class="col-md-2">
+                        <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Assessment Field:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <select ng-change="changeInterventionGroupAssessmentField()" class="form-control" ng-model="filterOptions.selectedInterventionGroupAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in filterOptions.interventionGroupAssessmentFields | filter: {DisplayInLineGraphs : true}">
+                            <option value=""> -- Choose a Field -- </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </panel>
+</span>
+<span ng-if="verticalMode">
+    <div class="form-group" ng-show="schoolYearEnabled">
+        <label for="fieldname" class="col-md-3 control-label">School Year</label>
+        <div class="col-md-6">
+            <select name="verticalSchoolYear"  class="form-control" ng-options="item.text for item in filterOptions.schoolYears" ng-model="filterOptions.selectedSchoolYear" ng-change="changeSchoolYear()" ng-required="schoolYearRequired">
+                <option value="">-school year-</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="benchmarkDateEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Benchmark Date</label>
+        <div class="col-md-6">
+            <select class="form-control" ng-options="item.text for item in filterOptions.benchmarkDates" ng-model="filterOptions.selectedBenchmarkDate" name="benchmarkDate" ng-required="benchmarkDateRequired">
+                <option value="">-benchmark date-</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="schoolEnabled">
+        <label for="fieldname" class="col-md-3 control-label">School</label>
+        <div class="col-md-6">
+            <select name="verticalSchool" class="form-control" ng-options="item.text for item in filterOptions.schools" ng-model="filterOptions.selectedSchool"   ng-required="schoolRequired"  ng-change="changeSchool()">
+                <option value="">-school-</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="gradeEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Grade</label>
+        <div class="col-md-6">
+            <select name="verticalGrade" class="form-control" ng-model="filterOptions.selectedGrade" ng-options="item.ShortName for item in filterOptions.grades" ng-change="changeGrade()"></select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="teacherEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Teacher</label>
+        <div class="col-md-6">
+            <select class="form-control" ng-options="item.text for item in filterOptions.teachers" ng-model="filterOptions.selectedTeacher" ng-change="changeTeacher()"></select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="interventionistEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Teacher</label>
+        <div class="col-md-6">
+            <select class="form-control" ng-options="item.text for item in filterOptions.interventionists" ng-model="filterOptions.selectedInterventionist" ng-change="changeInterventionist()"></select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="sectionEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Section</label>
+        <div class="col-md-6">
+            <select name="verticalSection" class="form-control" ng-options="item.text for item in filterOptions.sections" ng-model="filterOptions.selectedSection" ng-change="changeSection()"></select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="interventionGroupEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Intervention Group</label>
+        <div class="col-md-6">
+            <select name="verticalInterventionGroup" class="form-control" ng-options="item.text for item in filterOptions.interventionGroups" ng-model="filterOptions.selectedInterventionGroup" ng-change="changeInterventionGroup()"></select>
+        </div>
+    </div>
+    <div class="form-group" ng-show="sectionStudentEnabled">
+        <label for="fieldname" class="col-md-3 control-label">Student</label>
+        <div class="col-md-6">
+            <select name="verticalStudent" class="form-control" ng-model="filterOptions.selectedSectionStudent" ng-options="item.text for item in filterOptions.sectionStudents"></select>
+        </div>
+    </div>
+</span>
+
+<style>
+    /* TODO: this is a hack for the multiselect to stop scrolling*/
+    .panel-body{
+        overflow-x: visible !important;
+    }
+</style>

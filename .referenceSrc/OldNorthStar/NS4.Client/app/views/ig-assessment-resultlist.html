@@ -1,0 +1,132 @@
+﻿<div ng-controller="IGDataEntryController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="/#/assessment-list">Manage Assessements</a></li>
+            <li class="active">Edit Assessment Data</li>
+        </ol>
+        <h1>Edit Assessment Results for {{assessment.AssessmentName}}</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <a ng-click="print()" class="btn btn-default hidden-xs"><i class="fa fa-bolt"></i> Export Data</a>
+                <a ng-click="print()" class="btn btn-default hidden-xs"><i class="fa fa-print"></i> Print Page</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" interventionist-enabled="true" intervention-group-enabled="true" student-enabled="true"></ns-filter-options-container-directive>
+        <div class="well well-sm" style="background: url(/assets/img/gray32logo.png) no-repeat 5px center; background-color: #EDEEF0; padding-left:40px;">
+            <span style="font-size:14px;"><b>North Star</b> Educational Tools</span>  | <b>School Year:</b> {{filterOptions.selectedSchoolYear.text}}  | <b>Benchmark Date:</b> {{filterOptions.selectedBenchmarkDate.text}} | <b>School:</b> {{filterOptions.selectedSchool.text}} | <b>Grade:</b> {{ filterOptions.selectedGrade.text}} | <b>Teacher:</b> {{ filterOptions.selectedTeacher.text}} | <b>Section:</b> {{ filterOptions.selectedSection.text}}
+        </div>
+    </div>
+    <div class="col-md-12">
+        <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+    </div>
+    <div class="col-md-12" ng-show="filterOptions.selectedStudent == null">
+        <uib-alert type="info">Please select a student to enter data.</uib-alert>
+    </div>    
+    <div class="container-fluid" ng-show="filterOptions.selectedStudent != null">
+        <div class="row">
+            <button style="margin:0px 0px 20px 20px" class="btn btn-success" ng-click="addNewRow()"><i class="fa fa-plus"></i> Add New Record</button>
+        </div>
+        <div class="row">
+            <div class="col-md-12 table-vertical">                
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell"><div style="cursor: pointer" ng-click="sort('StudentName')">Student Name <i class="{{staticColumnsObj.studentNameHeaderClass}}"></i></div></div>
+                            <div class="ns-table-cell">Recorder</div>
+                            <div class="ns-table-cell"><div style="cursor: pointer" ng-click="sort('TestDate')">Date Test Taken </div></div>
+                            <div class="ns-table-cell text-center" ng-repeat="header in fields"><div style="cursor: pointer" ng-click="sort($index)">{{header.DisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div></div>
+
+                        </div>
+                        <div ng-show="studentResults.length==0" class="ns-table-row">
+                            <h4><span class="label label-info">No data added yet.</span></h4>
+                        </div>
+
+                        <form class="ns-table-row" ng-class="{'unSavedResult' : studentResult.ResultId == -1}" ng-repeat="studentResult in studentResults | orderBy:sortArray" shown="studentResult==addNewResult" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveAssessmentData(studentResult)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-xs" ng-click="defaultEditAction(studentResult, rowform)"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-xs" ng-click="deleteAssessmentData(studentResult)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="ns-table-cell" data-title="FirstName">{{::studentResult.StudentName}}</div>
+                            <div class="ns-table-cell" data-title="Recorder">
+                                <div ng-show="rowform.$visible">
+                                    <input name="primaryteacher" id="primaryteacher" validator="validateRecorder(studentResult)" ui-select2="getTeacherRemoteOptions" invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 120px" />
+                                </div>
+                                <div ng-show="!rowform.$visible">{{::studentResult.Recorder.text}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="TestDate">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="studentResult.TestDate" is-open="popup1.opened" required invalid-message="Please enter a valid date" required-message="Please select a date" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{::studentResult.TestDateDisplay}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" ng-repeat="fieldResult in studentResult.FieldResults" data-title="{{::fieldResult.Field.DisplayLabel}}">
+                                <ns-assessment-field mode="'grideditable'" e-form="rowform" result="fieldResult" field-required="fieldResult.Field.IsRequired" all-results="studentResult.FieldResults"></ns-assessment-field>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+    form.unSavedResult {
+        border: 2px dashed #7dcc93;
+    }
+</style>
+

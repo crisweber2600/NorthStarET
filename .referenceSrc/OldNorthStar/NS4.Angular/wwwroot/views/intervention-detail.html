@@ -1,0 +1,602 @@
+﻿<div ng-controller="InterventionDetailController">
+    <div id="page-heading" class="ng-scope">
+
+        <ol class="breadcrumb">
+            <li><a href="#/toolkit-browse">Intervention Toolkit</a></li>
+            <li><a href="#/Intervention-view-tier/{{Intervention.InterventionTierID}}">Tier {{Intervention.InterventionTierID}}</a></li>
+            <li class="active">{{Intervention.Description}}</li>
+        </ol>
+
+        <h1>{{Intervention.Description}} ({{Intervention.InterventionType}})</h1>
+        
+
+        <div class="options"   ng-if="currentUser.IsPowerUser || currentUser.IsSA">
+            <div class="btn-toolbar">
+                <a ng-show="settings.IsEditing == false" ng-click="edit()"> <i class="fa fa-pencil"></i> Edit </a>
+                <a ng-show="settings.IsEditing == true" ng-click="save()" class="nsPanelButton btn btn-success"><i class="fa fa-save"></i> Save</a>
+                <a ng-show="settings.IsEditing == true" ng-click="cancel()" class="nsPanelButton btn btn-danger"><i class="fa fa-times-circle"></i> Cancel</a> 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <ns-error-display></ns-error-display>
+
+    </div>
+    <div class="container-fluid" ng-if="Intervention.ready">
+        <uib-tabset panel-tabs="true" tab-theme="{{Intervention.TierLabel || 'success'}}">
+            <uib-tab>
+                <uib-tab-heading>
+                    Overview
+                </uib-tab-heading>
+                <table class="fullwidth">
+
+                    <tr ng-if="settings.IsEditing == true">
+                        <td>
+                            <h3 class="toolkitHeading">Other Settings</h3>
+                        </td>
+                    </tr>
+                    <tr ng-if="settings.IsEditing == true">
+                        <td class="toolkitDataCell">
+                            <table class="fullwidth" cellspacing="5">
+                                <tr>
+                                    <td class="oneThird">
+                                        Intervention Title: <br />
+                                        <input type="text" class="form-control" ng-model="Intervention.Description" />
+                                    </td>
+                                    <td class="oneThird">
+                                        Intervention Abbreviation:<br />
+                                        <input type="text" class="form-control" ng-model="Intervention.InterventionType" />
+                                    </td>
+                                    <td class="oneThird">
+                                        Workshop: <br />
+                                        <div class="form-group">
+                                            <div ui-select2="workshopOptions" ng-model="Intervention.InterventionWorkshop" style="width: 80%;float:left;" />
+                                            <button style="width:18%;float:left;margin-left:5px;" type="button" class="btn btn-danger" ng-click="Intervention.InterventionWorkshop = null"><i class="fa fa-times-circle"></i> Clear</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Brief Intervention Description</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.BriefDescriptionTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="Intervention.BriefDescription | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Appropriate For</h3>
+                                    </td>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Usual Time of Year</h3>
+                                    </td>
+                                    <td class="oneThird">
+                                        <h3 class="toolkitHeading">Type of Intervention</h3>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ui-select2="gradeOptions" ng-model="Intervention.InterventionGrades" style="width: 100%" />
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span style="margin-right:3px;margin-top:5px;width:105px;" ng-repeat="grade in Intervention.InterventionGrades" class="badge badge-primary">{{grade.text}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.TimeOfYear"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="Intervention.TimeOfYear | safe_html"></span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell oneThird">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <select ng-model="Intervention.InterventionTierIDTemp" class="form-control">
+                                                <option value="">--select a tier--</option>
+                                                <option value="1">Tier 1</option>
+                                                <option value="2">Tier 2</option>
+                                                <option value="3">Tier 3</option>
+                                            </select>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span style="padding-left:20px;padding-right:20px;" class="label label-{{Intervention.TierLabel}}">Tier {{Intervention.InterventionTierID}}</span>
+                                        </div>                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="half">
+                                        <h3 class="toolkitHeading">Entrance Criteria</h3>
+                                    </td>
+                                    <td class="half">
+                                        <h3 class="toolkitHeading">Exit Criteria</h3>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="fullwidth">
+                                <tr>
+                                    <td class="toolkitDataCell half">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.EntranceCriteriaTemp"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="Intervention.EntranceCriteria | safe_html"></span>
+                                        </div>
+                                    </td>
+                                    <td class="toolkitDataCell half">
+                                        <div ng-show="settings.IsEditing == true">
+                                            <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.ExitCriteriaTemp"></div>
+                                        </div>
+                                        <div ng-show="settings.IsEditing == false">
+                                            <span ng-bind-html="Intervention.ExitCriteria | safe_html"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Description of Learner Need</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.LearnerNeedTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="Intervention.LearnerNeed | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Detailed Description of Intervention</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div ng-show="settings.IsEditing == true">
+                                <div ckeditor="{language: 'en',allowedContent: true,entities: false}" ng-model="Intervention.DetailedDescriptionTemp"></div>
+                            </div>
+                            <div ng-show="settings.IsEditing == false">
+                                <span ng-bind-html="Intervention.DetailedDescription | safe_html"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </uib-tab>
+            <uib-tab heading="Intervention Tools">
+                <uib-tab-heading>
+                    <i class="fa fa-wrench"></i> Intervention Tools
+                </uib-tab-heading>
+                <table class="fullwidth">
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">Intervention Tools 
+                            <button ng-if="currentUser.IsPowerUser || currentUser.IsSA" ng-click="openUploadITDialog()" class="pull-right btn btn-primary"><i class="fa fa-upload"></i> Upload Intervention New Tool</button>
+                            <button ng-if="currentUser.IsPowerUser || currentUser.IsSA" style="margin:0px 10px 20px 20px" class="pull-right btn btn-success" ng-click="associateInterventionToolDialog()"><i class="fa fa-bullseye"></i> Associate Existing Tool</button>
+                                <button style="margin:0px 10px 20px 20px" class="pull-right btn btn-default" ng-click="downloadSelectedInterventionTools()"><i class="fa fa-download"></i> Download Selected Tools</button>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div class="row">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Edit
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                            <th>
+                                                <switch ng-change="toggleSelectedInterventionTools()" ng-model="settings.SelectAllInterventionTools"></switch>
+                                            </th>
+                                            <th>Type</th>
+                                            <th>
+                                                Tool Name
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="tool in Intervention.InterventionTools">
+                                            <td class="nsCenterAlignedText">
+                                                <form class="ns-table-row" editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveTool(tool)">
+                                                    <div ng-show="!rowform.$visible">
+                                                        <a class="btn btn-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                                    </div>
+                                                    <div ng-show="rowform.$visible">
+                                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                                            <i class="fa fa-save"></i>
+                                                        </button>
+                                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td class="nsCenterAlignedText"><a class="btn btn-danger btn-xs" ng-click="removeTool(tool.Id)"><i class="fa fa-times"></i></a></td>
+                                            <td><switch ng-model="tool.toolIsSelected" ng-change="toggleInterventionToolSelection(tool)"></switch></td>
+                                            <td>{{::tool.Extension}}</td>
+                                            <td><span editable-text="tool.ToolName" e-form="rowform"><a ng-click="nsFileDownloadService.getFile(tool.ToolFileName)" href="">{{tool.ToolName || tool.ToolFileName}}</a></span></td>
+                                            <td><span editable-text="tool.Description" e-form="rowform">{{ tool.Description || '' }}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>               
+            </uib-tab>
+            <uib-tab heading="Assessment Tools">
+                <uib-tab-heading>
+                    <i class="fa fa-wrench"></i> Assessment Tools
+                </uib-tab-heading>
+                <table class="fullwidth">
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">
+                                Assessment Tools
+                                <button ng-if="currentUser.IsPowerUser || currentUser.IsSA" ng-click="openUploadATDialog()" class="pull-right btn btn-primary"><i class="fa fa-upload"></i> Upload New Assessment Tool</button>
+                                <button ng-if="currentUser.IsPowerUser || currentUser.IsSA" style="margin:0px 10px 20px 20px" class="pull-right btn btn-success" ng-click="associateAssessmentToolDialog()"><i class="fa fa-bullseye"></i> Associate Existing 
+                                </button>
+                                <button style="margin:0px 10px 20px 20px" class="pull-right btn btn-default" ng-click="downloadSelectedAssessmentTools()"><i class="fa fa-download"></i> Download Selected Tools</button>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <div class="row">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Edit
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                            <th>
+                                                <switch ng-change="toggleSelectedAssessmentTools()" ng-model="settings.SelectAllAssessmentTools"></switch>
+                                            </th>
+                                            <th>Type</th>
+                                            <th>
+                                                Tool Name
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="tool in Intervention.AssessmentTools">
+                                            <td class="nsCenterAlignedText">
+                                                <form class="ns-table-row" editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveTool(tool)">
+                                                    <div ng-show="!rowform.$visible">
+                                                        <a class="btn btn-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                                    </div>
+                                                    <div ng-show="rowform.$visible">
+                                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                                            <i class="fa fa-save"></i>
+                                                        </button>
+                                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div> 
+                                                </form>
+                                            </td>
+                                            <td class="nsCenterAlignedText"><a class="btn btn-danger btn-xs" ng-click="removeTool(tool.Id)"><i class="fa fa-times"></i></a></td>
+                                            <td><switch ng-model="tool.toolIsSelected" ng-change="toggleAssessmentToolSelection(tool)"></switch></td>
+                                            <td>{{::tool.Extension}}</td>
+                                            <td><span editable-text="tool.ToolName" e-form="rowform"><a ng-click="nsFileDownloadService.getFile(tool.ToolFileName)" href="">{{tool.ToolName || tool.ToolFileName}}</a></span></td>
+                                            <td><span editable-text="tool.Description" e-form="rowform">{{ tool.Description || '' }}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-video-camera"></i> Videos
+                </uib-tab-heading>
+                <table class="fullwidth">
+                    <tr>
+                        <td>
+                            <h3 class="toolkitHeading">
+                                Relevant Videos
+                                <button ng-if="currentUser.IsPowerUser || currentUser.IsSA" style="margin:0px 10px 20px 20px" class="pull-right btn btn-default" ng-click="associateVideoDialog()"><i class="fa fa-bullseye"></i> Associate Existing Video</button>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="toolkitDataCell">
+                            <ul class="timeline">
+
+                                <li ng-repeat="video in Intervention.Videos">
+                                    <form editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveVideo(video)">
+                                        <div class="timeline-body">
+                                            <div class="timeline-header">
+                                                <!--<span class="date" style="color:black">Uploaded: {{video.ModifiedDate}}</span>-->
+                                                <div class="pull-right">
+                                                    <div ng-show="!rowform.$visible">
+                                                        <a class="btn btn-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                                        <a class="btn btn-danger btn-xs" ng-click="removeVideo(video.Id)"><i class="fa fa-times-circle"></i></a>
+                                                    </div>
+                                                    <div ng-show="rowform.$visible">
+                                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                                            <i class="fa fa-save"></i>
+                                                        </button>
+                                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div> 
+                                                </div>
+                                            </div> 
+                                            <div class="timeline-content">
+                                                <h3 style="color:black"><span  editable-text="video.VideoName" e-form="eForm">{{ video.VideoName || '' }}</span></h3>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <img src="{{::video.ThumbnailURL}}" alt="">
+                                                        </td>
+                                                        <td style="color:#333333" valign="top">
+                                                            <span editable-textarea="video.Description" e-cols="70" e-rows="5" e-form="rowform">{{ video.Description || '' }}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-show="rowform.$visible">
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                        <td style="color:#333333">
+                                                            <div ui-select2="nsSelect2RemoteOptions.MultiDistrictRemoteOptions" ng-model="video.Districts" style="width: 100%" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-show="rowform.$visible">
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                        <td style="color:#333333">
+                                                            <div ui-select2="nsSelect2RemoteOptions.GradeQuickSearchRemoteOptions" ng-model="video.Grades" style="width: 100%" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="timeline-footer">
+                                                <a style="margin-top:5px;width:120px;" href="" ng-click="displayVideoDialog(video)" class="btn btn-orange btn-sm pull-left"><i class="fa fa-play-circle"></i> Play Video</a>
+                                            </div>
+                                        </div>
+                                        </form>
+                                        <hr />
+                                    </li>
+                            </ul>
+
+
+                            </td>
+                        </tr>
+                    </table>
+            </uib-tab>
+        </uib-tabset>
+        <style>
+   
+            .timeline:before {
+                content: '';
+                position: absolute;
+                top: 10px;
+                bottom: 0;
+                width: 2px;
+                background: none;
+                left: 6%;
+                margin-left: 2px;
+            }
+            .timeline>li .timeline-body {
+                margin: 0 0 20px 0;
+            }
+            .timeline>li .timeline-body:after {
+                right: 100%;
+                border: none;
+                content: "";
+                height: 0;
+                width: 0;
+                position: absolute;
+                /* pointer-events: none; */
+                border-color: transparent;
+                border-width: 0px;
+                top: 5%;
+            }
+            .panel-body > .list-group {
+                margin: 0px;
+            }
+
+            [class*=panel-].panel .panel-body {
+                background-color:  {{Intervention.TierColor || '#7dcc93'}};
+            }
+
+            .tab-container .tab-content {
+            background-color:  {{Intervention.TierColor || '#7dcc93'}} !important;
+            }
+
+            .panel-body > .list-group .list-group-item:first-child {
+                border-top-right-radius: 3px;
+                border-top-left-radius: 3px;
+            }
+            .panel-heading .options {
+    float: right!important;
+    float: right;
+}
+            /* This overrides an override from NSStypes, DONT REMOVE */
+            [class*=panel-].panel .panel-body {
+                border-left: none;
+                border-right: none;
+            }
+
+            .toolkitHeading {
+                color: white;
+                margin-top: 10px;
+                font-weight: 500;
+            }
+
+            .toolkitDataCell {
+                background-color: white;
+                padding: 10px;
+                border: 1px solid black;
+            }
+
+   
+
+            .oneThird {
+                width: 33%;
+                padding: 5px;
+            }
+
+            .half {
+                width: 50%;
+            }
+            .panel-heading .options .btn.nsPanelButton{
+                padding-bottom: 8px;
+                padding-top:8px;
+                margin: 2px 5px;
+            }
+            .fullwidth {
+                width: 100%;
+            }
+            /* Yellow color for Tier 2 #F4EC2F*/
+                    .panel-heading h4 {
+            text-transform: none;
+            font-size: 24px;
+            letter-spacing:normal;
+            font-weight: bold;
+        }
+        </style>
+        <script type="text/ng-template" id="uploadTool.html">
+            <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Upload a New Intervention Tool</h3>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="form-group" ng-hide="uploadSettings.hasFiles">
+                            <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                            <div class="col-md-6">
+                                <h3>Select .PPT, .PPTX, .PDF, .DOC, .DOCX, .XLS or .XLSX file to import</h3>
+                                <input type="file" id="newPhotos" class="uploadFile" accept="*.pdf,*.xlsx,*.xls,*.doc,*.docx,*.ppt,*.pptx" eg-files="theFiles" has-files="uploadSettings.hasFiles">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="uploadSettings.hasFiles">
+                            <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                            <div class="col-md-6">
+                                <ul class="list-inline">
+                                    <li><strong>file:</strong></li>
+                                    <li ng-repeat="photo in theFiles"> {{photo.name}}</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                    <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+                </div>
+            </form>
+
+        </script>
+        <script type="text/ng-template" id="playVideo.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{selectedVideo.VideoName}}</h3>
+            </div>
+            <div class="modal-body">
+                <div id="currentVideo">
+                    <table>
+                        <tr>
+                            <td>
+                                <iframe src="{{getSrc()}}" width="850" height="600" allowFullScreen allowTransparency="true" class="vzaar-video-player" frameborder="0" id="vzaarplayer" mozallowfullscreen name="vzaar" title="vzaar video player" type="text/html" webkitAllowFullScreen></iframe>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="associateVideo.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Associate an Existing Video</h3>
+            </div>
+            <div class="modal-body">
+                <input style="width:100%" name="associatedVideo" id="associatedVideo" ui-select2="nsSelect2RemoteOptions.quickSearchVideos" ng-model="settings.SelectedAssociatedVideo" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" value="go" ng-click="associateVideo()"><i class="fa fa-save"></i> Save</button>
+                <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="associateAssessmentTool.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Associate an Existing Assessment Tool</h3> 
+                </div>
+                <div class="modal-body">
+                    <input style="width:100%" name="associatedTool" id="associatedTool" ui-select2="nsSelect2RemoteOptions.quickSearchAssessmentToolsRemoteOptions" ng-model="settings.SelectedAssessmentTool"  />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="button" value="go" ng-click="associateTool()"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+                </div>
+        </script>
+        <script type="text/ng-template" id="associateInterventionTool.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Associate an Existing Intervention Tool</h3>
+            </div>
+            <div class="modal-body">
+                <input style="width:100%"  name="associatedTool" id="associatedTool" ui-select2="nsSelect2RemoteOptions.quickSearchInterventionToolsRemoteOptions" ng-model="settings.SelectedInterventionTool" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" value="go" ng-click="associateTool()"><i class="fa fa-save"></i> Save</button>
+                <button class="btn btn-danger" id="formReset" type="reset" value="cancel" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+            </div>
+        </script>
+       
+        <script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>
+    </div>
+</div>

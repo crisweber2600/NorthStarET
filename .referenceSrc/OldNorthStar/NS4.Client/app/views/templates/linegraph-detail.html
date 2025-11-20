@@ -1,0 +1,56 @@
+﻿<table class="table table-striped table-lowPadding table-bordered">
+    <thead>
+        <tr>
+            <th class="">Dates</th>
+            <th ng-repeat="date in dataManager.BenchmarkDates" class="verticalTdDate">
+                <div class="verticalDate">{{::dataManager.formatDate(date.DueDate)}}</div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Student Name</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates" ng-class="dataManager.getBackgroundClass(date.Result, date.TestDueDateID)">
+                {{ ::dataManager.getDisplayValue(date.Result.FieldValueID)}}
+            </td>
+        </tr>
+        <tr>
+            <th>Exceeds Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{::dataManager.getDisplayValue(date.Exceeds)}}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Meets Expectations
+            </th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{::dataManager.getDisplayValue(date.Meets) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Approaches Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::dataManager.getDisplayValue(date.Approaches) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Does Not Meet Expectations</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::dataManager.getDisplayValue(date.DoesNotMeet) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Grade</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::date.GradeShortName}}
+            </td>
+        </tr>
+        <tr>
+            <th>Test No.</th>
+            <td ng-repeat="date in dataManager.BenchmarkDates">
+                {{ ::date.TestNumber }}
+            </td>
+        </tr>
+    </tbody>
+</table>

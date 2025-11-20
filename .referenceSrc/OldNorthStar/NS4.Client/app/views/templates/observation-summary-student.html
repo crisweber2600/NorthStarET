@@ -1,0 +1,38 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th ng-if="showCheckboxes === true" rowspan="2">
+                Select All<br />
+                <switch ng-model="allSelected" ng-change="selectAllStudents()"></switch>
+            </th>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('LastName')">Last Name <i class="{{manualSortHeaders.lastNameHeaderClass}}"></i></div></th>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('FirstName')">First Name <i class="{{manualSortHeaders.firstNameHeaderClass}}"></i></div></th>
+            <th rowspan="2"><div style="cursor: pointer" ng-click="sort('TestDate')">Benchmark Date <i class="{{manualSortHeaders.firstNameHeaderClass}}"></i></div></th>
+            <th style="text-align: center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="headerGroup in observationSummaryManager.Scores.HeaderGroups" colspan="{{headerGroup.FieldCount}}">
+                {{headerGroup.AssessmentName}}
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3" ng-repeat="field in observationSummaryManager.Scores.Fields">
+                <div style="cursor: pointer" ng-click="sort($index)">{{field.FieldName}} <i class="{{headerClassArray[$index]}}"></i></div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="studentResult in observationSummaryManager.Scores.StudentResults | orderBy:sortArray">
+            <td ng-if="showCheckboxes === true">
+                <switch ng-model="studentResult.selected" ng-change="changeTeamMeetingStudentSelection(studentResult)"></switch>
+            </td>
+            <td align="left" data-title="LastName">{{studentResult.LastName}}</td>
+            <td align="left" data-title="FirstName">
+                {{studentResult.FirstName}}
+            </td>
+            <td align="left" data-title="FirstName">
+                {{studentResult.TestDate | nsDateFormat }}
+            </td>
+            <td ng-class="getBackgroundClass(studentResult.GradeId, fieldResult)" ng-repeat="fieldResult in studentResult.OSFieldResults">
+                <ns-assessment-field mode="'readonly'" result="fieldResult" all-results="studentResult.OSFieldResults"></ns-assessment-field>
+            </td>
+        </tr>
+    </tbody>
+</table>

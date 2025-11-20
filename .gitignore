@@ -416,3 +416,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Legacy reference configs with secrets
+.referenceSrc/OldNorthStar/NS4.WebAPI/Web.config
+.referenceSrc/OldNorthStar/NorthStar.AutomatedRollover/App.config

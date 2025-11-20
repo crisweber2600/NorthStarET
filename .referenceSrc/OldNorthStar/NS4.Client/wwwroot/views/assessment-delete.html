@@ -1,0 +1,61 @@
+﻿<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="#/">Assessement</a></li>
+		<li class="active">Manage Assessments</li>
+	</ol>
+	<h1>Manage Assessments</h1>
+	<div class="options">
+		<div class="btn-toolbar">
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle">
+					Export as <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">Action</a></li>
+					<li><a href="#">Another action</a></li>
+					<li><a href="#">Something else here</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Separated link</a></li>
+				</ul>
+			</div>
+			<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-md-12">
+			<tabset panel-tabs="true" panel-class="panel-danger" heading="Current Assessments">
+				<tab>
+					<tab-heading><i class="fa fa-desktop"></i></tab-heading>
+					<p>Modify existing assessments.</p>
+				</tab>
+			</tabset>
+
+			<table class="table table-striped" ng-controller="AssessmentListController">
+				<thead>
+				<tr>
+					<th>Actions</th>
+					<th>Assessment Name</th>
+					<th>Description</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="assessment in assessments">
+					<td>
+						<a href="/#/assessment-edit/{{assessment.Id}}" class="btn btn-default btn-xs">edit</a>
+						<a href="/#/assessment-delete/{{assessment.Id}}" class="btn btn-danger btn-xs">delete</a>
+					</td>
+					<td class="ng-binding">{{assessment.AssessmentName}}</td>
+					<td class="ng-binding">{{assessment.Description}}</td>
+				</tr>
+				</tbody>
+			</table>
+
+			<p>
+				<a href="/#/assessment-add" class="btn btn-primary">Add New Assessment</a>
+			</p>
+		</div>
+		</div>
+	</div>

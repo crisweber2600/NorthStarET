@@ -1,0 +1,127 @@
+﻿<div ng-controller="StaffConsolidationController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Administration</li>
+            <li class="active">Consolidate Staff</li>
+        </ol>
+        <h1>Consolidate Multiple Staff Accounts Into a Single Account</h1>
+    </div>
+
+    <div class="col-md-12" ng-show="moveSettings.moveComplete">
+        <uib-alert type="success"><b>Success!</b> The staff has been consolidated successfully.  <a href="" ng-click="resetForm()">Consolidate Another?</a></uib-alert>
+    </div>
+    <div class="col-md-12" ng-show="!moveSettings.moveComplete">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <div ng-if="checkSameUser()">
+                <uib-alert type="warning"><b>Warning!</b> These users have different first and/or last names or.  Are you 100% sure you are consolidating the same person? (NOT COMMON)</uib-alert>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div style="width:800px">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select First Staff Account (properties of this account will be used for consolidated account):</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStaff" ng-model="moveSettings.staffPrimary" />
+                </div>
+                <div ng-if="moveSettings.staffPrimary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemDetail">
+                        <h3><strong>{{moveSettings.staffPrimary.LastName}}, {{moveSettings.staffPrimary.FirstName}} ({{moveSettings.staffPrimary.TeacherKey}})</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Internal ID</td>
+                                    <td>{{moveSettings.staffPrimary.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{moveSettings.staffPrimary.Email}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Teacher Key</td>
+                                    <td>{{moveSettings.staffPrimary.TeacherKey}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="text-align:center">
+            <div style="width:600px;">
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+                <i class="fa fa-arrow-down" style="color:green;font-size:40px"></i>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:800px;">
+                <div class="col-md-12">
+                    <span style="font-weight: bold; margin-right: 10px;">Select Second Account to Consolidate (attributes of this account will be lost):</span>
+                </div>
+                <div class="col-md-12">
+                    <div ui-select2="quickSearchStaff" ng-model="moveSettings.staffSecondary" />
+                </div>
+                <div ng-if="moveSettings.staffSecondary != null" class="col-md-12">
+                    <div class="table-responsive selectedItemTargetDetail">
+                        <h3><strong>{{moveSettings.staffSecondary.LastName}}, {{moveSettings.staffSecondary.FirstName}} ({{moveSettings.staffSecondary.TeacherKey}})</strong></h3>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Internal ID</td>
+                                    <td>{{moveSettings.staffSecondary.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{moveSettings.staffSecondary.Email}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Teacher Key</td>
+                                    <td>{{moveSettings.staffSecondary.TeacherKey}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="padding-top:20px;">
+            <button type="button" ng-click="processMove()" class="btn btn-primary"><i class="fa fa-check"></i> Process Consolidation</button>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .selectedItemDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #4697ce;
+    }
+
+        .selectedItemDetail h3 {
+            color: white;
+        }
+
+    .selectedItemTargetDetail {
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        border-radius: 5px;
+        background-color: #7dcc93;
+    }
+
+        .selectedItemTargetDetail h3 {
+            color: white;
+        }
+
+    .select2OptGroupHeader {
+        border-bottom: 1px solid #888888;
+    }
+</style>

@@ -1,0 +1,54 @@
+﻿<div ng-controller="TeamMeetingAttendController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/tm-attend-list">Attend a Team Meeting</a></li>
+            <li class="active">{{meeting.Title}}</li>
+        </ol>
+        <h1>{{meeting.Title}}</h1>
+        <div class="options">
+            <observation-summary-field-chooser></observation-summary-field-chooser>
+        </div>
+    </div>
+    <div class="col-md-12 ng-scope">
+        <ns-filter-options-container-directive team-meeting-staff-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="container-fluid" style="min-height:350px;">
+        <div class="row">
+            <spinner name="tableSpinner">
+                <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <div class="col-md-12" ng-if="meeting.ID">
+                <ns-observation-summary-tm-attend selected-benchmark-date-id="meeting.TestDueDateId" selected-team-meeting-id="meeting.ID" selected-meeting-name="meeting.Title" selected-staff-id="filterOptions.selectedTeamMeetingStaff.id"></ns-observation-summary-tm-attend>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-content {
+    }
+
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>

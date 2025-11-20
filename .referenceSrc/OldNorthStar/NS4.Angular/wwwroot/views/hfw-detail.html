@@ -1,0 +1,222 @@
+﻿<form ng-controller="HfwStudentDetailReportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Reports</li>
+            <li>Classrooms</li>
+            <li class="active">High Frequency Words - Student Detail</li>
+        </ol>
+        <h1 class="hidden-print">High Frequency Words Detailed Report</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="false" print-multi-page="true" fit-viewer-height="" fit-width="" force-portrait-page-size="true" html-viewer-height="" html-viewer-width="" stretch-to-fit="false"></print-button>
+            </div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="container-fluid">
+        <div class="col-md-12" id="mainfilter">
+            <ns-filter-options-container-directive 
+                    student-detailed-quick-search-enabled="true" 
+                    quick-search-callback="processQuickSearchStudent" 
+                    school-year-enabled="true" 
+                    school-enabled="true" 
+                    section-enabled="true"
+                    grade-enabled="true" 
+                    show-hr="true"
+                    teacher-enabled="true" 
+                    hfw-sort-order-enabled="true"
+                    section-student-enabled="true"
+                    hfw-multi-range-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <div style="clear:both"></div>
+        <div class="col-md-12 hidden-print">
+            <standard-report-header heading="'HFW Detailed Report'" options="filterOptions"></standard-report-header>
+        </div>
+        <div style="clear:both"></div>
+        <div class="col-md-12" ng-show="(!filterOptions.selectedSectionStudent && !filterOptions.quickSearchStudent) || filterOptions.selectedHfwMultiRange.length == 0">
+            <uib-alert type="info">Please select a student and word range.</uib-alert>
+        </div>
+        <div class="col-md-12" style="min-height:350px;">
+            <spinner name="tableSpinner">
+                <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <div class="hfwTable">
+                <div ng-repeat="section in factory.Sections">
+                    <!--<div class="col-md-12" style="margin-bottom:15px;padding:5px !important;" ng-if="settings.batchPrint">
+                        <h2>{{filterOptions.selectedSectionStudent.text}}</h2>
+                    </div>-->
+                    <div class="col-md-12" style="margin-bottom:15px;padding:5px !important;">
+                        <hfw-student-footer options="filterOptions"></hfw-student-footer>
+                    </div>
+                    <div style="padding-left:0px;" class="col-sm-6">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="10%">
+                                        Order
+                                    </th>
+                                    <th width="30%">
+                                        Word
+                                    </th>
+                                    <th width="30%">
+                                        Read
+                                    </th>
+                                    <th width="30%">
+                                        Write
+                                    </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-class="setHfwBackgroundColor(wordRow)" ng-repeat="wordRow in section.LowerSection.Rows">
+                                    <td class="">
+                                        {{::wordRow.Order}}
+                                    </td>
+                                    <td class="jumboText">
+                                        {{::wordRow.Word}}
+                                    </td>
+                                    <td class="">
+                                        {{::wordRow.Read | nsDateFormat}}
+                                    </td>
+                                    <td class="">
+                                        {{::wordRow.Write | nsDateFormat}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6" style="padding-right:0px;" ng-hide="section.IsKdg">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="10%">
+                                        Order
+                                    </th>
+                                    <th width="30%">
+                                        Word
+                                    </th>
+                                    <th width="30%">
+                                        Read
+                                    </th>
+                                    <th width="30%">
+                                        Write
+                                    </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-class="setHfwBackgroundColor(wordRow)" ng-repeat="wordRow in section.UpperSection.Rows">
+                                    <td class="">
+                                        {{::wordRow.Order}}
+                                    </td>
+                                    <td class="jumboText">
+                                        {{::wordRow.Word}}
+                                    </td>
+                                    <td class="">
+                                        {{::wordRow.Read | nsDateFormat}}
+                                    </td>
+                                    <td class="">
+                                        {{::wordRow.Write | nsDateFormat}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 jumboText">
+                        <div class="col-md-4">
+                            <span class="label label-primary" style="margin-right:10px;">Total Read: </span> {{::section.TotalRead}} / <span ng-show="section.IsKdg">{{::section.WordCount}}</span> <span ng-show="!section.IsKdg">100</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="label label-primary" style="margin-right:10px;">Total Written: </span> {{::section.TotalWritten}} / <span ng-show="section.IsKdg">{{::section.WordCount}}</span> <span ng-show="!section.IsKdg">100</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="label label-primary" style="margin-right:10px;">Total Score: </span> {{::section.TotalScore}} / <span ng-show="section.IsKdg">{{::section.WordCount}}</span> <span ng-show="!section.IsKdg">100</span>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div class="col-md-12 breaker" ng-if="$index != factory.Sections.length - 1" style="height:50px;">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #000;
+    }
+
+    .hfwTable .breaker {
+        page-break-after: always;
+    }
+
+ 
+    .table > thead > tr > th {
+        border-top: 1px solid #000 !important;
+        border-left: 1px solid #000;
+        border-right: 1px solid #000;
+    }
+    .table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #000;
+}
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch.checked small {
+        left: 15px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+    .yellowSelectedHfwRow{
+        background-color:#FFDB59;
+    }
+    .graySelectedHfwRow{
+        background-color:#eeeeee;
+    }
+
+</style>

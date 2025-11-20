@@ -1,0 +1,160 @@
+﻿<div ng-controller="ObservationSummaryClassMultipleController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Dashboards</li>
+            <li class="active">Classroom</li>
+        </ol>
+        <h1 class="hidden-print">Classroom Dashboard - Multiple Benchmark Dates</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="true" sort-array="sortArray" print-multi-page="true" fit-viewer-height="false" fit-width="true" html-viewer-height="0" html-viewer-width="" stretch-to-fit=""></print-button>
+                <stacked-bar-graph-summary-attribute-chooser></stacked-bar-graph-summary-attribute-chooser>
+                <observation-summary-field-chooser></observation-summary-field-chooser>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12" id="mainfilter">
+                <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" multi-benchmark-date-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+            </div>
+            <div class="col-md-12" ng-if="filterOptions.selectedSection != null">
+                <standard-report-header heading="'Section Observation Summary'" options="filterOptions"></standard-report-header>
+            </div>
+            <div style="min-height:350px;">
+                <spinner name="tableSpinner">
+                    <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div>
+                </spinner>
+                <div class="col-md-12 table-vertical">
+
+                    <div ng-if="filterOptions.selectedSection == null || filterOptions.selectedBenchmarkDates.length == 0">
+                        <uib-alert type="info"><b>Note:</b> You must select a section and at least one benchmark date in order to view the dashboard.</uib-alert>
+                    </div>
+                    <div>
+                        <div ng-if="filterOptions.selectedBenchmarkDates.length > 0 && filterOptions.selectedSection != null">
+                            <div class="table-responsive">
+                                <ns-observation-summary-section-multiple sort-array="sortArray" selected-benchmark-date-id="filterOptions.selectedBenchmarkDate.id" selected-section-id="filterOptions.selectedSection.id"></ns-observation-summary-section-multiple>
+                            </div>
+                            <div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-right:5px;">
+                                                <span class="obsPerfect" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                            </td>
+                                            <td style="padding-right:10px">
+                                                <strong>Perfect Score</strong>
+                                            </td>
+                                            <td style="padding-right:5px;">
+                                                <span class="obsBlue" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                            </td>
+                                            <td style="padding-right:10px">
+                                                <strong>Exceeds Expectations</strong>
+                                            </td>
+                                            <td style="padding-right:5px;">
+                                                <span class="obsGreen" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                            </td>
+                                            <td style="padding-right:10px">
+                                                <strong>Meets Expectations</strong>
+                                            </td>
+                                            <td style="padding-right:5px;">
+                                                <span class="obsYellow" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                            </td>
+                                            <td style="padding-right:10px">
+                                                <strong>Approaches Expectations</strong>
+                                            </td>
+                                            <td style="padding-right:5px;">
+                                                <span class="obsRed" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                            </td>
+                                            <td style="padding-right:10px">
+                                                <strong>Does Not Meet Expectations</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="10">
+                                                <strong>* = Copied from a previous benchmark date</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+
+    .nsAltRowBg {
+        background-color: #efefef;
+    }
+
+    .nsRowBorderBottom {
+        border-bottom: 1px solid #efefef;
+    }
+
+    observation-summary-field-chooser .btn-toolbar {
+        display: inline-block;
+    }
+</style>

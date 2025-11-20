@@ -1,0 +1,66 @@
+﻿<div ng-repeat="currentPage in printPages">
+    <table class="table table-striped" id="obsSummary">
+        <thead>
+            <tr>
+                <th ng-if="showCheckboxes === true" rowspan="2">
+                    Select All<br />
+                    <switch ng-model="allSelected" ng-change="selectAllStudents()"></switch>
+                </th>
+                <th rowspan="2"><div style="cursor: pointer" ng-click="sort('StudentName')">Student Name <i class="{{manualSortHeaders.studentNameHeaderClass}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att1Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att1')">{{::observationSummaryManager.Scores.Att1Header}} <i class="{{manualSortHeaders['Att1']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att2Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att2')">{{::observationSummaryManager.Scores.Att2Header}} <i class="{{manualSortHeaders['Att2']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att3Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att3')">{{::observationSummaryManager.Scores.Att3Header}} <i class="{{manualSortHeaders['Att3']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att4Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att4')">{{::observationSummaryManager.Scores.Att4Header}} <i class="{{manualSortHeaders['Att4']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att5Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att5')">{{::observationSummaryManager.Scores.Att5Header}} <i class="{{manualSortHeaders['Att5']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att6Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att6')">{{::observationSummaryManager.Scores.Att6Header}} <i class="{{manualSortHeaders['Att6']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att7Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att7')">{{::observationSummaryManager.Scores.Att7Header}} <i class="{{manualSortHeaders['Att7']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att8Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att8')">{{::observationSummaryManager.Scores.Att8Header}} <i class="{{manualSortHeaders['Att8']}}"></i></div></th>
+                <th ng-if="observationSummaryManager.Scores.Att9Visible" rowspan="2"><div style="cursor: pointer;" ng-click="sort('Att9')">{{::observationSummaryManager.Scores.Att9Header}} <i class="{{manualSortHeaders['Att9']}}"></i></div></th>
+                <th style="text-align: center" scope="col" ng-repeat="headerGroup in observationSummaryManager.Scores.HeaderGroups | filter: { page : currentPage.page}" colspan="{{headerGroup.FieldCount}}">
+                    <a href="" ng-click="hideAssessment(headerGroup)" class="pull-right"><i class="fa fa-minus"></i></a> {{::headerGroup.AssessmentName}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" ng-repeat="field in observationSummaryManager.Scores.Fields | filter: { page : currentPage.page}">
+                    <a href="" ng-click="hideField(field)" class="pull-right"><i class="fa fa-minus"></i></a>
+
+                    <div style="cursor: pointer" ng-click="sort(observationSummaryManager.Scores.Fields.indexOf(field))"><span ng-bind-html="::field.FieldName | safe_html"></span> <i class="{{headerClassArray[observationSummaryManager.Scores.Fields.indexOf(field)]}}"></i></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-class="{'nsObservationSummarySelected' : studentResult.selected}" ng-repeat="studentResult in observationSummaryManager.Scores.StudentResults | orderBy:sortArray">
+                <td ng-if="::showCheckboxes === true">
+                    <switch ng-model="studentResult.selected" ng-change="changeTeamMeetingStudentSelection(studentResult)"></switch>
+                </td>
+                <td align="left" data-title="FullName"><span student-dashboard-link student-id="studentResult.StudentId" student-name="studentResult.StudentName"></span></td>
+                <td ng-if="observationSummaryManager.Scores.Att1Visible">{{::studentResult.Att1}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att2Visible">{{::studentResult.Att2}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att3Visible">{{::studentResult.Att3}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att4Visible">{{::studentResult.Att4}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att5Visible">{{::studentResult.Att5}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att6Visible">{{::studentResult.Att6}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att7Visible">{{::studentResult.Att7}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att8Visible">{{::studentResult.Att8}}</td>
+                <td ng-if="observationSummaryManager.Scores.Att9Visible">{{::studentResult.Att9}}</td>
+                <td ng-class="::getBackgroundClass(studentResult.GradeId, fieldResult)" ng-repeat="fieldResult in studentResult.OSFieldResults | filter: { page : currentPage.page}">
+                    <ns-assessment-field mode="'readonly'" result="fieldResult" all-results="studentResult.OSFieldResults"></ns-assessment-field>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-md-12 breaker" ng-if="$index != printPages.length - 1" style="height:50px;">&nbsp;</div>
+
+</div>
+<style>
+    .breaker {
+        page-break-after: always;
+    }
+    .nsObservationSummarySelected {
+        border-left: 4px solid green;
+    }
+
+    a i.fa-minus {
+        color: #cccccc;
+    }
+</style>

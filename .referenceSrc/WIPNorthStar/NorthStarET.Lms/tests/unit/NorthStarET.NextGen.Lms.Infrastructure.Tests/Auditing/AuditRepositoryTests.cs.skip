@@ -1,0 +1,388 @@
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using NorthStarET.NextGen.Lms.Domain.Auditing;
+using NorthStarET.NextGen.Lms.Infrastructure.Auditing.Persistence;
+using NorthStarET.NextGen.Lms.Infrastructure.Districts.Persistence;
+using Xunit;
+
+namespace NorthStarET.NextGen.Lms.Infrastructure.Tests.Auditing;
+
+public sealed class AuditRepositoryTests : IDisposable
+{
+    private readonly DistrictsDbContext _dbContext;
+    private readonly AuditRepository _sut;
+
+    public AuditRepositoryTests()
+    {
+        var options = new DbContextOptionsBuilder<DistrictsDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        _dbContext = new DistrictsDbContext(options);
+        _sut = new AuditRepository(_dbContext);
+    }
+
+    public void Dispose()
+    {
+        _dbContext.Dispose();
+    }
+
+    [Fact]
+    public async Task Should_AddAuditRecord_When_RecordProvided()
+    {
+        // Arrange
+        var auditRecord = AuditRecord.Create(
+            actorId: "system-admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: "{\"name\":\"Test District\"}",
+            districtId: Guid.NewGuid()
+        );
+
+        // Act
+        await _sut.AddAsync(auditRecord, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Assert
+        var saved = await _dbContext.AuditRecords.FindAsync(auditRecord.Id);
+        saved.Should().NotBeNull();
+        saved!.ActorId.Should().Be("system-admin-001");
+        saved.ActorRole.Should().Be(ActorRole.SystemAdmin);
+        saved.Action.Should().Be("Created");
+    }
+
+    [Fact]
+    public async Task Should_ReturnAuditRecordById_When_RecordExists()
+    {
+        // Arrange
+        var auditRecord = AuditRecord.Create(
+            actorId: "system-admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: "{\"name\":\"Test District\"}",
+            districtId: Guid.NewGuid()
+        );
+        await _sut.AddAsync(auditRecord, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var result = await _sut.GetByIdAsync(auditRecord.Id, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(auditRecord.Id);
+        result.ActorId.Should().Be("system-admin-001");
+    }
+
+    [Fact]
+    public async Task Should_ReturnNull_When_AuditRecordNotFound()
+    {
+        // Arrange
+        var nonExistentId = Guid.NewGuid();
+
+        // Act
+        var result = await _sut.GetByIdAsync(nonExistentId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Should_ReturnFilteredRecords_When_QueryingByDistrictId()
+    {
+        // Arrange
+        var districtId1 = Guid.NewGuid();
+        var districtId2 = Guid.NewGuid();
+
+        var record1 = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: districtId1.ToString(),
+            afterPayload: "{}",
+            districtId: districtId1
+        );
+
+        var record2 = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: districtId2.ToString(),
+            afterPayload: "{}",
+            districtId: districtId2
+        );
+
+        await _sut.AddAsync(record1, CancellationToken.None);
+        await _sut.AddAsync(record2, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var results = await _sut.GetByDistrictIdAsync(districtId1, CancellationToken.None);
+
+        // Assert
+        results.Should().HaveCount(1);
+        results.First().DistrictId.Should().Be(districtId1);
+    }
+
+    [Fact]
+    public async Task Should_ReturnPaginatedResults_When_QueryingWithPagination()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        for (int i = 0; i < 50; i++)
+        {
+            var record = AuditRecord.Create(
+                actorId: "admin-001",
+                actorRole: ActorRole.SystemAdmin,
+                action: "Updated",
+                entityType: "District",
+                entityId: districtId.ToString(),
+                afterPayload: $"{{\"iteration\":{i}}}",
+                districtId: districtId
+            );
+            await _sut.AddAsync(record, CancellationToken.None);
+        }
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var results = await _sut.GetPagedAsync(pageNumber: 2, pageSize: 10, CancellationToken.None);
+
+        // Assert
+        results.Should().HaveCount(10);
+    }
+
+    [Fact]
+    public async Task Should_OrderByOccurredAtDescending_When_QueryingAuditRecords()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        var timestamps = new List<DateTimeOffset>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            await Task.Delay(10); // Ensure different timestamps
+            var record = AuditRecord.Create(
+                actorId: "admin-001",
+                actorRole: ActorRole.SystemAdmin,
+                action: "Updated",
+                entityType: "District",
+                entityId: districtId.ToString(),
+                afterPayload: $"{{\"iteration\":{i}}}",
+                districtId: districtId
+            );
+            timestamps.Add(record.OccurredAtUtc);
+            await _sut.AddAsync(record, CancellationToken.None);
+        }
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var results = await _sut.GetByDistrictIdAsync(districtId, CancellationToken.None);
+
+        // Assert
+        results.Should().BeInDescendingOrder(r => r.OccurredAtUtc);
+    }
+
+    [Fact]
+    public async Task Should_IncludeCorrelationId_When_AuditRecordCreated()
+    {
+        // Arrange
+        var correlationId = Guid.NewGuid();
+        var auditRecord = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: "{}",
+            districtId: Guid.NewGuid(),
+            correlationId: correlationId
+        );
+
+        // Act
+        await _sut.AddAsync(auditRecord, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Assert
+        var saved = await _dbContext.AuditRecords.FindAsync(auditRecord.Id);
+        saved!.CorrelationId.Should().Be(correlationId);
+    }
+
+    [Fact]
+    public async Task Should_StoreBeforeAndAfterPayloads_When_UpdateRecorded()
+    {
+        // Arrange
+        var beforePayload = "{\"name\":\"Old Name\"}";
+        var afterPayload = "{\"name\":\"New Name\"}";
+
+        var auditRecord = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Updated",
+            entityType: "District",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: afterPayload,
+            districtId: Guid.NewGuid(),
+            beforePayload: beforePayload
+        );
+
+        // Act
+        await _sut.AddAsync(auditRecord, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Assert
+        var saved = await _dbContext.AuditRecords.FindAsync(auditRecord.Id);
+        saved!.BeforePayload.Should().Be(beforePayload);
+        saved.AfterPayload.Should().Be(afterPayload);
+    }
+
+    [Fact]
+    public async Task Should_ReturnTotalCount_When_QueryingWithPagination()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+        for (int i = 0; i < 25; i++)
+        {
+            var record = AuditRecord.Create(
+                actorId: "admin-001",
+                actorRole: ActorRole.SystemAdmin,
+                action: "Updated",
+                entityType: "District",
+                entityId: districtId.ToString(),
+                afterPayload: $"{{\"iteration\":{i}}}",
+                districtId: districtId
+            );
+            await _sut.AddAsync(record, CancellationToken.None);
+        }
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var totalCount = await _sut.GetTotalCountAsync(CancellationToken.None);
+
+        // Assert
+        totalCount.Should().Be(25);
+    }
+
+    [Fact]
+    public async Task Should_FilterByEntityType_When_QueryingAuditRecords()
+    {
+        // Arrange
+        var districtId = Guid.NewGuid();
+
+        var districtRecord = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Created",
+            entityType: "District",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: "{}",
+            districtId: districtId
+        );
+
+        var adminRecord = AuditRecord.Create(
+            actorId: "admin-001",
+            actorRole: ActorRole.SystemAdmin,
+            action: "Invited",
+            entityType: "DistrictAdmin",
+            entityId: Guid.NewGuid().ToString(),
+            afterPayload: "{}",
+            districtId: districtId
+        );
+
+        await _sut.AddAsync(districtRecord, CancellationToken.None);
+        await _sut.AddAsync(adminRecord, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var results = await _sut.GetByEntityTypeAsync("District", CancellationToken.None);
+
+        // Assert
+        results.Should().HaveCount(1);
+        results.First().EntityType.Should().Be("District");
+    }
+
+    [Fact]
+    public async Task Should_FilterByDistrictId_When_QueryingByCorrelationId()
+    {
+        // Arrange
+        var districtId1 = Guid.NewGuid();
+        var districtId2 = Guid.NewGuid();
+        var correlationId = Guid.NewGuid();
+
+        // Create audit records with same correlation ID but different districts
+        var record1 = AuditRecord.Create(
+            id: Guid.NewGuid(),
+            districtId: districtId1,
+            actorId: Guid.NewGuid(),
+            actorRole: ActorRole.PlatformAdmin,
+            action: "CreateDistrict",
+            entityType: "District",
+            entityId: Guid.NewGuid(),
+            beforePayload: null,
+            afterPayload: "{\"name\":\"District 1\"}",
+            correlationId: correlationId
+        );
+
+        var record2 = AuditRecord.Create(
+            id: Guid.NewGuid(),
+            districtId: districtId2,
+            actorId: Guid.NewGuid(),
+            actorRole: ActorRole.PlatformAdmin,
+            action: "CreateDistrict",
+            entityType: "District",
+            entityId: Guid.NewGuid(),
+            beforePayload: null,
+            afterPayload: "{\"name\":\"District 2\"}",
+            correlationId: correlationId
+        );
+
+        await _sut.AddAsync(record1, CancellationToken.None);
+        await _sut.AddAsync(record2, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Act - Query with district 1's ID
+        var results = await _sut.GetByCorrelationIdAsync(districtId1, correlationId, CancellationToken.None);
+
+        // Assert - Should only return records for district 1
+        results.Should().HaveCount(1);
+        results.First().DistrictId.Should().Be(districtId1);
+        results.First().Id.Should().Be(record1.Id);
+    }
+
+    [Fact]
+    public async Task Should_ReturnEmpty_When_QueryingByCorrelationIdForDifferentDistrict()
+    {
+        // Arrange
+        var districtId1 = Guid.NewGuid();
+        var districtId2 = Guid.NewGuid();
+        var correlationId = Guid.NewGuid();
+
+        // Create audit record for district 1
+        var record = AuditRecord.Create(
+            id: Guid.NewGuid(),
+            districtId: districtId1,
+            actorId: Guid.NewGuid(),
+            actorRole: ActorRole.PlatformAdmin,
+            action: "CreateDistrict",
+            entityType: "District",
+            entityId: Guid.NewGuid(),
+            beforePayload: null,
+            afterPayload: "{\"name\":\"District 1\"}",
+            correlationId: correlationId
+        );
+
+        await _sut.AddAsync(record, CancellationToken.None);
+        await _dbContext.SaveChangesAsync();
+
+        // Act - Query with district 2's ID (different district)
+        var results = await _sut.GetByCorrelationIdAsync(districtId2, correlationId, CancellationToken.None);
+
+        // Assert - Should return no records (tenant isolation)
+        results.Should().BeEmpty();
+    }
+}

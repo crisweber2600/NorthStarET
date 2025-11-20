@@ -1,0 +1,63 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">School</a></li>
+        <li class="active">School Assessments</li>
+    </ol>
+    <h1>Manage Available Assessments for School</h1>
+    <div class="options">
+
+    </div>
+</div>
+<div class="container-fluid"  ng-controller="SchoolAssessmentsController">
+    <div class="row">
+        <div class="col-md-12 ng-scope">
+            <ns-filter-options-container-directive school-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Available Assessments">
+                <spinner name="tableSpinner">
+                    <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div>
+                </spinner>
+                <div ng-if="filterOptions.selectedSchool != null">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Allow Users To Access?</th>
+                            <th>Assessment Name</th>
+                            <th>Assessment Type</th>
+                            <th>Assessment Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="assessment in dataManager.SchoolAssessments">
+                            <td><switch disabled="assessment.IsDisabled" title="{{assessment.IsDisabled ? 'Disabled by your district' : ''}}" ng-model="assessment.AssessmentIsAvailable" ng-change="saveAvailability(assessment)"></switch></td>
+                            <td>{{assessment.AssessmentName}}</td>
+                            <td>
+                                <div ng-if="assessment.TestType == 1">Benchmark Assessment</div>
+                                <div ng-if="assessment.TestType == 2">Intervention Assessment</div>
+                                <div ng-if="assessment.TestType == 3">State Test</div>
+                            </td>
+                            <td>{{assessment.AssessmentDescription}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                    </div>
+                <div ng-if="filterOptions.selectedSchool == null">
+                    <uib-alert type="info">Please select a School.</uib-alert>
+                    </div>
+            </panel>
+        </div>
+    </div>
+</div>

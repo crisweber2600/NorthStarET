@@ -1,0 +1,119 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Reports</li>
+        <li class="active">Stacked Bar Graphs - By Test Due Date</li>
+    </ol>
+    <h1>Stacked Bar Graphs - By Test Due Date</h1>
+</div>
+<div class="container-fluid" ng-controller="StackedBarGraphGroupsController">
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="{{groupsFactory.name}}" panel-icon="fa fa-group">
+                <ns-stacked-bar-graph-custom-group-options group-factory="groupsFactory" group-name="groupsFactory.name"></ns-stacked-bar-graph-custom-group-options>
+                </panel>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-2" ng-show="!settings.summaryMode">
+                <button ng-click="generateGraph()" class="btn btn-orange"><i class="fa fa-bar-chart-o"></i> Generate Graph</button>
+            </div>
+            <div class="form-group col-md-10" ng-show="!settings.summaryMode">
+                <label for="radio" style="font-weight:bold;font-size:14px;padding-right:15px;" class="control-label">Report By</label>
+                <div class="radio block"><label><input icheck type="radio" ng-model="settings.stacking" value="normal" name="stacking" checked> Number of Students</label></div>
+                <div class="radio block"><label><input icheck type="radio" ng-model="settings.stacking" value="percent" name="stacking"> Percent of Students</label></div>
+            </div>
+            <div class="col-md-12" style="margin-bottom:15px;" ng-if="settings.graphGenerated">
+                <ns-stacked-bar-graph-legend title="'Stacked Bar Graph'" options="groupsFactory.options" zone="settings.summaryScoreGrouping" summary-mode="settings.summaryMode" category="settings.summaryCategory"></ns-stacked-bar-graph-legend>
+            </div>
+            <div class="col-md-12" ng-if="settings.graphGenerated" ng-show="!settings.summaryMode">
+                <highchart id="chart1" config="chartConfig"></highchart>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-if="settings.summaryMode">
+            <div class="row">
+                <div class="col-md-2" style="padding-bottom:10px;">
+                    <a ng-click="changeToChartMode()" class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Back to Bar Graph</a>
+                </div>
+                <div class="form-group col-md-10">
+                    <label for="radio" style="font-weight:bold;font-size:14px;padding-right:15px;" class="control-label">View</label>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" value="Current Year Only (Sortable)" name="view" checked> Current Year Only (Sortable)</label></div>
+                    <div class="radio block"><label><input icheck type="radio" ng-model="settings.summaryView" value="All Years (Non-Sortable)" name="view"> All Years (Non-Sortable)</label></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <panel panel-class="panel-midnightblue" heading="{{settings.summaryView}}">
+                        <table class="table table-striped" ng-if="settings.summaryView == 'Current Year Only (Sortable)'">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Student Name</th>
+                                    <th rowspan="2">Student ID</th>
+                                    <th rowspan="2">Special Ed.</th>
+                                    <th rowspan="2">Student Svcs.</th>
+                                    <th rowspan="2">School / Grade (Teacher) </th>
+                                    <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{tdd.DisplayDate}}</th>
+                                </tr>
+                                <tr ns-summary-field-headers sort-array="sortArray" sortable="true" data-rows="groupsFactory" tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields"></tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="record in groupsFactory.SummaryRecords | orderBy:sortArray" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" student-result="record">
+                                    <td>
+                                        <a href="#/student-dashboard/{{record.StudentID}}">{{record.Student}}</a>
+                                    </td>
+                                    <td>
+                                        {{::record.StudentIdentifier}}
+                                    </td>
+                                    <td>{{record.SpecialED}}</td>
+                                    <td>{{record.Services}}</td>
+                                    <td>
+                                        <div ng-repeat="location in record.SchoolsSectionsList">
+                                            {{::location}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table" ng-if="settings.summaryView == 'All Years (Non-Sortable)'">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Student Name</th>
+                                    <th rowspan="2">Student ID</th>
+                                    <th rowspan="2">Special Ed.</th>
+                                    <th rowspan="2">Student Svcs.</th>
+                                    <th rowspan="2">School </th>
+                                    <th rowspan="2">Section </th>
+                                    <th class="text-center" ng-repeat="tdd in groupsFactory.TestDueDates" style="border-left:3px solid #e9ecf0; border-right: 3px solid #e9ecf0;border-top:3px solid #e9ecf0;" colspan="{{groupsFactory.Fields.length}}">{{tdd.PeriodName}}</th>
+                                </tr>
+                                <tr ns-summary-field-headers tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields"></tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="record in groupsFactory.HistoricalSummaryRecords" ns-summary-field tdds="groupsFactory.TestDueDates" fields="groupsFactory.Fields" student-result="record">
+                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                        <a href="#/student-dashboard/{{record.StudentID}}">{{record.Student}}</a>
+                                    </td>
+                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">
+                                        {{::record.StudentIdentifier}}
+                                    </td>
+                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.SpecialED}}</td>
+                                    <td rowspan="{{record.RowSpan}}" ng-if="record.FirstRecord">{{record.Services}}</td>
+                                    <td rowspan="{{record.SchoolRowSpan}}" ng-if="record.FirstSchoolRecord">
+                                        {{record.SchoolName}}
+                                    </td>
+                                    <td>
+                                        {{record.Section}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </panel>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <style>
+     .radio {display: inline;}
+
+ </style>

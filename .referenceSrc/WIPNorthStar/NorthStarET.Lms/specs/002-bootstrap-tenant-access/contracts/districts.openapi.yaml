@@ -1,0 +1,346 @@
+openapi: 3.0.3
+info:
+  title: Tenant-Isolated District Management API
+  version: v1
+  description: >-
+    Versioned ApplicationFacade endpoints that power System Admin district management and
+    District Admin scoped access. All endpoints require Entra-issued bearer tokens with
+    role claims.
+servers:
+  - url: https://{host}/api/v1
+    variables:
+      host:
+        default: localhost:5001
+paths:
+  /districts:
+    get:
+      operationId: listDistricts
+      summary: List all districts (System Admin only)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+          default: 1
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          default: 25
+      responses:
+        '200':
+          description: Paginated districts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictListResponse'
+    post:
+      operationId: createDistrict
+      summary: Create a district with unique suffix (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDistrictRequest'
+      responses:
+        '201':
+          description: District created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictResponse'
+        '409':
+          description: Suffix already exists
+  /districts/{districtId}:
+    get:
+      operationId: getDistrict
+      summary: Retrieve district details (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+      responses:
+        '200':
+          description: District with admin assignments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictDetailResponse'
+        '404':
+          description: District not found
+    put:
+      operationId: updateDistrict
+      summary: Update district name or suffix (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDistrictRequest'
+      responses:
+        '200':
+          description: District updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictResponse'
+        '409':
+          description: Suffix already exists
+    delete:
+      operationId: deleteDistrict
+      summary: Delete district after confirmation (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+        - in: query
+          name: force
+          schema:
+            type: boolean
+          description: Confirm deletion even if admins exist
+      responses:
+        '204':
+          description: District deleted
+  /districts/{districtId}/admins:
+    post:
+      operationId: addDistrictAdmin
+      summary: Invite or update a district admin assignment (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertDistrictAdminRequest'
+      responses:
+        '202':
+          description: Invite sent or refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictAdminResponse'
+        '400':
+          description: Email does not match suffix
+    get:
+      operationId: listDistrictAdmins
+      summary: List district admin assignments (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+      responses:
+        '200':
+          description: Assignment list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictAdminListResponse'
+  /districts/{districtId}/admins/{adminId}:
+    delete:
+      operationId: removeDistrictAdmin
+      summary: Revoke a district admin assignment (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+        - $ref: '#/components/parameters/DistrictAdminId'
+      responses:
+        '204':
+          description: Admin revoked
+  /districts/{districtId}/admins/{adminId}/resend:
+    post:
+      operationId: resendDistrictAdminInvite
+      summary: Resend invite to an unverified admin (System Admin)
+      security:
+        - bearerAuth: [SystemAdmin]
+      parameters:
+        - $ref: '#/components/parameters/DistrictId'
+        - $ref: '#/components/parameters/DistrictAdminId'
+      responses:
+        '202':
+          description: Invite resent and expiry extended
+  /district-home:
+    get:
+      operationId: getDistrictHome
+      summary: District Admin landing data scoped to their district
+      security:
+        - bearerAuth: [DistrictAdmin]
+      responses:
+        '200':
+          description: District-scoped dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictHomeResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    DistrictId:
+      name: districtId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    DistrictAdminId:
+      name: adminId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    DistrictListResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistrictSummary'
+    DistrictSummary:
+      type: object
+      properties:
+        districtId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        suffix:
+          type: string
+        adminCount:
+          type: integer
+        verifiedAdminCount:
+          type: integer
+        lastUpdatedUtc:
+          type: string
+          format: date-time
+    CreateDistrictRequest:
+      type: object
+      required:
+        - name
+        - suffix
+      properties:
+        name:
+          type: string
+        suffix:
+          type: string
+    UpdateDistrictRequest:
+      allOf:
+        - $ref: '#/components/schemas/CreateDistrictRequest'
+    DistrictResponse:
+      type: object
+      properties:
+        districtId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        suffix:
+          type: string
+        createdAtUtc:
+          type: string
+          format: date-time
+        updatedAtUtc:
+          type: string
+          format: date-time
+          nullable: true
+    DistrictDetailResponse:
+      allOf:
+        - $ref: '#/components/schemas/DistrictResponse'
+        - type: object
+          properties:
+            admins:
+              type: array
+              items:
+                $ref: '#/components/schemas/DistrictAdminResponse'
+    UpsertDistrictAdminRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+        resend:
+          type: boolean
+          default: false
+    DistrictAdminResponse:
+      type: object
+      properties:
+        adminId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        status:
+          type: string
+          enum: [Unverified, Verified, Revoked]
+        invitationSentAtUtc:
+          type: string
+          format: date-time
+        invitationExpiresAtUtc:
+          type: string
+          format: date-time
+        verifiedAtUtc:
+          type: string
+          format: date-time
+          nullable: true
+    DistrictAdminListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistrictAdminResponse'
+    DistrictHomeResponse:
+      type: object
+      properties:
+        districtId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        suffix:
+          type: string
+        pendingInvites:
+          type: integer
+        verifiedAdmins:
+          type: integer
+        recentAuditItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditSummary'
+    AuditSummary:
+      type: object
+      properties:
+        occurredAtUtc:
+          type: string
+          format: date-time
+        action:
+          type: string
+        description:
+          type: string

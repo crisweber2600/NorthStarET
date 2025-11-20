@@ -1,0 +1,307 @@
+From 12e0860e024d58a8a14e80f98e5b35fb3fc07f19 Mon Sep 17 00:00:00 2001
+From: "copilot-swe-agent[bot]" <198982749+Copilot@users.noreply.github.com>
+Date: Thu, 30 Oct 2025 01:21:35 +0000
+Subject: [PATCH] Merge PR #152 and PR #149 changes
+
+Applied changes from both PRs:
+
+PR #149 (copilot/sub-pr-143-yet-again):
+- Added comprehensive exception handling documentation in LmsAuthenticationExtensions
+- Changed logger from GetService to GetRequiredService
+- Added specific catch blocks for MicrosoftIdentityWebChallengeUserException, HttpRequestException, InvalidOperationException
+- Updated logging messages to be more descriptive
+
+PR #152 (copilot/supply-active-tenant-id):
+- Added auto-select tenant logic in Application TokenExchangeService when ActiveTenantId is empty
+- Modified tenant validation to check all memberships first
+- Added ActiveTenantId = Guid.Empty in Web TokenExchangeService request
+- Added new unit tests for auto-selection and no-membership scenarios
+
+Conflict Resolution:
+- Preserved existing HttpContext parameter in Web TokenExchangeService method signature (from AuthFix)
+- Added ActiveTenantId field to token exchange request
+- Maintained GetClientIpAddress helper method from AuthFix
+- Combined exception handling improvements with tenant selection logic
+
+All tests passing.
+---
+ .../Services/TokenExchangeService.cs          | 26 ++++--
+ .../LmsAuthenticationExtensions.cs            | 46 ++++++++---
+ .../Services/TokenExchangeService.cs          |  1 +
+ .../TokenExchangeServiceTests.cs              | 80 +++++++++++++++----
+ 4 files changed, 120 insertions(+), 33 deletions(-)
+
+diff --git a/src/NorthStarET.NextGen.Lms.Application/Authentication/Services/TokenExchangeService.cs b/src/NorthStarET.NextGen.Lms.Application/Authentication/Services/TokenExchangeService.cs
+index 32d0190..2c66e84 100644
+--- a/src/NorthStarET.NextGen.Lms.Application/Authentication/Services/TokenExchangeService.cs
++++ b/src/NorthStarET.NextGen.Lms.Application/Authentication/Services/TokenExchangeService.cs
+@@ -96,21 +96,37 @@ public sealed class TokenExchangeService : ITokenExchangeService
+             await userRepository.UpdateAsync(user, cancellationToken);
+         }
+ 
+-        var activeTenantId = new TenantId(context.ActiveTenantId);
+-        var membership = await membershipRepository.GetByUserAndTenantAsync(user.Id, activeTenantId, cancellationToken);
+-        if (membership is null || !membership.IsActive || (membership.ExpiresAt.HasValue && membership.ExpiresAt <= now))
++        // Get all active memberships first
++        var authorizationTenants = await membershipRepository.GetActiveMembershipsForUserAsync(user.Id, cancellationToken);
++        if (authorizationTenants.Count == 0)
+         {
+-            logger.LogWarning("User {UserId} attempted to authenticate without an active membership for tenant {TenantId}", user.Id, activeTenantId.Value);
++            logger.LogWarning("User {UserId} attempted to authenticate without any active memberships", user.Id);
+             throw new InvalidOperationException("Active membership required for token exchange.");
+         }
+ 
++        // If no specific tenant requested, select the first available
++        TenantId activeTenantId;
++        Membership membership;
++        if (context.ActiveTenantId == Guid.Empty)
++        {
++            membership = authorizationTenants.FirstOrDefault()
++                ?? throw new InvalidOperationException("Active membership required for token exchange.");
++            activeTenantId = membership.TenantId;
++            logger.LogInformation("No tenant specified, auto-selected first available tenant {TenantId} for user {UserId}", activeTenantId.Value, user.Id);
++        }
++        else
++        {
++            activeTenantId = new TenantId(context.ActiveTenantId);
++            membership = authorizationTenants.FirstOrDefault(m => m.TenantId == activeTenantId)
++                ?? throw new InvalidOperationException($"User does not have active membership for tenant {activeTenantId.Value}.");
++        }
++
+         var role = await roleRepository.GetAsync(membership.RoleId, cancellationToken);
+         if (role is null)
+         {
+             throw new InvalidOperationException($"Role {membership.RoleId} referenced by membership is missing.");
+         }
+ 
+-        var authorizationTenants = await membershipRepository.GetActiveMembershipsForUserAsync(user.Id, cancellationToken);
+         var tenantMap = await tenantRepository.GetByIdsAsync(authorizationTenants.Select(m => m.TenantId), cancellationToken);
+ 
+         var activeTenant = tenantMap.SingleOrDefault(tenant => tenant.Id == activeTenantId)
+diff --git a/src/NorthStarET.NextGen.Lms.Web/Authentication/LmsAuthenticationExtensions.cs b/src/NorthStarET.NextGen.Lms.Web/Authentication/LmsAuthenticationExtensions.cs
+index 9fb5f14..cc69719 100644
+--- a/src/NorthStarET.NextGen.Lms.Web/Authentication/LmsAuthenticationExtensions.cs
++++ b/src/NorthStarET.NextGen.Lms.Web/Authentication/LmsAuthenticationExtensions.cs
+@@ -18,8 +18,8 @@ public static class LmsAuthenticationExtensions
+                 await originalTokenValidated(context);
+             }
+ 
+-            // Resolve logger outside try-catch to avoid potential InvalidOperationException in catch block
+-            var logger = context.HttpContext.RequestServices.GetService<ILogger<OpenIdConnectOptions>>();
++            // Retrieve logger first so it's available in catch blocks
++            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<OpenIdConnectOptions>>();
+ 
+             try
+             {
+@@ -42,22 +42,46 @@ public static class LmsAuthenticationExtensions
+                     {
+                         // Store the session ID in a cookie
+                         await sessionAccessor.SetSessionIdAsync(sessionId);
+-                        logger?.LogInformation("Successfully created LMS session for user");
++                        logger.LogInformation("Successfully created LMS session for user");
+                     }
+                     else
+                     {
+-                        logger?.LogWarning("Failed to create LMS session - token exchange returned null");
++                        logger.LogWarning("Failed to create LMS session - token exchange returned null");
+                     }
+                 }
+                 else
+                 {
+-                    logger?.LogWarning("Failed to acquire access token for LMS API");
++                    logger.LogWarning("Failed to acquire access token for LMS API");
+                 }
+             }
++            // Exception handling strategy:
++            // - MicrosoftIdentityWebChallengeUserException: Re-throw to allow OAuth middleware to handle user consent/interaction
++            // - HttpRequestException/InvalidOperationException: Swallow to prevent authentication failure on transient/config errors
++            // - Exception: Catch-all for unexpected errors
++            // Note: These exception types are independent with no inheritance relationship
++            catch (MicrosoftIdentityWebChallengeUserException ex)
++            {
++                // RE-THROW: User interaction required (consent, MFA, etc.)
++                // Must propagate to OAuth middleware to trigger proper challenge flow
++                logger.LogWarning(ex, "User challenge required during token acquisition");
++                throw;
++            }
++            catch (HttpRequestException ex)
++            {
++                // SWALLOW: Network/HTTP failures should not block authentication
++                // User can still access the application even if LMS session creation fails
++                logger.LogError(ex, "HTTP request failed during LMS token exchange");
++            }
++            catch (InvalidOperationException ex)
++            {
++                // SWALLOW: Service misconfiguration should not block authentication
++                // Allows graceful degradation when services are unavailable
++                logger.LogError(ex, "Invalid operation during LMS token exchange - check service configuration");
++            }
+             catch (Exception ex)
+             {
+-                logger?.LogError(ex, "Error during LMS token exchange");
+-                // Don't fail the authentication flow, just log the error
++                // SWALLOW: Unexpected errors logged but don't block authentication
++                logger.LogError(ex, "Unexpected error during LMS token exchange");
+             }
+         };
+ 
+@@ -71,8 +95,8 @@ public static class LmsAuthenticationExtensions
+                 await originalSignedOut(context);
+             }
+ 
+-            // Resolve logger outside try-catch to avoid potential InvalidOperationException in catch block
+-            var logger = context.HttpContext.RequestServices.GetService<ILogger<OpenIdConnectOptions>>();
++            // Retrieve logger first so it's available in catch blocks
++            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<OpenIdConnectOptions>>();
+ 
+             try
+             {
+@@ -81,11 +105,11 @@ public static class LmsAuthenticationExtensions
+             }
+             catch (InvalidOperationException ex)
+             {
+-                logger?.LogWarning(ex, "Failed to resolve session accessor service during sign out");
++                logger.LogError(ex, "Invalid operation during session cleanup - check service configuration");
+             }
+             catch (Exception ex)
+             {
+-                logger?.LogError(ex, "Unexpected error clearing LMS session on sign out");
++                logger.LogError(ex, "Unexpected error clearing LMS session on sign out");
+             }
+         };
+     }
+diff --git a/src/NorthStarET.NextGen.Lms.Web/Services/TokenExchangeService.cs b/src/NorthStarET.NextGen.Lms.Web/Services/TokenExchangeService.cs
+index 5a24dab..7d0965a 100644
+--- a/src/NorthStarET.NextGen.Lms.Web/Services/TokenExchangeService.cs
++++ b/src/NorthStarET.NextGen.Lms.Web/Services/TokenExchangeService.cs
+@@ -27,6 +27,7 @@ public class TokenExchangeService : ITokenExchangeService
+             var request = new TokenExchangeRequest 
+             { 
+                 EntraToken = accessToken,
++                ActiveTenantId = Guid.Empty, // Backend will auto-select first available tenant
+                 IpAddress = GetClientIpAddress(httpContext),
+                 UserAgent = httpContext.Request.Headers["User-Agent"].ToString()
+             };
+diff --git a/tests/unit/NorthStarET.NextGen.Lms.Application.Tests/Authentication/TokenExchangeServiceTests.cs b/tests/unit/NorthStarET.NextGen.Lms.Application.Tests/Authentication/TokenExchangeServiceTests.cs
+index 1b40da6..a7d9c4e 100644
+--- a/tests/unit/NorthStarET.NextGen.Lms.Application.Tests/Authentication/TokenExchangeServiceTests.cs
++++ b/tests/unit/NorthStarET.NextGen.Lms.Application.Tests/Authentication/TokenExchangeServiceTests.cs
+@@ -74,17 +74,42 @@ public class TokenExchangeServiceTests
+         fixture.CachedTtl!.Value.Should().BeGreaterThan(TimeSpan.Zero);
+     }
+ 
++    [Fact]
++    public async Task ExchangeToken_WhenNoTenantSpecified_ShouldAutoSelectFirstAvailableTenant()
++    {
++        var fixture = new TokenExchangeServiceFixture(sessionExists: false, useEmptyTenantId: true);
++
++        var result = await fixture.Service.ExchangeAsync(fixture.Context, CancellationToken.None);
++
++        fixture.CreatedSession.Should().NotBeNull();
++        result.SessionId.Should().Be(fixture.CreatedSession!.Id);
++        result.User.ActiveTenantId.Should().NotBe(Guid.Empty);
++        result.User.ActiveTenantId.Should().Be(fixture.ActiveMembership.TenantId.Value);
++        result.AvailableTenants.Should().ContainSingle(tenant => tenant.TenantId == fixture.ActiveMembership.TenantId.Value);
++    }
++
++    [Fact]
++    public async Task ExchangeToken_WhenNoActiveMemberships_ShouldThrow()
++    {
++        var fixture = new TokenExchangeServiceFixture(sessionExists: false, hasNoMemberships: true);
++
++        var act = () => fixture.Service.ExchangeAsync(fixture.Context, CancellationToken.None);
++
++        await act.Should().ThrowAsync<InvalidOperationException>()
++            .WithMessage("Active membership required for token exchange.");
++    }
++
+     private sealed class TokenExchangeServiceFixture
+     {
+         private static readonly string EntraTokenValue = "entra-token";
+         private static readonly string IpAddress = "127.0.0.1";
+         private static readonly string UserAgent = "unit-test-agent";
+ 
+-        public TokenExchangeServiceFixture(bool sessionExists)
++        public TokenExchangeServiceFixture(bool sessionExists, bool useEmptyTenantId = false, bool hasNoMemberships = false)
+         {
+             var now = DateTimeOffset.UtcNow;
+-            var activeTenantGuid = Guid.NewGuid();
+-            var tenantId = new TenantId(activeTenantGuid);
++            var activeTenantGuid = useEmptyTenantId ? Guid.Empty : Guid.NewGuid();
++            var tenantId = useEmptyTenantId ? default : new TenantId(activeTenantGuid);
+             var userId = Guid.NewGuid();
+             var roleId = Guid.NewGuid();
+             var subject = "subject-123";
+@@ -113,22 +138,42 @@ public class TokenExchangeServiceTests
+                 .Setup(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+                 .Returns(Task.CompletedTask);
+ 
+-            ActiveMembership = new Membership(Guid.NewGuid(), userId, tenantId, roleId, now.AddMonths(-1), null, now.AddMonths(1));
++            // Create actual tenant for membership even if context uses empty Guid
++            var membershipTenantId = useEmptyTenantId ? new TenantId(Guid.NewGuid()) : tenantId;
++            
++            if (hasNoMemberships)
++            {
++                ActiveMembership = null!;
++                MembershipRepository = new Mock<IMembershipRepository>();
++                MembershipRepository
++                    .Setup(x => x.GetActiveMembershipsForUserAsync(userId, It.IsAny<CancellationToken>()))
++                    .ReturnsAsync(Array.Empty<Membership>());
++            }
++            else
++            {
++                ActiveMembership = new Membership(Guid.NewGuid(), userId, membershipTenantId, roleId, now.AddMonths(-1), null, now.AddMonths(1));
+ 
+-            MembershipRepository = new Mock<IMembershipRepository>();
+-            MembershipRepository
+-                .Setup(x => x.GetByUserAndTenantAsync(userId, tenantId, It.IsAny<CancellationToken>()))
+-                .ReturnsAsync(ActiveMembership);
+-            MembershipRepository
+-                .Setup(x => x.GetActiveMembershipsForUserAsync(userId, It.IsAny<CancellationToken>()))
+-                .ReturnsAsync(new[] { ActiveMembership });
++                MembershipRepository = new Mock<IMembershipRepository>();
++                if (!useEmptyTenantId)
++                {
++                    MembershipRepository
++                        .Setup(x => x.GetByUserAndTenantAsync(userId, tenantId, It.IsAny<CancellationToken>()))
++                        .ReturnsAsync(ActiveMembership);
++                }
++                MembershipRepository
++                    .Setup(x => x.GetActiveMembershipsForUserAsync(userId, It.IsAny<CancellationToken>()))
++                    .ReturnsAsync(new[] { ActiveMembership });
++            }
+ 
+-            ActiveTenant = new Tenant(tenantId, "Test District", TenantType.District, now.AddYears(-5));
++            ActiveTenant = hasNoMemberships ? null! : new Tenant(membershipTenantId, "Test District", TenantType.District, now.AddYears(-5));
+ 
+             TenantRepository = new Mock<ITenantRepository>();
+-            TenantRepository
+-                .Setup(x => x.GetByIdsAsync(It.Is<IEnumerable<TenantId>>(ids => ids.Contains(tenantId)), It.IsAny<CancellationToken>()))
+-                .ReturnsAsync(new List<Tenant> { ActiveTenant }.AsReadOnly());
++            if (!hasNoMemberships)
++            {
++                TenantRepository
++                    .Setup(x => x.GetByIdsAsync(It.Is<IEnumerable<TenantId>>(ids => ids.Contains(membershipTenantId)), It.IsAny<CancellationToken>()))
++                    .ReturnsAsync(new List<Tenant> { ActiveTenant }.AsReadOnly());
++            }
+ 
+             Role = new Role(roleId, "administrator", "Administrator", now.AddYears(-10), true);
+ 
+@@ -139,11 +184,12 @@ public class TokenExchangeServiceTests
+ 
+             SessionRepository = new Mock<ISessionRepository>();
+ 
+-            if (sessionExists)
++            if (sessionExists && !hasNoMemberships)
+             {
+                 var createdAt = now.AddMinutes(-30);
+                 var expiresAt = now.AddMinutes(10);
+-                ExistingSession = Session.Create(userId, ExpectedTokenHash, "existing-token", tenantId, createdAt, expiresAt, IpAddress, UserAgent);
++                var sessionTenantId = useEmptyTenantId ? membershipTenantId : tenantId;
++                ExistingSession = Session.Create(userId, ExpectedTokenHash, "existing-token", sessionTenantId, createdAt, expiresAt, IpAddress, UserAgent);
+ 
+                 SessionRepository
+                     .Setup(x => x.GetByTokenHashAsync(ExpectedTokenHash, It.IsAny<CancellationToken>()))
+-- 
+2.51.0
+

@@ -1,0 +1,467 @@
+﻿/**
+* Forza 1.0.0 (c) 2014
+* Ndevr Studios Ltd.
+*
+*/
+body {
+    color: black;
+}
+#page-container {
+    background-color: #173068;
+}
+#page-content {
+    background: #ffffff !important;
+}
+header.navbar {
+    box-shadow: 0px 3px 3px #222;
+}
+
+.navbar-inverse {
+    background-color: #173068 !important;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #ffffff;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #efefef;
+}
+#leftmenu-trigger, #rightmenu-trigger {
+    background-color: #173068;
+}
+
+#page-heading {
+
+}
+.navbar-brand {
+    background: url(../assets/img/white32logo.png) no-repeat left center;
+    width: 400px;
+    font-family: 'Open Sans' !important;
+    font-size: 16px  !important;
+    color: white  !important;
+    line-height: normal !important;
+    padding: 10px 15px 10px 40px !important;
+}
+.navbar-brand span.navbar-brand-faded {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14px;
+}
+
+.tab-orange.tab-container>.nav-tabs>li.active>a {
+    background: #4697ce;
+    box-shadow: 0 3px 0 0 #4697ce;
+}
+
+.tab-orange.tab-container .tab-content {
+    border: none !important;
+    padding: 0px;
+}
+.panel-midnightblue .panel-heading {
+    color: #fff;
+    background-color: #173068;
+    border-color: #173068;
+}
+[class*=panel-].panel .panel-body {
+    padding: 15px;
+    border-left: 1px solid #e1e3e8;
+    border-right: 1px solid #e1e3e8;
+    border-bottom: 1px solid #e1e3e8;
+    background-color: #fff;
+}
+
+[class*=panel-].panel .panel-footer {
+    background-color: white;
+}
+
+.panel-primary .panel-body {
+    border-top: 2px solid #1E418E;
+}
+	.obsYellow {
+		background-color: #E4D354 !important;
+		color: black;
+	}
+	.obsRed {
+		background-color: #BF453D !important;
+		color: white;
+	}
+	.obsBlue {
+		background-color: #4697ce !important;
+		color: white;
+	}
+	.obsGreen {
+		background-color: #90ED7D !important;
+		color: white;
+	}
+    .obsPerfect {
+		background-color: green !important;
+		color: white;
+        font-weight: bold;
+	}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: white;
+    background-color: #4697ce;
+}
+.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    color: #656b79;
+}
+            .commentCellBox {
+            border: 1px solid #000000;
+            display: inline-block;
+            height: 20px;
+            width: 25px;
+        }
+            .commentSpacing {
+                padding-bottom:5px;
+            }
+            .boldCommentDate {
+                font-weight: bold !important;
+            }
+            .normalCommentText {
+                font-weight: normal !important;
+            }
+            .nsCenterAlignedText {
+                text-align: center;
+            }
+            .nsBadgeBackground {
+                background-color: black;
+            }
+                .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px 2px;
+    }
+    .targetZone {
+        background-color: silver;
+    }
+    .soyBenchmark {
+        border-bottom: 3px solid black !important;
+    }
+    .eoyBenchmark {
+        border-top: 3px solid black !important;
+    }
+
+    
+    .vertical {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+
+        .nsHeader .control-label {
+        font-weight: bold;
+    }
+
+                    .panel-body {
+     overflow-x: visible !important; 
+}
+
+                        .dropdown-menu {
+        min-width: 280px;
+    }
+
+.popover {
+    border: 1px solid #666666;
+}
+.popover-inner h3 {
+    background-color: #1E418E;
+    color: white;
+}
+
+            .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+        form .ng-touched.ng-invalid  {
+        border-color: #D44950 !important;
+    }
+
+    label.has-error, .editable-error {
+        color: #D44950 !important;
+    }
+    .nav-tabs {
+    border-bottom: none;
+}
+    .ns-table-row {
+            display: table-row;
+            width: 100%;
+        }
+        .ns-table-cell {
+            display: table-cell;
+            padding: 3px 2px;
+            border: 1px solid #e9ecf0;
+            vertical-align: middle;
+        }
+        .ns-table {
+            display: table;
+            width: 99%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            
+        }
+        .ns-table>form:nth-child(odd)>div.ns-table-cell {
+            background-color: #fbfbfb;
+        }
+        select {
+            min-width: 35px;
+        }
+        .ns-table-header {
+            border-top: 1px solid #e9ecf0 !important;
+            border-left: 1px solid #e9ecf0;
+            border-right: 1px solid #e9ecf0;
+        }
+        .ns-table-header .ns-table-cell {
+            font-weight:bold;
+        }
+        ul.nav-tabs {padding-left:10px;}
+        .dateCheckboxDateCell {
+            padding-left:10px;
+            vertical-align:middle;
+        }
+        .dateCheckboxSwitchCell{
+            vertical-align:middle;
+        }
+
+/*@media (max-width: 767px) {
+    #page-content {
+        margin-left: 0px !important;
+    }
+
+}*/
+
+     @media (min-width: 992px) {
+         .vertical-separator {
+             box-shadow: 12px 0 12px -12px rgba(0, 0, 0, 0.3);
+         }
+     }
+     h3.dotted-underline {
+         /*border-bottom: 1px dotted #CCCCCC;*/
+        margin-left:10px;
+        margin-right:10px;
+        font-weight:bold;
+     }
+     .filterRowMargin {
+         margin-bottom: 5px;
+     }
+
+          .nsLegend {
+    background-color: #EDEEF0;
+    padding: 20px;
+    border-radius: 3px;
+    border:1px solid #e1e3e8;
+    margin-bottom: 20px;
+     }
+.nsLegend .legendHeading {
+    padding-right: 15px;
+    font-weight: 700;
+}
+
+.nsLegend .legendText {
+    font-size: 12px;
+}
+
+.nsLegend h3 {
+    font-weight: 400;
+}
+
+legend small {
+    font-size: 12px;
+}
+form .ng-dirty.ng-valid {
+    border: 1px solid #e1e3e8;
+    color: #656b79;
+}
+/*#wrap {
+    overflow: visible !important;
+}
+#page-heading{
+    height: 80px !important;
+}*/
+        .has-feedback .form-control-feedback {
+    top: 10px !important;
+}
+
+                .sk-cube-grid {
+  width: 120px;
+  height: 120px;
+  margin: 100px auto;
+}
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: #eee;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
+}
+
+.modal-dialog-max {
+        bottom: 20px !important;
+    left: 20px  !important;
+    position: absolute  !important;
+    right: 40px  !important;
+    top: 20px  !important;
+        margin: 0  !important;
+    width: 100%  !important;
+}
+
+
+.modal-content-max {
+    bottom: 20px !important;
+    left: 20px  !important;
+    position: absolute  !important;
+    right: 40px  !important;
+    top: 20px  !important;
+    border: none  !important;
+    -moz-border-radius: 10px  !important;
+    border-radius: 10px  !important;
+    -webkit-box-shadow: inherit  !important;
+    -moz-box-shadow: inherit  !important;
+    -o-box-shadow: inherit  !important;
+    box-shadow: inherit  !important;
+}
+
+    .grRed {
+        color: red;
+        font-weight:bold;
+    }
+    .grOrange {
+        color: orange;
+        font-weight:bold;
+    }
+    .grYellow {
+        color: #E4D354;
+        font-weight:bold;
+    }
+    .grGreen {
+        color: green;
+        font-weight:bold;
+    }
+    .grBlue {
+        color: blue;
+        font-weight:bold;
+    }
+    .grPurple {
+        color: purple;
+        font-weight:bold;
+    }
+
+    .osVTable {
+        background-color: transparent !important;
+    }
+        td.verticalOSCell{
+        border-right: none !important;
+        border-left:none !important;
+    }
+    td.vosLeft {
+        color: rgba(55, 55, 55, 0.8);
+    }
+
+        observation-summary-field-chooser .btn-toolbar {
+        display: inline-block;
+    }
+
+        stacked-bar-graph-summary-attribute-chooser .btn-toolbar {
+        display: inline-block;
+    }
+
+        .editable-checklist label {
+  display: block;
+  margin-bottom:10px;
+}
+.checklist-vertical{
+    text-align:left;
+}
+.checklist-vertical input{
+    width:20px;
+    height:20px;
+    position:relative;
+    top: 5px;
+}
+.checklist-vertical .editable-input{
+    border:none;
+}

@@ -1,0 +1,201 @@
+﻿<form novalidate angular-validator angular-validator-submit="saveAssessmentData(studentResult)" name="dataentry_form" ng-controller="SectionStudentResultLetterIDDataEntryController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Data Entry</li>
+            <li>Classrooms</li>
+            <li class="active">{{::assessment.AssessmentName}}</li>
+        </ol>
+        <h1><b>{{::studentResult.StudentName}}</b></h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="false" print-multi-page="false" fit-viewer-height="" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit=""></print-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <panel panel-class="panel-midnightblue" heading="{{assessment.AssessmentName}}">
+            <div class="col-md-12 form-horizontal nsHeader">
+                <div class="col-md-4">
+                    <div class="row" ng-if="isInterventionMode == false">
+                        <label class="col-md-6 control-label">
+                            Benchmark Date
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{filterOptions.selectedBenchmarkDate.Hex}}"></div></div><div class="col-md-10 ng-binding">{{filterOptions.selectedBenchmarkDate.text}} <i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6 control-label" style="padding-top:15px;">
+                            Recorder
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <input name="primaryteacher" id="primaryteacher" validator="validateRecorder()" ui-select2="getTeacherRemoteOptions" invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6 control-label" style="padding-top:15px;">
+                            Date Test Taken
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <p class="input-group">
+                                <input style="cursor:pointer" type="text" name="pikaday" id="pikaday" class="form-control" picka-day ng-model="studentResult.TestDate" required invalid-message="Please enter a valid date" required-message="'Please select a date'" default-date="{{studentResult.TestDate}}" />
+                                <!--<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="studentResult.TestDate" is-open="popup1.opened" required invalid-message="Please enter a valid date" required-message="Please select a date" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" ng-repeat="field in totalFields">
+                        <label class="col-md-6 control-label">
+                            {{::field.DisplayLabel}}
+                        </label>
+                        <div class="col-md-6 form-control-static">
+                            <assessment-edit-field-custom student-result="studentResult" groups="assessment.FieldGroups" fields="assessment.Fields" current-field="field"></assessment-edit-field-custom> / {{field.OutOfHowMany}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" ng-repeat="field in commentFields">
+                        <label class="col-md-3 control-label">
+                            {{::field.DisplayLabel}}
+                        </label>
+                        <div class="col-md-9 form-control-static">
+                            <assessment-edit-field-custom student-result="studentResult" groups="assessment.FieldGroups" fields="assessment.Fields" current-field="field"></assessment-edit-field-custom>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </panel>
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="table-responsive">
+                    <div class="col-sm-6">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="category in assessment.FieldCategories | filter: { DisplayName : '!Oral'}" colspan="{{headerColspan($index)}}">{{category.DisplayName}}</th>
+                                </tr>
+                                <tr>
+                                    <th ng-repeat="category in assessment.FieldCategories | filter: { DisplayName : '!Oral'}" colspan="{{headerColspan($index)}}">
+                                        <table ng-if="$index != 0">
+                                            <tr>
+                                                <td>
+                                                    <switch class="green" ng-change="toggleCategory(category, 1, category.checked1)" ng-model="category.checked1"></switch>
+                                                </td>
+                                                <td style="padding-left:10px;">
+                                                    Select All
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="group in page1FieldGroups | orderBy: 'SortOrder'">
+                                    <td ng-repeat="field in group.Fields">
+                                        <assessment-edit-field-custom student-result="studentResult" lookup-fields-array="lookupFieldsArray" current-field="field"></assessment-edit-field-custom>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6" ng-if="page2FieldGroups.length > 0">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="category in assessment.FieldCategories | filter: { DisplayName : '!Matching'}" colspan="{{headerColspan($index)}}">{{category.DisplayName}}</th>
+                                </tr>
+                                <tr>
+                                    <th ng-repeat="category in assessment.FieldCategories | filter: { DisplayName : '!Matching'}" colspan="{{headerColspan($index)}}">
+                                        <table ng-if="$index != 0">
+                                            <tr>
+                                                <td>
+                                                    <switch class="green" ng-change="toggleCategory(category, 2, category.checked2)" ng-model="category.checked2"></switch>
+                                                </td>
+                                                <td style="padding-left:10px;">
+                                                    Select All
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="group in page2FieldGroups | orderBy: 'SortOrder'">
+                                    <td ng-repeat="field in group.Fields">
+                                        <assessment-edit-field-custom student-result="studentResult" lookup-fields-array="lookupFieldsArray" current-field="field"></assessment-edit-field-custom>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary"><i class=" fa fa-save"></i>  Save</button>
+                        <a ng-click="cancel()" class="btn btn-danger"><i class=" fa fa-times"></i> Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch.checked small {
+        left: 15px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+</style>

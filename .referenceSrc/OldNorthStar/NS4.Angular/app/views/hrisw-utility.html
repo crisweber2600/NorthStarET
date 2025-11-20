@@ -1,0 +1,92 @@
+﻿<div ng-controller="HRSUtilityController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li><a href="#/">System</a></li>
+            <li class="active">Modify HRS Assessments</li>
+        </ol>
+        <h1>Create New HRS Words for Assessments</h1>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div class="col-md-12">
+        <uib-alert ng-show="settings.uploadComplete" type="success"><b>Note:</b> Job Complete!</uib-alert>
+    </div>
+    <div style="clear:both"></div>
+    <div class="container-fluid col-md-12">
+        <panel panel-class="panel-midnightblue" heading="Set up Job">
+            <div class="form-group">
+                <label for="fieldname" class="col-md-2 control-label">Assessment ID</label>
+                <div class="col-md-10">
+                    <input id="assessmentid"
+                           class="form-control"
+                           name="assessmentid"
+                           type="number"
+                           placeholder="Enter assessment ID"
+                           required
+                           required-message="'Assessmment ID is required'"
+                           validate-on="dirty"
+                           ng-model="settings.assessmentId" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fieldname" class="col-md-2 control-label">Form ID</label>
+                <div class="col-md-10">
+                    <input id="formid"
+                           class="form-control"
+                           name="formid"
+                           type="number"
+                           placeholder="Enter Form ID"
+                           required
+                           required-message="'Form ID is required'"
+                           validate-on="dirty"
+                           ng-model="settings.formId" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fieldname" class="col-md-2 control-label">Group ID</label>
+                <div class="col-md-10">
+                    <input id="suffix"
+                           class="form-control"
+                           name="suffix"
+                           type="text"
+                           placeholder="Enter Group ID"
+                           required
+                           required-message="'Group ID is required'"
+                           validate-on="dirty"
+                           ng-model="settings.suffix" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fieldname" class="col-md-2 control-label">Full Sentence</label>
+                <div class="col-md-10">
+                    <input id="sentence"
+                           class="form-control"
+                           name="sentence"
+                           type="text"
+                           placeholder="Enter Pipe Delimited Sentence"
+                           required
+                           required-message="'Sentence is required'"
+                           validate-on="dirty"
+                           ng-model="settings.sentence" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="button" value="update" ng-click="run()"><i class="fa fa-gear"></i> Run Update</button>
+        </panel>
+    </div>
+</div>
+<style>
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+
+    /*.select2-container.ng-invalid > a {
+        border-color: #D44950 !important;
+    }*/
+</style>

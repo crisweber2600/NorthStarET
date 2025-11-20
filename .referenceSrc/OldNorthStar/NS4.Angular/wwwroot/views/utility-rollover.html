@@ -1,0 +1,238 @@
+﻿<div ng-controller="FullRolloverController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Rollover</li>
+            <li>Full Rollover</li>
+        </ol>
+        <h1>Process a Full Rollover File</h1>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div style="clear:both"></div>
+    <div class="col-md-12">
+        <ns-help help-field="'HelpPlaceHolder1'" help-format="'html'"></ns-help>
+    </div>
+    <div style="clear:both"></div>
+    <div class="col-md-12">
+        <ns-filter-options-container-directive school-year-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <div ng-if="filterOptions.selectedSchoolYear != null">
+            <uib-accordion close-others="oneAtATime" class="panel-info" ng>
+				<uib-accordion-group is-open="status.open">
+					<uib-accordion-heading>
+						Rollover File Defintion <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-left': !status.open}"></i>
+					</uib-accordion-heading>
+                    <div class="table-responsive">
+                        <div class="container-fluid ns-table">
+                            <div class="ns-table-row ns-table-header">
+                                <div class="ns-table-cell">Column Name in Import File</div>
+                                <div class="ns-table-cell text-center">Is Data Required</div>
+                                <div class="ns-table-cell">Valid Data Type</div>
+                                <div class="ns-table-cell">Valid Data Range</div>
+                            </div>
+                            <form class="ns-table-row" ng-repeat="field in dataMgr.Fields">
+                                <div class="ns-table-cell">
+                                    {{::field.UniqueColumnName}}
+                                </div>
+                                <div class="ns-table-cell text-center">
+                                    {{::field.Required}}
+                                </div>
+                                <div class="ns-table-cell">
+                                    {{::field.ValidValues}}
+                                </div>
+                                <div class="ns-table-cell">
+                                    {{::field.ValidRange}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:20px;margin-bottom:20px;">
+                        <button class="btn btn-info" ng-click="getTemplate()"><i class="fa fa-download"></i> Download an Empty Template</button>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+
+            <panel panel-class="panel-midnightblue" heading="Upload Import File">
+
+                <div ng-show="!dataMgr.RolloverInProgress">
+
+                    <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+                        <fieldset>
+                            <legend>Choose Data File To Upload</legend>
+                            <div class="form-group" ng-hide="settings.hasFiles">
+                                <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                                <div class="col-md-6">
+                                    <h3>Select .CSV file to import</h3>
+                                    <input type="file" id="newPhotos" class="uploadFile" accept="*.csv,*.xlsx,*.xls" eg-files="theFiles" has-files="settings.hasFiles">
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="settings.hasFiles">
+                                <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                                <div class="col-md-6">
+                                    <ul class="list-inline">
+                                        <li><strong>file:</strong></li>
+                                        <li ng-repeat="file in theFiles"> {{file.name}}</li>
+                                    </ul>
+                                    <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                                    <button class="btn btn-danger" id="formReset" type="reset" value="cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div> 
+
+
+                <!-- Processing Errors -->
+                <fieldset>
+                    <legend>Upload Summary</legend>
+                    <div ng-if="settings.uploadComplete">
+                        <div ng-if="settings.LogItems.length == 0">
+                            <uib-alert ng-show="settings.uploadComplete" type="success"><b>Note:</b> Your import file has passed initial validation and has been submitted for processing.  Watch your inbox or the status table below for an update when your file has finished processing.</uib-alert>
+                        </div>
+                        <div ng-if="settings.LogItems.length > 0">
+                            <uib-alert type="danger">
+                                <b>Note:</b>  Your upload has been rejected for the following reasons: <ul><li ng-repeat="err in settings.LogItems">{{::err}}</li></ul>
+                                Please re-try your upload after correcting the errors.
+                            </uib-alert>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                </fieldset>
+
+                <div ng-show="dataMgr.RolloverInProgress">
+                    <uib-alert type="info">A rollover is currently in progress.  If it has stalled or you want to reset the rollover process, click the button below.</uib-alert>
+                    <div>
+                        <a href="" class="btn btn-danger" ng-click="FullRolloverReset()"><i class="fa fa-repeat"></i> Reset Any In Progress or Stalled Rollovers</a>
+                    </div>
+                </div>
+            </panel>
+
+
+        </div>
+        <div ng-if="!filterOptions.selectedSchoolYear">
+            <uib-alert type="warning">Please select a School Year to begin the rollover process</uib-alert>
+        </div>
+        <div ng-if="!checkNewYear()">
+            <uib-alert type="danger"><b>Warning!</b> You are rolling data over for A PREVIOUS SCHOOL YEAR.  Be sure that you intend to do this before continuing. (NOT COMMON)</uib-alert>
+        </div>
+
+        <panel panel-class="panel-success" heading="Rollover History">
+            <fieldset>
+                <legend>Previously Submitted Jobs</legend>
+                <div ng-if="dataMgr.HistoryItems.length == 0 || !dataMgr.HistoryItems">
+                    <uib-alert type="info">
+                        <b>Note:</b>  No jobs have been submitted yet.
+                    </uib-alert>
+                </div>
+                <div ng-if="dataMgr.HistoryItems.length > 0" class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Status</div>
+                            <div class="ns-table-cell text-center">Started</div>
+                            <div class="ns-table-cell text-center">Completed</div>
+                            <div class="ns-table-cell text-center">Valid Records</div>
+                            <div class="ns-table-cell text-center">Invalid Records</div>
+                            <div class="ns-table-cell text-center">Potential Issue Validation</div>
+                            <div class="ns-table-cell text-center">Cancel Rollover</div>
+                            <div class="ns-table-cell text-center">Uploaded File</div>
+                            <div class="ns-table-cell text-center">Log</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="item in dataMgr.HistoryItems track by item.Id" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveIntervention(intervention)">
+
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-sm" ng-click="deleteHistoryItem(item)"><i class="fa fa-trash"></i></a>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Status">
+                                <span ng-if="item.Status == 'Processing'"><i class="fa fa-spinner fa-spin"></i></span> <span class="badge" ng-class="getStatusClass(item)">{{item.Status}}</span>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Start Date">
+                                {{item.StartDate | nsLongDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="End Date">
+                                {{item.EndDate | nsLongDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Records Processed">
+                                {{item.RecordsProcessed}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Records Skipped">
+                                {{item.RecordsSkipped}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Verification Actions">
+                                <a data-pulsate="{reach:100}" ng-show="item.PotentialIssuesLog != null && item.Status == 'Awaiting User Verification'" class="btn btn-warning btn-sm" ng-click="verificationDialog(item)"><i class="fa fa-check-square-o"></i>{{item.RolloverLogMessages.length}} items to validate</a>
+                                <span ng-show="item.PotentialIssuesLog == null">No issues to verify.</span>
+                                <span ng-show="item.PotentialIssuesLog != null && (item.Status == 'Continuing Processing' || item.Status == 'Complete')" class="label label-success"><i class="fa fa-check"></i> Issues Validated</span>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Log">
+                                <button ng-if="item.Status == 'Awaiting User Verification' || item.Status == 'Awaiting processing'" ng-disabled="item.Status != 'Awaiting processing' && item.Status != 'Awaiting User Verification'" ng-click="cancelRollover(item)" class="btn btn-danger"><i class="fa fa-times-circle"></i> Cancel Rollover</button>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="File">
+                                <button ng-click="downloadImportFile(item)" class="btn btn-orange"><i class="fa fa-file-excel-o"></i> Download Original Import File</button>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Log">
+                                <button ng-if="item.Status == 'Complete' || item.Status == 'Error'" ng-click="downloadImportLog(item)" class="btn btn-primary"><i class="fa fa-download"></i> Download Import Log</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </fieldset>
+        </panel>
+    </div>
+    <script type="text/ng-template" id="rolloverIssueValidation.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Validate Potential Issues For Your Rollover</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped" cellpadding="3">
+                <thead>
+                    <tr>
+                        <th>
+                            Potential Issue
+                        </th>
+                        <th class="text-center" style="width:150px;">
+                            Likelihood That This is a Problem
+                        </th>
+                        <th class="text-center" style="width:100px">
+                            Ignore This Issue?
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="issue in issues">
+                        <td>{{issue.Issue}}</td>
+                        <td class="text-center" ><span class="badge" ng-class="{ 'badge-danger' : issue.Confidence == 'very likely', 'badge-info': issue.Confidence == 'possibly'}"> {{issue.Confidence}}</span></td>
+                        <td class="text-center" ><switch class="green" ng-model="issue.Validate"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-disabled="ensureAllSelected()" ng-click="validateRollover(selectedJob)"><i class="fa fa-save"></i> Ignore All Issues and Process Rollover</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
+        </div>
+    </script>
+</div>
+<style>
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+    h4.panel-title{
+        width:100%;
+    }
+    div.panel-group .panel-heading h4 i {
+    top:11px;
+    }
+    div.panel-group {
+        margin-bottom: 20px;
+    }
+    /*.select2-container.ng-invalid > a {
+        border-color: #D44950 !important;
+    }*/
+</style>

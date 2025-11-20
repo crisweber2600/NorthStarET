@@ -1,0 +1,499 @@
+openapi: 3.0.3
+info:
+  title: Authentication API
+  description: |
+    API for authenticating users via Microsoft Entra ID and managing sessions.
+    This API handles the token exchange from Entra JWT to LMS access tokens.
+  version: 1.0.0
+  contact:
+    name: NorthStarET LMS Team
+
+servers:
+  - url: https://api.lms.northstaret.com/v1
+    description: Production
+  - url: https://api.lms-dev.northstaret.com/v1
+    description: Development
+  - url: http://localhost:5000/v1
+    description: Local development
+
+tags:
+  - name: Authentication
+    description: User authentication operations
+  - name: Session
+    description: Session management operations
+
+paths:
+  /auth/exchange-token:
+    post:
+      summary: Exchange Entra JWT for LMS access token
+      description: |
+        Validates an Entra ID JWT and exchanges it for an LMS access token.
+        Creates a new session or extends an existing one.
+      operationId: exchangeToken
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenExchangeRequest'
+            examples:
+              newSession:
+                summary: New user session
+                value:
+                  entraToken: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+                  activeTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+              existingSession:
+                summary: Existing session refresh
+                value:
+                  entraToken: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+                  activeTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '200':
+          description: Token exchange successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenExchangeResponse'
+              examples:
+                success:
+                  summary: Successful exchange
+                  value:
+                    lmsAccessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                    sessionId: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+                    expiresAt: "2025-10-20T15:30:00Z"
+                    user:
+                      id: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+                      email: john.doe@example.com
+                      displayName: John Doe
+                      activeTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                      activeTenantName: Lincoln High School
+                      role: Teacher
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/refresh:
+    post:
+      summary: Refresh session and extend expiration
+      description: |
+        Extends the expiration of an active session. Used by clients to prevent
+        session timeout during active use.
+      operationId: refreshSession
+      tags:
+        - Session
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshSessionRequest'
+      responses:
+        '200':
+          description: Session refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshSessionResponse'
+              examples:
+                success:
+                  summary: Session extended
+                  value:
+                    expiresAt: "2025-10-20T16:00:00Z"
+                    lastActivityAt: "2025-10-20T15:30:00Z"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Session not found or already expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/revoke:
+    post:
+      summary: Revoke active session (logout)
+      description: |
+        Revokes the current session, effectively logging out the user.
+      operationId: revokeSession
+      tags:
+        - Session
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevokeSessionRequest'
+      responses:
+        '204':
+          description: Session revoked successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/current-user:
+    get:
+      summary: Get current user context
+      description: |
+        Returns the authenticated user's context including active tenant,
+        role, and available tenants.
+      operationId: getCurrentUser
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User context retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserContextDto'
+              examples:
+                districtAdmin:
+                  summary: District Administrator
+                  value:
+                    id: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+                    email: admin@springfield.edu
+                    displayName: Jane Admin
+                    activeTenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                    activeTenantName: Springfield School District
+                    activeTenantType: District
+                    role: District Admin
+                    availableTenants:
+                      - tenantId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                        name: Springfield School District
+                        type: District
+                      - tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                        name: Lincoln High School
+                        type: School
+                teacher:
+                  summary: Teacher
+                  value:
+                    id: 9f8e7d6c-5b4a-3210-9876-fedcba098765
+                    email: teacher@lincoln.edu
+                    displayName: Bob Teacher
+                    activeTenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                    activeTenantName: Lincoln High School
+                    activeTenantType: School
+                    role: Teacher
+                    availableTenants:
+                      - tenantId: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+                        name: Lincoln High School
+                        type: School
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/validate:
+    post:
+      summary: Validate session token
+      description: |
+        Validates that a session token is still active and not expired or revoked.
+        Used internally by other services.
+      operationId: validateSession
+      tags:
+        - Session
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Session is valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateSessionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    TokenExchangeRequest:
+      type: object
+      required:
+        - entraToken
+        - activeTenantId
+      properties:
+        entraToken:
+          type: string
+          description: Microsoft Entra ID JWT token
+          example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+        activeTenantId:
+          type: string
+          format: uuid
+          description: The tenant context to activate for this session
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+
+    TokenExchangeResponse:
+      type: object
+      required:
+        - lmsAccessToken
+        - sessionId
+        - expiresAt
+        - user
+      properties:
+        lmsAccessToken:
+          type: string
+          description: LMS-issued access token (JWT)
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        sessionId:
+          type: string
+          format: uuid
+          description: Unique session identifier
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+        expiresAt:
+          type: string
+          format: date-time
+          description: When the session expires (ISO 8601)
+          example: "2025-10-20T15:30:00Z"
+        user:
+          $ref: '#/components/schemas/UserContextDto'
+
+    RefreshSessionRequest:
+      type: object
+      required:
+        - sessionId
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+          description: Session ID to refresh
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+
+    RefreshSessionResponse:
+      type: object
+      required:
+        - expiresAt
+        - lastActivityAt
+      properties:
+        expiresAt:
+          type: string
+          format: date-time
+          description: New expiration time (ISO 8601)
+          example: "2025-10-20T16:00:00Z"
+        lastActivityAt:
+          type: string
+          format: date-time
+          description: Last activity timestamp (ISO 8601)
+          example: "2025-10-20T15:30:00Z"
+
+    RevokeSessionRequest:
+      type: object
+      required:
+        - sessionId
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+          description: Session ID to revoke
+          example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+
+    ValidateSessionResponse:
+      type: object
+      required:
+        - isValid
+        - userId
+        - activeTenantId
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the session is valid
+          example: true
+        userId:
+          type: string
+          format: uuid
+          description: User ID associated with the session
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        activeTenantId:
+          type: string
+          format: uuid
+          description: Active tenant context
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        expiresAt:
+          type: string
+          format: date-time
+          description: When the session expires
+          example: "2025-10-20T15:30:00Z"
+
+    UserContextDto:
+      type: object
+      required:
+        - id
+        - email
+        - displayName
+        - activeTenantId
+        - activeTenantName
+        - activeTenantType
+        - role
+        - availableTenants
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User unique identifier
+          example: 1a2b3c4d-5e6f-7890-abcd-ef1234567890
+        email:
+          type: string
+          format: email
+          description: User email address
+          example: john.doe@example.com
+        displayName:
+          type: string
+          description: User full display name
+          example: John Doe
+        activeTenantId:
+          type: string
+          format: uuid
+          description: Currently active tenant ID
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        activeTenantName:
+          type: string
+          description: Active tenant display name
+          example: Lincoln High School
+        activeTenantType:
+          type: string
+          enum: [District, School]
+          description: Active tenant type
+          example: School
+        role:
+          type: string
+          description: User's role in active tenant
+          example: Teacher
+        availableTenants:
+          type: array
+          description: List of tenants user has access to
+          items:
+            $ref: '#/components/schemas/TenantDto'
+
+    TenantDto:
+      type: object
+      required:
+        - tenantId
+        - name
+        - type
+      properties:
+        tenantId:
+          type: string
+          format: uuid
+          description: Tenant unique identifier
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          description: Tenant display name
+          example: Lincoln High School
+        type:
+          type: string
+          enum: [District, School]
+          description: Tenant type
+          example: School
+        parentTenantId:
+          type: string
+          format: uuid
+          description: Parent tenant ID (for schools within districts)
+          example: 7b8a9c0d-1e2f-3456-789a-bcdef0123456
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: INVALID_TOKEN
+        message:
+          type: string
+          description: Human-readable error message
+          example: The provided Entra token is invalid or expired
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+        traceId:
+          type: string
+          description: Request trace ID for debugging
+          example: 0HN1GKQVF2Q5S:00000001
+
+  responses:
+    Unauthorized:
+      description: Authentication failed or token invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidToken:
+              summary: Invalid or expired token
+              value:
+                error: INVALID_TOKEN
+                message: The authentication token is invalid or expired
+                traceId: 0HN1GKQVF2Q5S:00000001
+
+    Forbidden:
+      description: User does not have access to the requested tenant
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            noTenantAccess:
+              summary: No access to tenant
+              value:
+                error: FORBIDDEN
+                message: You do not have access to the specified tenant
+                traceId: 0HN1GKQVF2Q5S:00000002
+
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            missingField:
+              summary: Required field missing
+              value:
+                error: VALIDATION_ERROR
+                message: Request validation failed
+                details:
+                  activeTenantId: The activeTenantId field is required
+                traceId: 0HN1GKQVF2Q5S:00000003
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            serverError:
+              summary: Unexpected error
+              value:
+                error: INTERNAL_ERROR
+                message: An unexpected error occurred. Please try again later.
+                traceId: 0HN1GKQVF2Q5S:00000004
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: LMS access token (obtained via /auth/exchange-token)

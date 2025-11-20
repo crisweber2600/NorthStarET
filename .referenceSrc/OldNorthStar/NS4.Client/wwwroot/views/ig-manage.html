@@ -1,0 +1,52 @@
+﻿<div ng-controller="InterventionGroupListController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Intervention Groups</li>
+            <li class="active">Manage Intervention Groups</li>
+        </ol>
+        <h1>Manage Intervention Groups</h1>
+    </div>
+    <ns-display-assigning-student></ns-display-assigning-student>
+    <div class="col-md-12 ng-scope">
+        <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" interventionist-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+
+    </div>
+    <div class="col-md-12">
+        <panel panel-class="panel-midnightblue" heading="Manage Intervention Groups">
+            <panel-controls>
+                <a href="#/ig-addedit/-1">Create New Intervention Group <i class="fa fa-plus"></i></a>
+            </panel-controls>
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                        <th><div style="cursor: pointer" ng-click="sort('Name')">Group Name <i class="{{sortClasses['Name']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('NumStudents')">Number of Students <i class="{{sortClasses['NumStudents']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('Intervention.text')">Intervention Type <i class="{{sortClasses['Intervention.text']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('DaysMet')">Days to Meet <i class="{{sortClasses['DaysMet']}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('Description')">Description <i class="{{sortClasses['Description']}}"></i></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="group in groups | orderBy: sortColumns.column">
+                        <td>
+                            <a class="btn btn-sm btn-danger" ng-click="deleteGroup(group.Id)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="#/ig-addedit/{{::group.Id}}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                        <td>{{::group.Name}}</td>
+                        <td>{{::group.NumStudents}}</td>
+                        <td>{{::group.Intervention.text}}</td>
+                        <td>{{::group.DaysMet}}</td>
+                        <td>{{::group.Description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </panel>
+    </div>
+</div>

@@ -1,0 +1,1564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C1AEAB7-2621-414A-82A7-C01809D72282}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NS4.Client</RootNamespace>
+    <AssemblyName>NS4.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\404.html" />
+    <Content Include="app\assets\css\ie8.css" />
+    <Content Include="app\assets\css\Jcrop.gif" />
+    <Content Include="app\assets\css\main.css" />
+    <Content Include="app\assets\css\minimal\blue%402x.png" />
+    <Content Include="app\assets\css\minimal\blue.png" />
+    <Content Include="app\assets\css\select2-spinner.gif" />
+    <Content Include="app\assets\css\select2.png" />
+    <Content Include="app\assets\css\select2x2.png" />
+    <Content Include="app\assets\css\styles.css" />
+    <Content Include="app\assets\demo\avatar\aniss.png" />
+    <Content Include="app\assets\demo\avatar\corbett.png" />
+    <Content Include="app\assets\demo\avatar\dangerfield.png" />
+    <Content Include="app\assets\demo\avatar\doyle.png" />
+    <Content Include="app\assets\demo\avatar\jackson.png" />
+    <Content Include="app\assets\demo\avatar\jobs.png" />
+    <Content Include="app\assets\demo\avatar\johansson.png" />
+    <Content Include="app\assets\demo\avatar\paton.png" />
+    <Content Include="app\assets\demo\avatar\potter.png" />
+    <Content Include="app\assets\demo\avatar\tennant.png" />
+    <Content Include="app\assets\demo\avatar\watson.png" />
+    <Content Include="app\assets\demo\avatar\_aniss.png" />
+    <Content Include="app\assets\demo\avatar\_corbett.png" />
+    <Content Include="app\assets\demo\avatar\_dangerfield.png" />
+    <Content Include="app\assets\demo\avatar\_doyle.png" />
+    <Content Include="app\assets\demo\avatar\_jackson.png" />
+    <Content Include="app\assets\demo\avatar\_jobs.png" />
+    <Content Include="app\assets\demo\avatar\_johansson.png" />
+    <Content Include="app\assets\demo\avatar\_paton.png" />
+    <Content Include="app\assets\demo\avatar\_potter.png" />
+    <Content Include="app\assets\demo\avatar\_tennant.png" />
+    <Content Include="app\assets\demo\avatar\_watson.png" />
+    <Content Include="app\assets\demo\images\arch_building.jpg" />
+    <Content Include="app\assets\demo\images\arch_fireescape.jpg" />
+    <Content Include="app\assets\demo\images\arch_fountain.jpg" />
+    <Content Include="app\assets\demo\images\arch_gardens.jpg" />
+    <Content Include="app\assets\demo\images\ind_code.jpg" />
+    <Content Include="app\assets\demo\images\ind_corrosion_hazard.jpg" />
+    <Content Include="app\assets\demo\images\ind_demolition.jpg" />
+    <Content Include="app\assets\demo\images\ind_machinery.jpg" />
+    <Content Include="app\assets\demo\images\ind_rusty.jpg" />
+    <Content Include="app\assets\demo\images\nature_enchantedcreek.jpg" />
+    <Content Include="app\assets\demo\images\nature_gardens.jpg" />
+    <Content Include="app\assets\demo\images\nature_mill.jpg" />
+    <Content Include="app\assets\demo\images\nature_mossytree.jpg" />
+    <Content Include="app\assets\demo\images\nature_rider.jpg" />
+    <Content Include="app\assets\demo\images\nature_river.jpg" />
+    <Content Include="app\assets\demo\images\nature_trees.jpg" />
+    <Content Include="app\assets\demo\images\nature_woodstump.jpg" />
+    <Content Include="app\assets\demo\images\thmb_arch_building.jpg" />
+    <Content Include="app\assets\demo\images\thmb_arch_fireescape.jpg" />
+    <Content Include="app\assets\demo\images\thmb_arch_fountain.jpg" />
+    <Content Include="app\assets\demo\images\thmb_ind_code.jpg" />
+    <Content Include="app\assets\demo\images\thmb_ind_corrosion_hazard.jpg" />
+    <Content Include="app\assets\demo\images\thmb_ind_demolition.jpg" />
+    <Content Include="app\assets\demo\images\thmb_ind_machinery.jpg" />
+    <Content Include="app\assets\demo\images\thmb_ind_rusty.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_enchantedcreek.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_gardens.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_mill.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_mossytree.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_rider.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_river.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_trees.jpg" />
+    <Content Include="app\assets\demo\images\thmb_nature_woodstump.jpg" />
+    <Content Include="app\assets\demo\images\yvonne.jpg" />
+    <Content Include="app\assets\demo\variations\default.css" />
+    <Content Include="app\assets\demo\variations\header-black.css" />
+    <Content Include="app\assets\demo\variations\header-dangerdark.css" />
+    <Content Include="app\assets\demo\variations\header-inverse.css" />
+    <Content Include="app\assets\demo\variations\header-midnightblue.css" />
+    <Content Include="app\assets\demo\variations\header-primary.css" />
+    <Content Include="app\assets\demo\variations\sidebar-dangerdark.css" />
+    <Content Include="app\assets\demo\variations\sidebar-gray.css" />
+    <Content Include="app\assets\demo\variations\sidebar-indigo.css" />
+    <Content Include="app\assets\demo\variations\sidebar-inverse.css" />
+    <Content Include="app\assets\demo\variations\sidebar-primary.css" />
+    <Content Include="app\assets\demo\variations\sidebar-success.css" />
+    <Content Include="app\assets\fonts\font-awesome\css\font-awesome.css" />
+    <Content Include="app\assets\fonts\font-awesome\css\font-awesome.min.css" />
+    <Content Include="app\assets\fonts\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="app\assets\fonts\glyphicons\css\glyphicons.css" />
+    <Content Include="app\assets\fonts\glyphicons\css\glyphicons.min.css" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
+    <Content Include="app\assets\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
+    <Content Include="app\assets\img\black32logo.png" />
+    <Content Include="app\assets\img\gray32logo.png" />
+    <Content Include="app\assets\img\logo-big.png" />
+    <Content Include="app\assets\img\logo.png" />
+    <Content Include="app\assets\img\northstar_logo.png" />
+    <Content Include="app\assets\img\nsetlong.png" />
+    <Content Include="app\assets\img\patterns\brickwall.png" />
+    <Content Include="app\assets\img\patterns\dark_stripes.png" />
+    <Content Include="app\assets\img\patterns\grey_wash_wall.png" />
+    <Content Include="app\assets\img\patterns\pw_maze_black.png" />
+    <Content Include="app\assets\img\patterns\rockywall.png" />
+    <Content Include="app\assets\img\patterns\sos.png" />
+    <Content Include="app\assets\img\patterns\stressed_linen.png" />
+    <Content Include="app\assets\img\patterns\subtle_carbon.png" />
+    <Content Include="app\assets\img\patterns\tweed.png" />
+    <Content Include="app\assets\img\patterns\vertical_cloth.png" />
+    <Content Include="app\assets\img\patterns\wild_oliva.png" />
+    <Content Include="app\assets\img\sidebar-toggle.png" />
+    <Content Include="app\assets\img\switch.png" />
+    <Content Include="app\assets\img\tiertriangle.png" />
+    <Content Include="app\assets\img\white32logo.png" />
+    <Content Include="app\assets\img\_logo-big.png" />
+    <Content Include="app\assets\img\_logo.png" />
+    <Content Include="app\assets\plugins\bootstro.js\bootstro.css" />
+    <Content Include="app\assets\plugins\bootstro.js\bootstro.js" />
+    <Content Include="app\assets\plugins\bootstro.js\bootstro.min.css" />
+    <Content Include="app\assets\plugins\bootstro.js\bootstro.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\excanvas.js" />
+    <Content Include="app\assets\plugins\charts-flot\excanvas.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.colorhelpers.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.colorhelpers.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.canvas.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.canvas.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.categories.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.categories.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.crosshair.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.crosshair.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.errorbars.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.errorbars.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.fillbetween.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.image.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.image.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.navigate.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.navigate.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.orderBars.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.orderBars.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.pie.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.pie.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.resize.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.resize.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.selection.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.selection.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.stack.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.stack.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.symbol.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.symbol.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.threshold.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.threshold.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.time.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.time.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\jquery.flot.tooltip.min.js" />
+    <Content Include="app\assets\plugins\charts-flot\LICENSE.txt" />
+    <Content Include="app\assets\plugins\codeprettifier\prettify.css" />
+    <Content Include="app\assets\plugins\codeprettifier\prettify.js" />
+    <Content Include="app\assets\plugins\datepaginator\bootstrap-datepaginator.css" />
+    <Content Include="app\assets\plugins\datepaginator\bootstrap-datepaginator.js" />
+    <Content Include="app\assets\plugins\easypiechart\angular.easypiechart.js" />
+    <Content Include="app\assets\plugins\easypiechart\angular.easypiechart.min.js" />
+    <Content Include="app\assets\plugins\easypiechart\easypiechart.js" />
+    <Content Include="app\assets\plugins\easypiechart\easypiechart.min.js" />
+    <Content Include="app\assets\plugins\easypiechart\jquery.easypiechart.js" />
+    <Content Include="app\assets\plugins\easypiechart\jquery.easypiechart.min.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\ckeditor.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\config.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\contents.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\af.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ar.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\bg.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\bn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\bs.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\cs.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\cy.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\da.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\de.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\el.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\en-au.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\en-ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\en-gb.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\en.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\eo.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\es.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\et.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\eu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\fa.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\fi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\fo.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\fr-ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\fr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\gl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\gu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\he.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\hi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\hr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\hu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\id.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\is.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\it.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ja.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ka.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\km.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ko.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ku.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\lt.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\lv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\mk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\mn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ms.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\nb.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\nl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\no.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\pl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\pt-br.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\pt.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ro.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ru.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\si.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sq.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sr-latn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\sv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\th.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\tr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\ug.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\uk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\vi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\zh-cn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\lang\zh.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\fakeobjects\images\spacer.gif" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\icons.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\magicline\images\icon.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\tmp.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\ajax.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\api.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\appendto.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\inlineall\logo.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\posteddata.php" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\sample.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\sample.jpg" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\assets\uilanguages\languages.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\datafiltering.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\divreplace.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\index.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\inlineall.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\inlinebycode.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\dialog\assets\my_dialog.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\dialog\dialog.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\enterkey\enterkey.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.swf" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\htmlwriter\assets\outputforflash\swfobject.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\htmlwriter\outputforflash.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\htmlwriter\outputhtml.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\magicline\magicline.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\toolbar\toolbar.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\wysiwygarea\fullpage.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\readonly.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\replacebyclass.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\replacebycode.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\sample.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\sample.js" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\sample_posteddata.php" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\tabindex.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\uicolor.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\uilanguages.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\xhtmlstyle.html" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\bold.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog_ie.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog_ie7.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog_ie8.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog_iequirks.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\dialog_opera.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor_gecko.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor_ie.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor_ie7.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor_ie8.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\editor_iequirks.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\find-rtl.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\icons.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\icons_hidpi.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\arrow.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\close.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\hidpi\close.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\hidpi\lock-open.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\hidpi\lock.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\hidpi\refresh.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\lock-open.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\lock.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\images\refresh.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\scayt.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\dialog_opera.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\editor_iequirks.css" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\icons.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\images\arrow.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\images\close.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\images\mini.png" />
+    <Content Include="app\assets\plugins\form-ckeditor\styles.js" />
+    <Content Include="app\assets\plugins\form-colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="app\assets\plugins\form-colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="app\assets\plugins\form-colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="app\assets\plugins\form-colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="app\assets\plugins\form-colorpicker\index.html" />
+    <Content Include="app\assets\plugins\form-colorpicker\js\bootstrap-colorpicker.js" />
+    <Content Include="app\assets\plugins\form-colorpicker\js\bootstrap-colorpicker.min.js" />
+    <Content Include="app\assets\plugins\form-colorpicker\js\docs.js" />
+    <Content Include="app\assets\plugins\form-datepicker\css\datepicker.css" />
+    <Content Include="app\assets\plugins\form-datepicker\css\datepicker3.css" />
+    <Content Include="app\assets\plugins\form-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="app\assets\plugins\form-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="app\assets\plugins\form-daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="app\assets\plugins\form-daterangepicker\daterangepicker.js" />
+    <Content Include="app\assets\plugins\form-daterangepicker\daterangepicker.min.js" />
+    <Content Include="app\assets\plugins\form-daterangepicker\moment.min.js" />
+    <Content Include="app\assets\plugins\form-fseditor\fseditor.css" />
+    <Content Include="app\assets\plugins\form-fseditor\jquery.fseditor-min.js" />
+    <Content Include="app\assets\plugins\form-jasnyupload\fileinput.js" />
+    <Content Include="app\assets\plugins\form-jasnyupload\fileinput.min.js" />
+    <Content Include="app\assets\plugins\form-jasnyupload\readme.txt" />
+    <Content Include="app\assets\plugins\form-markdown\css\bootstrap-markdown.min.css" />
+    <Content Include="app\assets\plugins\form-markdown\js\bootstrap-markdown.js" />
+    <Content Include="app\assets\plugins\form-markdown\js\bootstrap-markdown.min.js" />
+    <Content Include="app\assets\plugins\form-multiselect\css\multi-select.css" />
+    <Content Include="app\assets\plugins\form-multiselect\img\switch.png" />
+    <Content Include="app\assets\plugins\form-multiselect\js\jquery.multi-select.js" />
+    <Content Include="app\assets\plugins\form-multiselect\js\jquery.multi-select.min.js" />
+    <Content Include="app\assets\plugins\form-multiselect\LICENSE.txt" />
+    <Content Include="app\assets\plugins\form-multiselect\test\lib\jasmine-1.2.0\jasmine-html.js" />
+    <Content Include="app\assets\plugins\form-multiselect\test\lib\jasmine-1.2.0\jasmine.css" />
+    <Content Include="app\assets\plugins\form-multiselect\test\lib\jasmine-1.2.0\jasmine.js" />
+    <Content Include="app\assets\plugins\form-multiselect\test\lib\jasmine-jquery.js" />
+    <Content Include="app\assets\plugins\form-multiselect\test\SpecRunner.html" />
+    <Content Include="app\assets\plugins\form-multiselect\test\spec\multiSelectSpec.js" />
+    <Content Include="app\assets\plugins\form-multiselect\test\spec\SpecHelper.js" />
+    <Content Include="app\assets\plugins\form-multiselect\test\src\jquery.js" />
+    <Content Include="app\assets\plugins\form-select2\select2-spinner.gif" />
+    <Content Include="app\assets\plugins\form-select2\select2.css" />
+    <Content Include="app\assets\plugins\form-select2\select2.js" />
+    <Content Include="app\assets\plugins\form-select2\select2.min.js" />
+    <Content Include="app\assets\plugins\form-select2\select2.png" />
+    <Content Include="app\assets\plugins\form-select2\select2x2.png" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ar.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_bg.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ca.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_cs.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_da.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_de.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_el.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_es.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_et.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_eu.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_fa.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_fi.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_fr.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_gl.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_he.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_hr.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_hu.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_id.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_is.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_it.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ja.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ko.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_lt.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_lv.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_mk.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ms.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_nl.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_no.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_pl.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_pt-BR.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_pt-PT.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ro.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ru.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_sk.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_sv.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_th.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_tr.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_ua.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_vi.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_zh-CN.js" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_zh-TW.js" />
+    <Content Include="app\assets\plugins\form-tokenfield\bootstrap-tokenfield.css" />
+    <Content Include="app\assets\plugins\form-tokenfield\bootstrap-tokenfield.js" />
+    <Content Include="app\assets\plugins\form-tokenfield\bootstrap-tokenfield.min.js" />
+    <Content Include="app\assets\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="app\assets\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="app\assets\plugins\fullcalendar\fullcalendar.min.css" />
+    <Content Include="app\assets\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="app\assets\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="app\assets\plugins\fullcalendar\gcal.js" />
+    <Content Include="app\assets\plugins\icheck\all.css" />
+    <Content Include="app\assets\plugins\icheck\flat\aero%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\aero.css" />
+    <Content Include="app\assets\plugins\icheck\flat\aero.png" />
+    <Content Include="app\assets\plugins\icheck\flat\blue%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\blue.css" />
+    <Content Include="app\assets\plugins\icheck\flat\blue.png" />
+    <Content Include="app\assets\plugins\icheck\flat\flat%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\flat.css" />
+    <Content Include="app\assets\plugins\icheck\flat\flat.png" />
+    <Content Include="app\assets\plugins\icheck\flat\green%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\green.css" />
+    <Content Include="app\assets\plugins\icheck\flat\green.png" />
+    <Content Include="app\assets\plugins\icheck\flat\grey%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\grey.css" />
+    <Content Include="app\assets\plugins\icheck\flat\grey.png" />
+    <Content Include="app\assets\plugins\icheck\flat\orange%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\orange.css" />
+    <Content Include="app\assets\plugins\icheck\flat\orange.png" />
+    <Content Include="app\assets\plugins\icheck\flat\pink%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\pink.css" />
+    <Content Include="app\assets\plugins\icheck\flat\pink.png" />
+    <Content Include="app\assets\plugins\icheck\flat\purple%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\purple.css" />
+    <Content Include="app\assets\plugins\icheck\flat\purple.png" />
+    <Content Include="app\assets\plugins\icheck\flat\red%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\red.css" />
+    <Content Include="app\assets\plugins\icheck\flat\red.png" />
+    <Content Include="app\assets\plugins\icheck\flat\yellow%402x.png" />
+    <Content Include="app\assets\plugins\icheck\flat\yellow.css" />
+    <Content Include="app\assets\plugins\icheck\flat\yellow.png" />
+    <Content Include="app\assets\plugins\icheck\flat\_all.css" />
+    <Content Include="app\assets\plugins\icheck\futurico\futurico%402x.png" />
+    <Content Include="app\assets\plugins\icheck\futurico\futurico.css" />
+    <Content Include="app\assets\plugins\icheck\futurico\futurico.png" />
+    <Content Include="app\assets\plugins\icheck\line\aero.css" />
+    <Content Include="app\assets\plugins\icheck\line\blue.css" />
+    <Content Include="app\assets\plugins\icheck\line\green.css" />
+    <Content Include="app\assets\plugins\icheck\line\grey.css" />
+    <Content Include="app\assets\plugins\icheck\line\line%402x.png" />
+    <Content Include="app\assets\plugins\icheck\line\line.css" />
+    <Content Include="app\assets\plugins\icheck\line\line.png" />
+    <Content Include="app\assets\plugins\icheck\line\orange.css" />
+    <Content Include="app\assets\plugins\icheck\line\pink.css" />
+    <Content Include="app\assets\plugins\icheck\line\purple.css" />
+    <Content Include="app\assets\plugins\icheck\line\red.css" />
+    <Content Include="app\assets\plugins\icheck\line\yellow.css" />
+    <Content Include="app\assets\plugins\icheck\line\_all.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\aero%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\aero.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\aero.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\blue%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\blue.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\blue.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\green%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\green.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\green.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\grey%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\grey.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\grey.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\minimal%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\minimal.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\minimal.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\orange%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\orange.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\orange.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\pink%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\pink.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\pink.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\purple%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\purple.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\purple.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\red%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\red.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\red.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\yellow%402x.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\yellow.css" />
+    <Content Include="app\assets\plugins\icheck\minimal\yellow.png" />
+    <Content Include="app\assets\plugins\icheck\minimal\_all.css" />
+    <Content Include="app\assets\plugins\icheck\polaris\polaris%402x.png" />
+    <Content Include="app\assets\plugins\icheck\polaris\polaris.css" />
+    <Content Include="app\assets\plugins\icheck\polaris\polaris.png" />
+    <Content Include="app\assets\plugins\icheck\square\aero%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\aero.css" />
+    <Content Include="app\assets\plugins\icheck\square\aero.png" />
+    <Content Include="app\assets\plugins\icheck\square\blue%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\blue.css" />
+    <Content Include="app\assets\plugins\icheck\square\blue.png" />
+    <Content Include="app\assets\plugins\icheck\square\green%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\green.css" />
+    <Content Include="app\assets\plugins\icheck\square\green.png" />
+    <Content Include="app\assets\plugins\icheck\square\grey%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\grey.css" />
+    <Content Include="app\assets\plugins\icheck\square\grey.png" />
+    <Content Include="app\assets\plugins\icheck\square\orange%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\orange.css" />
+    <Content Include="app\assets\plugins\icheck\square\orange.png" />
+    <Content Include="app\assets\plugins\icheck\square\pink%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\pink.css" />
+    <Content Include="app\assets\plugins\icheck\square\pink.png" />
+    <Content Include="app\assets\plugins\icheck\square\purple%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\purple.css" />
+    <Content Include="app\assets\plugins\icheck\square\purple.png" />
+    <Content Include="app\assets\plugins\icheck\square\red%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\red.css" />
+    <Content Include="app\assets\plugins\icheck\square\red.png" />
+    <Content Include="app\assets\plugins\icheck\square\square%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\square.css" />
+    <Content Include="app\assets\plugins\icheck\square\square.png" />
+    <Content Include="app\assets\plugins\icheck\square\yellow%402x.png" />
+    <Content Include="app\assets\plugins\icheck\square\yellow.css" />
+    <Content Include="app\assets\plugins\icheck\square\yellow.png" />
+    <Content Include="app\assets\plugins\icheck\square\_all.css" />
+    <Content Include="app\assets\plugins\jcrop\css\Jcrop.gif" />
+    <Content Include="app\assets\plugins\jcrop\css\jquery.Jcrop.css" />
+    <Content Include="app\assets\plugins\jcrop\css\jquery.Jcrop.min.css" />
+    <Content Include="app\assets\plugins\jcrop\demos\crop.php" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\demos.css" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\main.css" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\pool.jpg" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\sago.jpg" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\sagomod.jpg" />
+    <Content Include="app\assets\plugins\jcrop\demos\demo_files\sagomod.png" />
+    <Content Include="app\assets\plugins\jcrop\demos\non-image.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\styling.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\tutorial1.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\tutorial2.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\tutorial3.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\tutorial4.html" />
+    <Content Include="app\assets\plugins\jcrop\demos\tutorial5.html" />
+    <Content Include="app\assets\plugins\jcrop\index.html" />
+    <Content Include="app\assets\plugins\jcrop\js\jquery.color.js" />
+    <Content Include="app\assets\plugins\jcrop\js\jquery.Jcrop.js" />
+    <Content Include="app\assets\plugins\jcrop\js\jquery.Jcrop.min.js" />
+    <Content Include="app\assets\plugins\jcrop\MIT-LICENSE.txt" />
+    <Content Include="app\assets\plugins\jquery-fileupload\angularjs.html" />
+    <Content Include="app\assets\plugins\jquery-fileupload\basic-plus.html" />
+    <Content Include="app\assets\plugins\jquery-fileupload\basic.html" />
+    <Content Include="app\assets\plugins\jquery-fileupload\css\demo.css" />
+    <Content Include="app\assets\plugins\jquery-fileupload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="app\assets\plugins\jquery-fileupload\css\jquery.fileupload-ui.css" />
+    <Content Include="app\assets\plugins\jquery-fileupload\css\style.css" />
+    <Content Include="app\assets\plugins\jquery-fileupload\img\loading.gif" />
+    <Content Include="app\assets\plugins\jquery-fileupload\img\progressbar.gif" />
+    <Content Include="app\assets\plugins\jquery-fileupload\index.html" />
+    <Content Include="app\assets\plugins\jquery-fileupload\jquery-ui.html" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\app.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\canvas-to-blob.min.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\cors\jquery.xdr-transport.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.blueimp-gallery.min.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-angular.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-audio.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-image.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-jquery-ui.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-process.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-ui.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-validate.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload-video.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.fileupload.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\jquery.iframe-transport.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\load-image.min.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\main.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\tmpl.min.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\js\vendor\jquery.ui.widget.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-go\static\favicon.ico" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-go\static\robots.txt" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-python\static\favicon.ico" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-python\static\robots.txt" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\server.js" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\php\index.php" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\php\UploadHandler.php" />
+    <Content Include="app\assets\plugins\misc\less.js" />
+    <Content Include="app\assets\plugins\misc\media.match.min.js" />
+    <Content Include="app\assets\plugins\misc\placeholdr.js" />
+    <Content Include="app\assets\plugins\pines-notify\jquery.pnotify.default.css" />
+    <Content Include="app\assets\plugins\pines-notify\jquery.pnotify.js" />
+    <Content Include="app\assets\plugins\pines-notify\jquery.pnotify.min.js" />
+    <Content Include="app\assets\plugins\pines-notify\use for pines style icons\jquery.pnotify.default.icons.css" />
+    <Content Include="app\assets\plugins\progress-skylo\skylo.css" />
+    <Content Include="app\assets\plugins\progress-skylo\skylo.js" />
+    <Content Include="app\assets\plugins\robots\elizabot.js" />
+    <Content Include="app\assets\plugins\robots\elizadata.js" />
+    <Content Include="app\favicon.png" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\images\yeoman.png" />
+    <Content Include="app\index.html" />
+    <Content Include="app\robots.txt" />
+    <Content Include="app\scripts\app.js" />
+    <Content Include="app\scripts\calendar\Calendar.js" />
+    <Content Include="app\scripts\chart\Canvas.js" />
+    <Content Include="app\scripts\chart\Flot.js" />
+    <Content Include="app\scripts\chart\Inline.js" />
+    <Content Include="app\scripts\chart\SVG.js" />
+    <Content Include="app\scripts\controllers\angular-upload.js" />
+    <Content Include="app\scripts\controllers\Assessment.js" />
+    <Content Include="app\scripts\controllers\AvailableAssessments.js" />
+    <Content Include="app\scripts\controllers\Benchmarks.js" />
+    <Content Include="app\scripts\controllers\CalendarManagement.js" />
+    <Content Include="app\scripts\controllers\ColorPicker.js" />
+    <Content Include="app\scripts\controllers\Dashboard.js" />
+    <Content Include="app\scripts\controllers\DistrictSettings.js" />
+    <Content Include="app\scripts\controllers\ImportStateTestData.js" />
+    <Content Include="app\scripts\controllers\InterventionDashboard.js" />
+    <Content Include="app\scripts\controllers\InterventionDataEntry.js" />
+    <Content Include="app\scripts\controllers\InterventionGroups.js" />
+    <Content Include="app\scripts\controllers\InterventionToolkit.js" />
+    <Content Include="app\scripts\controllers\LineGraphs.js" />
+    <Content Include="app\scripts\controllers\Login.js" />
+    <Content Include="app\scripts\controllers\Messages.js" />
+    <Content Include="app\scripts\controllers\Navigation.js" />
+    <Content Include="app\scripts\controllers\Notifications.js" />
+    <Content Include="app\scripts\controllers\ObservationSummary.js" />
+    <Content Include="app\scripts\controllers\PersonalSettings.js" />
+    <Content Include="app\scripts\controllers\Section.js" />
+    <Content Include="app\scripts\controllers\SectionDataEntry.js" />
+    <Content Include="app\scripts\controllers\SectionReports.js" />
+    <Content Include="app\scripts\controllers\StackedBarGraphs.js" />
+    <Content Include="app\scripts\controllers\Staff.js" />
+    <Content Include="app\scripts\controllers\Student.js" />
+    <Content Include="app\scripts\controllers\StudentDashboard.js" />
+    <Content Include="app\scripts\controllers\TeamMeetings.js" />
+    <Content Include="app\scripts\controllers\Videos.js" />
+    <Content Include="app\scripts\form\Components.js" />
+    <Content Include="app\scripts\form\Directives.js" />
+    <Content Include="app\scripts\form\FileUploads.js" />
+    <Content Include="app\scripts\form\ImageCrop.js" />
+    <Content Include="app\scripts\form\Inline.js" />
+    <Content Include="app\scripts\form\Validation.js" />
+    <Content Include="app\scripts\gallery\Gallery.js" />
+    <Content Include="app\scripts\highcharts\grouped-categories.js" />
+    <Content Include="app\scripts\highcharts\highcharts-3d.js" />
+    <Content Include="app\scripts\highcharts\highcharts-3d.src.js" />
+    <Content Include="app\scripts\highcharts\highcharts-all.js" />
+    <Content Include="app\scripts\highcharts\highcharts-more.js" />
+    <Content Include="app\scripts\highcharts\highcharts-more.src.js" />
+    <Content Include="app\scripts\highcharts\highcharts.js" />
+    <Content Include="app\scripts\highcharts\highcharts.src.js" />
+    <Content Include="app\scripts\layout\Boxed.js" />
+    <Content Include="app\scripts\layout\Horizontal.js" />
+    <Content Include="app\scripts\maps\GoogleMaps.js" />
+    <Content Include="app\scripts\maps\VectorMaps.js" />
+    <Content Include="app\scripts\pages\Controllers.js" />
+    <Content Include="app\scripts\shared\assessmentFields.js" />
+    <Content Include="app\scripts\shared\BizObjectFactories.js" />
+    <Content Include="app\scripts\shared\Directives.js" />
+    <Content Include="app\scripts\shared\filterOptions.js" />
+    <Content Include="app\scripts\shared\highcharts-ng.js" />
+    <Content Include="app\scripts\shared\nsNGRemoteValidate.js" />
+    <Content Include="app\scripts\shared\nsOauth2.js" />
+    <Content Include="app\scripts\shared\Services.js" />
+    <Content Include="app\scripts\table\Editable.js" />
+    <Content Include="app\scripts\table\ngGrid.js" />
+    <Content Include="app\scripts\task\Tasks.js" />
+    <Content Include="app\scripts\templates\overrides.js" />
+    <Content Include="app\scripts\templates\templates.js" />
+    <Content Include="app\scripts\ui-components\Alerts.js" />
+    <Content Include="app\scripts\ui-components\Carousel.js" />
+    <Content Include="app\scripts\ui-components\Modals.js" />
+    <Content Include="app\scripts\ui-components\Nestable.js" />
+    <Content Include="app\scripts\ui-components\Paginations.js" />
+    <Content Include="app\scripts\ui-components\Progressbars.js" />
+    <Content Include="app\scripts\ui-components\Ratings.js" />
+    <Content Include="app\scripts\ui-components\Sliders.js" />
+    <Content Include="app\scripts\ui-components\Tabs.js" />
+    <Content Include="app\scripts\ui-components\Tiles.js" />
+    <Content Include="app\scripts\ui-elements\Panels.js" />
+    <Content Include="app\scripts\ui-elements\Tables.js" />
+    <Content Include="app\styles\nsprintstyles.css" />
+    <Content Include="app\styles\nsscreenstyles.css" />
+    <Content Include="app\styles\nsstyles.css" />
+    <Content Include="app\views\401.html" />
+    <Content Include="app\views\assessment-defaultentry.html" />
+    <Content Include="app\views\assessment-delete.html" />
+    <Content Include="app\views\assessment-edit.html" />
+    <Content Include="app\views\assessment-list.html" />
+    <Content Include="app\views\assessment-new.html" />
+    <Content Include="app\views\assessment-preview.html" />
+    <Content Include="app\views\attendance.html" />
+    <Content Include="app\views\calendar.html" />
+    <Content Include="app\views\cap-section-report.html" />
+    <Content Include="app\views\charts-canvas.html" />
+    <Content Include="app\views\charts-flot.html" />
+    <Content Include="app\views\charts-inline.html" />
+    <Content Include="app\views\charts-svg.html" />
+    <Content Include="app\views\district-assessments.html" />
+    <Content Include="app\views\district-benchmark-dates.html" />
+    <Content Include="app\views\district-benchmarks.html" />
+    <Content Include="app\views\district-calendar.html" />
+    <Content Include="app\views\district-hfw-list.html" />
+    <Content Include="app\views\district-student-attributes.html" />
+    <Content Include="app\views\extras-404.html" />
+    <Content Include="app\views\extras-500.html" />
+    <Content Include="app\views\extras-blank.html" />
+    <Content Include="app\views\extras-chatroom.html" />
+    <Content Include="app\views\extras-forgotpassword.html" />
+    <Content Include="app\views\extras-inbox.html" />
+    <Content Include="app\views\extras-login.html" />
+    <Content Include="app\views\extras-login2.html" />
+    <Content Include="app\views\extras-profile.html" />
+    <Content Include="app\views\extras-registration.html" />
+    <Content Include="app\views\extras-search.html" />
+    <Content Include="app\views\extras-signupform.html" />
+    <Content Include="app\views\extras-timeline.html" />
+    <Content Include="app\views\form-ckeditor.html" />
+    <Content Include="app\views\form-components.html" />
+    <Content Include="app\views\form-fileupload.html" />
+    <Content Include="app\views\form-imagecrop.html" />
+    <Content Include="app\views\form-layout.html" />
+    <Content Include="app\views\form-masks.html" />
+    <Content Include="app\views\form-validation.html" />
+    <Content Include="app\views\form-wizard.html" />
+    <Content Include="app\views\form-xeditable.html" />
+    <Content Include="app\views\fp-section-report.html" />
+    <Content Include="app\views\gallery.html" />
+    <Content Include="app\views\hfw-section-dataentry.html" />
+    <Content Include="app\views\hrsiw-section-dataentry.html" />
+    <Content Include="app\views\hrsiw-section-report.html" />
+    <Content Include="app\views\icons-fontawesome.html" />
+    <Content Include="app\views\icons-glyphicons.html" />
+    <Content Include="app\views\ig-addedit.html" />
+    <Content Include="app\views\ig-assessment-resultlist.html" />
+    <Content Include="app\views\ig-attendance.html" />
+    <Content Include="app\views\ig-dashboard.html" />
+    <Content Include="app\views\ig-data-entry.html" />
+    <Content Include="app\views\ig-linegraph.html" />
+    <Content Include="app\views\ig-manage.html" />
+    <Content Include="app\views\ig-reports.html" />
+    <Content Include="app\views\import-state-test-data-mn.html" />
+    <Content Include="app\views\index.html" />
+    <Content Include="app\views\intervention-detail.html" />
+    <Content Include="app\views\intervention-view-tier.html" />
+    <Content Include="app\views\layout-fixed.html" />
+    <Content Include="app\views\layout-grid.html" />
+    <Content Include="app\views\layout-horizontal.html" />
+    <Content Include="app\views\layout-horizontal2.html" />
+    <Content Include="app\views\lid-section-report-alpha.html" />
+    <Content Include="app\views\lid-section-report-overall.html" />
+    <Content Include="app\views\lid-section-report-sound.html" />
+    <Content Include="app\views\linegraph.html" />
+    <Content Include="app\views\login.html" />
+    <Content Include="app\views\maps-google.html" />
+    <Content Include="app\views\maps-vector.html" />
+    <Content Include="app\views\observation-summary-class.html" />
+    <Content Include="app\views\performance.html" />
+    <Content Include="app\views\personal-assessments.html" />
+    <Content Include="app\views\personal-fields.html" />
+    <Content Include="app\views\request-password-reset.html" />
+    <Content Include="app\views\reset-password-from-link.html" />
+    <Content Include="app\views\school-assessments.html" />
+    <Content Include="app\views\school-calendar.html" />
+    <Content Include="app\views\section-addedit.html" />
+    <Content Include="app\views\section-assessment-resultlist.html" />
+    <Content Include="app\views\section-dataentry-cap.html" />
+    <Content Include="app\views\section-dataentry-lid.html" />
+    <Content Include="app\views\section-list.html" />
+    <Content Include="app\views\spell-section-report.html" />
+    <Content Include="app\views\spell-v4p-section-dataentry.html" />
+    <Content Include="app\views\stacked-bar-graph-summary.html" />
+    <Content Include="app\views\stackedbargraph-assessments.html" />
+    <Content Include="app\views\stackedbargraph-comparison.html" />
+    <Content Include="app\views\stackedbargraph-groups.html" />
+    <Content Include="app\views\staff-edit.html" />
+    <Content Include="app\views\staff-list.html" />
+    <Content Include="app\views\staff-reset-users-password.html" />
+    <Content Include="app\views\student-addedit.html" />
+    <Content Include="app\views\student-dashboard.html" />
+    <Content Include="app\views\student-list.html" />
+    <Content Include="app\views\student-move.html" />
+    <Content Include="app\views\system-benchmarks.html" />
+    <Content Include="app\views\tables-basic.html" />
+    <Content Include="app\views\tables-data.html" />
+    <Content Include="app\views\tables-editable.html" />
+    <Content Include="app\views\tables-responsive.html" />
+    <Content Include="app\views\tasks.html" />
+    <Content Include="app\views\templates\assessment-calculatedfield-grideditable.html" />
+    <Content Include="app\views\templates\assessment-calculatedfield-readonly.html" />
+    <Content Include="app\views\templates\assessment-calculatedfield.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbacked-custom.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbacked-grideditable.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbacked-readonly.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbacked.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbackedstring-custom.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbackedstring-grideditable.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbackedstring-readonly.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbbackedstring.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbonly-grideditable.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbonly-readonly.html" />
+    <Content Include="app\views\templates\assessment-calculatedfielddbonly.html" />
+    <Content Include="app\views\templates\assessment-checkbox-custom.html" />
+    <Content Include="app\views\templates\assessment-checkboxvertical-custom.html" />
+    <Content Include="app\views\templates\assessment-datecheckbox-grideditable.html" />
+    <Content Include="app\views\templates\assessment-datecheckbox-readonly.html" />
+    <Content Include="app\views\templates\assessment-datecheckbox.html" />
+    <Content Include="app\views\templates\assessment-decimalrange-grideditable.html" />
+    <Content Include="app\views\templates\assessment-decimalrange-readonly.html" />
+    <Content Include="app\views\templates\assessment-decimalrange.html" />
+    <Content Include="app\views\templates\assessment-dropdownfromdb-custom.html" />
+    <Content Include="app\views\templates\assessment-dropdownfromdb-grideditable.html" />
+    <Content Include="app\views\templates\assessment-dropdownfromdb-readonly.html" />
+    <Content Include="app\views\templates\assessment-dropdownfromdb.html" />
+    <Content Include="app\views\templates\assessment-dropdownrange-grideditable.html" />
+    <Content Include="app\views\templates\assessment-dropdownrange-readonly.html" />
+    <Content Include="app\views\templates\assessment-dropdownrange.html" />
+    <Content Include="app\views\templates\assessment-field.html" />
+    <Content Include="app\views\templates\assessment-integer-readonly.html" />
+    <Content Include="app\views\templates\assessment-integer.html" />
+    <Content Include="app\views\templates\assessment-label-custom.html" />
+    <Content Include="app\views\templates\assessment-label-grideditable.html" />
+    <Content Include="app\views\templates\assessment-label-readonly.html" />
+    <Content Include="app\views\templates\assessment-preview.html" />
+    <Content Include="app\views\templates\assessment-textarea-custom.html" />
+    <Content Include="app\views\templates\assessment-textarea-grideditable.html" />
+    <Content Include="app\views\templates\assessment-textfield-custom.html" />
+    <Content Include="app\views\templates\assessment-textfield-grideditable.html" />
+    <Content Include="app\views\templates\assessment-textfield-readonly.html" />
+    <Content Include="app\views\templates\assessment-textfield.html" />
+    <Content Include="app\views\templates\benchmark-decimalrange.html" />
+    <Content Include="app\views\templates\benchmark-dropdownfromdb.html" />
+    <Content Include="app\views\templates\benchmark-dropdownrange.html" />
+    <Content Include="app\views\templates\bs-modal.html" />
+    <Content Include="app\views\templates\contextual-progressbar.html" />
+    <Content Include="app\views\templates\global-filter-options.html" />
+    <Content Include="app\views\templates\hfw-calculatedlabel.html" />
+    <Content Include="app\views\templates\linegraph-detail.html" />
+    <Content Include="app\views\templates\nav_renderer.html" />
+    <Content Include="app\views\templates\nav_renderer_horizontal.html" />
+    <Content Include="app\views\templates\ns-errors.html" />
+    <Content Include="app\views\templates\observation-summary-field-chooser.html" />
+    <Content Include="app\views\templates\observation-summary-section.html" />
+    <Content Include="app\views\templates\observation-summary-student.html" />
+    <Content Include="app\views\templates\observation-summary-tm-attend.html" />
+    <Content Include="app\views\templates\observation-summary-tm.html" />
+    <Content Include="app\views\templates\panel-tabs-without-heading.html" />
+    <Content Include="app\views\templates\panel-tabs.html" />
+    <Content Include="app\views\templates\panel.html" />
+    <Content Include="app\views\templates\stacked-bar-graph-comparison-options.html" />
+    <Content Include="app\views\templates\stacked-bar-graph-group-options.html" />
+    <Content Include="app\views\templates\stacked-bar-graph-legend.html" />
+    <Content Include="app\views\templates\student-interventions.html" />
+    <Content Include="app\views\templates\teammeeting-assign-student-to-ig.html" />
+    <Content Include="app\views\templates\themed-tabs-bottom.html" />
+    <Content Include="app\views\templates\themed-tabs.html" />
+    <Content Include="app\views\templates\tile-generic.html" />
+    <Content Include="app\views\templates\tile-large.html" />
+    <Content Include="app\views\templates\tile-mini.html" />
+    <Content Include="app\views\tm-attend-list.html" />
+    <Content Include="app\views\tm-attend-notes.html" />
+    <Content Include="app\views\tm-attend.html" />
+    <Content Include="app\views\tm-details.html" />
+    <Content Include="app\views\tm-email-invite.html" />
+    <Content Include="app\views\tm-group-manage.html" />
+    <Content Include="app\views\tm-group-modify.html" />
+    <Content Include="app\views\tm-invitations.html" />
+    <Content Include="app\views\tm-manage.html" />
+    <Content Include="app\views\toolkit-browse.html" />
+    <Content Include="app\views\ui-alerts.html" />
+    <Content Include="app\views\ui-breadcrumbs.html" />
+    <Content Include="app\views\ui-buttons.html" />
+    <Content Include="app\views\ui-carousel.html" />
+    <Content Include="app\views\ui-components.html" />
+    <Content Include="app\views\ui-images.html" />
+    <Content Include="app\views\ui-labelsbadges.html" />
+    <Content Include="app\views\ui-modals.html" />
+    <Content Include="app\views\ui-nestable.html" />
+    <Content Include="app\views\ui-paginations.html" />
+    <Content Include="app\views\ui-panels.html" />
+    <Content Include="app\views\ui-progressbars.html" />
+    <Content Include="app\views\ui-ratings.html" />
+    <Content Include="app\views\ui-sliders.html" />
+    <Content Include="app\views\ui-tabs.html" />
+    <Content Include="app\views\ui-tiles.html" />
+    <Content Include="app\views\ui-tour.html" />
+    <Content Include="app\views\ui-typography.html" />
+    <Content Include="app\views\ui-wells.html" />
+    <Content Include="app\views\user-assessment-fields.html" />
+    <Content Include="app\views\user-assessments.html" />
+    <Content Include="app\views\user-contact-district-admin.html" />
+    <Content Include="app\views\user-contact-northstar-support.html" />
+    <Content Include="app\views\user-contact-school-admin.html" />
+    <Content Include="app\views\user-password.html" />
+    <Content Include="app\views\user-profile.html" />
+    <Content Include="app\views\user-username.html" />
+    <Content Include="app\views\videos-browse.html" />
+    <Content Include="app\views\videos-edit.html" />
+    <Content Include="app\views\videos-manage.html" />
+    <Content Include="app\views\wv-section-report.html" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="gruntfile.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="app\.buildignore" />
+    <Content Include="app\.DS_Store" />
+    <Content Include="app\.htaccess" />
+    <Content Include="app\assets\.DS_Store" />
+    <Content Include="app\assets\css\.DS_Store" />
+    <Content Include="app\assets\demo\.DS_Store" />
+    <Content Include="app\assets\demo\countries.json" />
+    <Content Include="app\assets\demo\ng-data.json" />
+    <Content Include="app\assets\demo\source.json" />
+    <Content Include="app\assets\demo\variations\header-dangerdark.less" />
+    <Content Include="app\assets\demo\variations\header-inverse.less" />
+    <Content Include="app\assets\demo\variations\header-midnightblue.less" />
+    <Content Include="app\assets\demo\variations\header-processcolors.less" />
+    <Content Include="app\assets\demo\variations\header-steel.less" />
+    <Content Include="app\assets\demo\variations\sidebar-dangerdark.less" />
+    <Content Include="app\assets\demo\variations\sidebar-gray.less" />
+    <Content Include="app\assets\demo\variations\sidebar-indigo.less" />
+    <Content Include="app\assets\demo\variations\sidebar-inverse.less" />
+    <Content Include="app\assets\demo\variations\sidebar-primary.less" />
+    <Content Include="app\assets\demo\variations\sidebar-processcolors.less" />
+    <Content Include="app\assets\demo\variations\sidebar-success.less" />
+    <Content Include="app\assets\fonts\.DS_Store" />
+    <Content Include="app\assets\fonts\font-awesome\.DS_Store" />
+    <Content Include="app\assets\fonts\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="app\assets\fonts\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="app\assets\fonts\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="app\assets\fonts\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="app\assets\fonts\font-awesome\less\bordered-pulled.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\core.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\extras.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\fixed-width.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\font-awesome.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\icons.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\larger.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\list.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\mixins.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\path.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\rotated-flipped.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\spinning.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\stacked.less" />
+    <Content Include="app\assets\fonts\font-awesome\less\variables.less" />
+    <Content Include="app\assets\fonts\glyphicons\.DS_Store" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\.DS_Store" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\glyphicons\.DS_Store" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.eot" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\assets\fonts\glyphicons\fonts\glyphicons\font\glyphicons-halflings-regular.woff" />
+    <Content Include="app\assets\fonts\glyphicons\font\glyphicons-halflings-regular.eot" />
+    <Content Include="app\assets\fonts\glyphicons\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\assets\fonts\glyphicons\font\glyphicons-halflings-regular.woff" />
+    <Content Include="app\assets\img\.DS_Store" />
+    <Content Include="app\assets\less\.DS_Store" />
+    <Content Include="app\assets\less\apps.less" />
+    <Content Include="app\assets\less\bootstrap\alerts.less" />
+    <Content Include="app\assets\less\bootstrap\badges.less" />
+    <Content Include="app\assets\less\bootstrap\breadcrumbs.less" />
+    <Content Include="app\assets\less\bootstrap\button-groups.less" />
+    <Content Include="app\assets\less\bootstrap\buttons.less" />
+    <Content Include="app\assets\less\bootstrap\carousel.less" />
+    <Content Include="app\assets\less\bootstrap\close.less" />
+    <Content Include="app\assets\less\bootstrap\code.less" />
+    <Content Include="app\assets\less\bootstrap\component-animations.less" />
+    <Content Include="app\assets\less\bootstrap\dropdowns.less" />
+    <Content Include="app\assets\less\bootstrap\forms.less" />
+    <Content Include="app\assets\less\bootstrap\glyphicons.less" />
+    <Content Include="app\assets\less\bootstrap\grid.less" />
+    <Content Include="app\assets\less\bootstrap\input-groups.less" />
+    <Content Include="app\assets\less\bootstrap\jumbotron.less" />
+    <Content Include="app\assets\less\bootstrap\labels.less" />
+    <Content Include="app\assets\less\bootstrap\list-group.less" />
+    <Content Include="app\assets\less\bootstrap\media.less" />
+    <Content Include="app\assets\less\bootstrap\mixins.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\alerts.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\background-variant.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\border-radius.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\buttons.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\center-block.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\clearfix.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\forms.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\gradients.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\grid-framework.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\grid.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\hide-text.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\image.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\labels.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\list-group.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\nav-divider.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\opacity.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\pagination.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\panels.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\progress-bar.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\reset-filter.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\resize.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\size.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\tab-focus.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\table-row.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\text-overflow.less" />
+    <Content Include="app\assets\less\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="app\assets\less\bootstrap\modals.less" />
+    <Content Include="app\assets\less\bootstrap\navs.less" />
+    <Content Include="app\assets\less\bootstrap\normalize.less" />
+    <Content Include="app\assets\less\bootstrap\pager.less" />
+    <Content Include="app\assets\less\bootstrap\pagination.less" />
+    <Content Include="app\assets\less\bootstrap\popovers.less" />
+    <Content Include="app\assets\less\bootstrap\print.less" />
+    <Content Include="app\assets\less\bootstrap\progress-bars.less" />
+    <Content Include="app\assets\less\bootstrap\responsive-embed.less" />
+    <Content Include="app\assets\less\bootstrap\responsive-utilities.less" />
+    <Content Include="app\assets\less\bootstrap\scaffolding.less" />
+    <Content Include="app\assets\less\bootstrap\tables.less" />
+    <Content Include="app\assets\less\bootstrap\thumbnails.less" />
+    <Content Include="app\assets\less\bootstrap\tooltip.less" />
+    <Content Include="app\assets\less\bootstrap\type.less" />
+    <Content Include="app\assets\less\bootstrap\utilities.less" />
+    <Content Include="app\assets\less\bootstrap\wells.less" />
+    <Content Include="app\assets\less\demo.less" />
+    <Content Include="app\assets\less\extend-common.less" />
+    <Content Include="app\assets\less\extend-core.less" />
+    <Content Include="app\assets\less\extend-misc.less" />
+    <Content Include="app\assets\less\extend-nav.less" />
+    <Content Include="app\assets\less\extend-popovers.less" />
+    <Content Include="app\assets\less\feeds.less" />
+    <Content Include="app\assets\less\forza-mixins.less" />
+    <Content Include="app\assets\less\layout.less" />
+    <Content Include="app\assets\less\leftbar.less" />
+    <Content Include="app\assets\less\navbar.less" />
+    <Content Include="app\assets\less\panels.less" />
+    <Content Include="app\assets\less\prettify.less" />
+    <Content Include="app\assets\less\rightbar.less" />
+    <Content Include="app\assets\less\styles.less" />
+    <Content Include="app\assets\less\tabs.less" />
+    <Content Include="app\assets\less\tiles.less" />
+    <Content Include="app\assets\less\timeline.less" />
+    <Content Include="app\assets\less\topnav.less" />
+    <Content Include="app\assets\less\variables.less" />
+    <Content Include="app\assets\plugins\.DS_Store" />
+    <Content Include="app\assets\plugins\bootstro.js\bootstro.json" />
+    <Content Include="app\assets\plugins\bootstro.js\LICENSE" />
+    <Content Include="app\assets\plugins\bootstro.js\README.md" />
+    <Content Include="app\assets\plugins\charts-flot\API.md" />
+    <Content Include="app\assets\plugins\charts-flot\FAQ.md" />
+    <Content Include="app\assets\plugins\charts-flot\NEWS.md" />
+    <Content Include="app\assets\plugins\charts-flot\PLUGINS.md" />
+    <Content Include="app\assets\plugins\charts-flot\README.md" />
+    <Content Include="app\assets\plugins\datepaginator\README.md" />
+    <Content Include="app\assets\plugins\easypiechart\Readme.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\.DS_Store" />
+    <Content Include="app\assets\plugins\form-ckeditor\LICENSE.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\scayt\LICENSE.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\scayt\README.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\LICENSE.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\plugins\wsc\README.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\README.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\icy_orange\readme.md" />
+    <Content Include="app\assets\plugins\form-ckeditor\skins\moono\readme.md" />
+    <Content Include="app\assets\plugins\form-colorpicker\.DS_Store" />
+    <Content Include="app\assets\plugins\form-colorpicker\less\bootstrap-colorpicker.less" />
+    <Content Include="app\assets\plugins\form-colorpicker\LICENSE" />
+    <Content Include="app\assets\plugins\form-colorpicker\README.md" />
+    <Content Include="app\assets\plugins\form-datepicker\.DS_Store" />
+    <Content Include="app\assets\plugins\form-datepicker\CHANGELOG.md" />
+    <Content Include="app\assets\plugins\form-datepicker\less\datepicker.less" />
+    <Content Include="app\assets\plugins\form-datepicker\less\datepicker3.less" />
+    <Content Include="app\assets\plugins\form-datepicker\README.md" />
+    <Content Include="app\assets\plugins\form-daterangepicker\README.md" />
+    <Content Include="app\assets\plugins\form-fseditor\LICENSE.md" />
+    <Content Include="app\assets\plugins\form-fseditor\README.md" />
+    <Content Include="app\assets\plugins\form-jasnyupload\fileinput.less" />
+    <Content Include="app\assets\plugins\form-markdown\.DS_Store" />
+    <Content Include="app\assets\plugins\form-markdown\bower.json" />
+    <Content Include="app\assets\plugins\form-markdown\less\bootstrap-markdown.less" />
+    <Content Include="app\assets\plugins\form-markdown\README.md" />
+    <Content Include="app\assets\plugins\form-multiselect\.DS_Store" />
+    <Content Include="app\assets\plugins\form-multiselect\.gitignore" />
+    <Content Include="app\assets\plugins\form-multiselect\bower.json" />
+    <Content Include="app\assets\plugins\form-multiselect\multi-select.jquery.json" />
+    <Content Include="app\assets\plugins\form-multiselect\README.markdown" />
+    <Content Include="app\assets\plugins\form-multiselect\test\lib\jasmine-1.2.0\MIT.LICENSE" />
+    <Content Include="app\assets\plugins\form-select2\bower.json" />
+    <Content Include="app\assets\plugins\form-select2\LICENSE" />
+    <Content Include="app\assets\plugins\form-select2\README.md" />
+    <Content Include="app\assets\plugins\form-select2\release.sh" />
+    <Content Include="app\assets\plugins\form-select2\select2.jquery.json" />
+    <Content Include="app\assets\plugins\form-select2\select2_locale_en.js.template" />
+    <Content Include="app\assets\plugins\form-tokenfield\LICENSE.md" />
+    <Content Include="app\assets\plugins\form-tokenfield\README.md" />
+    <Content Include="app\assets\plugins\fullcalendar\bootstrap-fullcalendar.less" />
+    <Content Include="app\assets\plugins\fullcalendar\gcal.zip" />
+    <Content Include="app\assets\plugins\icheck\.DS_Store" />
+    <Content Include="app\assets\plugins\jcrop\.DS_Store" />
+    <Content Include="app\assets\plugins\jcrop\README.md" />
+    <Content Include="app\assets\plugins\jquery-fileupload\.DS_Store" />
+    <Content Include="app\assets\plugins\jquery-fileupload\CONTRIBUTING.md" />
+    <Content Include="app\assets\plugins\jquery-fileupload\README.md" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-go\app.yaml" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-go\app\main.go" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-python\app.yaml" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\gae-python\main.py" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\.gitignore" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\package.json" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\public\files\.gitignore" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\public\files\thumbnail\.gitignore" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\node\tmp\.gitignore" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\php\files\.gitignore" />
+    <Content Include="app\assets\plugins\jquery-fileupload\server\php\files\.htaccess" />
+    <Content Include="app\assets\plugins\pines-notify\.DS_Store" />
+    <Content Include="app\assets\plugins\progress-skylo\README.md" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\scripts\.DS_Store" />
+    <Content Include="app\styles\.DS_Store" />
+    <Content Include="app\web.config" />
+    <Content Include="bower.json" />
+    <Content Include="package.json" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\assets\plugins\jquery-fileupload\server\php\files\thumbnail\" />
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>41076</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:41076/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,105 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="">Personal Settings</a></li>
+        <li class="active">User Profile</li>
+    </ol>
+    <h1>Change Your Profile</h1>
+</div>
+
+<div class="container-fluid" ng-controller="PersonalProfileChangeController">
+    <div class="col-md-12" ng-if="settings.pageStatus == 'success'">
+        <uib-alert type="success">Your Profile Settings have been successfully changed!</uib-alert>
+    </div>
+    <div class="col-md-12" ng-if="settings.pageStatus != 'success'">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+        </div>
+        <div class="col-md-12">
+            <form name="pwdForm" class="form-horizontal" novalidate angular-validator angular-validator-submit="updateProfile()">
+
+                <panel panel-class="panel-midnightblue" heading="Profile Settings">
+                    <fieldset>
+                        <legend>Use this form to change your profile settings</legend>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">First Name</label>
+                            <div class="col-md-6">
+                                <input id="firstName"
+                                       class="form-control"
+                                       name="firstName"
+                                       type="text"
+                                       placeholder="Enter your first name"
+                                       required
+                                       required-message="'First Name is required'"
+                                       validate-on="dirty"
+                                       ng-model="userInfo.firstName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Middle Name</label>
+                            <div class="col-md-6">
+                                <input id="middleName"
+                                       class="form-control"
+                                       name="middleName"
+                                       type="text"
+                                       placeholder="Enter your middle name"
+                                       ng-model="userInfo.middleName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Last Name</label>
+                            <div class="col-md-6">
+                                <input id="lastName"
+                                       class="form-control"
+                                       name="lastName"
+                                       type="text"
+                                       placeholder="Enter your last name"
+                                       required
+                                       required-message="'Last Name is required'"
+                                       validate-on="dirty"
+                                       ng-model="userInfo.lastName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Teacher Key</label>
+                            <div class="col-md-6">
+                                <input id="teacherKey"
+                                       class="form-control"
+                                       name="teacherKey"
+                                       type="text"
+                                       placeholder="Enter your teacher key"
+                                       required
+                                       required-message="'Teacher Key is required'"
+                                       validate-on="dirty"
+                                       ng-remote-validate2="{{remoteValidationPath}}"
+                                       ng-remote-method="POST"
+                                       ng-remote-throttle="500"
+                                       invalid-message="'This Teacher Key is already assigned to another user'"
+                                       ng-model="userInfo.teacherKey" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">Are you an Interventionist?</label>
+                            <div class="col-md-6">
+                                <switch class="green" ng-model="userInfo.isInterventionist"></switch>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldname" class="col-md-3 control-label">What is your role?</label>
+                            <div class="col-md-6">
+                                <select class="form-control" ng-model="userInfo.role" required required-message="'You must select a role'">
+                                    <option value="">-Select a role</option>
+                                    <option value="1">Teacher</option>
+                                    <option value="2">Teaching Assistant</option>
+                                    <option value="3">Other</option>
+                                    <option value="5">Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                </panel>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Settings</button>
+            </form>
+        </div>
+    </div>
+</div> 

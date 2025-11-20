@@ -1,0 +1,10 @@
+{
+  "trace": {
+    "traceSuccessfulSteps": false,
+    "traceTimings": false,
+    "minTracedDuration": "00:00:00"
+  },
+  "runtime": {
+    "missingOrPendingStepsOutcome": "Inconclusive"
+  }
+}

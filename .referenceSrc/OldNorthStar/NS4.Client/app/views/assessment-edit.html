@@ -1,0 +1,329 @@
+﻿<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="#/">Assessement</a></li>
+        <li><a href="#/assessment-list">Manage Assessements</a></li>
+		<li class="active">Edit Assessment</li>
+	</ol>
+	<h1>Modify Assessment</h1>
+	<div class="options">
+		<div class="btn-toolbar">
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle">
+					Export as <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">Action</a></li>
+					<li><a href="#">Another action</a></li>
+					<li><a href="#">Something else here</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Separated link</a></li>
+				</ul>
+			</div>
+			<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" ng-controller="AssessmentEditController">
+
+	<div class="form-group">
+		<p>
+			<button type="submit" class="btn btn-primary" ng-click="edit()"><i class="icon-plus"></i>Save Assessment</button>
+		</p>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<uib-tabset tab-theme="midnightblue" tab-position="top">
+				<uib-tab heading="Settings">
+					<h3>Assessment Configuration</h3>
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="focusedinput" class="col-sm-3 control-label">Assessment Name</label>
+							<div class="col-sm-6">
+								<input type="text" ng-model="assessment.AssessmentName" class="form-control" id="focusedinput" placeholder="Default Input">
+							</div>
+							<div class="col-sm-3">
+								<p class="help-block">This is required</p>
+							</div>
+						</div>
+                        <div class="form-group">
+                            <label for="focusedinput" class="col-sm-3 control-label">Database Table Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" ng-model="assessment.StorageTable" class="form-control" id="focusedinput" placeholder="Default Input">
+                            </div>
+                        </div>
+						<div class="form-group">
+							<label for="txtarea1" class="col-sm-3 control-label">Description</label>
+							<div class="col-sm-6"><textarea name="txtarea1" ng-model="assessment.AssessmentDescription" id="txtarea1" cols="50" rows="4" class="form-control"></textarea></div>
+						</div>
+						<div class="form-group">
+							<label for="radio" class="col-sm-3 control-label">Is State Test?</label>
+                            <div class="col-sm-6">
+                                <toggle-switch model="assessment.IsStateTest" class="primary"><toggle-switch>
+                            </div>
+						</div>
+					</form>
+				</uib-tab>
+				<uib-tab heading="Groups">
+					<div class="form-group">
+						<p>
+							<button type="submit" class="btn btn-primary" ng-click="addNewGroup()"><i class="icon-plus"></i> Add Group</button>
+						</p>
+					</div>
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                Start Sort Order: <select ng-model="assessment.StartSortOrder" ng-options="n for n in [] | range:1:1000"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                End Sort Order: <select ng-model="assessment.EndSortOrder" ng-options="n for n in [] | range:1:1000"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary" ng-click="loadGroups()"><i class="icon-plus"></i> Load Groups</button>
+                            </div>
+                        </div>
+                    </form>
+
+						<uib-accordion close-others="oneAtATime" class="panel-danger" ng>
+							<uib-accordion-group is-open="status.open" ng-repeat="group in assessment.FieldGroups  | filter: { IsFlaggedForDelete : '!true'}">
+								<accordion-heading>
+									{{group.DisplayName}} <i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-left': !status.open}"></i>
+								</accordion-heading>
+								<form class="form-horizontal">
+									<div class="form-group">
+										<label for="focusedinput" class="col-sm-3 control-label">Group ID</label>
+										<div class="col-sm-6">
+											<input type="text" disabled="true" ng-model="group.Id" class="form-control" id="focusedinput" placeholder="Default Input">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="focusedinput" class="col-sm-3 control-label">Group Name</label>
+										<div class="col-sm-6">
+											<input type="text" ng-model="group.DisplayName" class="form-control" id="focusedinput" placeholder="Default Input">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="focusedinput" class="col-sm-3 control-label">Sort Order</label>
+										<div class="col-sm-6">
+											<select ng-model="group.SortOrder" ng-options="n for n in [] | range:1:100"></select>
+										</div>
+									</div>
+								</form>
+
+								<button class="btn btn-danger pull-right" type="button" ng-click="deleteGroup(group.Id)"><i class="icon-trash icon-white"></i> Delete</button>
+							</uib-accordion-group>
+						</uib-accordion>
+</uib-tab>
+				<uib-tab heading="Categories">
+                    <div class="form-group">
+                        <p>
+                            <button type="submit" class="btn btn-primary" ng-click="addNewCategory()"><i class="icon-plus"></i> Add Category</button>
+                        </p>
+                    </div>
+                    <uib-accordion close-others="oneAtATime" class="panel-danger" ng>
+                        <uib-accordion-group is-open="status.open" ng-repeat="group in assessment.FieldCategories">
+                            <uib-accordion-heading>
+                                {{group.DisplayName}} <i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-left': !status.open}"></i>
+                            </uib-accordion-heading>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Category ID</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" disabled="true" ng-model="group.Id" class="form-control" id="focusedinput" placeholder="Default Input">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Category Name</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" ng-model="group.DisplayName" class="form-control" id="focusedinput" placeholder="Default Input">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Sort Order</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="group.SortOrder" ng-options="n for n in [] | range:1:100"></select>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <button class="btn btn-danger pull-right" type="button" ng-click="deleteCategory(group.Id)"><i class="icon-trash icon-white"></i> Delete</button>
+                        </uib-accordion-group>
+                    </uib-accordion>
+				</uib-tab>
+				<uib-tab heading="Sub-Categories">
+                    <div class="form-group">
+                        <p>
+                            <button type="submit" class="btn btn-primary" ng-click="addNewSubCategory()"><i class="icon-plus"></i> Add Sub-Category</button>
+                        </p>
+                    </div>
+                    <uib-accordion close-others="oneAtATime" class="panel-danger" ng>
+                        <uib-accordion-group is-open="status.open" ng-repeat="group in assessment.FieldSubCategories">
+                            <uib-accordion-heading>
+                                {{group.DisplayName}} <i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-left': !status.open}"></i>
+                            </uib-accordion-heading>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Sub-Category ID</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" disabled="true" ng-model="group.Id" class="form-control" id="focusedinput" placeholder="Default Input">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Sub-Category Name</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" ng-model="group.DisplayName" class="form-control" id="focusedinput" placeholder="Default Input">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Sort Order</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="group.SortOrder" ng-options="n for n in [] | range:1:100"></select>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <button class="btn btn-danger pull-right" type="button" ng-click="deleteSubCategory(group.Id)"><i class="icon-trash icon-white"></i> Delete</button>
+                        </uib-accordion-group>
+                    </uib-accordion>
+				</uib-tab>
+				<uib-tab heading="Fields">
+                    <div class="form-group">
+                        <p>
+                            <button type="submit" class="btn btn-primary" ng-click="addNewField()"><i class="icon-plus"></i> Add Field</button>
+                        </p>
+                    </div>
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Page: <select ng-model="assessment.SelectedPage" ng-options="n for n in [] | range:0:100"></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    Group: <select ng-model="assessment.SelectedGroup" ng-options="group.Id as group.DisplayName for group in assessment.FieldGroups"><option value="">-any group-</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    Category: <select ng-model="assessment.SelectedCategory" ng-options="group.Id as group.DisplayName for group in assessment.FieldCategories"><option value="">-any category-</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    Sub-Category: <select ng-model="assessment.SelectedSubcategory" ng-options="group.Id as group.DisplayName for group in assessment.FieldSubCategories"><option value="">-any subcat-</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    DB Table: <input type="text" class="input-small" ng-model="assessment.SelectedDBTable" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary" ng-click="loadFields()"><i class="icon-plus"></i> Load Fields</button>
+                                </div>
+                            </div>
+                            </form>
+
+					<uib-accordion close-others="oneAtATime" class="panel-danger" ng>
+						<uib-accordion-group is-open="status.open" ng-repeat="field in assessment.Fields | filter: { IsFlaggedForDelete : '!true'} | orderBy:'+FieldOrder'">
+							<uib-accordion-heading>
+                                <b>{{field.DisplayLabel}}</b>  {{ getSubGroup(field.GroupId)}} {{ getCategory(field.CategoryId)}}  {{ getSubCategory(field.SubcategoryId)}} <i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-left': !status.open}"></i>
+							</uib-accordion-heading>
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-3 control-label">Field ID</label>
+									<div class="col-sm-6">
+										<input type="text" disabled="true" ng-model="field.Id" class="form-control" id="focusedinput" placeholder="Default Input">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-3 control-label">Field Label</label>
+									<div class="col-sm-6">
+										<input type="text" ng-model="field.DisplayLabel" class="form-control" id="focusedinput" placeholder="Default Input">
+									</div>
+								</div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Database Column</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" ng-model="field.DatabaseColumn" class="form-control" id="focusedinput" placeholder="Default Input">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Page</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="field.Page" ng-options="n for n in [] | range:1:100"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Display in Edit Result List</label>
+                                    <div class="col-sm-6">
+                                        <switch ng-model="field.DisplayInEditResultList" class="primary"></switch>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Display in Observation Summary</label>
+                                    <div class="col-sm-6">
+                                        <switch ng-model="field.DisplayInObsSummary" class="primary"></switch>
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-3 control-label">Field Type</label>
+									<div class="col-sm-6">
+										<select ng-model="field.FieldType" ng-options="type.name as type.value for type in FieldTypes"></select>
+									</div>
+								</div>
+								<div class="form-group" ng-show="field.FieldType == 'DropdownFromDB'">
+									<label for="focusedinput" class="col-sm-3 control-label">Lookup Field Name</label>
+									<div class="col-sm-6">
+										<input type="text" ng-model="field.LookupFieldName" class="form-control" id="focusedinput" placeholder="Default Input">
+									</div>
+								</div>
+                                <div class="form-group" ng-show="field.FieldType == 'DropdownRange' || field.FieldType == 'DecimalRange'">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Range Low</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="field.RangeLow" ng-options="n for n in [] | range:0:100"></select>
+                                    </div>
+                                </div>
+								<div class="form-group" ng-show="field.FieldType == 'DropdownRange' || field.FieldType == 'DecimalRange'">
+									<label for="focusedinput" class="col-sm-3 control-label">Range High</label>
+									<div class="col-sm-6">
+										<select ng-model="field.RangeHigh" ng-options="n for n in [] | range:0:100"></select>
+									</div>
+								</div>
+								<div class="form-group" ng-show="field.FieldType == 'CalculatedField'">
+									<label for="focusedinput" class="col-sm-3 control-label">Calculation Function</label>
+									<div class="col-sm-6">
+										<input type="text" ng-model="field.CalculationFunction" class="form-control" id="focusedinput" placeholder="Default Input">
+									</div>
+								</div>
+								<div class="form-group" ng-show="field.FieldType == 'CalculatedField'">
+									<label for="focusedinput" class="col-sm-3 control-label">Calculation Fields</label>
+									<div class="col-sm-6">
+										<input type="text" ng-model="field.CalculationFields" class="form-control" id="focusedinput" placeholder="Default Input">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-3 control-label">Group</label>
+									<div class="col-sm-6">
+										<select ng-model="field.GroupId" ng-options="group.Id as group.DisplayName for group in assessment.FieldGroups"></select>
+									</div>
+								</div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Category</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="field.CategoryId" ng-options="category.Id as category.DisplayName for category in assessment.FieldCategories"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-3 control-label">Sub-Category</label>
+                                    <div class="col-sm-6">
+                                        <select ng-model="field.SubcategoryId" ng-options="subCategory.Id as subCategory.DisplayName for subCategory in assessment.FieldSubCategories"></select>
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-3 control-label">Sort Order</label>
+									<div class="col-sm-6">
+										<select ng-model="field.FieldOrder" ng-options="n for n in [] | range:1:100"></select>
+									</div>
+								</div>
+							</form>
+
+							<button class="btn btn-danger pull-right" type="button" ng-click="deleteField(field.DisplayLabel)"><i class="icon-trash icon-white"></i> Delete</button>
+						</uib-accordion-group>
+					</uib-accordion>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Team Meetings</li>
+        <li class="active">Manage Team Meetings</li>
+    </ol>
+    <h1>Manage Team Meetings</h1>
+</div>
+<div class="col-md-12 ng-scope">
+    <ns-filter-options-container-directive school-year-enabled="true"></ns-filter-options-container-directive>
+</div>
+
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Your Team Meetings">
+                <panel-controls>
+                    <a href="#/tm-details/-1">Create Team Meeting <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <table class="table table-striped" ng-controller="TeamMeetingListController">
+                    <thead>
+                        <tr>
+                            <th>Edit</th>
+                            <th>Invitations</th>
+                            <th>Delete</th>
+                            <th>Meeting Time</th>
+                            <th>Creator</th>
+                            <th>Meeting Title</th>
+                            <th>Number of Students</th>
+                            <th>Staff Invited/ Attended</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="meeting in teamMeetings">
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-primary btn-xs" href="#/tm-details/{{::meeting.Id}}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-primary btn-xs" href="#/tm-invitations/{{::meeting.Id}}"><i class="fa fa-envelope-o"></i></a>
+                            </td>
+                            <td class="nsCenterAlignedText">
+                                <a class="btn btn-danger btn-xs" ng-click="deleteMeeting(meeting.Id)"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                            <td>{{::meeting.MeetingTime | nsLongDateFormatWithTime}}</td>
+                            <td>{{::meeting.Creator}}</td>
+                            <td>{{::meeting.Title}}</td>
+                            <td class="nsCenterAlignedText">{{::meeting.NumStudents}}</td>
+                            <td class="nsCenterAlignedText">{{::meeting.NumStaffInvited}} / {{::meeting.NumStaffAttended}}</td>
+                            <td>{{::meeting.Comments}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </panel>
+        </div>

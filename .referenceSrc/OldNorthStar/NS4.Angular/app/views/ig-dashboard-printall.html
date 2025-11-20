@@ -1,0 +1,200 @@
+﻿<div class="container-fluid" ng-controller="InterventionDashboardControllerPrint">
+    <div class="col-md-12">
+        <standard-report-header heading="'Intervention Dashboard'" options="filterOptions"></standard-report-header>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-12 ng-scope hidden-print">
+                <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" interventionist-enabled="true" intervention-group-enabled="true" intervention-student-enabled="true" stint-enabled="true"></ns-filter-options-container-directive>
+            </div>
+
+            <div class="col-md-12" ng-if="!filterOptions.selectedInterventionStudent">
+                <uib-alert type="info"><b>Note:</b> Please select a student and stint</uib-alert>
+            </div>
+
+            <div style="min-height:350px;">
+                <spinner name="tableSpinner">
+
+                </spinner>
+                <div class="col-md-12" ng-if="filterOptions.selectedInterventionStudent != null">
+                 
+                            <h2><i class="fa fa-line-chart"></i> Class Line Graphs</h2>
+                            <div>
+                                <div ng-repeat="fieldMgr in ClassLineGraphDataManagers" style="margin-bottom:50px;">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <highchart id="chart2" config="fieldMgr.chartConfig"></highchart>
+                                        </div>
+                                        <div>
+                                            <line-graph-detail-ig data-data-manager="fieldMgr"></line-graph-detail-ig>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="ClassLineGraphDataManagers.length == 0">
+                                    <uib-alert type="info"><b>Note:</b> No assessment data recorded during this intervention.</uib-alert>
+                                </div>
+                                <div style="clear:both;" />
+                            </div>
+                    <div style="padding:20px;"></div>
+                                <h2><i class="fa fa-pie-chart"></i> Attendance and Notes</h2>
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <h2>Graph</h2>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <highchart id="chart1" config="pieMgr.chartConfig"></highchart>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <h2>Attendance Summary</h2>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="panel">
+                                            <div class="list-group">
+                                                <a ng-repeat="status in dashMgr.AttendanceSummary" href="" ng-click="selectPieSlice(status.StatusLabel)" class="list-group-item"><span class="badge" ng-class="attendanceBadgeClass(status.StatusLabel)">{{status.Count}}</span>{{status.StatusLabel}}</a>
+                                                <a href="" ng-click="selectPieSlice(null)" class="list-group-item"><span class="badge badge-info">{{dashMgr.TotalDays}}</span><b>Total Days (Delivered + Make-Up)</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                          
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <h2>Note Detail</h2>
+                                </div>
+                                <div ng-show="filteredValues.length" class="table-responsive col-md-12">
+                                    <div class="container-fluid ns-table">
+                                        <div class="ns-table-row ns-table-header">
+                                            <div class="ns-table-cell text-center">Status</div>
+                                            <div class="ns-table-cell text-center">Recorder</div>
+                                            <div class="ns-table-cell">Date</div>
+                                            <div class="ns-table-cell">Note</div>
+                                        </div>
+                                        <form class="ns-table-row" ng-repeat="note in filteredValues = (dashMgr.Notes  | filter: { AttendanceStatus : pieMgr.settings.selectedStatus || undefined } )">
+                                            <!-- | filter: { AttendanceStatus : pieMgr.settings.selectedStatus || undefined } -->
+                                            <div class="ns-table-cell text-center" data-title="Status">
+                                                <span class="badge" ng-class="attendanceBadgeClass(note.AttendanceStatus)">{{::note.AttendanceStatus}}</span>
+                                            </div>
+                                            <div class="ns-table-cell text-center" data-title="Recorder">
+                                                {{::note.Recorder.LastName}}, {{::note.Recorder.FirstName}}
+                                            </div>
+                                            <div class="ns-table-cell" data-title="Date">
+                                                {{note.AttendanceDateString}}
+                                            </div>
+                                            <div class="ns-table-cell" data-title="Note">
+                                                <div ng-bind-html="note.Notes | safe_html"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="!filteredValues.length">
+                                <uib-alert type="info"><b>Note:</b> No notes of this type recorded.</uib-alert>
+                            </div>
+                            <div style="clear:both"></div>
+ 
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .verticalDate {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform-origin: bottom left;
+        transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .verticalTdDate {
+        height: 80px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+        position: relative;
+        top: -35px;
+        left: 3px;
+    }
+
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .timeline-month {
+        width: 100%;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        text-align: left;
+        font-weight: 700;
+        font-size: 19px;
+    }
+
+    .timeline > li .timeline-header span.author {
+        float: right;
+        font-size: 12px;
+        display: block;
+    }
+
+    h4 small {
+        color: #777;
+    }
+
+    .timeline > li.timeline-warning .timeline-header {
+        color: rgba(0,0,0,.5);
+    }
+
+    .timeline > li.timeline-warning .timeline-body h1,
+    .timeline > li.timeline-warning .timeline-body h2,
+    .timeline > li.timeline-warning .timeline-body h3,
+    .timeline > li.timeline-warning .timeline-body h4,
+    .timeline > li.timeline-warning .timeline-body h5,
+    .timeline > li.timeline-warning .timeline-body h6 {
+        color: #000;
+    }
+
+    .timeline > li.timeline-warning .timeline-body {
+        color: rgba(0,0,0,.75);
+    }
+</style>
+<script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>

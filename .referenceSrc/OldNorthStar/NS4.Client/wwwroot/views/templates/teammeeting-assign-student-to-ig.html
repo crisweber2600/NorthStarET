@@ -1,0 +1,17 @@
+﻿<div class="col-md-12" ng-if="display">
+    <panel panel-class="panel-primary" heading="Team Meeting: {{::teamMeetingName}}">
+        <panel-controls>
+            <a href="" ng-click="backToTeamMeeting(teamMeetingId)"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i> Back to Team Meeting</a>
+        </panel-controls>
+        <h2 style="text-align:center;color:white;">Assigning Student: <b>{{::studentName}}</b></h2>
+        <small style="display:block;text-align:center;color:white">to Intervention Group from Team Meeting</small>
+    </panel>
+</div>
+<style>
+    .panel-primary .panel-body{
+        background-color: #4697ce !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+</style>

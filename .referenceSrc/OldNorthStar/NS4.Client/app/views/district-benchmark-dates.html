@@ -1,0 +1,103 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Set Benchmark Dates</li>
+    </ol>
+    <h1>Set Benchmark Dates</h1>
+    <br />
+    <h4 style="float:left"><small>Choose the dates and associated colors for your district's benchmarks.</small></h4>
+
+</div>
+<div class="container-fluid" ng-controller="BenchmarkDatesController as vm">
+    <div class="row">
+        <div class="col-md-12" id="nsFilterOptions">
+            <ns-filter-options-container-directive school-year-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <div class="col-md-12">
+            <panel panel-class="panel-midnightblue" heading="Benchmark Dates">
+                <div class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Edit</div>
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Benchmark Period</div>
+                            <div class="ns-table-cell text-center">Benchmark Date</div>
+                            <div class="ns-table-cell text-center">Default To This Due Date On</div>
+                            <div class="ns-table-cell text-center">Test Color</div>
+                            <div class="ns-table-cell text-center">Notes</div>
+                            <div class="ns-table-cell text-center">Supplemental Test Date?</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="period in benchmarkdates | orderBy:-date" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveBenchmarkPeriod(period)">
+
+                            <div class="ns-table-cell text-center" data-title="Edit">
+
+                                <div ng-show="!rowform.$visible">
+                                    <a class="btn btn-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                                </div>
+                                <div ng-show="rowform.$visible">
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-xs" ng-click="deleteBenchmark(period)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                            <div class="ns-table-cell" data-title="Benchmark Period">
+                                <div ng-show="rowform.$visible">
+                                    <input name="primaryteacher" id="primaryteacher" validator="validateRecorder(studentResult)" ui-select2="getTeacherRemoteOptions" invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 120px" />
+                                </div>
+                                <div ng-show="!rowform.$visible">{{::period.PeriodName}}</div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Benchmark Date">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-YYYY'}}" ng-model="period.TestDate" is-open="popup1.opened" required invalid-message="Please enter a valid date" required-message="Please select a date" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{::period.DueDate | nsDateFormat}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Default On Date">
+                                <div ng-show="rowform.$visible" style="width:140px" class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMM-YYYY'}}" ng-model="period.DefaultOn" is-open="popup1.opened" required invalid-message="Please enter a valid date" required-message="Please select a date" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                                <div ng-show="!rowform.$visible">
+                                    {{::period.StartDate | nsDateFormat}}
+                                </div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Test Color">
+                                <div ng-show="rowform.$visible">
+                                    <input name="testColor" id="testColor"invalid-message="'Please select a Recorder'" required-message="'Please select a Recorder'" ng-model="studentResult.Recorder" required style="width: 120px" />
+                                </div>
+                                <div ng-show="!rowform.$visible"><div style="height:20px;width:20px;border:2px solid black;background-color:{{period.Hex}}">&nbsp;</div></div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Notes">
+                                <div ng-show="rowform.$visible">
+                                    <textarea name="txtNotes" ng-model="period.Notes"></textarea>
+                                </div>
+                                <div ng-show="!rowform.$visible">{{::period.Notes}}</div>
+                            </div>
+                            <div class="ns-table-cell" data-title="Is Supplemental">
+                                <div ng-show="rowform.$visible">
+                                    <switch ng-model="period.IsSupplemental"></switch>
+                                </div>
+                                <div ng-show="!rowform.$visible">{{::period.IsSupplemental}}</div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </panel>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+﻿<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="#/">Observation Summary</a></li>
+		<li class="active">Class</li>
+	</ol>
+	<h1>Observation Summary - Class</h1>
+	<div class="options">
+        <observation-summary-field-chooser></observation-summary-field-chooser>
+	</div>
+</div>
+<div class="container-fluid" ng-controller="ObservationSummaryClassController">
+
+	<div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-12">
+                <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true"></ns-filter-options-container-directive>
+
+            </div>
+
+            <div class="col-md-12 table-vertical">
+                <uib-tabset tab-theme="orange">
+                    <uib-tab ng-repeat="tdd in filterOptions.benchmarkDates" active="tdd.active" ng-click="navigateToTdd(tdd.id)">
+                        <uib-tab-heading>
+                            <div class="row col"><div class="col-md-2"><div style="border:1px solid black;width:20px;height:20px;background-color:{{::tdd.Hex}}"></div></div><div class="col-md-10">{{::tdd.text}} <i class="fa fa-calendar"></i></div></div>
+                        </uib-tab-heading>
+                        <div ng-if="filterOptions.selectedBenchmarkDate.id == tdd.id && filterOptions.selectedSection != null">
+                            <ns-observation-summary-section selected-benchmark-date-id="filterOptions.selectedBenchmarkDate.id" selected-section-id="filterOptions.selectedSection.id"></ns-observation-summary-section>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right:5px;">
+                            <span class="obsPerfect" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                        </td>
+                        <td style="padding-right:10px">
+                            <strong>Perfect Score</strong>
+                        </td>
+                        <td style="padding-right:5px;">
+                            <span class="obsBlue" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                        </td>
+                        <td style="padding-right:10px">
+                            <strong>Exceeds Expectations</strong>
+                        </td>
+                        <td style="padding-right:5px;">
+                            <span class="obsGreen" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                        </td>
+                        <td style="padding-right:10px">
+                            <strong>Meets Expectations</strong>
+                        </td>
+                        <td style="padding-right:5px;">
+                            <span class="obsYellow" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                        </td>
+                        <td style="padding-right:10px">
+                            <strong>Approaches Expectations</strong>
+                        </td>
+                        <td style="padding-right:5px;">
+                            <span class="obsRed" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                        </td>
+                        <td style="padding-right:10px">
+                            <strong>Does Not Meet Expectations</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</div>
+        </div>
+    </div>
+
+
+<style>
+     .table>tbody>tr>td
+    {
+         border: 1px solid #e9ecf0;
+    }
+         .table>thead>tr>th
+    {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+         .table>thead>tr>th
+         {
+             padding: 5px 5px;
+         }
+        .table>tbody>tr>td
+         {
+             padding: 3px 5px;
+         }
+        .panel-body
+        {
+            overflow-x:auto;
+        }
+        select.editable-input{
+            padding: 0px 0px !important;
+        }
+        select.form-control{
+            padding: 0px 0px !important;
+        }
+                .switch small {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
+        .switch {
+            width: 35px !important;
+            height: 20px !important;
+        }
+
+        .switchLabel {
+            padding-left: 5px;
+            font-size: 16px;
+        }
+        .nsAltRowBg {
+            background-color: #efefef;
+        }
+                .nsRowBorderBottom {
+            border-bottom: 1px solid #efefef;
+        }
+</style>

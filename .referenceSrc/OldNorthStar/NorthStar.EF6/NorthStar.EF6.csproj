@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{505459B2-4F70-4440-B403-858BE8295DCB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NorthStar.EF6</RootNamespace>
+    <AssemblyName>NorthStar.EF6</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="com.vzaar.api, Version=2.0.6011.14433, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLs\VzaarNew\com.vzaar.api.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.1.0\lib\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="lib, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLs\VzaarAsyncFixes\lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.6.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGrid, Version=8.0.5.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.8.0.5\lib\SendGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGrid.CSharp.HTTP.Client, Version=3.0.0.0, Culture=neutral, PublicKeyToken=79219bf4e5ecaaca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.CSharp.HTTP.Client.3.0.0\lib\SendGrid.CSharp.HTTP.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssessmentDataService.cs" />
+    <Compile Include="BenchmarkDataService.cs" />
+    <Compile Include="ClassRosterDataService.cs" />
+    <Compile Include="DCOld.cs" />
+    <Compile Include="DistrictContext.cs" />
+    <Compile Include="DistrictContextFactory.cs" />
+    <Compile Include="DistrictContextMigrations\201604150054386_initial.cs" />
+    <Compile Include="DistrictContextMigrations\201604150054386_initial.Designer.cs">
+      <DependentUpon>201604150054386_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604150137112_fixcascade.cs" />
+    <Compile Include="DistrictContextMigrations\201604150137112_fixcascade.Designer.cs">
+      <DependentUpon>201604150137112_fixcascade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604150147571_fixcascade1.cs" />
+    <Compile Include="DistrictContextMigrations\201604150147571_fixcascade1.Designer.cs">
+      <DependentUpon>201604150147571_fixcascade1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604150207599_fixcascade2.cs" />
+    <Compile Include="DistrictContextMigrations\201604150207599_fixcascade2.Designer.cs">
+      <DependentUpon>201604150207599_fixcascade2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604221059447_studentnotes.cs" />
+    <Compile Include="DistrictContextMigrations\201604221059447_studentnotes.Designer.cs">
+      <DependentUpon>201604221059447_studentnotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604261154224_studentschoolgrade.cs" />
+    <Compile Include="DistrictContextMigrations\201604261154224_studentschoolgrade.Designer.cs">
+      <DependentUpon>201604261154224_studentschoolgrade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201604291133167_displayinresultslist.cs" />
+    <Compile Include="DistrictContextMigrations\201604291133167_displayinresultslist.Designer.cs">
+      <DependentUpon>201604291133167_displayinresultslist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201605051156110_changestaffresulttostring.cs" />
+    <Compile Include="DistrictContextMigrations\201605051156110_changestaffresulttostring.Designer.cs">
+      <DependentUpon>201605051156110_changestaffresulttostring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201605222203114_assessmentsortorder.cs" />
+    <Compile Include="DistrictContextMigrations\201605222203114_assessmentsortorder.Designer.cs">
+      <DependentUpon>201605222203114_assessmentsortorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201605241153388_staffandimportcolumn.cs" />
+    <Compile Include="DistrictContextMigrations\201605241153388_staffandimportcolumn.Designer.cs">
+      <DependentUpon>201605241153388_staffandimportcolumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201605251507125_yearlassessments.cs" />
+    <Compile Include="DistrictContextMigrations\201605251507125_yearlassessments.Designer.cs">
+      <DependentUpon>201605251507125_yearlassessments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201606101542105_assessmentfieldupdate.cs" />
+    <Compile Include="DistrictContextMigrations\201606101542105_assessmentfieldupdate.Designer.cs">
+      <DependentUpon>201606101542105_assessmentfieldupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201606102157373_studentattributelookup.cs" />
+    <Compile Include="DistrictContextMigrations\201606102157373_studentattributelookup.Designer.cs">
+      <DependentUpon>201606102157373_studentattributelookup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201606121239566_stafffields.cs" />
+    <Compile Include="DistrictContextMigrations\201606121239566_stafffields.Designer.cs">
+      <DependentUpon>201606121239566_stafffields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607140828050_school.cs" />
+    <Compile Include="DistrictContextMigrations\201607140828050_school.Designer.cs">
+      <DependentUpon>201607140828050_school.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607140846423_school2.cs" />
+    <Compile Include="DistrictContextMigrations\201607140846423_school2.Designer.cs">
+      <DependentUpon>201607140846423_school2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607140902477_school3.cs" />
+    <Compile Include="DistrictContextMigrations\201607140902477_school3.Designer.cs">
+      <DependentUpon>201607140902477_school3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607181022223_statetestjob.cs" />
+    <Compile Include="DistrictContextMigrations\201607181022223_statetestjob.Designer.cs">
+      <DependentUpon>201607181022223_statetestjob.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607181656508_assessmentfieldunique.cs" />
+    <Compile Include="DistrictContextMigrations\201607181656508_assessmentfieldunique.Designer.cs">
+      <DependentUpon>201607181656508_assessmentfieldunique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607192153057_statetestjob2.cs" />
+    <Compile Include="DistrictContextMigrations\201607192153057_statetestjob2.Designer.cs">
+      <DependentUpon>201607192153057_statetestjob2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607211256565_canimport.cs" />
+    <Compile Include="DistrictContextMigrations\201607211256565_canimport.Designer.cs">
+      <DependentUpon>201607211256565_canimport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201607272243377_stategradevarchar.cs" />
+    <Compile Include="DistrictContextMigrations\201607272243377_stategradevarchar.Designer.cs">
+      <DependentUpon>201607272243377_stategradevarchar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201611081116112_startdate.cs" />
+    <Compile Include="DistrictContextMigrations\201611081116112_startdate.Designer.cs">
+      <DependentUpon>201611081116112_startdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201701191945092_staff_studentatts.cs" />
+    <Compile Include="DistrictContextMigrations\201701191945092_staff_studentatts.Designer.cs">
+      <DependentUpon>201701191945092_staff_studentatts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201709181638151_studentattributelookups.cs" />
+    <Compile Include="DistrictContextMigrations\201709181638151_studentattributelookups.Designer.cs">
+      <DependentUpon>201709181638151_studentattributelookups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201803071227372_primaryfield.cs" />
+    <Compile Include="DistrictContextMigrations\201803071227372_primaryfield.Designer.cs">
+      <DependentUpon>201803071227372_primaryfield.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201803151016143_fieldgroupcategory.cs" />
+    <Compile Include="DistrictContextMigrations\201803151016143_fieldgroupcategory.Designer.cs">
+      <DependentUpon>201803151016143_fieldgroupcategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201807061307501_flags.cs" />
+    <Compile Include="DistrictContextMigrations\201807061307501_flags.Designer.cs">
+      <DependentUpon>201807061307501_flags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\201809011907054_previousid.cs" />
+    <Compile Include="DistrictContextMigrations\201809011907054_previousid.Designer.cs">
+      <DependentUpon>201809011907054_previousid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DistrictContextMigrations\Configuration.cs" />
+    <Compile Include="DistrictSettingsDataService.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="ExtOld.cs" />
+    <Compile Include="FilterOptionsDataService.cs" />
+    <Compile Include="ExportDataService.cs" />
+    <Compile Include="ImportTestDataService.cs" />
+    <Compile Include="Infrastructure\AttendanceCalculator.cs" />
+    <Compile Include="Infrastructure\DtoMappings.cs" />
+    <Compile Include="FileUploadDataService.cs" />
+    <Compile Include="InterventionDashboardDataService.cs" />
+    <Compile Include="InterventionGroupDataService.cs" />
+    <Compile Include="LineGraphReportService.cs" />
+    <Compile Include="LoginContext.cs" />
+    <Compile Include="LoginContextFactory.cs" />
+    <Compile Include="LoginDbDataService.cs" />
+    <Compile Include="LoginDbMigrations\201508191141448_districttables.cs" />
+    <Compile Include="LoginDbMigrations\201508191141448_districttables.Designer.cs">
+      <DependentUpon>201508191141448_districttables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201508191147054_staffemail.cs" />
+    <Compile Include="LoginDbMigrations\201508191147054_staffemail.Designer.cs">
+      <DependentUpon>201508191147054_staffemail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201512171221433_districtadminremoved.cs" />
+    <Compile Include="LoginDbMigrations\201512171221433_districtadminremoved.Designer.cs">
+      <DependentUpon>201512171221433_districtadminremoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201601062139053_passwordresetrequest.cs" />
+    <Compile Include="LoginDbMigrations\201601062139053_passwordresetrequest.Designer.cs">
+      <DependentUpon>201601062139053_passwordresetrequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201603221140147_interventions.cs" />
+    <Compile Include="LoginDbMigrations\201603221140147_interventions.Designer.cs">
+      <DependentUpon>201603221140147_interventions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201603221210453_interventions1.cs" />
+    <Compile Include="LoginDbMigrations\201603221210453_interventions1.Designer.cs">
+      <DependentUpon>201603221210453_interventions1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201603221222346_interventions2.cs" />
+    <Compile Include="LoginDbMigrations\201603221222346_interventions2.Designer.cs">
+      <DependentUpon>201603221222346_interventions2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201603221225270_interventions3.cs" />
+    <Compile Include="LoginDbMigrations\201603221225270_interventions3.Designer.cs">
+      <DependentUpon>201603221225270_interventions3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201606031747479_videograde.cs" />
+    <Compile Include="LoginDbMigrations\201606031747479_videograde.Designer.cs">
+      <DependentUpon>201606031747479_videograde.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201606151427202_helppages.cs" />
+    <Compile Include="LoginDbMigrations\201606151427202_helppages.Designer.cs">
+      <DependentUpon>201606151427202_helppages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607192155021_jobs.cs" />
+    <Compile Include="LoginDbMigrations\201607192155021_jobs.Designer.cs">
+      <DependentUpon>201607192155021_jobs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607192211554_jobs2.cs" />
+    <Compile Include="LoginDbMigrations\201607192211554_jobs2.Designer.cs">
+      <DependentUpon>201607192211554_jobs2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607201126193_url.cs" />
+    <Compile Include="LoginDbMigrations\201607201126193_url.Designer.cs">
+      <DependentUpon>201607201126193_url.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607201455011_schoolstartyearjob.cs" />
+    <Compile Include="LoginDbMigrations\201607201455011_schoolstartyearjob.Designer.cs">
+      <DependentUpon>201607201455011_schoolstartyearjob.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607202111369_benchmarkintervention.cs" />
+    <Compile Include="LoginDbMigrations\201607202111369_benchmarkintervention.Designer.cs">
+      <DependentUpon>201607202111369_benchmarkintervention.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607211112504_recorderadded.cs" />
+    <Compile Include="LoginDbMigrations\201607211112504_recorderadded.Designer.cs">
+      <DependentUpon>201607211112504_recorderadded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607262026368_jobrollover.cs" />
+    <Compile Include="LoginDbMigrations\201607262026368_jobrollover.Designer.cs">
+      <DependentUpon>201607262026368_jobrollover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201607281506458_recordsskipped.cs" />
+    <Compile Include="LoginDbMigrations\201607281506458_recordsskipped.Designer.cs">
+      <DependentUpon>201607281506458_recordsskipped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201608020024072_jobfullrollover.cs" />
+    <Compile Include="LoginDbMigrations\201608020024072_jobfullrollover.Designer.cs">
+      <DependentUpon>201608020024072_jobfullrollover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201608151937411_exportdata.cs" />
+    <Compile Include="LoginDbMigrations\201608151937411_exportdata.Designer.cs">
+      <DependentUpon>201608151937411_exportdata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201608180025358_attendance.cs" />
+    <Compile Include="LoginDbMigrations\201608180025358_attendance.Designer.cs">
+      <DependentUpon>201608180025358_attendance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201608250020444_versioning.cs" />
+    <Compile Include="LoginDbMigrations\201608250020444_versioning.Designer.cs">
+      <DependentUpon>201608250020444_versioning.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201608250121496_versioning2.cs" />
+    <Compile Include="LoginDbMigrations\201608250121496_versioning2.Designer.cs">
+      <DependentUpon>201608250121496_versioning2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201609052123181_batchpring.cs" />
+    <Compile Include="LoginDbMigrations\201609052123181_batchpring.Designer.cs">
+      <DependentUpon>201609052123181_batchpring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201609271929013_interventions4.cs" />
+    <Compile Include="LoginDbMigrations\201609271929013_interventions4.Designer.cs">
+      <DependentUpon>201609271929013_interventions4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201609281049404_batchname.cs" />
+    <Compile Include="LoginDbMigrations\201609281049404_batchname.Designer.cs">
+      <DependentUpon>201609281049404_batchname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201610091932248_mtss.cs" />
+    <Compile Include="LoginDbMigrations\201610091932248_mtss.Designer.cs">
+      <DependentUpon>201610091932248_mtss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201611171321358_interventiondataexport.cs" />
+    <Compile Include="LoginDbMigrations\201611171321358_interventiondataexport.Designer.cs">
+      <DependentUpon>201611171321358_interventiondataexport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201612050113491_assessmentname.cs" />
+    <Compile Include="LoginDbMigrations\201612050113491_assessmentname.Designer.cs">
+      <DependentUpon>201612050113491_assessmentname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201612131324000_newjobs.cs" />
+    <Compile Include="LoginDbMigrations\201612131324000_newjobs.Designer.cs">
+      <DependentUpon>201612131324000_newjobs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201612191216044_studentstaffexport.cs" />
+    <Compile Include="LoginDbMigrations\201612191216044_studentstaffexport.Designer.cs">
+      <DependentUpon>201612191216044_studentstaffexport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201707071919403_districtextensions.cs" />
+    <Compile Include="LoginDbMigrations\201707071919403_districtextensions.Designer.cs">
+      <DependentUpon>201707071919403_districtextensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201809042334073_isSA.cs" />
+    <Compile Include="LoginDbMigrations\201809042334073_isSA.Designer.cs">
+      <DependentUpon>201809042334073_isSA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\201809091316566_allfieldsjob.cs" />
+    <Compile Include="LoginDbMigrations\201809091316566_allfieldsjob.Designer.cs">
+      <DependentUpon>201809091316566_allfieldsjob.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\202008021429403_rolloverftp.cs" />
+    <Compile Include="LoginDbMigrations\202008021429403_rolloverftp.Designer.cs">
+      <DependentUpon>202008021429403_rolloverftp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\202008021724563_rolloverftp_isactive.cs" />
+    <Compile Include="LoginDbMigrations\202008021724563_rolloverftp_isactive.Designer.cs">
+      <DependentUpon>202008021724563_rolloverftp_isactive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDbMigrations\Configuration.cs" />
+    <Compile Include="InterventionToolkitDataService.cs" />
+    <Compile Include="NavigationDataService.cs" />
+    <Compile Include="NorthStarDataService.cs" />
+    <Compile Include="NSBaseDataService.cs" />
+    <Compile Include="ObservationSummaryDataService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RosterRolloverDataService.cs" />
+    <Compile Include="SchoolAndDistrictDataService.cs" />
+    <Compile Include="InterventionGroupDataEntryService.cs" />
+    <Compile Include="SectionDataEntryService.cs" />
+    <Compile Include="SectionDataService.cs" />
+    <Compile Include="SectionReportService.cs" />
+    <Compile Include="StackedBarGraphReportService.cs" />
+    <Compile Include="StaffDataService.cs" />
+    <Compile Include="StudentDashboardDataService.cs" />
+    <Compile Include="StudentDataService.cs" />
+    <Compile Include="TeamMeetingDataService.cs" />
+    <Compile Include="VideoDataService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataTable.csproj">
+      <Project>{4798f7bd-7613-42c2-b35b-a208e65e51b8}</Project>
+      <Name>DataTable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityDto\EntityDto.csproj">
+      <Project>{3992593f-5a6d-45b3-b49b-c919a50df7ae}</Project>
+      <Name>EntityDto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Northstar.Core\NorthStar.Core.csproj">
+      <Project>{408d03d3-f206-4550-8fa0-93f5206b1ce2}</Project>
+      <Name>NorthStar.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DistrictContextMigrations\201604150054386_initial.resx">
+      <DependentUpon>201604150054386_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604150137112_fixcascade.resx">
+      <DependentUpon>201604150137112_fixcascade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604150147571_fixcascade1.resx">
+      <DependentUpon>201604150147571_fixcascade1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604150207599_fixcascade2.resx">
+      <DependentUpon>201604150207599_fixcascade2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604221059447_studentnotes.resx">
+      <DependentUpon>201604221059447_studentnotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604261154224_studentschoolgrade.resx">
+      <DependentUpon>201604261154224_studentschoolgrade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201604291133167_displayinresultslist.resx">
+      <DependentUpon>201604291133167_displayinresultslist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201605051156110_changestaffresulttostring.resx">
+      <DependentUpon>201605051156110_changestaffresulttostring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201605222203114_assessmentsortorder.resx">
+      <DependentUpon>201605222203114_assessmentsortorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201605241153388_staffandimportcolumn.resx">
+      <DependentUpon>201605241153388_staffandimportcolumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201605251507125_yearlassessments.resx">
+      <DependentUpon>201605251507125_yearlassessments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201606101542105_assessmentfieldupdate.resx">
+      <DependentUpon>201606101542105_assessmentfieldupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201606102157373_studentattributelookup.resx">
+      <DependentUpon>201606102157373_studentattributelookup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201606121239566_stafffields.resx">
+      <DependentUpon>201606121239566_stafffields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607140828050_school.resx">
+      <DependentUpon>201607140828050_school.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607140846423_school2.resx">
+      <DependentUpon>201607140846423_school2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607140902477_school3.resx">
+      <DependentUpon>201607140902477_school3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607181022223_statetestjob.resx">
+      <DependentUpon>201607181022223_statetestjob.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607181656508_assessmentfieldunique.resx">
+      <DependentUpon>201607181656508_assessmentfieldunique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607192153057_statetestjob2.resx">
+      <DependentUpon>201607192153057_statetestjob2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607211256565_canimport.resx">
+      <DependentUpon>201607211256565_canimport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201607272243377_stategradevarchar.resx">
+      <DependentUpon>201607272243377_stategradevarchar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201611081116112_startdate.resx">
+      <DependentUpon>201611081116112_startdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201701191945092_staff_studentatts.resx">
+      <DependentUpon>201701191945092_staff_studentatts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201709181638151_studentattributelookups.resx">
+      <DependentUpon>201709181638151_studentattributelookups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201803071227372_primaryfield.resx">
+      <DependentUpon>201803071227372_primaryfield.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201803151016143_fieldgroupcategory.resx">
+      <DependentUpon>201803151016143_fieldgroupcategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201807061307501_flags.resx">
+      <DependentUpon>201807061307501_flags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistrictContextMigrations\201809011907054_previousid.resx">
+      <DependentUpon>201809011907054_previousid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201508191141448_districttables.resx">
+      <DependentUpon>201508191141448_districttables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201508191147054_staffemail.resx">
+      <DependentUpon>201508191147054_staffemail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201512171221433_districtadminremoved.resx">
+      <DependentUpon>201512171221433_districtadminremoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201601062139053_passwordresetrequest.resx">
+      <DependentUpon>201601062139053_passwordresetrequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201603221140147_interventions.resx">
+      <DependentUpon>201603221140147_interventions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201603221210453_interventions1.resx">
+      <DependentUpon>201603221210453_interventions1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201603221222346_interventions2.resx">
+      <DependentUpon>201603221222346_interventions2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201603221225270_interventions3.resx">
+      <DependentUpon>201603221225270_interventions3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201606031747479_videograde.resx">
+      <DependentUpon>201606031747479_videograde.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201606151427202_helppages.resx">
+      <DependentUpon>201606151427202_helppages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607192155021_jobs.resx">
+      <DependentUpon>201607192155021_jobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607192211554_jobs2.resx">
+      <DependentUpon>201607192211554_jobs2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607201126193_url.resx">
+      <DependentUpon>201607201126193_url.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607201455011_schoolstartyearjob.resx">
+      <DependentUpon>201607201455011_schoolstartyearjob.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607202111369_benchmarkintervention.resx">
+      <DependentUpon>201607202111369_benchmarkintervention.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607211112504_recorderadded.resx">
+      <DependentUpon>201607211112504_recorderadded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607262026368_jobrollover.resx">
+      <DependentUpon>201607262026368_jobrollover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201607281506458_recordsskipped.resx">
+      <DependentUpon>201607281506458_recordsskipped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201608020024072_jobfullrollover.resx">
+      <DependentUpon>201608020024072_jobfullrollover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201608151937411_exportdata.resx">
+      <DependentUpon>201608151937411_exportdata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201608180025358_attendance.resx">
+      <DependentUpon>201608180025358_attendance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201608250020444_versioning.resx">
+      <DependentUpon>201608250020444_versioning.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201608250121496_versioning2.resx">
+      <DependentUpon>201608250121496_versioning2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201609052123181_batchpring.resx">
+      <DependentUpon>201609052123181_batchpring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201609271929013_interventions4.resx">
+      <DependentUpon>201609271929013_interventions4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201609281049404_batchname.resx">
+      <DependentUpon>201609281049404_batchname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201610091932248_mtss.resx">
+      <DependentUpon>201610091932248_mtss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201611171321358_interventiondataexport.resx">
+      <DependentUpon>201611171321358_interventiondataexport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201612050113491_assessmentname.resx">
+      <DependentUpon>201612050113491_assessmentname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201612131324000_newjobs.resx">
+      <DependentUpon>201612131324000_newjobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201612191216044_studentstaffexport.resx">
+      <DependentUpon>201612191216044_studentstaffexport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201707071919403_districtextensions.resx">
+      <DependentUpon>201707071919403_districtextensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201809042334073_isSA.resx">
+      <DependentUpon>201809042334073_isSA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\201809091316566_allfieldsjob.resx">
+      <DependentUpon>201809091316566_allfieldsjob.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\202008021429403_rolloverftp.resx">
+      <DependentUpon>202008021429403_rolloverftp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDbMigrations\202008021724563_rolloverftp_isactive.resx">
+      <DependentUpon>202008021724563_rolloverftp_isactive.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataService\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

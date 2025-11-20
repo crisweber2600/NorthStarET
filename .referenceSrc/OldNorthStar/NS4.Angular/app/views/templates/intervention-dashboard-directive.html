@@ -1,0 +1,106 @@
+﻿<div style="min-height:350px;">
+    <spinner name="tableSpinner">
+        <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+            <div class="sk-cube-grid">
+                <div class="sk-cube sk-cube1"></div>
+                <div class="sk-cube sk-cube2"></div>
+                <div class="sk-cube sk-cube3"></div>
+                <div class="sk-cube sk-cube4"></div>
+                <div class="sk-cube sk-cube5"></div>
+                <div class="sk-cube sk-cube6"></div>
+                <div class="sk-cube sk-cube7"></div>
+                <div class="sk-cube sk-cube8"></div>
+                <div class="sk-cube sk-cube9"></div>
+            </div>
+        </div>
+    </spinner>
+    <div class="col-md-12">
+        <uib-tabset>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-line-chart"></i> Progress Monitoring Line Graphs
+                </uib-tab-heading>
+                <div>
+                    <div ng-repeat="fieldMgr in ClassLineGraphDataManagers" style="margin-bottom:50px;">
+                        <div class="col-md-12">
+                            <div>
+                                <highchart id="chart2" config="fieldMgr.chartConfig"></highchart>
+                            </div>
+                            <div>
+                                <line-graph-detail-ig data-data-manager="fieldMgr"></line-graph-detail-ig>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="ClassLineGraphDataManagers.length == 0">
+                        <uib-alert type="info"><b>Note:</b> No assessment data recorded during this intervention.</uib-alert>
+                    </div>
+                    <div style="clear:both;" />
+                </div>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-pie-chart"></i> Attendance and Notes
+                </uib-tab-heading>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <h2>Graph</h2>
+                        </div>
+                        <div class="col-md-12">
+                            <highchart id="chart1" config="pieMgr.chartConfig"></highchart>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <h2>Attendance Summary</h2>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="list-group">
+                                    <a ng-repeat="status in dashMgr.AttendanceSummary" href="" ng-click="selectPieSlice(status.StatusLabel)" class="list-group-item"><span class="badge" ng-class="attendanceBadgeClass(status.StatusLabel)">{{status.Count}}</span>{{status.StatusLabel}}</a>
+                                    <a href="" ng-click="selectPieSlice(null)" class="list-group-item"><span class="badge badge-info">{{dashMgr.TotalDays}}</span><b>Total Days (Delivered + Make-Up)</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <h2>Note Detail</h2>
+                    </div>
+                    <div ng-show="filteredValues.length" class="table-responsive col-md-12">
+                        <div class="container-fluid ns-table">
+                            <div class="ns-table-row ns-table-header">
+                                <div class="ns-table-cell text-center">Status</div>
+                                <div class="ns-table-cell text-center">Recorder</div>
+                                <div class="ns-table-cell">Date</div>
+                                <div class="ns-table-cell">Note</div>
+                            </div>
+                            <form class="ns-table-row" ng-repeat="note in filteredValues = (dashMgr.Notes  | filter: { AttendanceStatus : pieMgr.settings.selectedStatus || undefined } )">
+                                <!-- | filter: { AttendanceStatus : pieMgr.settings.selectedStatus || undefined } -->
+                                <div class="ns-table-cell text-center" data-title="Status">
+                                    <span class="badge" ng-class="attendanceBadgeClass(note.AttendanceStatus)">{{::note.AttendanceStatus}}</span>
+                                </div>
+                                <div class="ns-table-cell text-center" data-title="Recorder">
+                                    {{::note.Recorder.LastName}}, {{::note.Recorder.FirstName}}
+                                </div>
+                                <div class="ns-table-cell" data-title="Date">
+                                    {{note.AttendanceDateString}}
+                                </div>
+                                <div class="ns-table-cell" data-title="Note">
+                                    <div ng-bind-html="note.Notes | safe_html"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="!filteredValues.length">
+                    <uib-alert type="info"><b>Note:</b> No notes of this type recorded.</uib-alert>
+                </div>
+                <div style="clear:both"></div>
+            </uib-tab>
+
+        </uib-tabset>
+    </div>
+</div>
+<!--  -->

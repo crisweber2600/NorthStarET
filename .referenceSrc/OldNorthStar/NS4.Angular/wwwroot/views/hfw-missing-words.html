@@ -1,0 +1,153 @@
+﻿<form ng-controller="HfwStudentMissingWordsReportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Reports</li>
+            <li>Classrooms</li>
+            <li class="active hidden-print">High Frequency Words - Missing Words</li>
+        </ol>
+        <h1 class="hidden-print">High Frequency Words Missing Words Report</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button print-landscape="false" print-multi-page="true" fit-viewer-height="false" fit-width="" html-viewer-height="" html-viewer-width="" stretch-to-fit="false"></print-button>
+            </div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="container-fluid">
+        <div class="col-md-12 ng-scope" id="mainfilter">
+            <ns-filter-options-container-directive student-detailed-quick-search-enabled="true"
+                                                   quick-search-callback="processQuickSearchStudent"
+                                                   school-year-enabled="true"
+                                                   school-enabled="true"
+                                                   grade-enabled="true"
+                                                   section-enabled="true"
+                                                   show-hr="true"
+                                                   teacher-enabled="true"
+                                                   hfw-sort-order-enabled="true"
+                                                   section-student-enabled="true"
+                                                   hfw-multi-range-enabled="true"></ns-filter-options-container-directive>
+        </div>
+        <div style="clear:both"></div>
+        <div class="col-md-12" style="margin-left:10px;" ng-if="settings.batchPrint">
+            <h2>{{filterOptions.selectedSectionStudent.text}}</h2>
+        </div>
+        <div class="col-md-12" ng-if="!settings.batchPrint">
+            <standard-report-header heading="'HFW Missing Words Report'" options="filterOptions"></standard-report-header>
+        </div>
+        <div style="clear:both"></div>
+        <div class="table-responsive" style="min-height:350px;">
+            <spinner name="tableSpinner">
+                <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+            </spinner>
+            <div class="col-sm-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Missed Words - Read
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="wordRow in factory.WordsNotReadAndWritten | filter: {Read: '!'}">
+                            <td>
+                                {{::wordRow.Word}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Missed Words - Written
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="wordRow in factory.WordsNotReadAndWritten | filter: {Write: '!'}">
+                            <td>
+                                {{::wordRow.Word}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<style>
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch.checked small {
+        left: 15px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+
+    .yellowSelectedHfwRow {
+        background-color: #FFDB59;
+    }
+
+    .graySelectedHfwRow {
+        background-color: #eeeeee;
+    }
+</style>

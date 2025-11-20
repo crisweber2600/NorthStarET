@@ -1,0 +1,105 @@
+﻿<div ng-controller="ObservationSummaryFilteredController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Dashboards</li>
+            <li class="active">Classroom - Filtered</li>
+        </ol>
+        <h1 class="hidden-print">Classroom Dashboard - Filtered</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <print-button groups-factory="groupsFactory" print-landscape="true" sort-array="sortArray" print-multi-page="true" fit-viewer-height="false" fit-width="true" html-viewer-height="0" html-viewer-width="" stretch-to-fit=""></print-button>
+                <stacked-bar-graph-summary-attribute-chooser></stacked-bar-graph-summary-attribute-chooser>
+                <observation-summary-field-chooser></observation-summary-field-chooser>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12" id="mainfilter">
+                <panel panel-class="panel-midnightblue" heading="Create a Custom Observation Summary" panel-icon="fa fa-filter">
+                    <ns-stacked-bar-graph-custom-group-options tdd-enabled="true" group-factory="groupsFactory" group-name="groupsFactory.name"></ns-stacked-bar-graph-custom-group-options>
+                </panel>
+            </div>
+            <div style="min-height:350px;">
+                <spinner name="tableSpinner">
+                    <div class="hidden-print" style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+                        <div class="sk-cube-grid">
+                            <div class="sk-cube sk-cube1"></div>
+                            <div class="sk-cube sk-cube2"></div>
+                            <div class="sk-cube sk-cube3"></div>
+                            <div class="sk-cube sk-cube4"></div>
+                            <div class="sk-cube sk-cube5"></div>
+                            <div class="sk-cube sk-cube6"></div>
+                            <div class="sk-cube sk-cube7"></div>
+                            <div class="sk-cube sk-cube8"></div>
+                            <div class="sk-cube sk-cube9"></div>
+                        </div>
+                    </div>
+                </spinner>
+                <div class="col-md-12">
+                    <ns-observation-summary-filtered sort-array="sortArray" group-factory="groupsFactory"></ns-observation-summary-filtered>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+        observation-summary-field-chooser .btn-toolbar {
+        display: inline-block;
+    }
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        border-top: 1px solid #e9ecf0 !important;
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+
+    .switch small {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .switch {
+        width: 35px !important;
+        height: 20px !important;
+    }
+
+    .switchLabel {
+        padding-left: 5px;
+        font-size: 16px;
+    }
+
+    .nsAltRowBg {
+        background-color: #efefef;
+    }
+
+    .nsRowBorderBottom {
+        border-bottom: 1px solid #efefef;
+    }
+</style>

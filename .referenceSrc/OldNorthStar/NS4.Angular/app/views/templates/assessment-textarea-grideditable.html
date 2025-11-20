@@ -1,0 +1,6 @@
+﻿<span ng-if="eForm.$visible">
+    <textarea name="ckeditor_studentNote" id="studentNote_NewNote" cols="80" rows="20" class="ckeditor" ng-model="result.StringValue" ckeditor="ckeditorOptions"></textarea>
+</span>
+<i ng-if="result.StringValue && !eForm.$visible && !displayTextAreas" class="fa fa-comments" style="margin-left:5px;cursor:pointer" ng-click="commentsModal(result.StringValue)"></i>
+<span ng-if="displayTextAreas && !eForm.$visible" ng-bind-html="result.StringValue | safe_html"></span>
+<!--<span editable-textarea="result.StringValue" e-form="eForm" e-rows="5" e-cols="80"><i ng-if="result.StringValue" popover-trigger="mouseenter" class="fa fa-comments" style="margin-left:5px;cursor:pointer" uib-popover-html="toolTipFunction()" popover-title="Comments"></i></span>-->

@@ -1,0 +1,119 @@
+﻿<div class="btn-toolbar">
+        <a href="" class="dropdown-toggle btn btn-sky" ng-click="openAssessmentChooser()">Change Selected Assessments/Fields <i class="fa fa-bars"></i></a>
+        <!--<div style="min-width:450px;" class="dropdown-menu userinfo arrow" uib-dropdown-menu>
+            <div class="col-md-12 nsRowBorderBottom" style="padding-top:2px;padding-bottom:2px;" ng-repeat="assessment in assessmentService.BenchmarkAssessments">
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                </div>
+                <div class="col-md-8" style="color:#656b79">
+                    {{::assessment.text}}
+                </div>
+                <div class="col-md-2">
+                    <switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)">
+                </div>
+            </div>
+            <div ng-if="assessmentService.StateTests.length > 0" class="divider col-md-12"></div>
+            <div class="col-md-12 nsRowBorderBottom" style="padding-top:2px;padding-bottom:2px;" ng-repeat="assessment in assessmentService.StateTests">
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                </div>
+                <div class="col-md-8" style="color:#656b79">
+                    {{::assessment.text}}
+                </div>
+                <div class="col-md-2">
+                    <switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)">
+                </div>
+            </div>
+            <div style="margin-top:15px; margin-bottom:15px;" class="col-md-12">
+                <button ng-click="refreshAssessments()" class="btn btn-success"><i class="fa-save fa"></i> Save and Update Report</button>
+            </div>
+        </div>-->
+</div>
+<script type="text/ng-template" id="assessmentChooser.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Change Assessment Visibility</h3>
+    </div>
+    <div class="modal-body" style="overflow-y:auto;height:600px;">
+        <h3>Benchmarked Assessments</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Change Available Fields
+                    </th>
+                    <th>
+                        Assessment Name
+                    </th>
+                    <th>
+                        Visible?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="assessment in assessmentService.BenchmarkAssessments">
+                    <td>
+                        <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                    </td>
+                    <td>{{::assessment.text}}</td>
+                    <td><switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>State Assessments</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Change Available Fields
+                    </th>
+                    <th>
+                        Assessment Name
+                    </th>
+                    <th>
+                        Visible?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="assessment in assessmentService.StateTests">
+                    <td>
+                        <button class="btn btn-primary btn-xs" ng-click="openFieldsPopup(assessment)"><i class="fa fa-bars"></i> Fields</button>
+                    </td>
+                    <td>{{::assessment.text}}</td>
+                    <td><switch class="green" ng-model="assessment.Visible" ng-change="updateSelectedAssessment(assessment)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Filtered Classroom Dashboard Columns</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Column Name
+                    </th>
+                    <th>
+                        Visible?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>School</td>
+                    <td><switch class="green" ng-model="assessmentService.OSSchoolVisible" ng-change="updateSelectedColumn(assessmentService.School)"></td>
+                </tr>
+                <tr>
+                    <td>Grade</td>
+                    <td><switch class="green" ng-model="assessmentService.OSGradeVisible" ng-change="updateSelectedColumn(assessmentService.Grade)"></td>
+                </tr>
+                <tr>
+                    <td>Teacher</td>
+                    <td><switch class="green" ng-model="assessmentService.OSTeacherVisible" ng-change="updateSelectedColumn(assessmentService.Teacher)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="refreshAssessments()" class="btn btn-success"><i class="fa-save fa"></i> Save and Update</button> <button class="btn btn-default" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</button>
+    </div>
+</script>

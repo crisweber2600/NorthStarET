@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3992593F-5A6D-45B3-B49B-C919A50DF7AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EntityDto</RootNamespace>
+    <AssemblyName>EntityDto</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="com.vzaar.api">
+      <HintPath>..\..\..\DLLs\com.vzaar.api.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTO\Admin\District\DistrictInputDtos.cs" />
+    <Compile Include="DTO\Admin\District\DistrictInterventionDto.cs" />
+    <Compile Include="DTO\Admin\District\InputDto_CopyAssessmentToDistrict.cs" />
+    <Compile Include="DTO\Admin\District\InputDto_HFWList.cs" />
+    <Compile Include="DTO\Admin\District\InputDto_SaveIntervention.cs" />
+    <Compile Include="DTO\Admin\District\InputDto_SaveHFW.cs" />
+    <Compile Include="DTO\Admin\District\InputDto_SaveTestDueDate.cs" />
+    <Compile Include="DTO\Admin\District\OutputDto_District.cs" />
+    <Compile Include="DTO\Admin\District\OutputDto_HFWList.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\AttendanceWeekdayDto.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_ApplyStatusNotes.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_GetInterventionGroups.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_GetStintAttendanceSummary.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_GetInterventionGroupStints.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_GetWeeklyAttendanceResults.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InputDto_SaveSingleAttendance.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\InterventionAttendanceDto.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\OutputDto_GetInterventionGroups.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\OutputDto_GetInterventionGroupStints.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\OutputDto_GetStintAttendanceSummary.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\OutputDto_ManageInterventionGroup.cs" />
+    <Compile Include="DTO\Admin\InterventionGroup\OutputDto_WeeklyAttendance.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InputDto_InterventionSearch.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InterventionCategoryDto.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InterventionDto.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InterventionGradeDto.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InterventionTierDto.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\InterventionWorkshopDto.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\OutputDto_DropdownData_VzaarVideo.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\OutputDto_GetInterventionsByTier.cs" />
+    <Compile Include="DTO\Admin\InterventionToolkit\OutputDto_Intervention.cs" />
+    <Compile Include="DTO\Admin\Student\StudentServiceDto.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_StudentAttributes.cs" />
+    <Compile Include="LoginDB\DTO\OutputDto_Page.cs" />
+    <Compile Include="LoginDB\DTO\PageDto.cs" />
+    <Compile Include="DTO\Admin\Section\DataEntryFieldCategoryDto.cs" />
+    <Compile Include="DTO\Admin\Section\DataEntryFieldDto.cs" />
+    <Compile Include="DTO\Admin\Section\DataEntryFieldGroupDto.cs" />
+    <Compile Include="DTO\Admin\Section\DataEntryStudentFieldResultDto.cs" />
+    <Compile Include="DTO\Admin\Section\DataEntryStudentResultDto.cs" />
+    <Compile Include="DTO\Admin\Section\InputDto_GetSectionList.cs" />
+    <Compile Include="DTO\Admin\Section\InputDto_GetStudentAssessmentResult.cs" />
+    <Compile Include="DTO\Admin\Section\OutputDto_GetSectionList.cs" />
+    <Compile Include="DTO\Admin\Section\OutputDto_ManageSection.cs" />
+    <Compile Include="DTO\Admin\Section\OutputDto_ManageTeamMeeting.cs" />
+    <Compile Include="DTO\Admin\Section\SectionListDto.cs" />
+    <Compile Include="DTO\Admin\Section\OuputDto_SpellingAssessmentResult.cs" />
+    <Compile Include="DTO\Admin\Section\StudentSectionDto.cs" />
+    <Compile Include="DTO\Admin\Simple\GradeDto.cs" />
+    <Compile Include="DTO\Admin\Simple\IndexedLookupListDto.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_AssessmentInterventionGroupStudent.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_AssessmentSectionBenchmark.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_SendMail.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_SimpleIdAndBool.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_SimpleString.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_StringAndUserId.cs" />
+    <Compile Include="DTO\Admin\Simple\InputDto_TeamMeetingStudent.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Base.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Guid.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Log.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Status.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_SuccessAndNewId.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Success AndStatus.cs" />
+    <Compile Include="DTO\Admin\Simple\OutputDto_Success.cs" />
+    <Compile Include="DTO\Admin\Simple\SchoolDto.cs" />
+    <Compile Include="DTO\Admin\Simple\SchoolYearDto.cs" />
+    <Compile Include="DTO\Admin\Simple\SectionDto.cs" />
+    <Compile Include="DTO\Admin\Simple\StaffDto.cs" />
+    <Compile Include="DTO\Admin\Simple\StudentDto.cs" />
+    <Compile Include="DTO\Admin\Simple\StudentSchoolDto.cs" />
+    <Compile Include="DTO\Admin\Simple\TestDueDateDto.cs" />
+    <Compile Include="DTO\Admin\Staff\Dto_StaffSchoolGrade.cs" />
+    <Compile Include="DTO\Admin\Staff\Dto_StaffSchool.cs" />
+    <Compile Include="DTO\Admin\Staff\InputDto_ConsolidateStaff.cs" />
+    <Compile Include="DTO\Admin\Staff\InputDto_EditProfile.cs" />
+    <Compile Include="DTO\Admin\Staff\OutputDto_EditStaff.cs" />
+    <Compile Include="DTO\Admin\Staff\OutputDto_StaffQuickSearch.cs" />
+    <Compile Include="DTO\Admin\Staff\StaffQuickSearchResult.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_CanRemoveStudentSchool.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_ConsolidateStudent.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_GetStudentList.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_MoveStudent.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_SaveStudentNote.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_StudentIdAndIdentifier.cs" />
+    <Compile Include="DTO\Admin\Student\InputDto_StudentQuickSearch.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_GetStudentInterventions.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_GetStudentList.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_ManageStudent.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_StudentAttributeLookups.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_StudentQuickSearch.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_StudentSpedLabelLookups.cs" />
+    <Compile Include="DTO\Admin\Student\OutputDto_StudentNotes.cs" />
+    <Compile Include="DTO\Admin\Student\StudentAttributeDataDto.cs" />
+    <Compile Include="DTO\Admin\Student\StudentAttributeLookupValueDto.cs" />
+    <Compile Include="DTO\Admin\Student\StudentAttributeTypeDto.cs" />
+    <Compile Include="DTO\Admin\Student\StudentListDto.cs" />
+    <Compile Include="DTO\Admin\Student\StudentDetailedQuickSearchResult.cs" />
+    <Compile Include="DTO\Admin\Student\StudentNoteDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\AttendeeGroupDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\AttendeeGroupStaffDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_GetTeamMeetingList.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_SaveAttendeeGroup.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_SaveNote.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_SendTMInvitation.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_SendTMInvitations.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InputDto_TeamMeetingAttendance.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InterventionsBySchoolYear.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\InterventionsByStudent.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\OutputDto_GetTeamMeetingList.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\OutputDto_TeamMeetingStudentAllNotes.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\OutputDto_TeamMeetingStudentNotes.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TMSectionDetailsDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TeamMeetingAttendanceDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TeamMeetingDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TeamMeetingManagerDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TeamMeetingStudentDto.cs" />
+    <Compile Include="DTO\Admin\TeamMeeting\TeamMeetingStudentNoteDto.cs" />
+    <Compile Include="DTO\Assessment\AssessmentLIstDto.cs" />
+    <Compile Include="DTO\Assessment\AssessmentFieldCategoryDto.cs" />
+    <Compile Include="DTO\Assessment\AssessmentFieldDto.cs" />
+    <Compile Include="DTO\Assessment\AssessmentFieldGroupDto.cs" />
+    <Compile Include="DTO\AssessmentFieldResult.cs" />
+    <Compile Include="DTO\AssessmentHFWStudentResult.cs" />
+    <Compile Include="DTO\AssessmentStudentResult.cs" />
+    <Compile Include="DTO\Assessment\AssessmentDto.cs" />
+    <Compile Include="DTO\Assessment\AssessmentFieldSubCategoryDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\DistrictYearlyAssessmentBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\DistrictBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\AssessmentBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\InputDto_DistrictYearlyAssessmentBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\InputDto_DistrictBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\InputDto_AssessmentBenchmarkDto.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\InputDto_GetBenchmarks.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\OutputDto_BenchmarkResult.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\OutputDto_DistrictYearlyAssessmentBenchmarks.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\OutputDto_DistrictBenchmarks.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\OutputDto_Benchmarks.cs" />
+    <Compile Include="DTO\Assessment\Benchmarks\TestLevelPeriodDto.cs" />
+    <Compile Include="DTO\Assessment\InputDto_AssessmentFields.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_AssessmentList.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_ObservationSummaryAssessments.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_ObservationSummaryFieldVisibility.cs" />
+    <Compile Include="DTO\Calendars\OutputDto_DistrictCalendarList.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_SchoolAssessments.cs" />
+    <Compile Include="DTO\Assessment\OutputDto_StaffAssessments.cs" />
+    <Compile Include="DTO\Assessment\SchoolAssessmentDto.cs" />
+    <Compile Include="DTO\Assessment\StaffAssessmentDto.cs" />
+    <Compile Include="DTO\Calendars\DistrictCalendarDto.cs" />
+    <Compile Include="DTO\Calendars\OutputDto_SchoolCalendarList.cs" />
+    <Compile Include="DTO\Calendars\SchoolCalendarDto.cs" />
+    <Compile Include="DTO\DataEntry\InputDto_CopySectionAssessmentResult.cs" />
+    <Compile Include="DTO\DataEntry\InputDto_CopyStudentAssessmentResult.cs" />
+    <Compile Include="DTO\DataEntry\OutputDto_AssessmentResult.cs" />
+    <Compile Include="DTO\DataEntry\InputDto_StudentEditHFWAssessmentResult.cs" />
+    <Compile Include="DTO\DataEntry\InterventionGroup\IGAssessmentStudentResult.cs" />
+    <Compile Include="DTO\DataEntry\InterventionGroup\InputDto_SaveIGAssessmentResult.cs" />
+    <Compile Include="DTO\ImportExport\AssessmentTemplate.cs" />
+    <Compile Include="DTO\ImportExport\InputDto_ExportRequest.cs" />
+    <Compile Include="DTO\InputDto_AddStudentToInterventionGroup.cs" />
+    <Compile Include="DTO\InputDto_Assessment.cs" />
+    <Compile Include="DTO\InputDto_GetAssessmentResults.cs" />
+    <Compile Include="DTO\InputDto_GetFilterOptions.cs" />
+    <Compile Include="DTO\InputDto_GetGroupedStackBarGraph.cs" />
+    <Compile Include="DTO\InputDto_GetStudentInterventionGroupLineGraph.cs" />
+    <Compile Include="DTO\InputDto_GetStudentLineGraph.cs" />
+    <Compile Include="DTO\InputDto_MoveStudentToInterventionGroup.cs" />
+    <Compile Include="DTO\InputDto_RemoveStudentFromInterventionGroup.cs" />
+    <Compile Include="DTO\InputDto_SaveAssessmentResult.cs" />
+    <Compile Include="DTO\InputDto_SaveHFWAssessmentResult.cs" />
+    <Compile Include="DTO\InputDto_SaveStudentInterventionStartEnd.cs" />
+    <Compile Include="DTO\InputDto_SimpleId.cs" />
+    <Compile Include="DTO\InterventionGroupDto.cs" />
+    <Compile Include="DTO\InterventionGroupStudentDto.cs" />
+    <Compile Include="DTO\InterventionToolkit\OutputDto_GetTiers.cs" />
+    <Compile Include="DTO\IOutputDto_DataSaveStatus.cs" />
+    <Compile Include="DTO\Misc\IndexedLookupList.cs" />
+    <Compile Include="DTO\Misc\InputDto_PrintSettings.cs" />
+    <Compile Include="DTO\Navigation\InputOutputDto_NSHelp.cs" />
+    <Compile Include="DTO\Navigation\NavigationNode.cs" />
+    <Compile Include="DTO\Navigation\OutputDto_Navigation.cs" />
+    <Compile Include="DTO\ObservationSummaryAssessmentHeader.cs" />
+    <Compile Include="DTO\ObservationSummaryAssessmentHeaderGroup.cs" />
+    <Compile Include="DTO\ObservationSummaryBenchmarksByGrade.cs" />
+    <Compile Include="DTO\ObservationSummaryBenchmark.cs" />
+    <Compile Include="DTO\ObservationSummaryFieldScore.cs" />
+    <Compile Include="DTO\ObservationSummaryGroupResults.cs" />
+    <Compile Include="DTO\ObservationSummaryStudentResult.cs" />
+    <Compile Include="DTO\OutputDto_CAP_SectionReport.cs" />
+    <Compile Include="DTO\OutputDto_DropdownData_BenchmarkDate.cs" />
+    <Compile Include="DTO\OutputDto_GetStudentInterventionGroupLineGraph.cs" />
+    <Compile Include="DTO\OutputDto_OptGroupDropdownData.cs" />
+    <Compile Include="DTO\OutputDto_DropdownData.cs" />
+    <Compile Include="DTO\OutputDto_FilterOptions.cs" />
+    <Compile Include="DTO\OutputDto_GetStackedBarGraphData.cs" />
+    <Compile Include="DTO\OutputDto_GetStudentLineGraph.cs" />
+    <Compile Include="DTO\OutputDto_ManageInterventionGroup.cs" />
+    <Compile Include="DTO\OutputDto_ObservationSummaryClass.cs" />
+    <Compile Include="DTO\OutputDto_StudentAssessmentResults.cs" />
+    <Compile Include="DTO\OutputDto_StudentEditAssessmentResult.cs" />
+    <Compile Include="DTO\OutputDto_StudentEditHFWAssessmentResult.cs" />
+    <Compile Include="DTO\Admin\Student\StudentQuickSearchResult.cs" />
+    <Compile Include="DTO\OutputDto_StudentSectionCAPReportResults.cs" />
+    <Compile Include="DTO\OutputDto_StudentSectionLIDReportResults.cs" />
+    <Compile Include="DTO\OutputDto_StudentSectionSpellingReportResults.cs" />
+    <Compile Include="DTO\Personal\InputDto_UpdateFieldForUser.cs" />
+    <Compile Include="DTO\Personal\OutputDto_GetAssessmentsAndFieldsForUser.cs" />
+    <Compile Include="DTO\Personal\StaffAssessmentFieldVisibilityDto.cs" />
+    <Compile Include="DTO\Reports\BenchmarkDatesForStudentAndAssessment.cs" />
+    <Compile Include="DTO\Reports\FP\StudentInterventionReportRecord.cs" />
+    <Compile Include="DTO\Reports\FP\StudentPreviousGradeReportRecord.cs" />
+    <Compile Include="DTO\Reports\FP\StudentSPEDLabel.cs" />
+    <Compile Include="DTO\Reports\HFW\HfwStudentDetail.cs" />
+    <Compile Include="DTO\Reports\HFW\InputDto_GetHFWDetailReport.cs" />
+    <Compile Include="DTO\Reports\HRSIW\HRSIWFieldResult.cs" />
+    <Compile Include="DTO\Reports\HRSIW\HRSIWFieldResultByTDD.cs" />
+    <Compile Include="DTO\Reports\HRSIW\HRSIWSummaryFieldResult.cs" />
+    <Compile Include="DTO\Reports\HRSIW\OutputDto_StudentSectionHRSIWReportResults.cs" />
+    <Compile Include="DTO\Reports\HRSIW\StudentSectionHRSIWReportResult.cs" />
+    <Compile Include="DTO\Reports\InputDto_GetStudentLineGraphFields.cs" />
+    <Compile Include="DTO\Reports\ObservationSummary\InputDto_GetFilteredObservationSummaryOptions.cs" />
+    <Compile Include="DTO\Reports\OutputDto_GetAssessmentFields.cs" />
+    <Compile Include="DTO\Reports\InputDto_SectionReport_ByTdd.cs" />
+    <Compile Include="DTO\Reports\InputDto_BAS_SectionReport.cs" />
+    <Compile Include="DTO\Reports\InterventionGroupAssessmentResult.cs" />
+    <Compile Include="DTO\Reports\BenchmarkedAssessmentResults.cs" />
+    <Compile Include="DTO\Reports\CAPFieldResultByTDD.cs" />
+    <Compile Include="DTO\Reports\CAP\CAPFieldResult.cs" />
+    <Compile Include="DTO\Reports\CAP\CAPSummaryFieldResult.cs" />
+    <Compile Include="DTO\Reports\FP\FPFieldResultByTDD.cs" />
+    <Compile Include="DTO\Reports\FP\FPFieldResult.cs" />
+    <Compile Include="DTO\Reports\FP\FPSummaryFieldResult.cs" />
+    <Compile Include="DTO\Reports\FP\OutputDto_StudentSectionFPReportResults.cs" />
+    <Compile Include="DTO\Reports\FP\StudentSectionFPReportResult.cs" />
+    <Compile Include="DTO\Reports\LID\CAPFieldResultByTDD.cs" />
+    <Compile Include="DTO\Reports\LID\InputDto_LetterIDReport.cs" />
+    <Compile Include="DTO\Reports\LID\LIDFieldResult.cs" />
+    <Compile Include="DTO\Reports\LID\LIDSummaryFieldResult.cs" />
+    <Compile Include="DTO\Reports\LID\StudentSectionLIDReportResult.cs" />
+    <Compile Include="DTO\Reports\ObservationSummary\InputDto_ObservationSummaryTeamMeeting.cs" />
+    <Compile Include="DTO\Reports\OutputDto_IGLineGraphResults.cs" />
+    <Compile Include="DTO\Reports\OutputDto_LineGraphResults.cs" />
+    <Compile Include="DTO\Reports\ReportInterventionResult.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphResult.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\InputDto_GetStackedBarGraphGroupingSummaryUpdatedOptions.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\InputDto_GetStackedBarGraphGroupingUpdatedOptions.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\InputDto_SchoolsByGrade.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\NamedDropdownData.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\OutputDto_GetStackedBarGraphGroupingUpdatedOptions.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\OutputDto_StackBarGraphGroupData.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\OutputDto_StackBarGraphHistoricalSummaryData.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\OutputDto_StackBarGraphSummaryData.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\OutputDto_StackedBarGraphComparisonData.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\StackedBarGraphHistoricalSummaryRecord.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\StackedBarGraphSummaryRecord.cs" />
+    <Compile Include="DTO\Reports\StackedBarGraphs\SummaryResultByTDD.cs" />
+    <Compile Include="DTO\Reports\StudentDashboard\InputDto_GetStudentObservationSummary.cs" />
+    <Compile Include="DTO\Reports\StudentSectionCAPReportResult.cs" />
+    <Compile Include="DTO\Reports\WV\WVFieldResultByTDD.cs" />
+    <Compile Include="DTO\Reports\WV\WVFieldResult.cs" />
+    <Compile Include="DTO\Reports\WV\WVSummaryFieldResult.cs" />
+    <Compile Include="DTO\Reports\WV\OutputDto_StudentSectionWVReportResults.cs" />
+    <Compile Include="DTO\Reports\WV\StudentSectionWVReportResult.cs" />
+    <Compile Include="DTO\Video\Vzaar.cs" />
+    <Compile Include="Entity\Assessment.cs" />
+    <Compile Include="Entity\AssessmentField.cs" />
+    <Compile Include="Entity\AssessmentFieldCategory.cs" />
+    <Compile Include="Entity\AssessmentFieldGroup.cs" />
+    <Compile Include="Entity\AssessmentFieldSubCategory.cs" />
+    <Compile Include="Entity\AssessmentLookupField.cs" />
+    <Compile Include="Entity\District_YearlyAssessmentBenchmark.cs" />
+    <Compile Include="Entity\District_Benchmark.cs" />
+    <Compile Include="Entity\Assessment_Benchmarks.cs" />
+    <Compile Include="Entity\AttendanceReason.cs" />
+    <Compile Include="Entity\AttendeeGroup.cs" />
+    <Compile Include="Entity\AttendeeGroupStaff.cs" />
+    <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\BaseEntityNoId.cs" />
+    <Compile Include="Entity\BaseEntityNoTrack.cs" />
+    <Compile Include="Entity\InterventionGroup.cs" />
+    <Compile Include="Entity\PrintSettings.cs" />
+    <Compile Include="LoginDB\DTO\OutputDto_GetCurrentVersion.cs" />
+    <Compile Include="LoginDB\DTO\PagePresentationDto.cs" />
+    <Compile Include="LoginDB\DTO\PageToolDto.cs" />
+    <Compile Include="LoginDB\DTO\PageVideoDto.cs" />
+    <Compile Include="LoginDB\DTO\PresentationDto.cs" />
+    <Compile Include="LoginDB\DTO\ToolDto.cs" />
+    <Compile Include="LoginDB\DTO\VideoDto.cs" />
+    <Compile Include="LoginDB\Entity\JobAttendanceExport.cs" />
+    <Compile Include="LoginDB\Entity\JobBatchPrint.cs" />
+    <Compile Include="LoginDB\Entity\JobBenchmarkDataImport.cs" />
+    <Compile Include="LoginDB\Entity\JobDataExport.cs" />
+    <Compile Include="LoginDB\Entity\JobFullRollover.cs" />
+    <Compile Include="LoginDB\Entity\JobInterventionDataImport.cs" />
+    <Compile Include="LoginDB\Entity\JobStateTestDataImport.cs" />
+    <Compile Include="Entity\StaffObservationSummaryAssessment.cs" />
+    <Compile Include="Entity\StaffSettings.cs" />
+    <Compile Include="Entity\StudentNote.cs" />
+    <Compile Include="Entity\TestLevelPeriod.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_AssociateVideoToIntervention.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_AssociateToolToIntervention.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_InterventionTool.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_PasswordReset.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_RequestPasswordReset.cs" />
+    <Compile Include="LoginDB\DTO\InputDto_ResetUsersPassword.cs" />
+    <Compile Include="LoginDB\DTO\NSInterventionToolTypeDTO.cs" />
+    <Compile Include="LoginDB\DTO\NSInterventionToolDto.cs" />
+    <Compile Include="LoginDB\DTO\NSInterventionVideoDistrictDto.cs" />
+    <Compile Include="LoginDB\DTO\NSInterventionVideoDTO.cs" />
+    <Compile Include="LoginDB\DTO\NSInterventionVideoGradeDto.cs" />
+    <Compile Include="LoginDB\Entity\District.cs" />
+    <Compile Include="LoginDB\Entity\Grade.cs" />
+    <Compile Include="LoginDB\Entity\InterventionCardinality.cs" />
+    <Compile Include="LoginDB\Entity\InterventionCategory.cs" />
+    <Compile Include="LoginDB\Entity\InterventionFramework.cs" />
+    <Compile Include="LoginDB\Entity\InterventionGrade.cs" />
+    <Compile Include="LoginDB\Entity\InterventionTier.cs" />
+    <Compile Include="LoginDB\Entity\InterventionTool.cs" />
+    <Compile Include="LoginDB\Entity\InterventionToolIntervention.cs" />
+    <Compile Include="LoginDB\Entity\InterventionToolType.cs" />
+    <Compile Include="LoginDB\Entity\InterventionType.cs" />
+    <Compile Include="LoginDB\Entity\InterventionUnitOfStudy.cs" />
+    <Compile Include="LoginDB\Entity\InterventionVideo.cs" />
+    <Compile Include="LoginDB\Entity\InterventionVideoDistrict.cs" />
+    <Compile Include="LoginDB\Entity\InterventionVideoGrade.cs" />
+    <Compile Include="LoginDB\Entity\InterventionVideoIntervention.cs" />
+    <Compile Include="LoginDB\Entity\InterventionWorkshop.cs" />
+    <Compile Include="LoginDB\Entity\JobStudentRollover.cs" />
+    <Compile Include="LoginDB\Entity\JobTeacherRollover.cs" />
+    <Compile Include="LoginDB\Entity\NSPage.cs" />
+    <Compile Include="LoginDB\Entity\NSPageHelp.cs" />
+    <Compile Include="LoginDB\Entity\PagePresentation.cs" />
+    <Compile Include="LoginDB\Entity\PageTool.cs" />
+    <Compile Include="LoginDB\Entity\PageVideo.cs" />
+    <Compile Include="LoginDB\Entity\PasswordResetRequest.cs" />
+    <Compile Include="Entity\SchoolAssessment.cs" />
+    <Compile Include="Entity\DistrictCalendar.cs" />
+    <Compile Include="Entity\FPComparison.cs" />
+    <Compile Include="Entity\Grade.cs" />
+    <Compile Include="Entity\InterventionAttendance.cs" />
+    <Compile Include="Entity\InterventionCardinality.cs" />
+    <Compile Include="Entity\InterventionCategory.cs" />
+    <Compile Include="Entity\InterventionFramework.cs" />
+    <Compile Include="Entity\InterventionGrade.cs" />
+    <Compile Include="Entity\InterventionTier.cs" />
+    <Compile Include="Entity\InterventionTool.cs" />
+    <Compile Include="Entity\InterventionToolIntervention.cs" />
+    <Compile Include="Entity\InterventionToolType.cs" />
+    <Compile Include="Entity\InterventionType.cs" />
+    <Compile Include="Entity\InterventionUnitOfStudy.cs" />
+    <Compile Include="Entity\InterventionWorkshop.cs" />
+    <Compile Include="Entity\School.cs" />
+    <Compile Include="Entity\SchoolCalendar.cs" />
+    <Compile Include="Entity\SchoolYear.cs" />
+    <Compile Include="Entity\Section.cs" />
+    <Compile Include="Entity\Staff.cs" />
+    <Compile Include="Entity\StaffAssessment.cs" />
+    <Compile Include="Entity\StaffAssessmentFieldVisibility.cs" />
+    <Compile Include="Entity\StaffInterventionGroup.cs" />
+    <Compile Include="Entity\StaffSchoolGrade.cs" />
+    <Compile Include="Entity\StaffSchool.cs" />
+    <Compile Include="Entity\StaffSection.cs" />
+    <Compile Include="Entity\Student.cs" />
+    <Compile Include="Entity\StudentAttributeData.cs" />
+    <Compile Include="Entity\StudentAttributeLookupValue.cs" />
+    <Compile Include="Entity\StudentAttributeType.cs" />
+    <Compile Include="Entity\StudentInterventionGroup.cs" />
+    <Compile Include="Entity\StudentSchool.cs" />
+    <Compile Include="Entity\StudentSection.cs" />
+    <Compile Include="Entity\TeamMeeting.cs" />
+    <Compile Include="Entity\TeamMeetingAttendance.cs" />
+    <Compile Include="Entity\TeamMeetingManager.cs" />
+    <Compile Include="Entity\TeamMeetingStudent.cs" />
+    <Compile Include="Entity\TeamMeetingStudentNote.cs" />
+    <Compile Include="Entity\TestDueDate.cs" />
+    <Compile Include="Entity\WeeklyAttendanceResult.cs" />
+    <Compile Include="LoginDB\Entity\DistrictDb.cs" />
+    <Compile Include="LoginDB\Entity\Presentation.cs" />
+    <Compile Include="LoginDB\Entity\StaffDistrict.cs" />
+    <Compile Include="LoginDB\Entity\NorthStarVersion.cs" />
+    <Compile Include="LoginDB\Entity\Tool.cs" />
+    <Compile Include="LoginDB\Entity\Video.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTO\AssessmentDataImport\" />
+    <Folder Include="DTO\ClassRoster\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

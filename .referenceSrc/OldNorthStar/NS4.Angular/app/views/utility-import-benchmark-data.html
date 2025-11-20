@@ -1,0 +1,184 @@
+﻿<div ng-controller="BenchmarkDataImportController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Utilities</li>
+            <li>Benchmark Assessment Data Import</li>
+        </ol>
+        <h1>Benchmark Assessment Data Import</h1>
+    </div>
+    <ns-error-display></ns-error-display>
+    <div style="clear:both"></div>
+    <div class="col-md-12">
+        <ns-help help-field="'HelpPlaceHolder1'" help-format="'html'"></ns-help>
+    </div>
+    <div style="clear:both"></div>
+    <div class="col-md-12">
+        <ns-filter-options-container-directive benchmark-test-enabled="true" staff-search-custom-label="'Recorder'" benchmark-date-enabled="true" school-year-enabled="true" staff-quick-search-enabled="true"></ns-filter-options-container-directive>
+    </div>
+    <div class="col-md-12">
+        <div ng-if="filterOptions.selectedSchoolYear != null && filterOptions.selectedBenchmarkTest != null && filterOptions.selectedBenchmarkDate != null && filterOptions.quickSearchStaff != null">
+            <panel panel-class="panel-info" heading="Assessment Template Definition">
+                <fieldset>
+                    <legend>Assessment Template Definition</legend>
+                    <div class="table-responsive">
+                        <div class="container-fluid ns-table">
+                            <div class="ns-table-row ns-table-header">
+                                <div class="ns-table-cell">Field Display Name</div>
+                                <div class="ns-table-cell">Column Name in Import File</div>
+                                <div class="ns-table-cell">Valid Data Type</div>
+                                <div class="ns-table-cell text-center">Valid Data Range</div>
+                                <div class="ns-table-cell text-center">Is Data Required</div>
+                            </div>
+                            <form class="ns-table-row" ng-repeat="field in dataMgr.Fields">
+
+                                <div class="ns-table-cell">
+                                    {{::field.FieldName}}
+                                </div>
+                                <div class="ns-table-cell">
+                                    {{::field.UniqueColumnName}}
+                                </div>
+                                <div class="ns-table-cell">
+                                    {{::field.ValidValues}}
+                                </div>
+                                <div class="ns-table-cell text-center">
+                                    {{::field.ValidRange}}
+                                </div>
+                                <div class="ns-table-cell text-center">
+                                    {{::field.Required}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:20px;margin-bottom:20px;">
+                        <button class="btn btn-info" ng-click="getTemplate()"><i class="fa fa-download"></i> Download an Empty Template</button>
+                    </div>
+                </fieldset>
+            </panel>
+
+            <panel panel-class="panel-midnightblue" heading="Upload Import File">
+                <form novalidate angular-validator angular-validator-submit="upload(theFiles)" name="dataImportForm" role="form" enctype="multipart/form-data" class="form-horizontal">
+                    <fieldset>
+                        <legend>Choose Data File To Upload</legend>
+                        <div class="form-group" ng-hide="settings.hasFiles">
+                            <label for="fieldnick" class="col-md-3 control-label">Select File</label>
+                            <div class="col-md-6">
+                                <h3>Select .CSV or .XLSX file to import</h3>
+                                <input type="file" id="newPhotos" class="uploadFile" accept="*.csv,*.xlsx,*.xls" eg-files="theFiles" has-files="settings.hasFiles">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="settings.hasFiles">
+                            <label for="fieldabout" class="col-md-3 control-label">Upload File</label>
+                            <div class="col-md-6">
+                                <ul class="list-inline">
+                                    <li><strong>file:</strong></li>
+                                    <li ng-repeat="file in theFiles"> {{file.name}}</li>
+                                </ul>
+                                <button class="btn btn-primary" type="submit" value="upload"><i class="fa fa-upload"></i> Upload</button>
+                                <button class="btn btn-danger" id="formReset" type="reset" value="cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <!-- Processing Errors -->
+                <fieldset>
+                    <legend>Upload Summary</legend>
+                    <div ng-if="settings.uploadComplete">
+                        <div ng-if="settings.LogItems.length == 0">
+                            <uib-alert ng-show="settings.uploadComplete" type="success"><b>Note:</b> Your import file has passed initial validation and has been submitted for processing.  Watch your inbox or the status table below for an update when your file has finished processing.</uib-alert>
+                        </div>
+                        <div ng-if="settings.LogItems.length > 0">
+                            <uib-alert type="danger">
+                                <b>Note:</b>  Your upload has been rejected for the following reasons: <ul><li ng-repeat="err in settings.LogItems">{{::err}}</li></ul>
+                                Please re-try your upload after correcting the errors.
+                            </uib-alert>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                </fieldset>
+            </panel>
+
+
+        </div>
+        <div ng-if="filterOptions.selectedSchoolYear == null || filterOptions.selectedBenchmarkTest == null || filterOptions.selectedBenchmarkDate == null || filterOptions.quickSearchStaff == null">
+            <uib-alert type="warning">Please select a School Year, Benchmark Date, Staff and Benchmark Assessment to begin the import process</uib-alert>
+        </div>
+
+        <panel panel-class="panel-success" heading="Batch History">
+            <fieldset>
+                <legend>Previously Submitted Jobs</legend>
+                <div ng-if="dataMgr.HistoryItems.length == 0 || !dataMgr.HistoryItems">
+                    <uib-alert type="info">
+                        <b>Note:</b>  No jobs have been submitted yet.
+                    </uib-alert>
+                </div>
+                <div ng-if="dataMgr.HistoryItems.length > 0" class="table-responsive">
+                    <div class="container-fluid ns-table">
+                        <div class="ns-table-row ns-table-header">
+                            <div class="ns-table-cell text-center">Delete</div>
+                            <div class="ns-table-cell text-center">Status</div>
+                            <div class="ns-table-cell text-center">Started</div>
+                            <div class="ns-table-cell text-center">Completed</div>
+                            <div class="ns-table-cell text-center">Assessment</div>
+                            <div class="ns-table-cell text-center">School Year</div>
+                            <div class="ns-table-cell text-center">Benchmark Date</div>
+                            <div class="ns-table-cell text-center">Recorder</div>
+                            <div class="ns-table-cell text-center">Uploaded File</div>
+                            <div class="ns-table-cell text-center">Log</div>
+                        </div>
+                        <form class="ns-table-row" ng-repeat="item in dataMgr.HistoryItems" editable-form name="rowform" novalidate angular-validator onbeforesave="before(rowform);" angular-validator-submit="saveIntervention(intervention)">
+
+                            <div class="ns-table-cell text-center" data-title="Delete">
+                                <a class="btn btn-danger btn-sm" ng-click="deleteHistoryItem(item)"><i class="fa fa-trash"></i></a>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Status">
+                                <span ng-if="item.Status == 'Processing'"><i class="fa fa-spinner fa-spin"></i></span> <span class="badge" ng-class="getStatusClass(item)">{{item.Status}}</span>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Start Date">
+                                {{item.StartDate | nsLongDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="End Date">
+                                {{item.EndDate | nsLongDateFormatWithTime}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Assessment">
+                                {{item.AssessmentName}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="School Year">
+                                {{item.SchoolYearVerbose}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="School Year">
+                                {{item.BenchmarkDate | nsDateFormat}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="School Year">
+                                {{item.RecorderName}}
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="File">
+                                <button ng-click="downloadImportFile(item)" class="btn btn-orange"><i class="fa fa-file-excel-o"></i> Download Original Import File</button>
+                            </div>
+                            <div class="ns-table-cell text-center" data-title="Log">
+                                <button ng-if="item.Status == 'Complete' || item.Status == 'Error'" ng-click="downloadImportLog(item)" class="btn btn-primary"><i class="fa fa-download"></i> Download Import Log</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </fieldset>
+        </panel>
+    </div>
+</div>
+<style>
+    .select2-container.has-error > a.select2-choice {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+
+    /*.select2-container.ng-invalid > a {
+        border-color: #D44950 !important;
+    }*/
+</style>

@@ -1,0 +1,134 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/">Writing Vocabulary</a></li>
+        <li class="active">Section Report</li>
+    </ol>
+    <h1> Class</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    Export as <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            <a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="WVSectionReportController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 ng-scope" id="nsFilterOptions">
+                <ns-filter-options-container-directive benchmark-date-enabled="false" school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" student-enabled="false"></ns-filter-options-container-directive>
+            </div>
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr ng-repeat="scaleRow in dataMgr.scale"
+                        wv-section-report-table-row
+                        scale-row="scaleRow"
+                        studentresults="dataMgr.studentSectionReportResults"
+                        tdds="dataMgr.tdds"></tr>
+                    <tr ng-repeat="tdd in dataMgr.tdds" ng-class="{'bottomBlackThickBorder': $last, 'topBlackThickBorder': $first}">
+                        <td class="leftDoubleBorder" style="background-color:{{::tdd.Hex}}">{{::tdd.DisplayDate}}</td>
+                        <td ng-class="{'rightDoubleBorder': $last}" ng-repeat="studentResult in dataMgr.studentSectionReportResults"><div wv-score-by-tdd student-result="studentResult" tdd="tdd"></div></td>
+                    </tr>
+                    <tr>
+                        <td style='width: 3%; vertical-align: top !important;' class='ng-scope verticalTd'><div class='vertical ng-binding' style=';padding-right: 2px;font-weight:bold'>Student Name</div></td>
+                        <td ng-repeat="studentResult in dataMgr.studentSectionReportResults" style='width: 3%; vertical-align: top !important;' class='ng-scope verticalTd'><div class='vertical ng-binding' style=';padding-right: 2px'>{{::studentResult.LastName}}, {{::studentResult.FirstName}}</div></td>
+                    </tr>                  
+                </tbody>
+            </table>
+            <div test-due-date-footer tdds="dataMgr.tdds">
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .topBlackThickBorder {
+        border-top: 3px solid black !important;
+    }
+    .bottomBlackThickBorder {
+        border-bottom: 3px solid black !important;
+    }
+    .targetZone {
+        background-color: silver;
+    }
+
+    .soyBenchmark {
+        border-top: 3px solid black !important;
+    }
+
+    .eoyBenchmark {
+        border-bottom: 3px solid black !important;
+    }
+
+    .obsYellow {
+        background-color: yellow !important;
+        color: black;
+    }
+
+    .obsRed {
+        background-color: Red !important;
+        color: white;
+    }
+
+    .obsBlue {
+        background-color: blue !important;
+        color: white;
+    }
+
+    .obsGreen {
+        background-color: green !important;
+        color: white;
+    }
+
+    .vertical {
+        ;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .verticalTd {
+        height: 180px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>

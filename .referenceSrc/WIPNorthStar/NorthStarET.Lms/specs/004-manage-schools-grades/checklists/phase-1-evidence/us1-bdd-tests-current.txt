@@ -1,0 +1,221 @@
+Build started 11/12/2025 6:14:29 PM.
+     1>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+     1>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj" (2:5) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+     1>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" (4:4) on node 2 (_GenerateProjectRestoreGraph target(s)).
+     4>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+     1>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" (5:6) on node 3 (_GenerateProjectRestoreGraph target(s)).
+     5>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     2>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     5>AddPrunePackageReferences:
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+     4>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     5>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     4>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     2>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj" (_GenerateProjectRestoreGraph target(s)).
+     5>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" (_GenerateProjectRestoreGraph target(s)).
+     4>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Restore:
+         X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+         X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+         Assets file has not changed. Skipping assets file writing. Path: D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\obj\project.assets.json
+         Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj (in 68 ms).
+         Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\NorthStarET.NextGen.Lms.Contracts.csproj (in 68 ms).
+         Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj (in 68 ms).
+         Restoring packages for D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj...
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+     1>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         Assets file has not changed. Skipping assets file writing. Path: D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\obj\project.assets.json
+         Restored D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj (in 126 ms).
+           CACHE https://api.nuget.org/v3/vulnerabilities/index.json
+           CACHE https://api.nuget.org/v3-vulnerabilities/2025.11.06.05.42.07/vulnerability.base.json
+           CACHE https://api.nuget.org/v3-vulnerabilities/2025.11.06.05.42.07/2025.11.12.23.25.49/vulnerability.update.json
+         Assets file has not changed. Skipping assets file writing. Path: D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\obj\project.assets.json
+         Restored D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj (in 1.23 sec).
+         
+         NuGet Config files used:
+             D:\NorthStarET.Lms\NuGet.Config
+             C:\Users\CrisWeber\AppData\Roaming\NuGet\NuGet.Config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+             C:\Program Files\dotnet\library-packs
+         4 of 5 projects are up-to-date for restore.
+     1>Done Building Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (Restore target(s)).
+   1:7>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" on node 3 (VSTest target(s)).
+     1>BuildProject:
+         Build started, please wait...
+   1:7>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:7) is building "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:8) on node 3 (default targets).
+   1:8>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:8) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" (4:6) on node 1 (default targets).
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+     4>D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+   1:8>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:8) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" (5:8) on node 3 (default targets).
+     5>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+   1:8>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:8) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\NorthStarET.NextGen.Lms.Contracts.csproj" (3:6) on node 4 (default targets).
+     3>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+     5>_GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\NorthStarET.NextGen.Lms.Domain.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         NorthStarET.NextGen.Lms.Domain -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Domain.dll
+     5>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Domain\NorthStarET.NextGen.Lms.Domain.csproj" (default targets).
+     3>CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\NorthStarET.NextGen.Lms.Contracts.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         NorthStarET.NextGen.Lms.Contracts -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Contracts.dll
+     3>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Contracts\NorthStarET.NextGen.Lms.Contracts.csproj" (default targets).
+   1:8>Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (1:8) is building "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj" (2:7) on node 2 (default targets).
+     2>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\NorthStarET.NextGen.Lms.Application.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         NorthStarET.NextGen.Lms.Application -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Application.dll
+     2>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Application\NorthStarET.NextGen.Lms.Application.csproj" (default targets).
+     4>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\NorthStarET.NextGen.Lms.Infrastructure.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         NorthStarET.NextGen.Lms.Infrastructure -> D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Infrastructure.dll
+     4>Done Building Project "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" (default targets).
+     1>UpdateFeatureFilesInProject:
+         [Reqnroll] FeatureFiles: bin\Debug\net10.0\Features\DistrictManagement.feature;bin\Debug\net9.0\Features\DistrictManagement.feature
+         Task assembly was loaded from 'C:\Program Files\dotnet\sdk\10.0.100\Microsoft.Build.dll' while the desired location was 'C:\Users\CrisWeber\.nuget\packages\reqnroll.tools.msbuild.generation\3.2.1\build\netstandard2.0\Reqnroll.Tools.MsBuild.Generation.dll'.
+         [Reqnroll] Starting GenerateFeatureFileCodeBehind task
+         [Reqnroll] -> Using reqnroll.json
+         [Reqnroll] Generated code-behind file: bin\Debug\net10.0\Features\DistrictManagement.feature.cs
+         [Reqnroll] Generated code-behind file: bin\Debug\net9.0\Features\DistrictManagement.feature.cs
+         [Reqnroll] Generated messages file: obj\Debug\net10.0\bin\Debug\net10.0\Features\DistrictManagement.feature.ndjson
+         [Reqnroll] Generated messages file: obj\Debug\net10.0\bin\Debug\net9.0\Features\DistrictManagement.feature.ndjson
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       GenerateReqnrollAssemblyHooksFileTask:
+         Task assembly was loaded from 'C:\Program Files\dotnet\sdk\10.0.100\Microsoft.Build.dll' while the desired location was 'C:\Users\CrisWeber\.nuget\packages\reqnroll.tools.msbuild.generation\3.2.1\build\netstandard2.0\Reqnroll.Tools.MsBuild.Generation.dll'.
+         Skipping unchanged file D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\obj\Debug\net10.0\xUnit.AssemblyHooks.cs
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+     1>bin\Debug\net9.0\Features\AuditAndEvents.feature.cs : warning : For codebehind file 'bin\Debug\net9.0\Features\AuditAndEvents.feature.cs', no feature file was found. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         NorthStarET.NextGen.Lms.Bdd -> D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.dll
+     1>Done Building Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (default targets).
+     1>BuildProject:
+         Build completed.
+         
+Test run for D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.0)
+[xUnit.net 00:00:00.23]   Discovering: NorthStarET.NextGen.Lms.Bdd
+[xUnit.net 00:00:00.36]   Discovered:  NorthStarET.NextGen.Lms.Bdd
+No test matches the given testcase filter `FullyQualifiedName~School` in D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\bin\Debug\net10.0\NorthStarET.NextGen.Lms.Bdd.dll
+
+     1>Done Building Project "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (VSTest target(s)).
+
+Build succeeded.
+
+       "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (Restore target) (1) ->
+       (Restore target) -> 
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+
+
+       "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (VSTest target) (1:7) ->
+       "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (default target) (1:8) ->
+       "D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj" (default target) (4:6) ->
+       (ResolvePackageAssets target) -> 
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.EnvironmentVariables will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Configuration.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.ConfigurationExtensions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1510: PackageReference Microsoft.Extensions.Options.DataAnnotations will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Tasks.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+         D:\NorthStarET.Lms\src\NorthStarET.NextGen.Lms.Infrastructure\NorthStarET.NextGen.Lms.Infrastructure.csproj : warning NU1903: Package 'Microsoft.Build.Utilities.Core' 17.14.8 has a known high severity vulnerability, https://github.com/advisories/GHSA-w3q9-fxm7-j8fq
+
+
+       "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (VSTest target) (1:7) ->
+       "D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj" (default target) (1:8) ->
+       (WarnForFeatureCodeBehindFilesWithoutCorrespondingFeatureFile target) -> 
+         bin\Debug\net9.0\Features\AuditAndEvents.feature.cs : warning : For codebehind file 'bin\Debug\net9.0\Features\AuditAndEvents.feature.cs', no feature file was found. [D:\NorthStarET.Lms\tests\bdd\NorthStarET.NextGen.Lms.Bdd\NorthStarET.NextGen.Lms.Bdd.csproj]
+
+    13 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:12.54

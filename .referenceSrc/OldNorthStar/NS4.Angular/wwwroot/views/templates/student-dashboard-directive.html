@@ -1,0 +1,306 @@
+﻿
+<div style="min-height:350px;">
+    <spinner name="tableSpinner">
+        <div style="position:absolute;width:100%;height:100%;background-color:rgba(100, 100, 100, 0.7);z-index:100;">
+            <div class="sk-cube-grid">
+                <div class="sk-cube sk-cube1"></div>
+                <div class="sk-cube sk-cube2"></div>
+                <div class="sk-cube sk-cube3"></div>
+                <div class="sk-cube sk-cube4"></div>
+                <div class="sk-cube sk-cube5"></div>
+                <div class="sk-cube sk-cube6"></div>
+                <div class="sk-cube sk-cube7"></div>
+                <div class="sk-cube sk-cube8"></div>
+                <div class="sk-cube sk-cube9"></div>
+            </div>
+        </div>
+    </spinner>
+    <div class="col-md-12" ng-if="settings.studentLoaded">
+        <uib-tabset justified="false">
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-line-chart"></i> Class Line Graphs
+                </uib-tab-heading>
+                <div>
+                    <div ng-if="ClassLineGraphDataManagers.length == 0">
+                        <uib-alert type="info"><b>Note:</b> Student has not taken any benchmarked assessments</uib-alert>
+                    </div>
+                    <div ng-repeat="fieldMgr in ClassLineGraphDataManagers" style="margin-bottom:50px;">
+                        <div class="col-md-12">
+                            <div>
+                                <highchart id="chart1" config="fieldMgr.chartConfig"></highchart>
+                            </div>
+                            <div>
+                                <line-graph-detail data-data-manager="fieldMgr"></line-graph-detail>
+                            </div>
+                        </div>
+                        <div style="clear:both;" />
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-user"></i> Student Details
+                </uib-tab-heading>
+                <div>
+                    <!-- Photo -->
+                    <div ng-show="fullStudent.ImageUrl != '' && fullStudent.ImageUrl != null">
+                        <img class="studentPhoto" ng-src="{{fullStudent.ImageUrl}}" alt="{{studentResult.StudentName}}" />
+                    </div>
+                    <div ng-if="fullStudent.ImageUrl == '' || fullStudent.ImageUrl == null">
+                        <img class="studentPhoto" src="/assets/img/placeholder_person.jpg"  />
+                    </div>
+                    <fieldset>
+                        <legend>Details</legend>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">First Name</label>
+                            <div class="col-md-4 studentText">
+                                {{fullStudent.FirstName}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Middle Name</label>
+                            <div class="col-md-6 studentText">
+                                {{fullStudent.MiddleName}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Last Name</label>
+                            <div class="col-md-6 studentText">
+                                {{fullStudent.LastName}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Student ID</label>
+                            <div class="col-md-6 studentText">
+                                {{fullStudent.StudentIdentifier}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Date of Birth</label>
+                            <div class="col-md-6 studentText">
+                                {{fullStudent.DOB}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Graduation Year</label>
+                            <div class="col-md-6 studentText">
+                                {{fullStudent.GraduationYear}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Enrollment Year</label>
+                            <div class="col-md-6 studentText">{{fullStudent.EnrollmentYear}}</div>
+                        </div>
+
+                    </fieldset>
+                    <fieldset>
+                        <legend>Student Attributes</legend>
+                        <div class="row" ng-repeat="attribute in allAttributes.AllAttributes">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">{{attribute.AttributeName}}</label>
+                            <div class="col-md-6 studentText">
+                                {{getAttributeValue(fullStudent.StudentAttributes[attribute.Id], attribute)}}
+                                <!--<select class="form-control" ng-model="fullStudent.StudentAttributes[attribute.Id]" ng-options="v.LookupValueId as v.LookupValue for v in attribute.LookupValues">
+                                    <option value="">-select-</option>
+                                </select>-->
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Education Services</legend>
+                        <div class="row">
+                            <label style="font-weight:bold;margin-bottom:0px" class="col-sm-6 control-label studentLabel">Services</label>
+                            <div class="col-md-6 studentText">
+                                <div ng-repeat="label in fullStudent.SpecialEdLabels">
+                                    {{label.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-folder-open"></i> Student Cumulative Folder
+                </uib-tab-heading>
+                <h2><b>{{settings.selectedStudent.text}}</b> Assessment History</h2>
+                <div class="table-responsive">
+                    <ns-observation-summary-student selected-student-id="settings.selectedStudent.id"></ns-observation-summary-student>
+                </div>
+                <div>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="padding-right:5px;">
+                                        <span class="obsPerfect" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                    </td>
+                                    <td style="padding-right:10px">
+                                        <strong>Perfect Score</strong>
+                                    </td>
+                                    <td style="padding-right:5px;">
+                                        <span class="obsBlue" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                    </td>
+                                    <td style="padding-right:10px">
+                                        <strong>Exceeds Expectations</strong>
+                                    </td>
+                                    <td style="padding-right:5px;">
+                                        <span class="obsGreen" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                    </td>
+                                    <td style="padding-right:10px">
+                                        <strong>Meets Expectations</strong>
+                                    </td>
+                                    <td style="padding-right:5px;">
+                                        <span class="obsYellow" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                    </td>
+                                    <td style="padding-right:10px">
+                                        <strong>Approaches Expectations</strong>
+                                    </td>
+                                    <td style="padding-right:5px;">
+                                        <span class="obsRed" style="border:1px solid black;display:inline-block;height:20px;width:25px;"></span>
+                                    </td>
+                                    <td style="padding-right:10px">
+                                        <strong>Does Not Meet Expectations</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-bolt"></i> Interventions
+                </uib-tab-heading>
+                <div ng-if="studentDataManager.Interventions.length  == 0">
+                    <uib-alert type="info"><b>Note:</b> Student has not received any interventions</uib-alert>
+                </div>
+                <div ng-if="studentDataManager.Interventions.length > 0">
+                    <student-interventions data-data-manager="studentDataManager"></student-interventions>
+                </div>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-paperclip"></i> Student Notes
+                </uib-tab-heading>
+                <div ng-if="studentNotesManager.Notes.length == 0">
+                    <uib-alert type="info"><b>Note:</b> Student does not have any notes</uib-alert>
+                </div>
+                <div>
+                    <ul class="timeline">
+                        <li class="timeline-midnightblue">
+                            <div class="timeline-icon"><i class="fa fa-plus"></i></div>
+                            <div class="timeline-body" ng-show="!settings.selectedStudent.newNoteEditMode">
+                                <button class="btn btn-success" ng-click="settings.selectedStudent.newNoteEditMode = true"><i class="fa fa-plus"></i> Add New Note</button>
+                            </div>
+                            <div ng-show="settings.selectedStudent.newNoteEditMode == true" class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="date">{{::moment() | nsLongDateFormatWithTime}}</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>You say:</h3>
+                                    <p>
+                                        <textarea name="ckeditor_studentNote" ready="onReady()" id="studentNote_NewNote" cols="80" rows="20" class="ckeditor" ng-model="settings.selectedStudent.NewNoteHtml" ckeditor="options"></textarea>
+                                    </p>
+                                </div>
+                                <div class="timeline-footer">
+                                    <div style="margin-top:10px;">
+                                        <a href="" ng-click="saveStudentNote(-1, settings.selectedStudent.NewNoteHtml, settings.selectedStudent.id)" class="btn btn-primary btn-sm pull-left"><i class="fa fa-save"></i>  Save New Note</a>
+                                        <a style="margin-left:5px;" href="" ng-click="settings.selectedStudent.newNoteEditMode = false;" class="btn btn-default btn-sm pull-left"><i class="fa fa-times-circle"></i>  Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-primary" ng-repeat="note in studentNotesManager.Notes">
+                            <div class="timeline-icon"><i class="fa fa-user"></i></div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="date">{{::note.NoteDate | nsLongDateFormatWithTime}}</span>
+                                    <span class="author" ng-if="note.StaffID == currentUser.Id"><a ng-if="note.IsEditing != true" style="margin-right:10px;" class="btn btn-xs btn-default" href="" ng-click="note.IsEditing = true"><i class="fa fa-pencil-square-o"></i> edit</a>  <a style="margin-right:10px;" class="btn btn-xs btn-danger" href="" ng-if="note.IsEditing != true" ng-click="deleteStudentNote(note.Id)"><i class="fa fa-times"></i> delete</a> <a ng-if="note.IsEditing == true" class="btn btn-xs btn-success" href="" ng-click="saveStudentNote(note.Id, note.Note, settings.selectedStudent.id)"><i class="fa fa-save"></i> Save Note</a> <a ng-if="note.IsEditing == true" class="btn btn-xs btn-default" href="" ng-click="note.IsEditing = false"><i class="fa fa-times-circle"></i> cancel</a></span>
+
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>{{::note.Staff.FirstName}} {{::note.Staff.LastName}} said:</h3>
+                                    <p>
+                                        <div inlineedit="note.IsEditing == true" readonly="{{note.StaffID != currentUser.Id && note.IsEditing != true}}" ckeditor="options" ng-model="note.Note"></div>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-file-text-o"></i> Team Meeting Notes
+                </uib-tab-heading>
+                <div ng-if="studentTMNotesManager.Meetings.length == 0">
+                    <uib-alert type="info"><b>Note:</b> Student has not been involved in any team meetings</uib-alert>
+                </div>
+                <div ng-repeat="meeting in studentTMNotesManager.Meetings">
+                    <h4 class="timeline-month"><span>{{::meeting.Title}}</span>  <small>({{::meeting.MeetingTime | nsLongDateFormatWithTime}})</small></h4>
+                    <ul class="timeline">
+                        <li class="timeline-midnightblue">
+                            <div class="timeline-icon"><i class="fa fa-plus"></i></div>
+                            <div class="timeline-body" ng-show="!meeting.newNoteEditMode">
+                                <button class="btn btn-success" ng-click="meeting.newNoteEditMode = true"><i class="fa fa-plus"></i> Add New Note to This Meeting</button>
+                            </div>
+                            <div ng-show="meeting.newNoteEditMode == true" class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="date">{{::moment() | nsLongDateFormatWithTime}}</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>You say:</h3>
+                                    <p>
+                                        <textarea name="ckeditor_{{::meeting.Id}}" ready="onReady()" id="{{::meeting.Id}}_NewNote" cols="80" rows="20" class="ckeditor" ng-model="meeting.NewNoteHtml" ckeditor="options"></textarea>
+                                    </p>
+                                </div>
+                                <div class="timeline-footer">
+                                    <div style="margin-top:10px;">
+                                        <a href="" ng-click="saveNote(-1, meeting.NewNoteHtml, meeting.Id, settings.selectedStudent.id, meeting)" class="btn btn-primary btn-sm pull-left"><i class="fa fa-save"></i>  Save New Note</a>
+                                        <a style="margin-left:5px;" href="" ng-click="meeting.newNoteEditMode = false;" class="btn btn-default btn-sm pull-left"><i class="fa fa-times-circle"></i>  Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-primary" ng-repeat="note in meeting.TeamMeetingStudentNotes">
+                            <div class="timeline-icon"><i class="fa fa-user"></i></div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="date">{{::note.NoteDate | nsLongDateFormatWithTime}}</span>
+                                    <span class="author" ng-if="note.StaffID == currentUser.Id"><a ng-if="note.IsEditing != true" style="margin-right:10px;" class="btn btn-xs btn-default" href="" ng-click="note.IsEditing = true"><i class="fa fa-pencil-square-o"></i> edit</a>  <a style="margin-right:10px;" class="btn btn-xs btn-danger" href="" ng-if="note.IsEditing != true" ng-click="deleteNote(note.ID)"><i class="fa fa-times"></i> delete</a> <a ng-if="note.IsEditing == true" class="btn btn-xs btn-success" href="" ng-click="saveNote(note.ID, note.Note, meeting.Id, settings.selectedStudent.id)"><i class="fa fa-save"></i> Save Note</a> <a ng-if="note.IsEditing == true" class="btn btn-xs btn-default" href="" ng-click="note.IsEditing = false"><i class="fa fa-times-circle"></i> cancel</a></span>
+
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>{{::note.Staff.FirstName}} {{::note.Staff.LastName}} said:</h3>
+                                    <p>
+                                        <div inlineedit="note.IsEditing == true" readonly="{{note.StaffID != currentUser.Id && note.IsEditing != true}}" ckeditor="options" ng-model="note.Note"></div>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>
+
+<style>
+    .studentLabel{
+        text-align:right;
+        font-size:14px;
+        padding: 3px 10px 3px 3px;
+    }
+    .studentText{
+        font-size: 14px;
+        padding:3px;
+    }
+    .studentPhoto {
+        max-width: 200px;
+        border-radius: 20%;
+        margin:auto;
+        display:block;
+    }
+</style>

@@ -1,0 +1,97 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>District</li>
+        <li class="active">Set District Benchmarks</li>
+    </ol>
+    <h1>Set District Benchmark Defaults</h1>
+
+</div>
+
+<div class="container-fluid" ng-controller="DistrictYearlyAssessmentBenchmarksController">
+    <div class="row fa-">
+        <div class="col-md-12">
+            <uib-alert ng-repeat="alert in errors" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+        </div>
+    </div> 
+    <panel panel-class="panel-midnightblue" heading="Select Field to Manage" panel-icon="fa fa-check-square-o">
+        <div class="tiles-heading">
+            <div class="row">
+                <div class="col-md-2">
+                    <span style="text-transform: Uppercase; font-weight: bold; margin-right: 10px;">Assessment Field:</span>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" ng-model="settings.selectedAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in dataMgr.assessments">
+                        <option value=""> -- Choose a Field -- </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </panel>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <div class="container-fluid ns-table">
+                    <div class="ns-table-row ns-table-header">
+                        <div class="ns-table-cell text-center">Edit</div>
+                        <div class="ns-table-cell text-center">Delete</div>
+                        <div class="ns-table-cell text-center">Grade</div>
+                         <div class="ns-table-cell text-center">Does Not Meet Expectations</div>
+                        <div class="ns-table-cell text-center">Approaches Expectations</div>
+                        <div class="ns-table-cell text-center">Meets Expectations</div>
+                        <div class="ns-table-cell text-center">Exceeds Expectations</div>
+                    </div>
+                    <form class="ns-table-row" ng-repeat="benchmark in dataMgr.benchmarks" editable-form name="rowform" novalidate angular-validator angular-validator-submit="saveAssessmentData(benchmark)">
+
+                        <div class="ns-table-cell text-center" data-title="Edit">
+                            <div ng-show="!rowform.$visible">
+                                <a class="btn btn-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></a>
+                            </div>
+                            <div ng-show="rowform.$visible">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="Delete">
+                            <a class="btn btn-danger btn-xs" ng-click="deleteAssessmentData(benchmark)"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="Grade">
+                            {{benchmark.GradeName}}
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="DoesNotMeet">
+                            <ns-benchmark-field e-form="rowform" result="benchmark.DoesNotMeetResult" field="settings.selectedAssessmentField"></ns-benchmark-field>
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="Approaches">
+                            <ns-benchmark-field e-form="rowform" result="benchmark.ApproachesResult" field="settings.selectedAssessmentField"></ns-benchmark-field>
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="Meets">
+                            <ns-benchmark-field e-form="rowform" result="benchmark.MeetsResult" field="settings.selectedAssessmentField"></ns-benchmark-field>
+                        </div>
+                        <div class="ns-table-cell text-center" data-title="Exceeds">
+                            <ns-benchmark-field e-form="rowform" result="benchmark.ExceedsResult" field="settings.selectedAssessmentField"></ns-benchmark-field>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .select2-container > a.has-error {
+        border-color: #D44950 !important;
+    }
+
+    form .ng-dirty.ng-invalid {
+        color: #656B79 !important;
+    }
+
+    label.has-error {
+        color: #D44950 !important;
+    }
+</style>

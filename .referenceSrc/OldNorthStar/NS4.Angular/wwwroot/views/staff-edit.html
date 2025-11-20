@@ -1,0 +1,201 @@
+﻿
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="#/staff-list">Manage Staff</a></li>
+        <li class="active">Add/Edit Staff</li>
+    </ol>
+    <h1>Add/Edit Staff</h1>
+</div>
+
+<div class="container-fluid" ng-controller="StaffEditController">
+    <div class="col-md-12">
+        <uib-alert ng-repeat="alert in errors" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></span></uib-alert>
+        <uib-alert ng-if="staffid == user.Id" type="info"><span><b>Note:</b> If you change your email address, will be automatically logged out after saving.</span></uib-alert>
+    </div>
+    <div style="clear:both"></div>
+    <panel panel-class="panel-midnightblue" heading="Edit Staff Attributes">
+        <form name="staffForm" class="form-horizontal" novalidate angular-validator angular-validator-submit="saveData()">
+            <fieldset>
+                <legend>Details</legend>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">First Name</label>
+                    <div class="col-md-6">
+                        <input id="firstName" class="form-control" name="firstName" type="text" validate-on="dirty" required ng-model="staff.FirstName" required-message="'First Name is required'" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Middle Name</label>
+                    <div class="col-md-6">
+                        <input id="middleName" class="form-control" name="middleName" type="text" ng-model="staff.MiddleName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Last Name</label>
+                    <div class="col-md-6">
+                        <input id="lastName" class="form-control" name="lastName" type="text" validate-on="dirty" required ng-model="staff.LastName" required-message="'Last Name is required'" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Email</label>
+                    <div class="col-md-6">
+                        <input id="username"
+                               class="form-control"
+                               name="username"
+                               type="text"
+                               placeholder="Enter email address"
+                               required
+                               required-message="'Email address is required'"
+                               ng-remote-validate2="{ 'https://api.northstaret.net/api/staff/ValidateUsernameChangeOtherUser' : 'unique', 'https://api.northstaret.net/api/staff/ValidateEmailFormat' : 'emailformat' }"
+                               ng-remote-method="POST"
+                               ng-remote-throttle="500"
+                               validate-on="dirty"
+                               invalid-message="''"
+                               ng-model="staff.Email" />
+                        <label ng-show="staffForm.username.$error.unique" class="control-label has-error">This email address is already in use by another user</label>
+                        <label ng-show="staffForm.username.$error.emailformat" class="control-label has-error">Please enter a valid email address</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldemail" class="col-md-3 control-label">Teacher Key</label>
+                    <div class="col-md-6">
+                        <input id="teacherKey" class="form-control" type="text" name="teacherKey" ng-model="staff.TeacherIdentifier"                                        
+                                        placeholder="Enter the teacher key"
+                                       required
+                                       required-message="'Teacher Key is required'"
+                                       validate-on="dirty"
+                                       ng-remote-validate2="{{remoteTeacherKeyValidationPath}}"
+                                       ng-remote-method="POST"
+                                       ng-remote-throttle="500"
+                                       invalid-message="'This Teacher Key is already assigned to another user'">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Enabled  </label>
+                    <div class="col-md-6">
+                        <switch class="green" ng-model="staff.IsActive"></switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Can Log In</label>
+                    <div class="col-md-6">
+                        <switch class="green" ng-model="staff.CanLogIn"></switch>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Is Interventionist</label>
+                    <div class="col-md-6">
+                        <switch class="green" ng-model="staff.IsInterventionSpecialist"></switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldurl" class="col-md-3 control-label">Role</label>
+                    <div class="col-md-6">
+                        <select name="role" class="form-control" validate-on="blur" ng-model="staff.role" required required-message="'Role is required'">
+                            <option value="">-Select a role-</option>
+                            <option value="1">Teacher</option>
+                            <option value="2">Teaching Assistant</option>
+                            <option value="5">Administrator</option>
+                            <option value="3">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Notes</label>
+                    <div class="col-md-6">
+                        <textarea id="notes" class="form-control" name="notes" ng-model="staff.Notes" />
+                    </div>
+                </div>
+
+            </fieldset>
+            <fieldset ng-if="user.IsDistrictAdmin">
+                <legend>District Administration</legend>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Is District Adminstrator</label>
+                    <div class="col-md-6">
+                        <switch class="green" ng-model="staff.IsDistrictAdmin"></switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fieldname" class="col-md-3 control-label">Is District Contact For NorthStar</label>
+                    <div class="col-md-6">
+                        <switch class="green" ng-model="staff.IsDistrictContact"></switch>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Security</legend>
+                <div class="form-group">
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                School
+                            </th>
+                            <th class="text-center">
+                                Can Access All School Data
+                            </th>
+                            <th class="text-center">
+                                Access to Specific Grades
+                            </th>
+                            <th class="text-center">
+                                Can Access Only Own Data
+                            </th>
+                            <th class="text-center">
+                                No Access
+                            </th>
+                            <th>
+                                Is NorthStar Contact
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ss in staff.StaffSchools">
+                                <td>{{::ss.SchoolName}}</td>
+                                <td class="text-center">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="security{{::ss.SchoolID}}" value="1" ng-model="ss.StaffHierarchyPermissionID">
+                                            School Admin
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="radio col-md-12">
+                                        <label class="col-md-1">
+                                            <input type="radio" name="security{{::ss.SchoolID}}" value="3" ng-model="ss.StaffHierarchyPermissionID">
+                                        </label>
+                                        <div style="width:200px;" ui-select2="select2GradeOptions" ng-model="ss.Grades" data-placeholder="- Choose grades -"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="security{{::ss.SchoolID}}" value="2" ng-model="ss.StaffHierarchyPermissionID">
+                                            School User
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="security{{::ss.SchoolID}}" value="0" ng-model="ss.StaffHierarchyPermissionID">
+                                            No Access
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <switch class="green" ng-model="ss.IsSchoolContact"></switch>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Staff</button>
+            <button type="button" class="btn btn-danger" ng-click="cancel()"><i class="fa fa-times"></i>Cancel</button>
+        </form>
+    </panel>
+
+
+</div> 

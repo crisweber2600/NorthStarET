@@ -1,0 +1,76 @@
+﻿<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="/#/assessment-list">Manage Assessements</a></li>
+		<li class="active">Edit Assessment Data</li>
+	</ol>
+	<h1>Preview Assessment</h1>
+	<div class="options">
+		<div class="btn-toolbar">
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle">
+					Export as <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">Action</a></li>
+					<li><a href="#">Another action</a></li>
+					<li><a href="#">Something else here</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Separated link</a></li>
+				</ul>
+			</div>
+			<a href="#" class="btn btn-default hidden-xs"><i class="fa fa-cog"></i></a>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" ng-controller="AssessmentDefaultEntryController">
+
+
+    <panel panel-class="panel-primary" heading="Data Entry">
+        <panel-controls> 
+            <a href="#/section-addedit/-1">Print <i class="fa fa-print"></i></a>
+        </panel-controls>
+
+        <div class="table-vertical">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Edit</th>
+                        <th>Copy</th>
+                        <th>Delete</th>
+                        <th><div style="cursor: pointer" ng-click="sort('FirstName')">First Name <i class="{{firstNameHeaderClass}}"></i></div></th>
+                        <th><div style="cursor: pointer" ng-click="sort('LastName')">Last Name <i class="{{lastNameHeaderClass}}"></i></div></th>
+                        <th ng-repeat="header in fields"><div style="cursor: pointer" ng-click="sort($index)">{{header.DisplayLabel}} <i class="{{headerClassArray[$index]}}"></i></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="studentResult in studentResults | orderBy:sortArray">
+                        <td align="left" data-title="Edit">
+                            <form editable-form name="rowform" ng-show="rowform.$visible" onaftersave="saveAssessmentData(studentResult)" class="form-buttons form-inline">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+                                    Save
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class=" btn btn-sm btn-default">
+                                    Cancel
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible">
+                                <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
+                                <button class="btn btn-sm btn-danger" ng-click="deleteAssessmentData(studentResult)">Delete</button>
+                            </div>
+                        </td>
+                        <td align="left" data-title="Copy"><button class="btn btn-sm btn-default" ng-click="rowform.$show()">Copy</button></td>
+                        <td align="left" data-title="Delete"></td>
+                        <td align="left" data-title="FirstName">{{studentResult.FirstName}}</td>
+                        <td align="left" data-title="LastName">
+                            {{studentResult.LastName}}
+                        </td>
+                        <td ng-repeat="fieldResult in studentResult.FieldResults" data-title="{{fieldResult.Field.DisplayLabel}}">
+                            <assessment-edit-field lookup-fields-array="lookupFieldsArray" e-form="rowform" result="fieldResult" all-results="studentResult.FieldResults"></assessment-edit-field>
+                        </td>
+                    </tr>
+                </tbody>
+                <caption>F&amp;P Student Data</caption>
+            </table>
+        </div>
+    </panel>
+</div>

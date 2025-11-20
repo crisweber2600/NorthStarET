@@ -1,0 +1,44 @@
+﻿<div id="page-heading">
+    <ol class="breadcrumb">
+        <li>Videos</li>
+        <li class="active">Manage Videos</li>
+    </ol>
+    <h1>Manage Videos</h1>
+</div>
+
+<div class="container-fluid" ng-controller="ManageVideosController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <panel panel-class="panel-primary" heading="Sections">
+                <panel-controls>
+                    <a href="#/section-addedit/-1">Add Section <i class="fa fa-plus"></i></a>
+                </panel-controls>
+                <table class="table table-striped">
+                    <thead>
+                        <tr> 
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Thumbnail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="video in videos">
+                            <td>
+                                <a class="btn btn-primary" href="#/section-addedit/{{::video.id}}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" ng-click="deleteSection(section.Id)"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                            <td>{{::video.title}}</td>
+                            <td>{{::video.description}}</td>
+                            <td><img border="0" src='{{::video.thumbnail}}' height="30" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </panel>
+        </div>
+    </div>
+</div>

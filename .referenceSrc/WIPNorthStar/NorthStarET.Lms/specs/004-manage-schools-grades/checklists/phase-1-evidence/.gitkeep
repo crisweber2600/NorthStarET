@@ -1,0 +1,34 @@
+# Phase 1 Evidence Folder
+
+This folder contains Red→Green test transcripts for the Schools & Grades feature implementation.
+
+## Expected Files
+
+### User Story 1 (Maintain District Schools)
+- `us1-dotnet-test-red.txt` - Unit/BDD tests before implementation
+- `us1-dotnet-test-green.txt` - Unit/BDD tests after implementation
+- `us1-playwright-red.txt` - UI tests before implementation
+- `us1-playwright-green.txt` - UI tests after implementation
+
+### User Story 2 (Configure School Grades)
+- `us2-dotnet-test-red.txt`
+- `us2-dotnet-test-green.txt`
+- `us2-playwright-red.txt`
+- `us2-playwright-green.txt`
+
+### User Story 3 (System Admin Oversight)
+- `us3-dotnet-test-red.txt`
+- `us3-dotnet-test-green.txt`
+- `us3-playwright-red.txt`
+- `us3-playwright-green.txt`
+
+### User Story 4 (District Admin Home)
+- `us4-dotnet-test-red.txt`
+- `us4-dotnet-test-green.txt`
+- `us4-playwright-red.txt`
+- `us4-playwright-green.txt`
+
+### Final Consolidated Evidence
+- `dotnet-test-green.txt` - All tests passing
+- `playwright-green.txt` - All UI tests passing
+- `coverage-report.txt` - Code coverage verification

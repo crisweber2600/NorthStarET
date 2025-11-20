@@ -1,0 +1,8 @@
+﻿<span ng-if="settings.editMode">
+    <textarea name="ckeditor_studentNote" id="studentNote_NewNote" cols="80" rows="20" class="ckeditor" ng-model="helpManager.fieldValue" ckeditor="ckeditorOptions"></textarea>
+    <span style="float:right"><a class="btn btn-success btn-xs" href="" ng-click="saveData()"><i class="fa fa-save"></i> Save</a> <a class="btn btn-danger btn-xs" href="" ng-click="cancelEdit()"><i class="fa fa-times-circle"></i> Cancel</a></span>
+</span>
+<span ng-if="!settings.editMode">
+    <span ng-bind-html="helpManager.fieldValue | safe_html"></span> <span style="float:right" ng-if="currentUser.IsSA || currentUser.IsPowerUser"><a href="" ng-click="enableEdit()">Edit</a></span>
+
+</span>

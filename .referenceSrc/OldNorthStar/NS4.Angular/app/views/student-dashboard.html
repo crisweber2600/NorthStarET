@@ -1,0 +1,174 @@
+﻿<div ng-controller="StudentDashboardController">
+    <div id="page-heading">
+        <ol class="breadcrumb">
+            <li>Dashboards</li>
+            <li class="active">Student Dashboard</li>
+        </ol>
+        <h1>Student Dashboard</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <!--<a ng-click="print()" class="btn btn-orange hidden-xs ng-scope"><i class="fa fa-print"></i> Print</a>-->
+                <!--<div class="btn-group" uib-dropdown>
+                    <a href="#" class="btn btn-orange"><i class="fa fa-print"></i> Print</a>
+                    <a href="#" class="btn btn-orange-alt dropdown-toggle" uib-dropdown-toggle><span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                        <li><a href="#"><i class="fa fa-print"></i> Class Line Graphs</a></li>
+                        <li><a href="#"><i class="fa fa-print"></i> Student Observation Summary</a></li>
+                        <li><a href="#"><i class="fa fa-print"></i> Interventions</a></li>
+                        <li><a href="#"><i class="fa fa-print"></i> Student Notes</a></li>
+                        <li><a href="#"><i class="fa fa-print"></i> Team Meeting Notes</a></li>
+                    </ul>
+                </div>-->
+                <print-split-button student="settings.selectedStudent" target-pages="targetPages" print-landscape="true" sort-array="sortArray" print-multi-page="true" fit-viewer-height="false" fit-width="true" html-viewer-height="0" html-viewer-width="" stretch-to-fit=""></print-split-button>
+                <observation-summary-field-chooser></observation-summary-field-chooser>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-12 ng-scope">
+                    <ns-filter-options-container-directive school-year-enabled="true" school-enabled="true" grade-enabled="true" teacher-enabled="true" section-enabled="true" section-student-enabled="true" student-detailed-quick-search-enabled="true" quick-search-callback="processQuickSearchStudent"></ns-filter-options-container-directive>
+                </div>
+
+                <div class="col-md-12" ng-if="!settings.studentLoaded">
+                    <uib-alert type="info"><b>Note:</b> Please select a student</uib-alert>
+                </div>
+                <div class="col-md-12" ng-show="settings.studentLoaded">
+                    <student-dashboard student="settings.selectedStudent"></student-dashboard>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+
+    .table > tbody > tr > td {
+        border: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        /*border-top: 1px solid #e9ecf0 !important;*/
+        border-left: 1px solid #e9ecf0;
+        border-right: 1px solid #e9ecf0;
+    }
+
+    .table > thead > tr > th {
+        padding: 5px 5px;
+    }
+
+    .table > tbody > tr > td {
+        padding: 3px 5px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+    }
+    .tab-primary.tab-container .tab-content {
+    /*border: none !important;*/ 
+}
+
+    select.editable-input {
+        padding: 0px 0px !important;
+    }
+
+    select.form-control {
+        padding: 0px 0px !important;
+    }
+    .timeline-month {
+        width: 100%;
+        margin-top:25px;
+        margin-bottom:25px;
+        text-align:left;
+        font-weight: 700;
+        font-size: 19px;
+    }
+    .timeline>li .timeline-header span.author {
+    float: right;
+    font-size: 12px;
+    display: block; 
+}
+h4 small {color: #777}
+    observation-summary-field-chooser .btn-toolbar {
+        display: inline-block;
+    }
+    .btn-orange-alt {
+        color: #f0934e;
+    }
+</style>
+
+<style>
+    .interventionCell {
+        border: 3px dotted blue !important;
+    }
+        .verticalTdDate {
+            text-align:center;
+    white-space:nowrap;
+    transform: rotate(90deg);
+    }
+
+    .verticalTdDate div {
+         margin:0 -999px;/* virtually reduce space needed on width to very little */
+    display:inline-block;
+    }
+        .verticalTdDate div:before {
+            content:'';
+    width:0;
+    padding-top:110%;
+    /* takes width as reference, + 10% for faking some extra padding */
+    display:inline-block;
+    vertical-align:middle;
+        }
+    /*.verticalDate {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform-origin: bottom left;
+        transform: rotate(90deg);
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        width: 10px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .verticalTdDate {
+        height: 80px;
+        padding-top: 8px;
+        padding-left: 8px;
+        vertical-align: top;
+        position: relative;
+        top: -35px;
+        left: 3px;
+    }*/
+
+    .table-lowPadding > thead > tr > th, .table-lowPadding > tbody > tr > td {
+        padding: 3px 3px !important;
+    }
+
+    .leftDoubleBorder {
+        border-left: 3px solid black !important;
+    }
+
+    .rightDoubleBorder {
+        border-right: 3px solid black !important;
+    }
+
+    .nsWhiteCell {
+        background-color: white !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+
+    .table-bordered {
+        border: 1px solid black;
+    }
+</style>
+<script type="text/javascript">CKEDITOR.basePath=document.location.origin+document.location.pathname+'assets/plugins/form-ckeditor/'</script>

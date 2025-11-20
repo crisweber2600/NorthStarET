@@ -1,0 +1,174 @@
+﻿
+    <div class="tiles-heading">
+        <div class="row">
+            <div class="col-md-6 vertical-separator">
+                <div class="row">
+                    <h3 class="dotted-underline">Options</h3>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">School Year</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SchoolYearOptions" ng-model="filterOptions.selectedSchoolYear" ng-change="changeSchoolYears(filterOptions.selectedSchoolYear, {{filterOptions.selectedSchoolYear}})" data-placeholder="Select school year" style="width:100%"></div>
+                    </div>
+                </div>
+                <div  ng-show="tddEnabled && !interventionMode" class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Benchmark Date</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2BenchmarkDateOptions" ng-model="filterOptions.selectedTestDueDate" data-placeholder="- Select Benchmark Date -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Schools </label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SchoolOptions" ng-model="filterOptions.selectedSchools" ng-change="changeSchools(filterOptions.selectedSchools, {{filterOptions.selectedSchools}})" data-placeholder="- All schools you can access -" style="width:100%"></div>
+                        <br />
+                        <div style="margin-top:3px">
+                            <span title="Pre-Schools" style="cursor:pointer" ng-click="loadSchools('prek', filterOptions.selectedSchools,'Pre-K')" class="badge badge-primary">Pre-K</span>
+                            <span title="Primary Schools (K-2)" style="cursor:pointer" ng-click="loadSchools('k2', filterOptions.selectedSchools,'Primary Schools')" class="badge badge-primary">Prim.</span>
+                            <span title="Elementary Schools (3-5)" style="cursor:pointer" ng-click="loadSchools('elem', filterOptions.selectedSchools, 'Elementary Schools')" class="badge badge-primary">Elem.</span>
+                            <span title="Elementary Schools (K-5)" style="cursor:pointer" ng-click="loadSchools('k5', filterOptions.selectedSchools, 'K-5')" class="badge badge-primary">K-5</span>
+                            <span title="Elementary Schools (K-8)" style="cursor:pointer" ng-click="loadSchools('k8', filterOptions.selectedSchools, 'K-8')" class="badge badge-primary">K-8</span>
+                            <span title="Middle Schools (6-8)" style="cursor:pointer" ng-click="loadSchools('ms', filterOptions.selectedSchools, 'Middle Schools')" class="badge badge-primary">MS</span>
+                            <span title="High Schools (9-12)" style="cursor:pointer" ng-click="loadSchools('hs', filterOptions.selectedSchools, 'High Schools')" class="badge badge-primary">HS</span>
+                            <span title="Special Education Services School (K-12)" style="cursor:pointer" ng-click="loadSchools('ss', filterOptions.selectedSchools, 'SS')" class="badge badge-warning">SS</span>
+                            <span title="All Schools (K-12)" style="cursor:pointer" ng-click="loadSchools('all', filterOptions.selectedSchools, 'All Schools')" class="badge badge-success">All</span>
+                            <span title="Clear All Schools" style="cursor:pointer" ng-click="clearSchools(filterOptions.selectedSchools)" class="badge badge-danger">Clear</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-hide="interventionMode">
+                    <label class="col-sm-4 control-label">Grades</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2GradeOptions" ng-model="filterOptions.selectedGrades" ng-change="changeGrades(filterOptions.selectedGrades, {{filterOptions.selectedGrades}})" data-placeholder="- All grades -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-hide="interventionMode">
+                    <label class="col-sm-4 control-label">Teachers</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2TeacherOptions" ng-model="filterOptions.selectedTeachers" ng-change="changeTeachers(filterOptions.selectedTeachers, {{filterOptions.selectedTeachers}})" data-placeholder="- All teachers -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-hide="interventionMode">
+                    <label class="col-sm-4 control-label">Sections</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SectionOptions" ng-model="filterOptions.selectedSections"  ng-change="changeSections(filterOptions.selectedSections, {{filterOptions.selectedSections}})"  data-placeholder="- All sections -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-if="interventionMode">
+                    <label class="col-sm-4 control-label">Interventionists</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionistOptions" ng-model="filterOptions.selectedInterventionists" ng-change="changeInterventionists(filterOptions.selectedInterventionists, {{filterOptions.selectedInterventionists}})" data-placeholder="- All Interventionists -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-if="interventionMode">
+                    <label class="col-sm-4 control-label">Intervention Groups</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionGroupOptions" ng-model="filterOptions.selectedInterventionGroups" ng-change="changeInterventionGroups(filterOptions.selectedInterventionGroups, {{filterOptions.selectedInterventionGroups}})" data-placeholder="- All Intervention Groups -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-if="interventionMode">
+                    <label class="col-sm-4 control-label">Students</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionStudentOptions" ng-model="filterOptions.selectedInterventionStudents" ng-change="changeSections(filterOptions.selectedInterventionStudents, {{filterOptions.selectedInterventionStudents}})" data-placeholder="- All Students -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-if="interventionMode">
+                    <label class="col-sm-4 control-label">Assessment Type</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionAssessmentOptions" ng-model="filterOptions.selectedInterventionAssessment" data-placeholder="- Select Assessment -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-if="studentsEnabled" ng-hide="interventionMode">
+                    <label class="col-sm-4 control-label">Students</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2SectionStudentOptions" ng-model="filterOptions.selectedStudents" data-placeholder="- All Students -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin" ng-show="assessmentFieldEnabled">
+                    <label class="col-sm-4 control-label">Assessment Field</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" ng-model="filterOptions.selectedAssessmentField" ng-options="field.DisplayLabel group by field.AssessmentName for field in filterOptions.assessments">
+                            <option value=""> -- Choose a Field -- </option>
+                        </select>
+                    </div>
+                </div>
+                <div ng-show="assessmentExportEnabled">
+                    <div class="row">
+                        <h3 class="dotted-underline">Data Export Options</h3>
+                    </div>
+                    <div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">Assessments</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="select2MultiExportableAssessmentOptions" ng-model="filterOptions.selectedExportableAssessments" data-placeholder="- Select Assessments -" style="width:100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="batchPrintFieldsEnabled">
+                    <div class="row">
+                        <h3 class="dotted-underline">Batch Print Options</h3>
+                    </div>
+                    <div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">Assessments</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="select2MultiAssessmentOptions" ng-model="filterOptions.selectedAssessments" data-placeholder="- Select Assessments -" style="width:100%"></div>
+                        </div>
+                    </div>
+                    <div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">HFW Ranges</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="HfwMultiRangeRemoteOptions" ng-model="filterOptions.selectedHfwPages" data-placeholder="- Select HFW Pages -" style="width:100%"></div>
+                        </div>
+                    </div>
+                    <!--<div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">HFW Student Report Pages</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="HfwMultiStudentReportRemoteOptions" ng-model="filterOptions.selectedHfwStudentReportPages" data-placeholder="- Select HFW Student Report Pages -" style="width:100%"></div>
+                        </div>
+                    </div>-->
+                    <div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">Page Types to Print</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="QuickSearchPageTypesToPrint" ng-model="filterOptions.selectedPageTypes" data-placeholder="- Select Page Types -" style="width:100%"></div>
+                        </div>
+                    </div>
+                    <div class="row filterRowMargin">
+                        <label class="col-sm-4 control-label">Text Level Zone</label>
+                        <div class="col-sm-8">
+                            <div ui-select2="QuickSearchTextLevelZones" ng-model="filterOptions.selectedTextLevelZones" data-placeholder="- All Students -" style="width:100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-left:25px">
+                <div class="row">
+                    <h3 class="dotted-underline">Student Attributes</h3>
+                </div>
+                <div class="row filterRowMargin" ng-repeat="attributeType in filterOptions.attributeTypes">
+                    <label class="col-sm-4 control-label">{{attributeType.Name}}</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="{minimumInputLength: 0, data: attributeType.DropDownData, multiple: true, width: 'resolve'}" ng-model="attributeType.selectedData" data-placeholder="- All Students -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Intervention Types</label>
+                    <div class="col-sm-8">
+                        <div ui-select2="select2InterventionTypeOptions" ng-model="filterOptions.selectedInterventionTypes" data-placeholder="- All Intervention Types -" style="width:100%"></div>
+                    </div>
+                </div>
+                <div class="row filterRowMargin">
+                    <label class="col-sm-4 control-label">Special Education</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" ng-model="filterOptions.selectedSpedTypes" ng-options="item.text for item in select2SpedOptions.data" style="width:100%">
+                            <option value=""> -- All Students -- </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    /*.tab-content {
+        height: 310px;
+    }*/
+</style>

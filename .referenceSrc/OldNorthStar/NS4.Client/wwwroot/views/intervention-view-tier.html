@@ -1,0 +1,81 @@
+﻿<div ng-controller="InterventionViewTierController">
+<div id="page-heading" class="ng-scope">
+
+    <ol class="breadcrumb">
+        <li><a href="#/toolkit-browse">Intervention Toolkit</a></li>
+        <li>Browse Tier {{::tier.TierValue}} Interventions</li>
+    </ol>
+
+    <h1>Browse Tier {{::tier.TierValue}} Interventions</h1>
+
+</div>
+<div class="container-fluid">
+    <panel panel-class="panel-{{::tier.TierLabel}}" heading="Tier {{::tier.TierValue}}">
+        <panel-controls>
+            <div class="row" style="margin-top:10px;">
+                <div style="color:white;float:left;width:60px;font-weight:bold;">Grade: </div>
+                <div style="float:left;width:130px;">
+                    <select class="form-control">
+                        <option>-All Grades-</option>
+                        <option>1st Grade</option>
+                        <option>2nd Grade</option>
+                        <option>3rd Grade</option>
+                        <option>4th Grade</option>
+                    </select>
+                </div>
+                <div style="color:white;float:left;width:95px;padding-left:20px;font-weight:bold;">Workshop: </div>
+                <div style="float:left;width:145px;padding-right:10px;">
+                    <select class="form-control">
+                        <option>-All Workshops-</option>
+                        <optgroup label="Reader's Workshop'">
+                            <option>Read Aloud</option>
+                        </optgroup>
+                        <optgroup label="Writer's Workshop">
+                            <option>Mini Lesson</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </panel-controls>
+        <div class="list-group">
+            <a ng-repeat="intervention in interventions" href="#/intervention-detail/{{intervention.Id}}" class="list-group-item">
+                <div class="row">
+                    <h3><strong>{{::intervention.Description}}</strong></h3>
+                    <div><small ng-bind-html="intervention.EntranceCriteria | safe_html"></small></div>
+                    <br />
+                    <b>Grades:</b> <span class="badge badge-success">1st</span> <span class="badge badge-primary">2nd</span> <span class="badge badge-danger">3rd</span>
+                    <br />
+                    <b>Workshop</b>: Reader's Workshop / Sing Aloud
+                </div>
+            </a>
+        </div>
+    </panel>
+    <style>
+        .panel-body > .list-group {
+            margin: 0px;
+        }
+
+        [class*=panel-].panel .panel-body {
+            background-color: {{::tier.TierColor}};
+        }
+
+        .panel-body > .list-group .list-group-item:first-child {
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+        /* This overrides an override from NSStypes, DONT REMOVE */
+        [class*=panel-].panel .panel-body {
+            border-left: none;
+            border-right: none;
+        }
+        .panel-heading h4 {
+            text-transform: none;
+            font-size: 24px;
+            letter-spacing:normal;
+            font-weight: bold;
+        }
+        /* Yellow color for Tier 2 #F4EC2F*/
+    </style>
+</div>
+  
+</div>
