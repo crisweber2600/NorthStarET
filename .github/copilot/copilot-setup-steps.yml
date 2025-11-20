@@ -1,43 +1,59 @@
+# ============================================================
 # Custom setup steps for GitHub Copilot Coding Agent
+# ------------------------------------------------------------
 # This file is executed BEFORE the Copilot agent runs
 # Ref: https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment
+#
+# CRITICAL NOTES:
+# - Set GITHUB_HOST for CodeQL downloader
+#   On self-hosted runners, the agent doesn't auto-detect this and errors with:
+#     "Error: GitHub host is required"
+#   Setting via $GITHUB_ENV (not job-level env:) fixes this.
+#   Ref: https://github.com/orgs/community/discussions/177903
+#
+# - These steps run on the self-hosted ARC runner BEFORE the agent
+# ============================================================
 
-# CRITICAL: Set GITHUB_HOST for CodeQL downloader
-# On self-hosted runners, the agent doesn't auto-detect this and errors with:
-#   "Error: GitHub host is required"
-# Setting via $GITHUB_ENV (not job-level env:) fixes this.
-# Ref: https://github.com/orgs/community/discussions/177903
+# name: Copilot Agent Setup Steps
 
-name: Copilot Agent Setup Steps
+# runs-on: arc-runner-set
 
-# These steps run on the self-hosted ARC runner BEFORE the agent
-runs-on: arc-runner-set
+# steps:
+#   # ----------------------------------------------------------
+#   # STEP 1: Set GitHub host for CodeQL
+#   # ----------------------------------------------------------
+#   - name: Set GitHub host for CodeQL
+#     run: |
+#       echo "GITHUB_HOST=github.com" >> "$GITHUB_ENV"
+#       echo "AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache" >> "$GITHUB_ENV"
 
-steps:
-  - name: Set GitHub host for CodeQL
-    run: |
-      echo "GITHUB_HOST=github.com" >> "$GITHUB_ENV"
-      echo "AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache" >> "$GITHUB_ENV"
+#   # ----------------------------------------------------------
+#   # STEP 2: Verify .NET 10 availability
+#   # ----------------------------------------------------------
+#   - name: Verify .NET 10
+#     run: |
+#       dotnet --version
+#       dotnet --list-sdks
 
-  # Verify .NET 10 is available
-  - name: Verify .NET 10
-    run: |
-      dotnet --version
-      dotnet --list-sdks
+#   # ----------------------------------------------------------
+#   # STEP 3: Verify Aspire CLI availability
+#   # ----------------------------------------------------------
+#   - name: Verify Aspire CLI
+#     run: |
+#       aspire --version || echo "Aspire CLI not in PATH, will use dotnet CLI"
 
-  # Verify Aspire CLI is available
-  - name: Verify Aspire CLI
-    run: |
-      aspire --version || echo "Aspire CLI not in PATH, will use dotnet CLI"
+#   # ----------------------------------------------------------
+#   # STEP 4: Verify Docker availability
+#   # ----------------------------------------------------------
+#   - name: Verify Docker
+#     run: |
+#       docker --version
+#       docker ps
 
-  # Verify Docker is available
-  - name: Verify Docker
-    run: |
-      docker --version
-      docker ps
-
-  # Verify Node.js for MCP servers
-  - name: Verify Node.js
-    run: |
-      node --version
-      npm --version
+#   # ----------------------------------------------------------
+#   # STEP 5: Verify Node.js for MCP servers
+#   # ----------------------------------------------------------
+#   - name: Verify Node.js
+#     run: |
+#       node --version
+#       npm --version
