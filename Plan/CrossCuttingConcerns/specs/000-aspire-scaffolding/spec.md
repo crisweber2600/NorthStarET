@@ -1,107 +1,195 @@
-Feature: Aspire Orchestration & Cross-Cutting Scaffolding
-Short Name: aspire-scaffolding
-Target Layer: CrossCuttingConcerns
-Business Value: Establish a consistent, reproducible scaffolding baseline so every slice (Identity, Student, Assessment, etc.) inherits enforced tenant isolation, diagnostics, messaging, resiliency, and deployment orchestration from day one. Reduces integration friction, accelerates feature delivery, and ensures migration safety under the Strangler Fig strategy.
+# Feature Specification: Aspire Orchestration & Cross-Cutting Scaffolding
 
-Scenarios:
-Scenario 1: AppHost Boots Full Stack with Dependency Readiness
-Given AppHost defines PostgreSQL, Redis, and RabbitMQ resources per constitution
-And each microservice declares .WaitFor(postgres).WaitFor(redis) where required
-When dotnet run --project Src/Foundation/AppHost is executed
-Then all containers start in dependency order
-And the Aspire dashboard lists healthy resources
-And service logs stream with unified correlation IDs.
+**Specification Branch**: `CrossCuttingConcerns/000-aspire-scaffolding-spec` *(planning artifacts only)*
+**Implementation Branch**: `CrossCuttingConcerns/000-aspire-scaffolding` *(created after spec approval)*
+**Created**: 2025-11-20
+**Status**: Draft
+**Input**: User description: "Aspire Orchestration & Cross-Cutting Scaffolding..."
 
-Scenario 2: New Microservice Scaffolding in Under 2 Minutes
-Given a developer needs to add Intervention Management Service
-When they run an internal scaffold script (future automation)
-Then a project is created with Application/Domain/Infrastructure/API folders
-And DependencyInjection.cs stubs for Application & Infrastructure
-And Aspire AppHost references the new service
-And baseline tests (unit + BDD feature placeholder + health) are added.
+---
 
-Scenario 3: Tenant Isolation Enforced Automatically
-Given TenantInterceptor and global query filters are registered
-And every entity has TenantId
-When a repository queries Students
-Then only rows with current context TenantId are returned
-And attempts to override the filter require explicit opt-out with reviewed justification
-And audit logging captures any opt-out usage.
+## Layer Identification (MANDATORY)
 
-Scenario 4: Event Publication on Domain Changes
-Given a StudentCreated domain event is raised in Domain layer
-When the Application handler commits the transaction
-Then Infrastructure publishes an integration event via MassTransit (RabbitMQ locally)
-And subscribers receive the event within 500ms P95
-And idempotency ensures duplicate publishes inside a 10-minute window are ignored.
+**Target Layer**: CrossCuttingConcerns
+*Select ONE layer where this feature will be implemented. If introducing a new layer, provide explicit name and justification.*
 
-Scenario 5: Redis Caching Accelerates Session & Idempotency Lookups
-Given Redis resource is provisioned by Aspire
-And session validation logic is executed
-When the same session is validated multiple times in <5 minutes
-Then lookup cost stays <20ms P95 (cache hit)
-And fallback to PostgreSQL only occurs on cache miss
-And cache entries slide expiration per configured policy.
+**Layer Validation Checklist**:
+- [x] Layer explicitly identified (not "Other" or "TBD")
+- [x] Layer exists in mono-repo structure (`Plan/CrossCuttingConcerns/`)
+- [ ] If new layer: Architecture Review documented in `Plan/{LayerName}/README.md`
+- [x] Cross-layer dependencies justified and limited to approved shared infrastructure
 
-Scenario 6: Unified Observability – Traces, Metrics, Logs
-Given OpenTelemetry is configured in every service
-And correlation ID middleware sets X-Correlation-ID
-When a request flows API Gateway → Student Service → Message Bus → Assessment Service
-Then a single trace appears in dashboard with spans per hop
+**Cross-Layer Dependencies**: Foundation shared infrastructure (AppHost, ServiceDefaults)
+*If depending on another layer, list ONLY approved shared infrastructure components from `Src/Foundation/shared/`. Direct service-to-service dependencies across layers are prohibited.*
+
+**Justification**: This feature establishes the cross-cutting patterns and orchestration for the entire platform, residing in the CrossCuttingConcerns layer to be referenced by all other layers.
+
+---
+
+## User Scenarios & Testing *(mandatory)*
+
+### User Story 1 - AppHost Boots Full Stack (Priority: P1)
+
+As a developer, I want the AppHost to boot the full stack with all dependencies so that I can run the system locally with a single command.
+
+**Why this priority**: Essential for developer productivity and consistent local environments.
+
+**Independent Test**: Can be tested by running `dotnet run` and verifying dashboard health.
+
+**Acceptance Scenarios**:
+
+1. **Given** AppHost defines PostgreSQL, Redis, and RabbitMQ resources, **When** `dotnet run --project Src/Foundation/AppHost` is executed, **Then** all containers start in dependency order and Aspire dashboard lists healthy resources.
+
+---
+
+### User Story 2 - New Microservice Scaffolding (Priority: P2)
+
+As a developer, I want to scaffold a new microservice quickly using a PowerShell/Bash script so that I can focus on business logic rather than boilerplate.
+
+**Why this priority**: Accelerates development of new services.
+
+**Independent Test**: Run the scaffold script and verify project structure and build.
+
+**Acceptance Scenarios**:
+
+1. **Given** a developer needs to add a new service, **When** they run the PowerShell or Bash scaffold script with a service name, **Then** a project is created with Application/Domain/Infrastructure/API folders, DependencyInjection.cs stubs, AppHost registration, and baseline tests (unit + health check).
+
+---
+
+### User Story 3 - Tenant Isolation Enforced Automatically (Priority: P1)
+
+As a security officer, I want tenant isolation enforced automatically so that data leaks between tenants are prevented.
+
+**Why this priority**: Critical security requirement for multi-tenant system.
+
+**Independent Test**: Attempt to query data from another tenant and verify it returns empty/error.
+
+**Acceptance Scenarios**:
+
+1. **Given** `TenantInterceptor` is registered, **When** a repository queries entities, **Then** only rows with current `TenantId` are returned.
+2. **Given** a method is decorated with `[IgnoreTenantFilter]` attribute, **When** a cross-tenant query is executed, **Then** the filter is bypassed and an audit log entry is created.
+
+---
+
+### User Story 4 - Event Publication on Domain Changes (Priority: P1)
+
+As a system, I want to publish integration events when domain changes occur so that other services can react asynchronously.
+
+**Why this priority**: Enables decoupled, event-driven architecture.
+
+**Independent Test**: Trigger a domain event and verify message receipt in RabbitMQ.
+
+**Acceptance Scenarios**:
+
+1. **Given** a domain event is raised, **When** the transaction commits, **Then** an integration event is published via MassTransit and subscribers receive it.
+
+---
+
+### User Story 5 - Redis Caching & Idempotency (Priority: P2)
+
+As a user, I want fast response times and protection against duplicate actions so that the system is performant and reliable.
+
+**Why this priority**: Improves user experience and data integrity.
+
+**Independent Test**: Send duplicate requests and verify only one is processed; check cache hits.
+
+**Acceptance Scenarios**:
+
+1. **Given** Redis is provisioned, **When** the same session is validated multiple times, **Then** lookup cost stays <20ms (cache hit).
+2. **Given** an idempotent command, **When** submitted twice within the 10-minute window, **Then** the second call returns 202 Accepted with the original entity ID without reprocessing.
+
+---
+
+### User Story 6 - Unified Observability (Priority: P2)
+
+As an operator, I want unified traces, metrics, and logs so that I can debug issues across service boundaries.
+
+**Why this priority**: Essential for troubleshooting distributed systems.
+
+**Independent Test**: Generate a request chain and view the trace in the dashboard.
+
+**Acceptance Scenarios**:
+
+1. **Given** OpenTelemetry is configured, **When** a request flows across services, **Then** a single trace appears in the dashboard with spans per hop.
 And logs include correlation scope
 And metrics expose request duration, rate, error counts.
 
-Scenario 7: Strangler Fig Legacy Routing Toggle
-Given certain endpoints still reside in legacy monolith
-And routing rules exist in API Gateway
-When configuration flips a feature flag AssessmentService:Migrated=true
-Then traffic shifts seamlessly to new microservice
-And rollback can occur by toggling flag off
-And no client URL changes are required.
+---
 
-Scenario 8: Resilient Messaging with Retry & DLQ
-Given MassTransit configured with retry and dead-letter queues
-When AssessmentCalculated consumer throws a transient exception
-Then message is retried with exponential backoff
-And after max attempts it lands in DLQ
-And DLQ metrics surface in observability dashboard.
+### User Story 7 - Strangler Fig Legacy Routing (Priority: P2)
 
-Scenario 9: Onboarding a New Entity with Idempotent Create
-Given CreateDistrictCommand includes idempotency key
-When a client submits the same payload twice within 10 minutes
-Then Redis idempotency envelope deduplicates the second call
-And response returns original entity identifier
-And audit trail notes idempotent replay.
+As a product owner, I want to route traffic between legacy and new services via feature flags so that we can migrate safely.
 
-Scenario 10: Performance Budget Verification at Build Time
-Given performance SLO budgets defined (e.g., token exchange <200ms P95)
-When integration test suite runs in CI
-Then tests assert metrics thresholds via exported OpenTelemetry data
-And build fails if budgets are exceeded
-And failure artifacts attach Red evidence.
+**Why this priority**: Enables safe, incremental migration.
 
-Scenario 11: Multi-Tenant Migration Safety
-Given legacy data migration executes into per-service PostgreSQL schemas
-When ETL jobs load student records
-Then each record is stamped with correct TenantId
-And cross-tenant contamination attempts are blocked by RLS
-And validation scripts confirm row counts per tenant.
+**Independent Test**: Toggle feature flag and verify traffic routing changes.
 
-Scenario 12: Rapid Local Developer Feedback Loop
-Given developer modifies a command handler
-When they run dotnet test followed by dotnet run --project AppHost
-Then Aspire restarts only impacted services
-And updated spans appear live
-And BDD scenario transitions from Red to Green within minutes.
+**Acceptance Scenarios**:
 
-Acceptance Criteria:
-1. AppHost boots baseline resources with health signals.
-2. New service scaffolding template produces DI, tracing, tests.
-3. TenantInterceptor & global filters enforced automatically.
-4. Domain events publish with retry/DLQ and idempotency.
-5. Redis caching + idempotency service operational with metrics.
-6. Unified traces across gateway, services, messaging.
-7. Feature flag routing toggles legacy vs new endpoints.
-8. Performance budget tests fail when thresholds exceeded.
-9. Red→Green evidence captured for initial test suites.
-10. Security hooks (token validation, RLS, audit logging) verified.
+1. **Given** routing rules exist, **When** a feature flag is flipped, **Then** traffic shifts seamlessly to the new microservice.
+
+---
+
+### User Story 8 - Resilient Messaging (Priority: P2)
+
+As a system, I want messaging to be resilient with retries and DLQ so that transient failures don't lose data.
+
+**Why this priority**: Ensures reliability of background processing.
+
+**Independent Test**: Force a consumer failure and verify retry/DLQ behavior.
+
+**Acceptance Scenarios**:
+
+1. **Given** MassTransit is configured, **When** a consumer throws a transient exception, **Then** the message is retried and eventually moved to DLQ if it fails repeatedly.
+
+---
+
+### Edge Cases
+
+- **Database Connection Failure**: AppHost should report unhealthy status; services should retry connection.
+- **Redis Unavailable**: Caching should fail gracefully (fallback to DB); idempotency might block or fail safe.
+- **RabbitMQ Down**: Event publishing should buffer or fail; consumers should stop.
+- **Idempotency Window Expiration**: Requests arriving after 10-minute window are processed as new operations.
+
+## Requirements *(mandatory)*
+
+### Functional Requirements
+
+- **FR1**: AppHost must define PostgreSQL, Redis, and RabbitMQ resources.
+- **FR2**: All services must use `TenantInterceptor` for automatic tenant filtering; opt-out requires `[IgnoreTenantFilter]` attribute with automatic audit logging.
+- **FR3**: Domain events must be published as integration events via MassTransit.
+- **FR4**: Idempotency must be enforced using Redis with a 10-minute window; duplicate requests return 202 Accepted with the original entity ID.
+- **FR5**: API Gateway must support Strangler Fig routing via feature flags.
+- **FR6**: All services must export OpenTelemetry traces, metrics, and logs.
+- **FR7**: Scaffolding scripts (PowerShell for Windows, Bash for Linux/macOS) must generate service structure with Application/Domain/Infrastructure/API projects, baseline tests, and AppHost registration.
+
+### Non-Functional Requirements
+
+- **NFR1 (Performance)**: AppHost startup < 15s.
+- **NFR2 (Latency)**: API request overhead < 50ms P95.
+- **NFR3 (Reliability)**: Event delivery < 500ms P95.
+- **NFR4 (Security)**: No cross-tenant data access without explicit audit; all `[IgnoreTenantFilter]` usages must be logged with user context, timestamp, and affected query.
+
+## Success Criteria *(mandatory)*
+
+1. **AppHost Health**: All defined resources (Postgres, Redis, RabbitMQ) start and report healthy in Aspire dashboard.
+2. **Scaffolding Efficiency**: New service scaffolding takes < 2 minutes and passes baseline tests.
+3. **Tenant Isolation**: 100% of queries filter by TenantId by default; `[IgnoreTenantFilter]` bypasses are audited with full context (user, timestamp, query details).
+4. **Event Reliability**: 99.9% of domain events result in published integration events.
+5. **Observability Coverage**: 100% of inter-service requests generate a unified trace.
+6. **Migration Safety**: Routing can be toggled instantly via feature flags with zero downtime.
+7. **Performance Compliance**: CI builds fail if performance budgets (e.g., token exchange < 200ms) are exceeded.
+
+## Assumptions
+
+- Docker Desktop or compatible container runtime is installed.
+- .NET 10 SDK and Aspire workload are available.
+- Developers have access to NuGet feeds for dependencies.
+
+## Clarifications
+
+### Session 2025-11-20
+
+- Q: Scaffolding Automation Approach - The spec mentions "scaffold script" but doesn't specify implementation. Options: dotnet new template, PowerShell/Bash script, CLI tool, VS extension. → A: PowerShell/Bash script for cross-platform compatibility and immediate usability
+- Q: Idempotency Window Behavior on Duplicate - When a duplicate request arrives within the 10-minute window, how should the system respond? Options: return original success response, 409 Conflict, 429 Too Many Requests, silently accept 200 OK. → A: Return original success response (202 Accepted with original entity ID)
+- Q: TenantInterceptor Opt-Out Mechanism - The spec mentions "explicit opt-out with reviewed justification" but doesn't specify the technical mechanism. Options: DbContext parameter, method attribute, separate DbContext, config flag. → A: Method attribute `[IgnoreTenantFilter]` with mandatory audit log entry
