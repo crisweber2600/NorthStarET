@@ -196,6 +196,358 @@
 
 ---
 
+## Architectural Appendix
+
+### Current State (Legacy)
+
+**Location**: `NS4.WebAPI/Controllers/` project (legacy monolith)  
+**Framework**: .NET Framework 4.6  
+**Database**: Per-district SQL Server databases
+
+**Key Legacy Components**:
+- `NS4.WebAPI/Controllers/AssessmentController.cs` - Assessment definition CRUD
+- `NS4.WebAPI/Controllers/ResultsController.cs` - Assessment result entry
+- `NS4.WebAPI/Controllers/BenchmarkController.cs` - Benchmark management
+- `NS4.WebAPI/Controllers/FieldsController.cs` - Custom assessment fields
+- Legacy tables: `Assessments`, `AssessmentFields`, `AssessmentResults`, `Benchmarks`, `AssessmentAvailability`
+- Complex custom field architecture with dynamic data types
+- Tight coupling with student and reporting in single database
+
+**Legacy Limitations**:
+- No event-driven coordination with intervention services
+- Limited state test data import automation
+- Manual benchmark configuration
+- Complex custom field management difficult to maintain
+- Performance issues with large result datasets
+- No real-time analytics or trend visualization
+
+### Target State (.NET 10 Microservice)
+
+#### Architecture
+
+**Clean Architecture Layers**:
+```
+Assessment.API/                # UI Layer (REST endpoints)
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+Assessment.Application/        # Application Layer
+├── Commands/                 # Create assessment, record result
+├── Queries/                  # Get assessment, student trends
+├── DTOs/
+├── Interfaces/
+└── Services/
+    ├── ScoringEngine/        # Calculate weighted scores, rubrics
+    ├── TrendAnalyzer/        # Student performance trends
+    └── BenchmarkCalculator/  # Grade-level performance distribution
+
+Assessment.Domain/            # Domain Layer
+├── Entities/
+│   ├── Assessment.cs
+│   ├── AssessmentField.cs
+│   ├── AssessmentAssignment.cs
+│   ├── AssessmentResult.cs
+│   ├── Benchmark.cs
+│   └── ResultFieldValue.cs
+├── Events/
+│   ├── AssessmentCreatedEvent.cs
+│   ├── AssessmentAssignedEvent.cs
+│   ├── AssessmentResultRecordedEvent.cs
+│   ├── BenchmarkCreatedEvent.cs
+│   └── StateTestResultsImportedEvent.cs
+└── ValueObjects/
+    ├── Score.cs
+    ├── BenchmarkLevel.cs
+    ├── GradingScale.cs
+    └── FieldType.cs
+
+Assessment.Infrastructure/    # Infrastructure Layer
+├── Data/
+│   ├── AssessmentDbContext.cs
+│   └── Repositories/
+├── Integration/
+│   ├── EventPublisher.cs
+│   ├── StudentServiceClient.cs
+│   └── ConfigurationServiceClient.cs  // Grading scales
+├── Analytics/
+│   └── TrendCalculationService.cs
+└── StateTestImport/
+    └── StateTestDataParser.cs  // CALPADS, PEIMS, etc.
+```
+
+#### Technology Stack
+
+- **Framework**: .NET 10, ASP.NET Core
+- **Data Access**: EF Core 9 with PostgreSQL (JSONB for dynamic field values)
+- **Messaging**: MassTransit + Azure Service Bus for domain events
+- **Caching**: Redis Stack for assessment definition lookups
+- **Orchestration**: .NET Aspire hosting
+- **Analytics**: Custom trend analysis with linear regression
+
+#### Owned Data
+
+**Database**: `NorthStar_Assessment_DB`
+
+**Tables**:
+- Assessments (Id, TenantId, AssessmentName, Subject, GradeLevels, AssessmentType, ScoringMethod, MaxScore, CreatedAt, CreatedBy, IsTemplate)
+- AssessmentFields (Id, TenantId, AssessmentId, FieldName, FieldType, MaxValue, Weight, SortOrder)
+- AssessmentAssignments (Id, TenantId, AssessmentId, StudentId, AssignedDate, DueDate, Status, AssignedBy)
+- AssessmentResults (Id, TenantId, AssignmentId, StudentId, AssessmentId, TotalScore, BenchmarkLevel, CompletedDate, RecordedBy, FieldScores JSONB)
+- Benchmarks (Id, TenantId, AssessmentId, GradeLevel, Subject, BenchmarkName, MinScore, MaxScore)
+- AssessmentTemplates (Id, TenantId, TemplateName, Description, PrebuiltFields JSONB)
+
+**JSONB Field Scores Structure**:
+```json
+{
+  "fieldValues": [
+    {
+      "fieldId": "uuid",
+      "fieldName": "Fluency Score",
+      "value": 85,
+      "maxValue": 100
+    },
+    {
+      "fieldId": "uuid",
+      "fieldName": "Comprehension Score",
+      "value": 78,
+      "maxValue": 100
+    }
+  ],
+  "calculatedScore": 81.5,
+  "benchmarkLevel": "Proficient"
+}
+```
+
+#### Service Boundaries
+
+**Owned Responsibilities**:
+- Assessment definition and configuration
+- Custom field management (flexible schema via JSONB)
+- Assessment assignment to students
+- Result entry and scoring calculation
+- Benchmark management and grade-level standards
+- Student performance trend analysis
+- Assessment template library
+- State test data import
+- Assessment scheduling and reminders
+- Rubric-based scoring
+- Assessment analytics and reports
+
+**Not Owned** (delegated to other services):
+- Student enrollment data → Student Management Service
+- District grading scales → Configuration Service (reused for score conversion)
+- Intervention recommendations → Intervention Service (consumes assessment events)
+- Comprehensive reporting dashboards → Reporting & Analytics Service
+
+#### Domain Events Published
+
+**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+
+- `AssessmentCreatedEvent` - When new assessment defined
+  ```
+  - AssessmentId: Guid
+  - TenantId: Guid
+  - AssessmentName: string
+  - Subject: string
+  - GradeLevels: int[]
+  - CreatedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `AssessmentAssignedEvent` - When assigned to students
+  ```
+  - AssignmentId: Guid
+  - TenantId: Guid
+  - AssessmentId: Guid
+  - StudentId: Guid
+  - DueDate: DateTime
+  - AssignedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `AssessmentResultRecordedEvent` - When result entered
+  ```
+  - ResultId: Guid
+  - TenantId: Guid
+  - AssessmentId: Guid
+  - StudentId: Guid
+  - TotalScore: decimal
+  - BenchmarkLevel: string
+  - CompletedDate: DateTime
+  - RecordedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `BenchmarkCreatedEvent` - When benchmark configured
+  ```
+  - BenchmarkId: Guid
+  - TenantId: Guid
+  - GradeLevel: int
+  - Subject: string
+  - BenchmarkName: string
+  - MinScore: decimal
+  - MaxScore: decimal
+  - OccurredAt: DateTime
+  ```
+
+- `StateTestResultsImportedEvent` - When state test data loaded
+  ```
+  - ImportJobId: Guid
+  - TenantId: Guid
+  - StateTestType: string  // e.g., "CALPADS", "PEIMS"
+  - TotalResults: int
+  - OccurredAt: DateTime
+  ```
+
+#### Domain Events Subscribed
+
+- `StudentEnrolledEvent` (from Student Service) → Enable assessment assignment
+- `DistrictSettingsUpdatedEvent` (from Configuration Service) → Update grading scales
+
+#### API Endpoints (Functional Intent)
+
+**Assessment Management**:
+- Create assessment → returns assessment with custom fields
+- Update assessment → modifies definition
+- Get assessment details → returns full configuration
+- Search assessments → returns filtered list
+
+**Assignment Management**:
+- Assign to students → creates assignments
+- Get student assignments → returns pending/completed
+- Batch assign → assigns to class roster
+
+**Result Management**:
+- Record result → calculates score, assigns benchmark level
+- Update result → modifies existing result
+- Get results for assessment → returns all student results
+- Get student assessment history → returns all results for student
+
+**Analytics**:
+- Get student trends → calculates performance trajectory
+- Get class analytics → aggregate performance metrics
+- Get benchmark distribution → counts by performance level
+
+**Benchmark & Configuration**:
+- Create benchmark → defines grade-level standards
+- Get benchmarks → returns for grade/subject
+- Import state test data → processes state-specific format
+
+#### Service Level Objectives (SLOs)
+
+- **Availability**: 99.9% uptime
+- **Create Assessment**: p95 < 100ms
+- **Record Result**: p95 < 100ms
+- **Search Assessments**: p95 < 100ms
+- **Student Trends Calculation**: p95 < 200ms
+- **Bulk Export (1000 results)**: < 30 seconds
+
+#### Idempotency & Consistency
+
+**Idempotency Windows**:
+- Assessment creation: 10 minutes (duplicate name prevention)
+- Result recording: 5 minutes (prevent duplicate entry)
+
+**Consistency Model**:
+- Strong consistency for result recording
+- Eventual consistency for cross-service data (student names)
+- Trend calculations use materialized views (eventual consistency)
+
+#### Security Considerations
+
+**Constitutional Requirements**:
+- FERPA compliance for assessment results
+- Secrets stored in Azure Key Vault only
+- Enforce least privilege principle
+
+**Implementation**:
+- Teachers can record results for their students
+- Principals can view all assessments at their schools
+- District admins can view all assessments
+- Score changes audited and flagged for review
+- Historical results immutable after grading period closes
+
+#### Testing Requirements
+
+**Constitutional Compliance**:
+- Reqnroll BDD features before implementation
+- TDD Red → Green with test evidence
+- ≥ 80% code coverage
+
+**Test Categories**:
+
+1. **Unit Tests** (Assessment.UnitTests):
+   - Scoring calculation logic (weighted, rubric)
+   - Benchmark categorization
+   - Trend analysis calculations (linear regression)
+   - Custom field validation
+
+2. **Integration Tests** (Assessment.IntegrationTests):
+   - Database operations via EF Core (including JSONB)
+   - Event publishing to message bus
+   - Cross-service queries (Student, Configuration)
+   - State test data import parsing
+
+3. **BDD Tests** (Reqnroll features):
+   - `AssessmentCreation.feature` - Define assessment with fields
+   - `ResultRecording.feature` - Enter and score results
+   - `BenchmarkManagement.feature` - Configure standards
+   - `StudentTrends.feature` - Performance analytics
+
+4. **UI Tests** (Playwright):
+   - Assessment definition form
+   - Result entry workflow
+   - Benchmark configuration interface
+   - Student trend dashboard
+
+#### Dependencies
+
+**External Services**:
+- Student Management Service - Student enrollment data
+- Configuration Service - Grading scales and district settings
+- Intervention Service - Consumes assessment events for RTI triggers
+- Data Import Service - State test data import orchestration
+- Azure Service Bus - Event publishing
+
+**Infrastructure Dependencies**:
+- PostgreSQL - Assessment database (with JSONB for flexibility)
+- .NET Aspire AppHost - Service orchestration
+- Redis - Assessment definition caching
+
+#### Migration Strategy
+
+**Strangler Fig Approach**:
+
+1. **Phase 2a** (Week 9): Deploy new Assessment Service alongside legacy
+   - Route new assessment creation to new service
+   - Legacy assessments continue in NS4.WebAPI
+   - Dual-read from both systems
+
+2. **Phase 2b** (Week 10-11): Data migration
+   - Migrate historical assessment definitions
+   - Migrate custom field configurations
+   - Migrate assessment results (15 years of data)
+   - Migrate benchmarks
+   - Maintain both systems in parallel
+
+3. **Phase 2c** (Week 12): Complete cutover
+   - Route all assessment operations to new service
+   - Keep legacy as read-only fallback
+   - Monitor error rates and performance
+
+4. **Phase 2d** (Week 13-14): Enhanced features
+   - Add state test data import automation
+   - Add advanced trend analysis
+   - Integrate with Intervention Service for RTI recommendations
+
+5. **Phase 2e** (Week 15-16): Decommission legacy
+   - Verify all data migrated
+   - Archive legacy assessment tables
+   - Remove legacy controllers
+
+---
+
 ## Technical Implementation Notes
 
 **Clean Architecture**:
