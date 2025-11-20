@@ -4,11 +4,11 @@ handoffs:
   - label: Specify Scenario
     agent: speckit.specify
     prompt: Create specification for this scenario
-    send: false
+    send: true
   - label: Plan Scenario
     agent: speckit.plan
     prompt: Create implementation plan for the specification
-    send: false
+    send: true
 ---
 
 ## User Input
