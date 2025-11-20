@@ -200,6 +200,314 @@
 
 ---
 
+## Architectural Appendix
+
+### Current State (Legacy)
+
+**Location**: `NS4.WebAPI/Controllers/` project (legacy monolith)  
+**Framework**: .NET Framework 4.6  
+**Database**: Per-district SQL Server databases
+
+**Key Legacy Components**:
+- `NS4.WebAPI/Controllers/StaffController.cs` - CRUD operations for staff profiles
+- `NS4.WebAPI/Controllers/TeamsController.cs` - Professional Learning Community (PLC) teams
+- `NS4.WebAPI/Controllers/AssignmentController.cs` - Staff-to-school assignments
+- Legacy tables: `Staff`, `StaffAssignments`, `Teams`, `TeamMembers`, `Certifications`
+- Tight coupling with identity management in single database
+- Limited multi-school assignment support
+
+**Legacy Limitations**:
+- No event-driven coordination with other services
+- Manual certification expiration tracking
+- Limited FTE (full-time equivalent) management
+- No real-time collaboration for team management
+- Tight database coupling prevents independent scaling
+
+### Target State (.NET 10 Microservice)
+
+#### Architecture
+
+**Clean Architecture Layers**:
+```
+Staff.API/                     # UI Layer (REST endpoints)
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+Staff.Application/             # Application Layer
+├── Commands/                 # Create staff, assign to school, create team
+├── Queries/                  # Get staff, search, get schedule
+├── DTOs/
+├── Interfaces/
+└── Services/
+    └── CertificationTracker/ # Monitor expiring credentials
+
+Staff.Domain/                 # Domain Layer
+├── Entities/
+│   ├── StaffMember.cs
+│   ├── StaffAssignment.cs
+│   ├── Team.cs
+│   ├── TeamMember.cs
+│   └── Certification.cs
+├── Events/
+│   ├── StaffCreatedEvent.cs
+│   ├── StaffAssignedToSchoolEvent.cs
+│   ├── TeamCreatedEvent.cs
+│   ├── TeamMemberAddedEvent.cs
+│   └── CertificationExpiringEvent.cs
+└── ValueObjects/
+    ├── StaffId.cs
+    ├── FtePercentage.cs
+    └── Schedule.cs
+
+Staff.Infrastructure/         # Infrastructure Layer
+├── Data/
+│   ├── StaffDbContext.cs
+│   └── Repositories/
+├── Integration/
+│   ├── EventPublisher.cs
+│   ├── IdentityServiceClient.cs  // Create user accounts
+│   └── ConfigurationServiceClient.cs  // Validate schools
+└── BackgroundJobs/
+    └── CertificationMonitorJob.cs  // Alert on expiring credentials
+```
+
+#### Technology Stack
+
+- **Framework**: .NET 10, ASP.NET Core
+- **Data Access**: EF Core 9 with PostgreSQL
+- **Messaging**: MassTransit + Azure Service Bus for domain events
+- **Caching**: Redis Stack for staff profile lookups
+- **Orchestration**: .NET Aspire hosting
+- **Background Jobs**: Hangfire for certification expiration monitoring
+
+#### Owned Data
+
+**Database**: `NorthStar_Staff_DB`
+
+**Tables**:
+- StaffMembers (Id, TenantId, FirstName, LastName, Email, Phone, HireDate, EmploymentStatus, Role, SubjectSpecialization, CreatedAt, UpdatedAt, DeletedAt)
+- StaffAssignments (Id, TenantId, StaffId, SchoolId, FtePercentage, StartDate, EndDate, IsActive)
+- Teams (Id, TenantId, TeamName, TeamLeadId, Purpose, MeetingSchedule, CreatedAt)
+- TeamMembers (Id, TenantId, TeamId, StaffId, JoinedDate, Role)
+- Certifications (Id, TenantId, StaffId, CertificationType, IssueDate, ExpirationDate, IssuingAuthority, Status)
+- StaffSchedules (Id, TenantId, StaffId, DayOfWeek, StartTime, EndTime, ActivityType)
+
+#### Service Boundaries
+
+**Owned Responsibilities**:
+- Staff profile creation and management
+- Multi-school assignment tracking (FTE percentages)
+- Team creation and member management
+- Certification and credential tracking
+- Staff schedule and availability management
+- Staff search and directory
+- Certification expiration notifications
+- Performance review workflow (future)
+
+**Not Owned** (delegated to other services):
+- User account creation → Identity Service (but Staff Service triggers it)
+- School validation → Configuration Service
+- Section/class assignments → Section & Roster Service
+- Intervention facilitation → Intervention Service
+- Staff analytics → Reporting & Analytics Service
+
+#### Domain Events Published
+
+**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+
+- `StaffCreatedEvent` - When new staff member added
+  ```
+  - StaffId: Guid
+  - TenantId: Guid
+  - Email: string
+  - Role: string
+  - CreatedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `StaffAssignedToSchoolEvent` - When staff assigned to school
+  ```
+  - AssignmentId: Guid
+  - TenantId: Guid
+  - StaffId: Guid
+  - SchoolId: Guid
+  - FtePercentage: decimal
+  - StartDate: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `TeamCreatedEvent` - When PLC team formed
+  ```
+  - TeamId: Guid
+  - TenantId: Guid
+  - TeamName: string
+  - TeamLeadId: Guid
+  - MemberIds: Guid[]
+  - OccurredAt: DateTime
+  ```
+
+- `TeamMemberAddedEvent` - When staff added to team
+  ```
+  - TeamId: Guid
+  - TenantId: Guid
+  - StaffId: Guid
+  - Role: string
+  - OccurredAt: DateTime
+  ```
+
+- `CertificationExpiringEvent` - When credential expires soon
+  ```
+  - StaffId: Guid
+  - TenantId: Guid
+  - CertificationType: string
+  - ExpirationDate: DateTime
+  - DaysUntilExpiration: int
+  - OccurredAt: DateTime
+  ```
+
+#### Domain Events Subscribed
+
+- `UserCreatedEvent` (from Identity Service) → Link user account to staff profile
+- `SchoolCreatedEvent` (from Configuration Service) → Enable staff assignment to new school
+
+#### API Endpoints (Functional Intent)
+
+**Staff Management**:
+- Create staff member → returns staff details, triggers user account creation
+- Update staff profile → modifies staff data
+- Get staff details → returns full profile with assignments
+- Search staff → returns filtered list with pagination
+
+**Assignment Management**:
+- Assign to school → creates multi-school assignment record
+- Update FTE percentage → adjusts workload allocation
+- Get staff assignments → returns all school assignments
+
+**Team Management**:
+- Create team → forms PLC or collaboration team
+- Add team member → enrolls staff in team
+- Remove team member → removes from team
+- Get team details → returns team with member list
+
+**Certification Management**:
+- Add certification → records credential
+- Update expiration date → renews credential
+- Get expiring certifications → returns list for proactive renewal
+
+#### Service Level Objectives (SLOs)
+
+- **Availability**: 99.9% uptime
+- **Create Staff**: p95 < 100ms (triggers async user account creation)
+- **Search Staff**: p95 < 100ms
+- **Get Staff Schedule**: p95 < 150ms
+- **Bulk Import (50 staff)**: < 60 seconds
+
+#### Idempotency & Consistency
+
+**Idempotency Windows**:
+- Staff creation: 10 minutes (duplicate email prevention)
+- Assignment creation: 5 minutes (prevent duplicate school assignment)
+
+**Consistency Model**:
+- Strong consistency for staff profile updates
+- Eventual consistency for user account creation (Identity Service)
+- Eventual consistency for cross-service data (school names)
+
+#### Security Considerations
+
+**Constitutional Requirements**:
+- Enforce least privilege principle
+- FERPA compliance for staff-student relationships
+- Secrets stored in Azure Key Vault only
+
+**Implementation**:
+- Staff can view own profile
+- Principals can view staff at their schools
+- District admins can view all staff
+- HR role required for certification data access
+- All profile changes audited for compliance
+
+#### Testing Requirements
+
+**Constitutional Compliance**:
+- Reqnroll BDD features before implementation
+- TDD Red → Green with test evidence
+- ≥ 80% code coverage
+
+**Test Categories**:
+
+1. **Unit Tests** (Staff.UnitTests):
+   - FTE percentage validation
+   - Certification expiration logic
+   - Schedule conflict detection
+   - Team membership rules
+
+2. **Integration Tests** (Staff.IntegrationTests):
+   - Database operations via EF Core
+   - Event publishing to message bus
+   - Identity Service integration (user creation)
+   - Configuration Service integration (school validation)
+   - Aspire orchestration validation
+
+3. **BDD Tests** (Reqnroll features):
+   - `StaffManagement.feature` - Create and update staff
+   - `MultiSchoolAssignment.feature` - FTE tracking
+   - `TeamManagement.feature` - PLC collaboration
+   - `CertificationTracking.feature` - Credential monitoring
+
+4. **UI Tests** (Playwright):
+   - Staff creation form
+   - Assignment management workflow
+   - Team creation interface
+   - Certification renewal workflow
+
+#### Dependencies
+
+**External Services**:
+- Identity Service - User account creation (async)
+- Configuration Service - School validation and lookup
+- Section & Roster Service - Teacher-section assignments (consumes events)
+- Intervention Service - Facilitator assignments (consumes events)
+- Azure Service Bus - Event publishing
+
+**Infrastructure Dependencies**:
+- PostgreSQL - Staff database
+- .NET Aspire AppHost - Service orchestration
+- Hangfire - Background job for certification monitoring
+
+#### Migration Strategy
+
+**Strangler Fig Approach**:
+
+1. **Phase 2a** (Week 9): Deploy new Staff Service alongside legacy
+   - Route new staff creation to new service
+   - Legacy staff continue in NS4.WebAPI
+   - Dual-read from both systems
+
+2. **Phase 2b** (Week 10-11): Data migration
+   - Migrate historical staff records
+   - Migrate multi-school assignments
+   - Migrate team memberships and certifications
+   - Maintain both systems in parallel
+
+3. **Phase 2c** (Week 12): Complete cutover
+   - Route all staff operations to new service
+   - Keep legacy as read-only fallback
+   - Monitor error rates
+
+4. **Phase 2d** (Week 13-14): Enhanced features
+   - Add certification expiration monitoring
+   - Add advanced team collaboration features
+   - Integrate with Section Service for class assignments
+
+5. **Phase 2e** (Week 15-16): Decommission legacy
+   - Verify all data migrated
+   - Archive legacy staff tables
+   - Remove legacy controllers
+
+---
+
 ## Technical Implementation Notes
 
 **Clean Architecture**:

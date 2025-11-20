@@ -206,6 +206,310 @@
 
 ---
 
+## Architectural Appendix
+
+### Current State (Legacy)
+
+**Location**: Multiple projects in legacy monolith  
+**Framework**: .NET Framework 4.6  
+**Database**: Per-district SQL Server databases
+
+**Key Legacy Components**:
+- `NS4.WebAPI/Controllers/ImportController.cs` - Manual CSV/Excel upload
+- `NS4.BatchProcessor/StateTestImportJob.cs` - State test data batch import
+- `NS4.DataEntry/` - Custom data entry forms
+- Legacy tables: `ImportJobs`, `ImportErrors`, `ValidationRules`
+- Synchronous import processing (blocks UI during large imports)
+- Limited error handling and retry logic
+
+**Legacy Limitations**:
+- No asynchronous background processing
+- Limited file format support (CSV/Excel only)
+- Manual error correction required
+- No automated data quality checks
+- Tight coupling with student/staff services in single database
+- No import status tracking or progress notifications
+
+### Target State (.NET 10 Microservice)
+
+#### Architecture
+
+**Clean Architecture Layers**:
+```
+DataImport.API/                 # UI Layer (REST endpoints)
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+DataImport.Application/         # Application Layer
+├── Commands/                  # Upload file, start import, retry failed
+├── Queries/                   # Get import status, list imports
+├── DTOs/
+├── Interfaces/
+└── Services/
+    ├── FileParserService/     # Parse CSV, Excel, XML
+    ├── ValidationService/     # Data quality checks
+    └── MappingService/        # Field mapping and transformation
+
+DataImport.Domain/             # Domain Layer
+├── Entities/
+│   ├── ImportJob.cs
+│   ├── ImportRow.cs
+│   ├── ImportError.cs
+│   ├── ImportMapping.cs
+│   └── ValidationRule.cs
+├── Events/
+│   ├── ImportStartedEvent.cs
+│   ├── ImportCompletedEvent.cs
+│   ├── ImportFailedEvent.cs
+│   └── RowValidationFailedEvent.cs
+└── ValueObjects/
+    ├── ImportStatus.cs
+    ├── FileFormat.cs
+    └── ValidationLevel.cs
+
+DataImport.Infrastructure/     # Infrastructure Layer
+├── Data/
+│   ├── DataImportDbContext.cs
+│   └── Repositories/
+├── Integration/
+│   ├── EventPublisher.cs
+│   ├── StudentServiceClient.cs
+│   ├── StaffServiceClient.cs
+│   └── AssessmentServiceClient.cs
+├── FileStorage/
+│   └── AzureBlobStorageService.cs  # Store uploaded files
+└── BackgroundJobs/
+    └── ImportProcessorJob.cs      # Hangfire background job
+```
+
+#### Technology Stack
+
+- **Framework**: .NET 10, ASP.NET Core
+- **Data Access**: EF Core 9 with PostgreSQL
+- **File Storage**: Azure Blob Storage for uploaded files
+- **Messaging**: MassTransit + Azure Service Bus for domain events
+- **Background Processing**: Hangfire for asynchronous import jobs
+- **Parsing**: CsvHelper, EPPlus (Excel), System.Xml (XML)
+- **Orchestration**: .NET Aspire hosting
+
+#### Owned Data
+
+**Database**: `NorthStar_DataImport_DB`
+
+**Tables**:
+- ImportJobs (Id, TenantId, FileName, FileFormat, TargetEntity, Status, TotalRows, SuccessCount, ErrorCount, StartedAt, CompletedAt, UploadedBy)
+- ImportRows (Id, TenantId, JobId, RowNumber, RawData, MappedData, Status, ErrorMessage)
+- ImportMappings (Id, TenantId, Name, TargetEntity, FieldMappings, IsDefault)
+- ValidationRules (Id, TenantId, TargetEntity, FieldName, RuleType, Parameters)
+- ImportTemplates (Id, TenantId, Name, Description, FileFormat, SampleFilePath)
+
+#### Service Boundaries
+
+**Owned Responsibilities**:
+- File upload and validation (CSV, Excel, XML, state test formats)
+- Data parsing and transformation
+- Field mapping configuration
+- Data quality validation
+- Asynchronous import processing (background jobs)
+- Error logging and reporting
+- Import job status tracking
+- Import template management
+- Scheduled/automated imports
+- Rollback for failed imports
+
+**Not Owned** (delegated to other services):
+- Actual data storage → Student, Staff, Assessment Services
+- Data validation rules specific to entities → Target services
+- Business logic for created records → Target services
+
+**Integration Pattern**:
+- Data Import Service orchestrates imports but delegates actual record creation to target services
+- Uses command/event pattern: Sends `CreateStudentCommand` to Student Service
+- Target services validate and store data, publish events back
+
+#### Domain Events Published
+
+**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+
+- `ImportStartedEvent` - When import job begins
+  ```
+  - JobId: Guid
+  - TenantId: Guid
+  - FileName: string
+  - TargetEntity: string  // "Student", "Staff", "Assessment"
+  - TotalRows: int
+  - StartedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `ImportCompletedEvent` - When import finishes successfully
+  ```
+  - JobId: Guid
+  - TenantId: Guid
+  - TotalRows: int
+  - SuccessCount: int
+  - ErrorCount: int
+  - DurationSeconds: int
+  - CompletedAt: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `ImportFailedEvent` - When import fails
+  ```
+  - JobId: Guid
+  - TenantId: Guid
+  - FailureReason: string
+  - FailedAt: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `RowValidationFailedEvent` - When individual row fails validation
+  ```
+  - JobId: Guid
+  - TenantId: Guid
+  - RowNumber: int
+  - ErrorMessage: string
+  - RawData: Dictionary<string, string>
+  - OccurredAt: DateTime
+  ```
+
+#### Domain Events Subscribed
+
+- None (Data Import Service is a workflow orchestrator, doesn't react to domain events)
+
+#### API Endpoints (Functional Intent)
+
+**File Upload**:
+- Upload CSV file → stores file, returns job ID
+- Upload Excel file → parses and stores file
+- Upload state test data → processes state-specific format
+
+**Import Management**:
+- Start import job → begins background processing
+- Get import status → returns job progress
+- List import jobs → returns job history with filters
+- Retry failed import → reprocesses failed rows
+- Cancel import job → stops running import
+
+**Configuration**:
+- Create import mapping → defines field mappings
+- Get import templates → returns available templates
+- Download sample template → returns template file
+
+**Validation**:
+- Validate file before import → dry-run validation
+- Get validation errors → returns error list for job
+
+#### Service Level Objectives (SLOs)
+
+- **Availability**: 99.9% uptime
+- **File Upload**: p95 < 2 seconds (for files up to 10MB)
+- **Import Start**: p95 < 100ms (async job queued)
+- **Import Processing** (500 rows): < 2 minutes
+- **Import Processing** (5000 rows): < 10 minutes
+- **Validation Only**: p95 < 30 seconds (for files up to 1000 rows)
+
+#### Idempotency & Consistency
+
+**Idempotency Windows**:
+- Import job creation: 10 minutes (prevent duplicate uploads)
+- Row processing: Uses unique identifiers (StudentID, StaffID) to prevent duplicates
+
+**Consistency Model**:
+- Eventually consistent (import is asynchronous)
+- Strong consistency for job status updates
+- Target services handle transactional consistency
+
+#### Security Considerations
+
+**Constitutional Requirements**:
+- Enforce least privilege principle
+- Sensitive student data encrypted at rest and in transit
+- Secrets stored in Azure Key Vault only
+
+**Implementation**:
+- Only district administrators can import data
+- Uploaded files stored in Azure Blob Storage with encryption
+- Temporary files deleted after processing
+- All imports logged for audit trail
+- FERPA compliance for student data imports
+
+#### Testing Requirements
+
+**Constitutional Compliance**:
+- Reqnroll BDD features before implementation
+- TDD Red → Green with test evidence
+- ≥ 80% code coverage
+
+**Test Categories**:
+
+1. **Unit Tests** (DataImport.UnitTests):
+   - File parsing logic (CSV, Excel, XML)
+   - Field mapping transformations
+   - Validation rule execution
+   - Error handling scenarios
+
+2. **Integration Tests** (DataImport.IntegrationTests):
+   - Database operations via EF Core
+   - Azure Blob Storage file upload/download
+   - Event publishing to message bus
+   - Background job execution (Hangfire)
+   - Cross-service integration (Student, Staff, Assessment)
+
+3. **BDD Tests** (Reqnroll features):
+   - `FileUpload.feature` - Upload and validate files
+   - `DataImport.feature` - Execute import jobs
+   - `ErrorHandling.feature` - Handle validation errors
+   - `StateTestImport.feature` - Import state test data
+
+4. **UI Tests** (Playwright):
+   - File upload form
+   - Import status dashboard
+   - Error report display
+   - Template download workflow
+
+#### Dependencies
+
+**External Services**:
+- Student Management Service - Student record creation
+- Staff Management Service - Staff record creation
+- Assessment Service - Assessment result import
+- Configuration Service - Validation rules
+- Azure Blob Storage - File storage
+- Azure Service Bus - Event publishing
+
+**Infrastructure Dependencies**:
+- PostgreSQL - Import job tracking database
+- .NET Aspire AppHost - Service orchestration
+- Hangfire - Background job processing
+
+#### Migration Strategy
+
+**Strangler Fig Approach**:
+
+1. **Phase 3a** (Week 17): Deploy new Data Import Service alongside legacy
+   - Route new CSV imports to new service
+   - Legacy imports continue in NS4.WebAPI and BatchProcessor
+   - Both systems operational in parallel
+
+2. **Phase 3b** (Week 18-19): Expand format support
+   - Add state test data import
+   - Add Excel import support
+   - Migrate import templates and field mappings
+
+3. **Phase 3c** (Week 20): Complete cutover
+   - Route all import operations to new service
+   - Decommission legacy NS4.BatchProcessor import jobs
+   - Monitor error rates and performance
+
+4. **Phase 3d** (Week 21-22): Enhanced features
+   - Add automated scheduled imports
+   - Add advanced validation rules
+   - Add import analytics dashboard
+
+---
+
 ## Technical Implementation Notes
 
 **Clean Architecture**:

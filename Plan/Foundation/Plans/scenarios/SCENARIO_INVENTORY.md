@@ -1,7 +1,7 @@
 # NorthStar Migration Scenarios - Complete Inventory Checklist
 
 **Purpose**: Track all Given-When-Then scenarios across the migration  
-**Last Updated**: November 16, 2025  
+**Last Updated**: November 20, 2025  
 **Total Scenarios**: 82+ across 13 files  
 **Status**: ✅ Complete Coverage of All 11 Microservices + Cross-Cutting Concerns
 
@@ -181,103 +181,133 @@
 
 ---
 
-### 08. Staff Management Service 🔄
+### 08. Staff Management Service ✅
 
-**File**: `08-staff-management-service.md` | **Scenarios**: 12 | **Service**: Staff Management | **Status**: To Create
+**File**: `08-staff-management-service.md` | **Scenarios**: 12 | **Service**: Staff Management | **Status**: ✅ Complete with Architectural Appendix
 
-**Planned Scenarios**:
-- [ ] Create staff member with role assignment
-- [ ] Staff profile management and updates
-- [ ] Team creation and member assignment
-- [ ] Staff-school assignment (multi-school)
-- [ ] Staff role and permission management
-- [ ] Staff search and filtering
-- [ ] Staff schedule and availability
-- [ ] Staff certification and credential tracking
-- [ ] Staff performance review workflow
-- [ ] Staff import via CSV
-- [ ] Staff directory and contact information
-- [ ] Staff audit trail and compliance
+**Completed Scenarios**:
+- [x] Create staff member with role assignment
+- [x] Staff profile management and updates
+- [x] Team creation and member assignment
+- [x] Staff-school assignment (multi-school)
+- [x] Staff role and permission management
+- [x] Staff search and filtering
+- [x] Staff schedule and availability
+- [x] Staff certification and credential tracking
+- [x] Staff performance review workflow
+- [x] Staff import via CSV
+- [x] Staff directory and contact information
+- [x] Staff audit trail and compliance
 
----
-
-### 09. Assessment Service 🔄
-
-**File**: `09-assessment-service.md` | **Scenarios**: 12 | **Service**: Assessment | **Status**: To Create
-
-**Planned Scenarios**:
-- [ ] Create assessment definition with fields
-- [ ] Assign assessment to students
-- [ ] Record assessment results
-- [ ] Benchmark management and grading
-- [ ] Assessment scoring and calculation
-- [ ] Assessment search and filtering
-- [ ] Assessment analytics and trends
-- [ ] Assessment result exports
-- [ ] State test data integration
-- [ ] Assessment template library
-- [ ] Assessment scheduling
-- [ ] Assessment audit and compliance
+**Architectural Appendix Added**: 2025-11-20
+- Current State (Legacy): NS4.WebAPI controller mappings documented
+- Target State: Clean Architecture with .NET 10
+- Domain Events: Following standardized schema
+- Migration Strategy: Phased Strangler Fig approach
 
 ---
 
-### 10. Intervention Management Service 🔄
+### 09. Assessment Service ✅
 
-**File**: `10-intervention-management-service.md` | **Scenarios**: 12 | **Service**: Intervention | **Status**: To Create
+**File**: `09-assessment-service.md` | **Scenarios**: 12 | **Service**: Assessment | **Status**: ✅ Complete with Architectural Appendix
 
-**Planned Scenarios**:
-- [ ] Create intervention group
-- [ ] Assign students to intervention
-- [ ] Track intervention attendance
-- [ ] Record intervention progress notes
-- [ ] Intervention scheduling and calendar
-- [ ] Intervention effectiveness tracking
-- [ ] Intervention resource management
-- [ ] Multi-tier intervention support (MTSS/RTI)
-- [ ] Parent communication for interventions
-- [ ] Intervention reporting and analytics
-- [ ] Intervention plan templates
-- [ ] Intervention compliance tracking
+**Completed Scenarios**:
+- [x] Create assessment definition with fields
+- [x] Assign assessment to students
+- [x] Record assessment results
+- [x] Benchmark management and grading
+- [x] Assessment scoring and calculation
+- [x] Assessment search and filtering
+- [x] Assessment analytics and trends
+- [x] Assessment result exports
+- [x] State test data integration
+- [x] Assessment template library
+- [x] Assessment scheduling
+- [x] Assessment audit and compliance
 
----
-
-### 11. Section & Roster Service 🔄
-
-**File**: `11-section-roster-service.md` | **Scenarios**: 12 | **Service**: Section & Roster | **Status**: To Create
-
-**Planned Scenarios**:
-- [ ] Create class section with teacher
-- [ ] Add students to section roster
-- [ ] Section scheduling and periods
-- [ ] Automated year-end rollover
-- [ ] Section capacity management
-- [ ] Co-teaching and multiple instructors
-- [ ] Section search and filtering
-- [ ] Drop/add student from section
-- [ ] Section attendance integration
-- [ ] Section gradebook integration
-- [ ] Section reports and rosters
-- [ ] Historical section data preservation
+**Architectural Appendix Added**: 2025-11-20
+- Current State (Legacy): NS4.WebAPI controller mappings documented
+- Target State: Clean Architecture with .NET 10, JSONB for custom fields
+- Domain Events: Following standardized schema
+- Migration Strategy: 15 years of assessment data migration planned
 
 ---
 
-### 12. Data Import & Integration Service 🔄
+### 10. Intervention Management Service ✅
 
-**File**: `12-data-import-service.md` | **Scenarios**: 12 | **Service**: Data Import | **Status**: To Create
+**File**: `10-intervention-management-service.md` | **Scenarios**: 12 | **Service**: Intervention | **Status**: ✅ Complete with Architectural Appendix
 
-**Planned Scenarios**:
-- [ ] CSV file upload and validation
-- [ ] Excel file import processing
-- [ ] State test data import
-- [ ] Data mapping and transformation
-- [ ] Import error handling and reporting
-- [ ] Scheduled/automated imports
-- [ ] Import template management
-- [ ] Field validation rules
-- [ ] Duplicate detection during import
-- [ ] Import audit trail
-- [ ] Rollback failed imports
-- [ ] Import job monitoring and status
+**Completed Scenarios**:
+- [x] Create intervention group
+- [x] Assign students to intervention
+- [x] Track intervention attendance
+- [x] Record intervention progress notes
+- [x] Intervention scheduling and calendar
+- [x] Intervention effectiveness tracking
+- [x] Intervention resource management
+- [x] Multi-tier intervention support (MTSS/RTI)
+- [x] Parent communication for interventions
+- [x] Intervention reporting and analytics
+- [x] Intervention plan templates
+- [x] Intervention compliance tracking
+
+**Architectural Appendix Added**: 2025-11-20
+- Current State (Legacy): NS4.WebAPI RTI controller mappings
+- Target State: Clean Architecture with .NET 10
+- Domain Events: Following standardized schema
+- Migration Strategy: Phase 3 implementation
+
+---
+
+### 11. Section & Roster Service ✅
+
+**File**: `11-section-roster-service.md` | **Scenarios**: 12 | **Service**: Section & Roster | **Status**: ✅ Complete with Architectural Appendix
+
+**Completed Scenarios**:
+- [x] Create class section with teacher
+- [x] Add students to section roster
+- [x] Section scheduling and periods
+- [x] Automated year-end rollover
+- [x] Section capacity management
+- [x] Co-teaching and multiple instructors
+- [x] Section search and filtering
+- [x] Drop/add student from section
+- [x] Section attendance integration
+- [x] Section gradebook integration
+- [x] Section reports and rosters
+- [x] Historical section data preservation
+
+**Architectural Appendix Added**: 2025-11-20
+- Current State (Legacy): NS4.WebAPI Section/Roster controllers, BatchProcessor rollover job
+- Target State: Clean Architecture with .NET 10, Hangfire for automated rollover
+- Domain Events: Following standardized schema
+- Migration Strategy: First automated rollover in new service at Phase 3d
+
+---
+
+### 12. Data Import & Integration Service ✅
+
+**File**: `12-data-import-service.md` | **Scenarios**: 12 | **Service**: Data Import | **Status**: ✅ Complete with Architectural Appendix
+
+**Completed Scenarios**:
+- [x] CSV file upload and validation
+- [x] Excel file import processing
+- [x] State test data import
+- [x] Data mapping and transformation
+- [x] Import error handling and reporting
+- [x] Scheduled/automated imports
+- [x] Import template management
+- [x] Field validation rules
+- [x] Duplicate detection during import
+- [x] Import audit trail
+- [x] Rollback failed imports
+- [x] Import job monitoring and status
+
+**Architectural Appendix Added**: 2025-11-20
+- Current State (Legacy): NS4.WebAPI ImportController, NS4.BatchProcessor state test jobs
+- Target State: Clean Architecture with .NET 10, Hangfire for background processing
+- Domain Events: Following standardized schema
+- Migration Strategy: Azure Blob Storage for file handling
 
 ---
 
@@ -387,23 +417,24 @@
 - **Total**: 46 scenarios | **Status**: ✅ Complete
 
 ### Phase 2: Core Domain (Weeks 9-16)
-- ✅ Student Management (12 scenarios)
-- 🔄 Staff Management (12 scenarios) - To Create
-- 🔄 Assessment (12 scenarios) - To Create
-- **Total**: 36 scenarios | **Status**: 33% Complete (12/36)
+- ✅ Student Management (12 scenarios) - **Complete with Architectural Appendix**
+- ✅ Staff Management (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- ✅ Assessment (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- **Total**: 36 scenarios | **Status**: ✅ **100% Complete (36/36)**
 
 ### Phase 3: Secondary Domain (Weeks 17-22)
-- 🔄 Intervention Management (12 scenarios) - To Create
-- 🔄 Section & Roster (12 scenarios) - To Create
-- 🔄 Data Import (12 scenarios) - To Create
-- **Total**: 36 scenarios | **Status**: 0% Complete (0/36)
+- ✅ Intervention Management (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- ✅ Section & Roster (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- ✅ Data Import (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- **Total**: 36 scenarios | **Status**: ✅ **100% Complete (36/36)**
 
 ### Phase 4: Supporting (Weeks 23-28)
 - 🔄 Reporting & Analytics (12 scenarios) - To Create
 - 🔄 Content & Media (12 scenarios) - To Create
 - 🔄 System Operations (12 scenarios) - To Create
-- ✅ UI Migration (12 scenarios)
-- **Total**: 48 scenarios | **Status**: 25% Complete (12/48)
+- ✅ UI Migration (12 scenarios) - Complete
+- ✅ Digital Ink Service (12 scenarios) - **Complete with Architectural Appendix (2025-11-20)**
+- **Total**: 60 scenarios | **Status**: 40% Complete (24/60)
 
 ### Cross-Cutting Concerns
 - ✅ Data Migration ETL (12 scenarios)
@@ -416,11 +447,18 @@
 ## Overall Progress
 
 **Total Planned Scenarios**: 210 scenarios across 18 files  
-**Completed**: 94 scenarios (45%)  
-**To Create**: 116 scenarios (55%)
+**Completed**: 166 scenarios (79%) ⬆️ **+72 scenarios documented (2025-11-20)**  
+**To Create**: 44 scenarios (21%)
 
-**Completed Files**: 8/18 (44%)  
-**Services Covered**: 8/12 microservices (67%)
+**Completed Files**: 14/18 (78%) ⬆️ **+6 files completed**  
+**Services Covered**: 11/11 core microservices (100%) ⬆️ **All core services documented**
+
+**Recent Updates (2025-11-20)**:
+- ✅ Added comprehensive architectural appendices to 6 scenario files
+- ✅ Created domain-events-schema.md (standardized event schema for all services)
+- ✅ Added Mermaid dependency diagrams to bounded-contexts.md
+- ✅ Documented legacy NS4.WebAPI controller mappings for all services
+- ✅ All core microservices (Phases 1-3) now have complete scenario documentation
 
 ### Completion Checklist
 
@@ -431,19 +469,19 @@
 
 **Core Services (Phase 2)**:
 - [x] Student Management Service
-- [ ] Staff Management Service
-- [ ] Assessment Service
+- [x] Staff Management Service (Enhanced 2025-11-20)
+- [x] Assessment Service (Enhanced 2025-11-20)
 
 **Secondary Services (Phase 3)**:
-- [ ] Intervention Management Service
-- [ ] Section & Roster Service
-- [ ] Data Import & Integration Service
+- [x] Intervention Management Service (Enhanced 2025-11-20)
+- [x] Section & Roster Service (Enhanced 2025-11-20)
+- [x] Data Import & Integration Service (Enhanced 2025-11-20)
 
 **Supporting Services (Phase 4)**:
 - [ ] Reporting & Analytics Service
 - [ ] Content & Media Service
 - [ ] System Operations Service
-- [x] Digital Ink Service
+- [x] Digital Ink Service (Enhanced 2025-11-20)
 
 **Cross-Cutting**:
 - [x] Multi-Tenant Database Architecture
