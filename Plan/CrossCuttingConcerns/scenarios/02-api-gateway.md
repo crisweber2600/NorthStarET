@@ -1,5 +1,6 @@
 # API Gateway: YARP Service Orchestration and Cross-Cutting Concerns
 
+**Target Layer**: CrossCuttingConcerns  
 **Service**: API Gateway (YARP)  
 **Pattern**: Backend-for-Frontend (BFF), Strangler Fig  
 **Architecture Reference**: [API Gateway Configuration](../standards/api-gateway-config.md)  
