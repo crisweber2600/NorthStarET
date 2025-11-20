@@ -108,7 +108,7 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 - [ ] **Layer identification required** in all specs, plans, tasks
 - [ ] **Documentation separation validated**:
   - Migration-specific: `Plan/Foundation/Plans/`
-  - Layer-agnostic: `/docs/architecture/` and `/docs/standards/`
+  - Layer-agnostic: `/Plan/CrossCuttingConcerns/architecture/` and `/Plan/CrossCuttingConcerns/standards/`
 
 ### Principle 7: Tool-Assisted Development Workflow
 
@@ -152,10 +152,10 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
   - ✅ MIGRATION_READINESS.md (this file)
   - ✅ `scenarios/` (13 implementation scenarios)
   - ✅ `docs/` (DATA_MIGRATION_SPECIFICATION.md, deployment-guide.md, development-guide.md)
-- [ ] **General architecture promoted to `/docs/architecture/`**:
+- [x] **General architecture promoted to `/Plan/CrossCuttingConcerns/architecture/`**:
   - ✅ bounded-contexts.md
   - ✅ `services/` (13 service architecture files)
-- [ ] **Technical standards promoted to `/docs/standards/`**:
+- [x] **Technical standards promoted to `/Plan/CrossCuttingConcerns/standards/`**:
   - ✅ API_CONTRACTS_SPECIFICATION.md
   - ✅ api-gateway-config.md
   - ✅ TESTING_STRATEGY.md
@@ -163,7 +163,7 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 
 ### Bounded Context Validation
 
-- [ ] **Bounded contexts reviewed**: [docs/architecture/bounded-contexts.md](../../../docs/architecture/bounded-contexts.md)
+- [ ] **Bounded contexts reviewed**: [docs/architecture/bounded-contexts.md](../../CrossCuttingConcerns/architecture/bounded-contexts.md)
 - [ ] **Phase 1 bounded contexts validated**:
   - Identity & Authentication Context
   - Configuration Context
@@ -184,7 +184,7 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 - [ ] **Domain events documented**: `contracts/domain-events.yaml`
 - [ ] **Constitution checklist validated**: `checklists/constitution.md`
 - [ ] **Reqnroll features created**: `features/*.feature`
-- [ ] **Microsoft Entra ID integration scenario reviewed**: [scenarios/01-identity-migration-entra-id.md](./scenarios/01-identity-migration-entra-id.md)
+- [ ] **Microsoft Entra ID integration scenario reviewed**: [CrossCuttingConcerns/scenarios/01-identity-service.md](../CrossCuttingConcerns/scenarios/01-identity-service.md)
 - [ ] **Microsoft Entra ID integration documented** (app registrations, token validation, session management)
 - [ ] **JWT token strategy defined** (access tokens, refresh tokens, expiration)
 - [ ] **User roles and permissions mapped** from OldNorthStar to Foundation
@@ -199,14 +199,14 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 **Spec Location**: `Plan/Foundation/specs/Foundation/005-api-gateway/`
 
 - [ ] **Specification complete**: `spec.md`, `plan.md`, `data-model.md`, `quickstart.md`, `research.md`, `tasks.md`
-- [ ] **YARP configuration documented**: [docs/standards/api-gateway-config.md](../../../docs/standards/api-gateway-config.md)
+- [ ] **YARP configuration documented**: [docs/standards/api-gateway-config.md](../../CrossCuttingConcerns/standards/api-gateway-config.md)
 - [ ] **Routing rules defined** for:
   - OldNorthStar legacy routes (Strangler Fig pattern)
   - New Foundation service routes
   - Route priority and fallback strategies
 - [ ] **Rate limiting policies configured**
 - [ ] **Circuit breaker patterns documented** (Polly)
-- [ ] **Gateway orchestration scenario reviewed**: [scenarios/06-api-gateway-orchestration.md](./scenarios/06-api-gateway-orchestration.md)
+- [ ] **Gateway orchestration scenario reviewed**: [CrossCuttingConcerns/scenarios/02-api-gateway.md](../CrossCuttingConcerns/scenarios/02-api-gateway.md)
 - [ ] **Health check aggregation configured**
 - [ ] **Distributed tracing setup** (OpenTelemetry)
 - [ ] **API versioning strategy defined** (`/api/v1/`, `/api/v2/`)
@@ -229,7 +229,7 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 - [ ] **Multi-tenancy isolation validated** (`tenant_id` + RLS policies)
 - [ ] **Configuration caching strategy documented** (Redis)
 - [ ] **Configuration change event propagation defined**
-- [ ] **Configuration service scenario reviewed**: [scenarios/07-configuration-service.md](./scenarios/07-configuration-service.md)
+- [ ] **Configuration service scenario reviewed**: [CrossCuttingConcerns/scenarios/03-configuration-service.md](../CrossCuttingConcerns/scenarios/03-configuration-service.md)
 
 **Legacy Components to Migrate**:
 - `NS4.WebAPI/Controllers/DistrictSettingsController.cs` - District configuration
@@ -322,7 +322,7 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 
 - [ ] **Data Migration Specification reviewed**: [docs/DATA_MIGRATION_SPECIFICATION.md](./docs/DATA_MIGRATION_SPECIFICATION.md)
 - [ ] **Data migration scenario reviewed**: [scenarios/04-data-migration-etl.md](./scenarios/04-data-migration-etl.md)
-- [ ] **Multi-tenant architecture scenario reviewed**: [scenarios/02-multi-tenant-database-architecture.md](./scenarios/02-multi-tenant-database-architecture.md)
+- [ ] **Multi-tenant architecture pattern reviewed**: [CrossCuttingConcerns/patterns/multi-tenant-database.md](../CrossCuttingConcerns/patterns/multi-tenant-database.md)
 
 ### Tenant Tagging
 
@@ -433,8 +433,8 @@ Verify adherence to [NorthStarET Mono-Repo Constitution v2.0.0](../../.specify/m
 
 - [ ] **Development guide reviewed**: [docs/development-guide.md](./docs/development-guide.md)
 - [ ] **Deployment guide reviewed**: [docs/deployment-guide.md](./docs/deployment-guide.md)
-- [ ] **Testing strategy reviewed**: [docs/standards/TESTING_STRATEGY.md](../../../docs/standards/TESTING_STRATEGY.md)
-- [ ] **API contracts specification reviewed**: [docs/standards/API_CONTRACTS_SPECIFICATION.md](../../../docs/standards/API_CONTRACTS_SPECIFICATION.md)
+- [ ] **Testing strategy reviewed**: [docs/standards/TESTING_STRATEGY.md](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md)
+- [ ] **API contracts specification reviewed**: [docs/standards/API_CONTRACTS_SPECIFICATION.md](../../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md)
 - [ ] **Constitution principles understood**: [.specify/memory/constitution.md](../../.specify/memory/constitution.md)
 - [ ] **Layer architecture understood**: [LAYERS.md](../LAYERS.md)
 
@@ -582,22 +582,25 @@ ___________________________________________________________________
 ### Technical Specifications
 
 - [DATA_MIGRATION_SPECIFICATION.md](./docs/DATA_MIGRATION_SPECIFICATION.md) - ETL strategy
-- [API_CONTRACTS_SPECIFICATION.md](../../../docs/standards/API_CONTRACTS_SPECIFICATION.md) - API design patterns
-- [TESTING_STRATEGY.md](../../../docs/standards/TESTING_STRATEGY.md) - TDD/BDD/Integration approach
-- [api-gateway-config.md](../../../docs/standards/api-gateway-config.md) - YARP configuration
+- [API_CONTRACTS_SPECIFICATION.md](../../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md) - API design patterns
+- [TESTING_STRATEGY.md](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md) - TDD/BDD/Integration approach
+- [api-gateway-config.md](../../CrossCuttingConcerns/standards/api-gateway-config.md) - YARP configuration
 
 ### Implementation Scenarios
 
-- [01-identity-migration-entra-id.md](./scenarios/01-identity-migration-entra-id.md)
-- [02-multi-tenant-database-architecture.md](./scenarios/02-multi-tenant-database-architecture.md)
+**Infrastructure Scenarios** (Cross-Layer):
+- [01-identity-service.md](../CrossCuttingConcerns/scenarios/01-identity-service.md)
+- [02-api-gateway.md](../CrossCuttingConcerns/scenarios/02-api-gateway.md)
+- [03-configuration-service.md](../CrossCuttingConcerns/scenarios/03-configuration-service.md)
+- [multi-tenant-database.md](../CrossCuttingConcerns/patterns/multi-tenant-database.md)
+
+**Domain Scenarios** (Foundation Layer):
 - [04-data-migration-etl.md](./scenarios/04-data-migration-etl.md)
-- [06-api-gateway-orchestration.md](./scenarios/06-api-gateway-orchestration.md)
-- [07-configuration-service.md](./scenarios/07-configuration-service.md)
 
 ### Service Architectures
 
-- [identity-service.md](../../../docs/architecture/services/identity-service.md)
-- [configuration-service.md](../../../docs/architecture/services/configuration-service.md)
+- [identity-service.md](../../CrossCuttingConcerns/architecture/services/identity-service.md)
+- [configuration-service.md](../../CrossCuttingConcerns/architecture/services/configuration-service.md)
 
 ---
 

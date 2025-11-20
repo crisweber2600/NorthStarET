@@ -36,7 +36,7 @@ This update removes all references to Duende IdentityServer and documents the mo
 
 ### Architecture Documentation
 
-✅ **`docs/architecture/services/identity-service.md`**
+✅ **`Plan/CrossCuttingConcerns/architecture/services/identity-service.md`**
 - Updated technology stack to Microsoft Entra ID via Microsoft.Identity.Web
 - Replaced Duende IdentityServer infrastructure with SessionAuthenticationHandler
 - Updated database schema (removed PersistedGrants, added Sessions, ExternalProviderLinks, AuditRecords)
@@ -185,7 +185,7 @@ The actual implementation exists in the WIPNorthStar codebase:
 ## Support & Questions
 
 - **Migration Guide**: `Plan/Foundation/Plans/docs/legacy-identityserver-migration.md`
-- **Architecture Docs**: `docs/architecture/services/identity-service.md`
+- **Architecture Docs**: `Plan/CrossCuttingConcerns/architecture/services/identity-service.md`
 - **Scenario Testing**: `Plan/Foundation/Plans/scenarios/01-identity-migration-entra-id.md`
 - **Constitution**: `.specify/memory/constitution.md` (Principle 6 - Shared Infrastructure)
 
@@ -197,7 +197,7 @@ All documentation has been updated to ensure consistency. To verify:
 
 ```bash
 # Search for any remaining IdentityServer references (should only find legacy/historical context)
-grep -r "Duende\|IdentityServer" Plan/ docs/ Src/ .specify/ --include="*.md" | grep -v "legacy\|obsolete\|OBSOLETE\|historical\|replaced"
+grep -r "Duende\|IdentityServer" Plan/ Src/ .specify/ --include="*.md" | grep -v "legacy\|obsolete\|OBSOLETE\|historical\|replaced"
 
 # Expected: Only legitimate references to "legacy IdentityServer" or obsolete markers
 ```

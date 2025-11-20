@@ -330,7 +330,7 @@ DataImport.Infrastructure/     # Infrastructure Layer
 
 #### Domain Events Published
 
-**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+**Event Schema Version**: 1.0 (follows [domain-events-schema.md](../../CrossCuttingConcerns/architecture/domain-events-schema.md))
 
 - `ImportStartedEvent` - When import job begins
   ```

@@ -25,10 +25,10 @@
 - [x] architecture/services/*.md - 11 service specifications
 - [x] ../specs/*.md - 9 feature specifications
 - [x] architecture/bounded-contexts.md - DDD analysis
-- [x] docs/*.md - Development, deployment, API gateway guides
+- [x] docs/*.md - Development, deployment guides (migration-specific)
 - [x] docs/DATA_MIGRATION_SPECIFICATION.md - ETL strategy
-- [x] docs/API_CONTRACTS_SPECIFICATION.md - API design
-- [x] docs/TESTING_STRATEGY.md - Test approach
+- [x] CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md - API design
+- [x] CrossCuttingConcerns/standards/TESTING_STRATEGY.md - Test approach
 - [x] Src/WIPNorthStar/NorthStarET.Lms/.specify/memory/constitution.md - Constitution v1.6.0
 - [x] Src/ codebase analysis - OldNorthStar, WIPNorthStar, UpgradedNorthStar
 

@@ -319,7 +319,7 @@ ApiGateway/
 ## References
 
 - **Specification**: [005-api-gateway](../../../Plan/Foundation/specs/Foundation/005-api-gateway/)
-- **Configuration**: [api-gateway-config.md](../../../docs/standards/api-gateway-config.md)
+- **Configuration**: [api-gateway-config.md](../../../../Plan/CrossCuttingConcerns/standards/api-gateway-config.md)
 - **Scenario**: [06-api-gateway-orchestration.md](../../../Plan/Foundation/Plans/scenarios/06-api-gateway-orchestration.md)
 - **YARP Documentation**: [https://microsoft.github.io/reverse-proxy/](https://microsoft.github.io/reverse-proxy/)
 

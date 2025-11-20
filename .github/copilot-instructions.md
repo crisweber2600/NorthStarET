@@ -8,7 +8,8 @@ _Last updated: 2025-11-20_
 - **Foundation Layer** (`Src/Foundation/`): Core LMS modernization (Identity, ApiGateway, Configuration, etc.).
 - **Shared Infrastructure** (`Src/Foundation/shared/{ServiceDefaults,Domain,Application,Infrastructure}`): The ONLY cross-layer dependencies allowed (see Constitution Principle 6).
 - **AppHost** (`Src/Foundation/AppHost/`): .NET Aspire orchestration; runs all services + PostgreSQL (per-service DB), Redis, RabbitMQ.
-- Deeper reference: `Plan/Foundation/LAYERS.md` and `docs/architecture/`.
+- **Cross-Cutting Concerns** (`Plan/CrossCuttingConcerns/`): Reusable patterns, API/testing standards, workflow guidance referenced by all layers.
+- Deeper reference: `Plan/LAYERS.md` and `Plan/CrossCuttingConcerns/architecture/`.
 
 ## 2. Architecture & Patterns
 - Clean Architecture vertical slices: Domain → Application (CQRS via MediatR) → Infrastructure (EF Core, Redis, Messaging) → API.
@@ -62,7 +63,9 @@ Red → Green evidence MUST be captured (constitution §2). Always run tests BEF
 - Phase review pushes: `git push origin HEAD:[feature]review-Phase[N]` (never directly to main).
 
 ## 10. When Unsure
-- Cross-check with: `.specify/memory/constitution.md` (v2.0.0), `Plan/Foundation/MIGRATION_READINESS.md`, service READMEs under `Src/Foundation/services/`.
+- Cross-check with: `.specify/memory/constitution.md` (v2.0.0), `Plan/LAYERS.md`, `Plan/CrossCuttingConcerns/` patterns/standards.
+- Service architecture: `Plan/CrossCuttingConcerns/architecture/services/`, API contracts: `Plan/CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md`.
+- Testing strategy: `Plan/CrossCuttingConcerns/standards/TESTING_STRATEGY.md`, workflow: `Plan/CrossCuttingConcerns/workflow/`.
 - If pattern not found in codebase, DO NOT invent—search or escalate.
 
 ---

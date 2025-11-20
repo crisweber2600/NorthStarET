@@ -48,10 +48,10 @@ Plan/DigitalInk/
 - [docs/technology-stack.md](./docs/technology-stack.md) - JSONB storage, Azure Blob, Avalonia/MAUI client SDKs
 
 ### General Architecture (Repository Root)
-- [Bounded Contexts](../../docs/architecture/bounded-contexts.md) - DDD analysis (cross-layer)
-- [Digital Ink Service Architecture](../../docs/architecture/services/digital-ink-service.md) - Technical specification
-- [API Standards](../../docs/standards/API_CONTRACTS_SPECIFICATION.md) - RESTful API patterns
-- [Testing Strategy](../../docs/standards/TESTING_STRATEGY.md) - TDD/BDD/Playwright approach
+- [Bounded Contexts](../CrossCuttingConcerns/architecture/bounded-contexts.md) - DDD analysis (cross-layer)
+- [Digital Ink Service Architecture](../CrossCuttingConcerns/architecture/services/digital-ink-service.md) - Technical specification
+- [API Standards](../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md) - RESTful API patterns
+- [Testing Strategy](../CrossCuttingConcerns/standards/TESTING_STRATEGY.md) - TDD/BDD/Playwright approach
 
 ## Layer Context
 

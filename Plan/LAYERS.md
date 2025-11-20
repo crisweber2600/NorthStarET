@@ -64,6 +64,48 @@ The DigitalInk layer provides high-fidelity stylus input capture, synchronized a
 
 **Planning Documentation**: See [`Plan/DigitalInk/`](./DigitalInk/) for complete specifications, implementation plan, and scenarios
 
+### Cross-Cutting Concerns Layer
+
+**Purpose**: Reusable patterns, technical standards, and workflow guidance shared across all layers  
+**Location**: `Plan/CrossCuttingConcerns/`  
+**Status**: Active Documentation  
+**Scope**: Cross-layer architecture patterns, API/testing standards, development workflow guides
+
+The Cross-Cutting Concerns layer provides evergreen documentation that applies to all implementation layers (Foundation, DigitalInk, and future layers). Unlike layer-specific Plans directories which contain time-bound migration roadmaps, CrossCuttingConcerns houses reusable patterns and standards that remain relevant throughout the product lifecycle.
+
+**Contents**:
+
+**Architecture Patterns** (`Plan/CrossCuttingConcerns/architecture/`):
+- Service architecture templates (13 services: Identity, Student, Assessment, Staff, etc.)
+- Bounded context definitions and domain event schemas
+- Event-driven integration patterns
+- Multi-tenancy patterns and tenant isolation strategies
+
+**Technical Standards** (`Plan/CrossCuttingConcerns/standards/`):
+- API contract specifications (REST, versioning, error handling)
+- Testing strategy (TDD, BDD, integration, UI testing)
+- API Gateway configuration (YARP routing, rate limiting, security)
+- Code quality and coverage requirements
+
+**Workflow Guidance** (`Plan/CrossCuttingConcerns/workflow/`):
+- Spec-Kit Coach user guide (workflow orchestration)
+- Constitution compliance validation procedures
+- MCP tool usage patterns and examples
+- Development lifecycle best practices
+
+**Usage Across Layers**:
+- ✅ All layers (Foundation, DigitalInk, future) reference these patterns
+- ✅ Standards apply uniformly regardless of layer or service
+- ✅ Workflow guides orchestrate feature development across layers
+- ✅ Architecture patterns ensure consistency in service design
+
+**Not a Deployment Layer**: CrossCuttingConcerns is purely documentation; it does not contain deployable code. Implementation code resides in layer-specific directories (`Src/Foundation/`, future `Src/DigitalInk/`, etc.) but follows the patterns defined here.
+
+**Relationship to Layer-Specific Plans**:
+- `Plan/Foundation/Plans/` → Time-bound migration roadmaps (22-32 weeks)
+- `Plan/DigitalInk/Plans/` → Layer-specific implementation plans
+- `Plan/CrossCuttingConcerns/` → Evergreen patterns and standards (no expiration)
+
 ### Future Layers
 
 Future layers follow the pattern established by Foundation and DigitalInk. Each new layer:
@@ -71,7 +113,7 @@ Future layers follow the pattern established by Foundation and DigitalInk. Each 
 1. **Maintains Independence**: No direct service-to-service calls across layers
 2. **Uses Shared Infrastructure**: Identity, Configuration, ServiceDefaults, Domain primitives only
 3. **Documents Dependencies**: Explicitly declares Foundation infrastructure contracts
-4. **Follows Standards**: Adheres to patterns in `/docs/architecture/` and `/docs/standards/`
+4. **Follows Standards**: Adheres to patterns in `/Plan/CrossCuttingConcerns/architecture/` and `/Plan/CrossCuttingConcerns/standards/`
 5. **Requires Architecture Review**: Layer proposals go through governance process
 
 **Potential Future Layers**:
@@ -338,15 +380,15 @@ docs/standards/
    - Specify any new shared infrastructure contributions
 
 4. **Follow Standards**:
-   - Use `/docs/architecture/` patterns
-   - Implement `/docs/standards/` specifications
+   - Use `/Plan/CrossCuttingConcerns/architecture/` patterns
+   - Implement `/Plan/CrossCuttingConcerns/standards/` specifications
    - Apply constitution principles (Clean Architecture, TDD, etc.)
 
 ### Adding Services to Existing Layer
 
 1. **Identify Bounded Context**: Ensure service aligns with layer purpose
 2. **Review Shared Infrastructure**: Use existing contracts before creating new ones
-3. **Document Service Architecture**: Add to `/docs/architecture/services/`
+3. **Document Service Architecture**: Add to `/Plan/CrossCuttingConcerns/architecture/services/`
 4. **Create Feature Specification**: Add to `Plan/{LayerName}/specs/`
 5. **Implement Clean Architecture**: Follow `Domain → Application → Infrastructure → API` pattern
 
@@ -528,8 +570,8 @@ public class DigitalInkEventHandlers
 - [NorthStarET Constitution v2.0.0](../../.specify/memory/constitution.md) - Principle 6: Mono-Repo Layer Isolation
 - [Foundation Migration Plans](./Plans/) - Migration roadmaps and scenarios
 - [Foundation Specifications](./specs/) - Feature specs for Foundation and DigitalInk layers
-- [Architecture Patterns](../../docs/architecture/) - Bounded contexts and service architectures
-- [Technical Standards](../../docs/standards/) - API contracts, testing strategy, gateway config
+- [Architecture Patterns](CrossCuttingConcerns/architecture/) - Bounded contexts and service architectures
+- [Technical Standards](CrossCuttingConcerns/standards/) - API contracts, testing strategy, gateway config
 
 ---
 

@@ -28,7 +28,7 @@ This master plan consolidates:
 - [INTEGRATED_MIGRATION_PLAN.md](./INTEGRATED_MIGRATION_PLAN.md) - Detailed integrated plan v2.0
 - [.github/prompts/plan-monolithToMicroservicesMigration.prompt.md](./.github/prompts/plan-monolithToMicroservicesMigration.prompt.md) - 10-step migration strategy
 - [microservices/](./microservices/) - Service catalog, specs, architecture
-- [docs/](./docs/) - Data migration, testing, API contracts
+- [docs/](./docs/) - Data migration (migration-specific docs remain here)
 - [Src/WIPNorthStar/](./Src/WIPNorthStar/) - Working implementation with constitution
 - [Src/OldNorthStar/](./Src/OldNorthStar/) - Legacy codebase to migrate
 - [Src/UpgradedNorthStar/](./Src/UpgradedNorthStar/) - Target architecture
@@ -248,12 +248,12 @@ Each service has:
 - ✓ [Bounded Contexts](./architecture/bounded-contexts.md)
 - ✓ [Development Guide](./docs/development-guide.md)
 - ✓ [Deployment Guide](./docs/deployment-guide.md)
-- ✓ [API Gateway Configuration](./docs/api-gateway-config.md)
+- ✓ [API Gateway Configuration](../../CrossCuttingConcerns/standards/api-gateway-config.md)
 
 **Data & Testing**:
 - ✓ [Data Migration Specification](./docs/DATA_MIGRATION_SPECIFICATION.md)
-- ✓ [API Contracts Specification](./docs/API_CONTRACTS_SPECIFICATION.md)
-- ✓ [Testing Strategy](./docs/TESTING_STRATEGY.md)
+- ✓ [API Contracts Specification](../../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md)
+- ✓ [Testing Strategy](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md)
 
 ### Service Dependency Graph
 
@@ -625,7 +625,7 @@ public async Task<Student> AddAsync(Student student)
 
 ## Testing Strategy
 
-Complete specification: [docs/TESTING_STRATEGY.md](./docs/TESTING_STRATEGY.md)
+Complete specification: [docs/TESTING_STRATEGY.md](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md)
 
 ### Test Pyramid
 
@@ -910,14 +910,14 @@ Continue following the phased approach detailed in [Migration Phases](#migration
 
 **Technical Specifications**:
 - [Data Migration Spec](./docs/DATA_MIGRATION_SPECIFICATION.md) - ETL strategy
-- [API Contracts Spec](./docs/API_CONTRACTS_SPECIFICATION.md) - API design
-- [Testing Strategy](./docs/TESTING_STRATEGY.md) - Test approach
+- [API Contracts Spec](../../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md) - API design
+- [Testing Strategy](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md) - Test approach
 - [Bounded Contexts](./architecture/bounded-contexts.md) - DDD analysis
 
 **Implementation Guides**:
 - [Development Guide](./docs/development-guide.md) - Developer setup
 - [Deployment Guide](./docs/deployment-guide.md) - Deployment instructions
-- [API Gateway Config](./docs/api-gateway-config.md) - YARP configuration
+- [API Gateway Config](../../CrossCuttingConcerns/standards/api-gateway-config.md) - YARP configuration
 
 ### Timeline Summary
 

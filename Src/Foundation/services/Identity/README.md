@@ -274,7 +274,7 @@ Feature files in `specs/002-identity-authentication/features/`:
 ## References
 
 - **Specification**: [002-identity-authentication](../../../Plan/Foundation/specs/Foundation/002-identity-authentication/)
-- **Architecture**: [identity-service.md](../../../docs/architecture/services/identity-service.md)
+- **Architecture**: [identity-service.md](../../../../Plan/CrossCuttingConcerns/architecture/services/identity-service.md)
 - **Scenario**: [01-identity-migration-entra-id.md](../../../Plan/Foundation/Plans/scenarios/01-identity-migration-entra-id.md)
 - **Constitution**: [Principle 5 - Security & Compliance Safeguards](../../../.specify/memory/constitution.md)
 

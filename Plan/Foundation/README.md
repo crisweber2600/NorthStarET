@@ -36,29 +36,29 @@ Plans/
 │   ├── deployment-guide.md              # Migration deployment instructions
 │   └── development-guide.md             # Migration developer setup
 │
-└── scenarios/                            # 13 Migration implementation scenarios
+└── scenarios/                            # 9 Domain service migration scenarios
     ├── README.md
     ├── SCENARIO_INVENTORY.md
-    ├── 01-identity-migration-entra-id.md
-    ├── 02-multi-tenant-database-architecture.md
     ├── 03-ui-migration-preservation.md
     ├── 04-data-migration-etl.md
     ├── 05-student-management-service.md
-    ├── 06-api-gateway-orchestration.md
-    ├── 07-configuration-service.md
     ├── 08-staff-management-service.md
     ├── 09-assessment-service.md
     ├── 10-intervention-management-service.md
     ├── 11-section-roster-service.md
     └── 12-data-import-service.md
+    
+    NOTE: Infrastructure scenarios (Identity, API Gateway, Configuration, 
+    Multi-Tenant Database) moved to /Plan/CrossCuttingConcerns/scenarios/
+    and /Plan/CrossCuttingConcerns/patterns/ for reuse across all layers.
 ```
 
 ### General Architecture & Standards (Moved to Repository Root)
 
-The following materials have been **promoted to `/docs/`** at repository root as they are reusable across all mono-repo layers (Foundation, DigitalInk, future layers):
+The following materials have been **promoted to `/Plan/CrossCuttingConcerns/`** as they are reusable across all mono-repo layers (Foundation, DigitalInk, future layers):
 
 ```
-/docs/                                     # Repository root documentation
+/Plan/CrossCuttingConcerns/                # Repository root documentation
 ├── architecture/                          # Layer-agnostic architecture patterns
 │   ├── bounded-contexts.md               # DDD bounded context analysis
 │   └── services/                         # Technical architecture per service
@@ -95,13 +95,13 @@ The following materials have been **promoted to `/docs/`** at repository root as
 - [MIGRATION_READINESS.md](./MIGRATION_READINESS.md) - Phase 1 readiness checklist
 
 ### Architecture (General - Repository Root)
-- [Bounded Contexts](../../../docs/architecture/bounded-contexts.md) - DDD analysis
-- [Service Architectures](../../../docs/architecture/services/) - Technical specs per service
+- [Bounded Contexts](../../CrossCuttingConcerns/architecture/bounded-contexts.md) - DDD analysis
+- [Service Architectures](../../CrossCuttingConcerns/architecture/services/) - Technical specs per service
 
 ### Technical Standards (General - Repository Root)
-- [API Contracts](../../../docs/standards/API_CONTRACTS_SPECIFICATION.md) - API design patterns
-- [API Gateway Config](../../../docs/standards/api-gateway-config.md) - YARP configuration
-- [Testing Strategy](../../../docs/standards/TESTING_STRATEGY.md) - TDD/BDD/Integration approach
+- [API Contracts](../../CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md) - API design patterns
+- [API Gateway Config](../../CrossCuttingConcerns/standards/api-gateway-config.md) - YARP configuration
+- [Testing Strategy](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md) - TDD/BDD/Integration approach
 
 ### Migration-Specific Technical Docs
 - [Data Migration](./docs/DATA_MIGRATION_SPECIFICATION.md) - ETL strategy for OldNorthStar
@@ -148,7 +148,7 @@ The following materials have been **promoted to `/docs/`** at repository root as
 3. Review feature specifications in [/specs directory](../specs/)
 
 ### For QA Engineers
-1. Review [Testing Strategy](./docs/TESTING_STRATEGY.md)
+1. Review [Testing Strategy](../../CrossCuttingConcerns/standards/TESTING_STRATEGY.md)
 2. Study feature specs in [/specs directory](../specs/) for acceptance criteria
 3. Prepare Reqnroll BDD scenarios
 4. Setup Playwright for UI testing

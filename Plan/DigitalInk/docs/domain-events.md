@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Last Updated:** November 20, 2025  
-**Schema Version:** Follows [domain-events-schema.md](../../../docs/architecture/domain-events-schema.md)
+**Schema Version:** Follows [domain-events-schema.md](../../CrossCuttingConcerns/architecture/domain-events-schema.md)
 
 ---
 
@@ -374,7 +374,7 @@ _logger.LogInformation(
 ## Related Documentation
 
 - **Service Overview:** [../SERVICE_OVERVIEW.md](../SERVICE_OVERVIEW.md)
-- **General Event Schema:** [../../../docs/architecture/domain-events-schema.md](../../../docs/architecture/domain-events-schema.md)
+- **General Event Schema:** [../../CrossCuttingConcerns/architecture/domain-events-schema.md](../../CrossCuttingConcerns/architecture/domain-events-schema.md)
 - **API Specification:** [./api-specification.md](./api-specification.md)
 
 ---

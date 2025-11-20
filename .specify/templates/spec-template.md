@@ -1,12 +1,30 @@
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
+**Specification Branch**: `[LayerName]/[###-feature-name-spec]` *(planning artifacts only)*  
+**Implementation Branch**: `[LayerName]/[###-feature-name]` *(created after spec approval)*  
 **Created**: [DATE]  
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
-**Target Layer**: [Foundation | DigitalInk | Other]  
-**Cross-Layer Dependencies**: [None | Foundation (if DigitalInk)]
+---
+
+## Layer Identification (MANDATORY)
+
+**Target Layer**: [Foundation | DigitalInk | {LayerName}]  
+*Select ONE layer where this feature will be implemented. If introducing a new layer, provide explicit name and justification.*
+
+**Layer Validation Checklist**:
+- [ ] Layer explicitly identified (not "Other" or "TBD")
+- [ ] Layer exists in mono-repo structure (`Plan/{LayerName}/` or `Src/{LayerName}/`)
+- [ ] If new layer: Architecture Review documented in `Plan/{LayerName}/README.md`
+- [ ] Cross-layer dependencies justified and limited to approved shared infrastructure
+
+**Cross-Layer Dependencies**: [None | Foundation shared infrastructure (specify: ServiceDefaults / Domain / Application / Infrastructure)]  
+*If depending on another layer, list ONLY approved shared infrastructure components from `Src/Foundation/shared/`. Direct service-to-service dependencies across layers are prohibited.*
+
+**Justification**: [Explain why this layer assignment and any cross-layer dependencies]
+
+---
 
 ## User Scenarios & Testing *(mandatory)*
 

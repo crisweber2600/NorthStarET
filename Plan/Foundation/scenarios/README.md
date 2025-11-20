@@ -1,6 +1,6 @@
-# NorthStar Migration Scenarios - Business-Focused Given-When-Then
+# NorthStar Foundation Layer Migration Scenarios
 
-This directory contains comprehensive Given-When-Then (Gherkin-style) scenarios for each major aspect of the NorthStar migration from monolith to microservices.
+This directory contains comprehensive Given-When-Then (Gherkin-style) scenarios for **domain services** in the Foundation layer migration from OldNorthStar monolith to microservices.
 
 ## Purpose
 
@@ -10,47 +10,16 @@ These scenario files provide a **business view** into the technical migration pl
 - What success looks like for each feature
 - How services integrate and communicate
 
-## Scenario Files
+## Infrastructure Scenarios
 
-### 01. Identity Service Migration to Microsoft Entra ID
-**File**: [01-identity-migration-entra-id.md](./01-identity-migration-entra-id.md)  
-**Scenarios**: 10  
-**Coverage**:
-- Staff member SSO login
-- Administrator MFA authentication
-- Legacy user account migration
-- Token refresh and session management
-- Cross-district access with tenant switching
-- Password reset via Entra ID
-- Role-based authorization
-- Session termination
-- Service-to-service authentication
-- Failed authentication handling
+**Infrastructure scenarios (Identity, API Gateway, Configuration, Multi-Tenant Database) have been moved to**:  
+📁 **[Plan/CrossCuttingConcerns/scenarios/](../../CrossCuttingConcerns/scenarios/)**
 
-**Key Business Value**: Modern cloud authentication, reduced maintenance, enterprise SSO
+These infrastructure patterns are reusable across all mono-repo layers (Foundation, DigitalInk, future layers) and are documented as cross-cutting concerns.
 
 ---
 
-### 02. Multi-Tenant Database Architecture
-**File**: [02-multi-tenant-database-architecture.md](./02-multi-tenant-database-architecture.md)  
-**Scenarios**: 12  
-**Coverage**:
-- Student record creation with tenant isolation
-- Query filtering by tenant context
-- Cross-tenant access prevention
-- Database migration from per-district to multi-tenant
-- LMS service schema management
-- Row-Level Security enforcement
-- Multi-service database access
-- Backup and restore procedures
-- Performance optimization
-- New district onboarding
-- Audit trail with tenant context
-- Connection pooling with isolation
-
-**Key Business Value**: Consolidate 100s of databases into 11, reduce costs, simplify operations
-
----
+## Domain Service Scenarios
 
 ### 03. UI Migration with Preservation Strategy
 **File**: [03-ui-migration-preservation.md](./03-ui-migration-preservation.md)  
@@ -115,24 +84,25 @@ These scenario files provide a **business view** into the technical migration pl
 
 ---
 
-### 06. API Gateway and Service Orchestration
-**File**: [06-api-gateway-orchestration.md](./06-api-gateway-orchestration.md)  
-**Scenarios**: 12  
-**Coverage**:
-- Route to new microservice
-- Route to legacy monolith during migration
-- Authentication validation
-- Rate limiting by tenant
-- CORS support
-- Request logging and correlation
-- Health check aggregation
-- Circuit breaker for failing services
-- Request transformation and header injection
-- API versioning support
-- Load balancing across instances
-- Request size limits and validation
+### 06-12. Additional Domain Services
 
-**Key Business Value**: Unified API entry point, seamless legacy-to-new migration, cross-cutting concerns
+Additional domain service scenarios (Staff Management, Assessment, Intervention Management, Section & Roster, Data Import, Reporting, Content & Media) are documented in their respective scenario files:
+
+- [08-staff-management-service.md](./08-staff-management-service.md)
+- [09-assessment-service.md](./09-assessment-service.md)
+- [10-intervention-management-service.md](./10-intervention-management-service.md)
+- [11-section-roster-service.md](./11-section-roster-service.md)
+- [12-data-import-service.md](./12-data-import-service.md)
+
+---
+
+## Cross-Layer Infrastructure
+
+For scenarios covering infrastructure services used across all layers:
+- **Identity Service**: [CrossCuttingConcerns/scenarios/01-identity-service.md](../../CrossCuttingConcerns/scenarios/01-identity-service.md)
+- **API Gateway**: [CrossCuttingConcerns/scenarios/02-api-gateway.md](../../CrossCuttingConcerns/scenarios/02-api-gateway.md)
+- **Configuration Service**: [CrossCuttingConcerns/scenarios/03-configuration-service.md](../../CrossCuttingConcerns/scenarios/03-configuration-service.md)
+- **Multi-Tenant Database**: [CrossCuttingConcerns/patterns/multi-tenant-database.md](../../CrossCuttingConcerns/patterns/multi-tenant-database.md)
 
 ---
 
@@ -194,14 +164,15 @@ Each scenario follows the **Given-When-Then** format:
 
 ## Scenario Coverage Map
 
-| Aspect | Scenarios | User Types | Services Covered |
-|--------|-----------|------------|------------------|
-| Identity Migration | 10 | Staff, Admin, Users | Identity, All Services |
-| Multi-Tenant DB | 12 | All Users | All Services (data layer) |
-| UI Migration | 12 | Teachers, Admins | Frontend, All APIs |
-| Data Migration | 12 | System | All Services (data) |
-| Student Service | 12 | Teachers, Admins | Student, Assessment, Section |
-| API Gateway | 12 | All Users | Gateway, All Services |
+| Aspect | Scenarios | User Types | Services Covered | Location |
+|--------|-----------|------------|------------------|----------|
+| Identity Service | 10 | Staff, Admin, Users | Identity, All Services | [CrossCuttingConcerns](../../CrossCuttingConcerns/scenarios/01-identity-service.md) |
+| API Gateway | 12 | All Users | Gateway, All Services | [CrossCuttingConcerns](../../CrossCuttingConcerns/scenarios/02-api-gateway.md) |
+| Configuration | 12 | Admins | Configuration | [CrossCuttingConcerns](../../CrossCuttingConcerns/scenarios/03-configuration-service.md) |
+| Multi-Tenant DB | 12 | All Users | All Services (data layer) | [CrossCuttingConcerns](../../CrossCuttingConcerns/patterns/multi-tenant-database.md) |
+| UI Migration | 12 | Teachers, Admins | Frontend, All APIs | This directory |
+| Data Migration | 12 | System | All Services (data) | This directory |
+| Student Service | 12 | Teachers, Admins | Student, Assessment, Section | This directory |
 
 **Total Scenarios**: 70+  
 **Total Services Covered**: 11 (all microservices)  

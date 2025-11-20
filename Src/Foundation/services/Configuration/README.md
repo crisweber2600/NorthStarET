@@ -296,7 +296,7 @@ Feature files in `specs/004-configuration-service/features/`:
 ## References
 
 - **Specification**: [004-configuration-service](../../../Plan/Foundation/specs/Foundation/004-configuration-service/)
-- **Architecture**: [configuration-service.md](../../../docs/architecture/services/configuration-service.md)
+- **Architecture**: [configuration-service.md](../../../../Plan/CrossCuttingConcerns/architecture/services/configuration-service.md)
 - **Scenario**: [07-configuration-service.md](../../../Plan/Foundation/Plans/scenarios/07-configuration-service.md)
 
 ---

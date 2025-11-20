@@ -36,7 +36,32 @@ Given that feature description, do this:
      - "Create a dashboard for analytics" → "analytics-dashboard"
      - "Fix payment processing timeout bug" → "fix-payment-timeout"
 
-2. **Check for existing branches before creating new one**:
+2. **Prompt for Layer Selection (MANDATORY - Constitution Principle 6)**:
+   
+   Present layer selection options to the user:
+   
+   ```markdown
+   ## Layer Selection Required
+   
+   **Feature**: [short-name from step 1]
+   
+   This feature must be assigned to a layer in the mono-repo architecture. Select the target layer:
+   
+   | Layer | Description | Use When |
+   |-------|-------------|----------|
+   | **Foundation** | Core LMS migration services (Identity, Configuration, Student Management, Assessment, etc.) | Migrating OldNorthStar functionality to .NET 10 microservices |
+   | **DigitalInk** | Digital ink capture, audio recording, and AI-ready data export | Adding multimodal assessment capabilities with stylus/audio |
+   | **Custom** | Define a new layer (requires Architecture Review) | Building a distinct capability not covered by existing layers |
+   
+   **Your selection**: _[Wait for user response: "Foundation", "DigitalInk", or "Custom: {LayerName}"]_
+   ```
+   
+   - If user selects "Custom", prompt for layer name and justification
+   - Record layer selection for use in step 3
+   - Validate layer exists in mono-repo (`Plan/{LayerName}/` or `Src/{LayerName}/`)
+   - If new layer: warn that Architecture Review is required (document in spec.md)
+
+3. **Check for existing branches before creating new one**:
    
    a. First, fetch all remote branches to ensure we have the latest information:
       ```bash
@@ -44,32 +69,34 @@ Given that feature description, do this:
       ```
    
    b. Find the highest feature number across all sources for the short-name:
-      - Remote branches: `git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
-      - Local branches: `git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
-      - Specs directories: Check for directories matching `specs/[0-9]+-<short-name>`
+      - Remote branches with `-spec` suffix: `git ls-remote --heads origin | grep -E 'refs/heads/{LayerName}/[0-9]+-<short-name>-spec$'`
+      - Local branches with `-spec` suffix: `git branch | grep -E '^[* ]*{LayerName}/[0-9]+-<short-name>-spec$'`
+      - Specs directories within selected layer: Check for directories matching `Plan/{LayerName}/specs/[0-9]+-<short-name>`
    
    c. Determine the next available number:
       - Extract all numbers from all three sources
       - Find the highest number N
       - Use N+1 for the new branch number
    
-   d. Run the script `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS"` with the calculated number and short-name:
-      - Pass `--number N+1` and `--short-name "your-short-name"` along with the feature description
-      - Bash example: `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS" --json --number 5 --short-name "user-auth" "Add user authentication"`
-      - PowerShell example: `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS" -Json -Number 5 -ShortName "user-auth" "Add user authentication"`
+   d. Run the script `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS"` with the calculated number, short-name, and layer:
+      - Pass `--number N+1`, `--short-name "your-short-name"`, and `--layer "{LayerName}"` along with the feature description
+      - Script will create branch named `{LayerName}/[###]-<short-name>-spec` (note the layer prefix and `-spec` suffix)
+      - Bash example: `.specify/scripts/bash/create-new-feature.sh --json --number 5 --short-name "user-auth" --layer "Foundation" "Add user authentication"`
+      - PowerShell example: `.specify/scripts/bash/create-new-feature.sh --json --number 5 --short-name "user-auth" --layer "Foundation" "Add user authentication"`
    
    **IMPORTANT**:
-   - Check all three sources (remote branches, local branches, specs directories) to find the highest number
-   - Only match branches/directories with the exact short-name pattern
+   - Check all three sources (remote branches, local branches, layer specs directories) to find the highest number
+   - Only match branches/directories with the exact short-name pattern AND `-spec` suffix for branches within the layer
    - If no existing branches/directories found with this short-name, start with number 1
    - You must only ever run this script once per feature
    - The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
-   - The JSON output will contain BRANCH_NAME and SPEC_FILE paths
+   - The JSON output will contain BRANCH_NAME (with layer prefix and `-spec` suffix), SPEC_FILE paths, and LAYER
    - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot")
+   - The specification branch is for planning artifacts only; implementation branch (`{LayerName}/###-feature-name`) will be created later by `/speckit.implement`
 
-3. Load `.specify/templates/spec-template.md` to understand required sections.
+4. Load `.specify/templates/spec-template.md` to understand required sections.
 
-4. Follow this execution flow:
+5. Follow this execution flow:
 
     1. Parse user description from Input
        If empty: ERROR "No feature description provided"
@@ -95,9 +122,17 @@ Given that feature description, do this:
     7. Identify Key Entities (if data involved)
     8. Return: SUCCESS (spec ready for planning)
 
-5. Write the specification to SPEC_FILE using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
+6. Write the specification to SPEC_FILE using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
+   
+   **CRITICAL - Layer Identification**: Fill the Layer Identification section (added in constitution v2.1.0) with:
+   - Target Layer: Use the layer selected by user in step 2
+   - Layer Validation Checklist: Verify layer exists and meets constitutional requirements
+   - Cross-Layer Dependencies: List ONLY approved shared infrastructure (e.g., `Src/Foundation/shared/*`)
+   - Justification: Document why this layer assignment and any cross-layer dependencies
+   - Specification Branch: Use branch name from step 3 (with `-spec` suffix)
+   - Implementation Branch: Use branch name without `-spec` suffix (created later by `/speckit.implement`)
 
-6. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
+7. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
 
    a. **Create Spec Quality Checklist**: Generate a checklist file at `FEATURE_DIR/checklists/requirements.md` using the checklist template structure with these validation items:
 
@@ -189,7 +224,15 @@ Given that feature description, do this:
 
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
-7. Report completion with branch name, spec file path, checklist results, and readiness for the next phase (`/speckit.clarify` or `/speckit.plan`).
+8. Report completion with:
+   - Specification branch name (with layer prefix and `-spec` suffix) and status
+   - Target layer assignment
+   - Spec file path within layer structure (`Plan/{LayerName}/specs/[###-feature-name]/spec.md`)
+   - Checklist results and any remaining validation issues
+   - Readiness for next phase (`/speckit.clarify` or `/speckit.plan`)
+   - Reminder: Implementation branch (`{LayerName}/###-feature-name`) will be created later by `/speckit.implement`
+
+**NOTE:** The script creates and checks out the new **specification branch** (`{LayerName}/###-feature-name-spec`) and initializes the spec file in the layer-specific directory before writing.
 
 **NOTE:** The script creates and checks out the new branch and initializes the spec file before writing.
 

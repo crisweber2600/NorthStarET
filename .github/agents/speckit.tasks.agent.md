@@ -21,14 +21,23 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-1. **Setup**: Run `.specify/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Verify Specification Branch**: Ensure current branch follows pattern `{LayerName}/###-feature-name-spec` (Constitution v2.1.0 requirement). If not on a specification branch, ERROR with message: "Must be on specification branch ({LayerName}/###-feature-name-spec) to create tasks. Use `/speckit.specify` and `/speckit.plan` first."
 
-2. **Load design documents**: Read from FEATURE_DIR:
-   - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
+2. **Setup**: Run `.specify/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR, AVAILABLE_DOCS list, LAYER, and BRANCH. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+
+3. **Load design documents**: Read from FEATURE_DIR:
+   - **Required**: plan.md (tech stack, libraries, structure, layer identification), spec.md (user stories with priorities, layer identification)
    - **Optional**: data-model.md (entities), contracts/ (API endpoints), research.md (decisions), quickstart.md (test scenarios)
    - Note: Not all projects have all documents. Generate tasks based on what's available.
 
-3. **Execute task generation workflow**:
+4. **Layer Consistency Validation**: Extract Target Layer from both spec.md and plan.md:
+   - Verify layer matches between spec and plan (ERROR if mismatch)
+   - Verify layer exists in mono-repo structure
+   - Extract shared infrastructure dependencies from plan.md
+   - Extract cross-layer dependencies (if any) and validate against Constitution Principle 6
+   - If validation fails, ERROR with specific issue
+
+5. **Execute task generation workflow**:
    - Load plan.md and extract tech stack, libraries, project structure
    - Load spec.md and extract user stories with their priorities (P1, P2, P3, etc.)
    - If data-model.md exists: Extract entities and map to user stories
@@ -39,26 +48,34 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Create parallel execution examples per user story
    - Validate task completeness (each user story has all needed tasks, independently testable)
 
-4. **Generate tasks.md**: Use `.specify.specify/templates/tasks-template.md` as structure, fill with:
+6. **Generate tasks.md**: Use `.specify/templates/tasks-template.md` as structure, fill with:
    - Correct feature name from plan.md
+   - Specification branch (with `-spec` suffix) and future implementation branch (without `-spec`)
+   - Layer Context section with Target Layer, implementation path, and specification path (MANDATORY)
+   - Layer Consistency Checklist verifying alignment between spec, plan, and tasks
+   - Layer Compliance Validation tasks (Constitution Principle 6)
    - Phase 1: Setup tasks (project initialization)
    - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
    - Phase 3+: One phase per user story (in priority order from spec.md)
    - Each phase includes: story goal, independent test criteria, tests (if requested), implementation tasks
    - Final Phase: Polish & cross-cutting concerns
    - All tasks must follow the strict checklist format (see Task Generation Rules below)
-   - Clear file paths for each task
+   - Clear file paths for each task relative to layer structure
    - Dependencies section showing story completion order
    - Parallel execution examples per story
    - Implementation strategy section (MVP first, incremental delivery)
 
-5. **Report**: Output path to generated tasks.md and summary:
+7. **Report**: Output path to generated tasks.md and summary:
+   - Specification branch (with layer prefix and `-spec` suffix)
+   - Target layer (verified against spec.md and plan.md)
    - Total task count
    - Task count per user story
+   - Layer compliance validation tasks included
    - Parallel opportunities identified
    - Independent test criteria for each story
    - Suggested MVP scope (typically just User Story 1)
    - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
+   - Reminder: Implementation happens on separate implementation branch (`{LayerName}/###-feature-name`) created by `/speckit.implement`
 
 Context for task generation: $ARGUMENTS
 

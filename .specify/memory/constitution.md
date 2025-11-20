@@ -2,26 +2,44 @@
 
 <!--
 Sync Impact Report
-Version change: TEMPLATE → 2.0.0
+Version change: 2.1.0 → 2.2.0
 Modified principles:
-- All principles imported from WIPNorthStar v1.7.0 with mono-repo context
+- Principle 6 enhanced with layer-prefixed branch naming requirement
 Added sections:
-- Principle 6: Mono-Repo Layer Isolation (new architectural constraint)
-- Mono-Repo Organization section defining layer boundaries
+- Branch naming convention: {LayerName}/###-feature-name[-spec|-proposed] pattern
+- Layer prefix mandatory for all branches to maintain organizational boundaries
+- Non-negotiable constraint: branches without layer prefix forbidden
+Modified sections:
+- Specification Phase: {LayerName}/###-feature-name-spec pattern
+- Implementation Phase: {LayerName}/###-feature-name pattern
+- All branch references updated to include layer prefix
 Removed sections: None
-Templates requiring updates:
-- ⚠ .specify/templates/plan-template.md (requires mono-repo layer guidance)
-- ⚠ .specify/templates/spec-template.md (requires layer identification)
-- ⚠ .specify/templates/tasks-template.md (requires layer dependency validation)
-Follow-up TODOs: Update all template files with layer isolation guidance
+Templates/Agents requiring updates:
+- ✅ .specify/memory/constitution.md (updated with layer-prefixed branch naming)
+- ✅ .specify/templates/spec-template.md (updated branch patterns)
+- ✅ .specify/templates/plan-template.md (updated branch patterns)
+- ✅ .specify/templates/tasks-template.md (updated branch patterns)
+- ✅ .github/agents/speckit.specify.agent.md (search for layer-prefixed branches)
+- ✅ .github/agents/speckit.plan.agent.md (verify layer-prefixed branches)
+- ✅ .github/agents/speckit.tasks.agent.md (verify layer-prefixed branches)
+- ✅ .github/agents/speckit.implement.agent.md (transition to layer-prefixed impl branch)
+- ✅ .github/agents/speckit.scenario.agent.md (create layer-prefixed spec/proposed branches)
+- ✅ .specify/scripts/bash/create-new-feature.sh (create layer-prefixed branches)
+- ✅ .specify/scripts/bash/transition-to-implementation.sh (handle layer-prefixed branches)
 Validation Notes:
-- Constitution v2.0.0 complete with no placeholder tokens
-- Version bump: MAJOR (breaking architectural constraint - layer isolation principle)
-- All principles from WIPNorthStar v1.7.0 preserved
-- New Principle 6 enforces mono-repo layer boundaries
+- Constitution v2.2.0 complete with no placeholder tokens
+- Version bump: MINOR (additive workflow change - layer-prefixed branch naming)
+- Principle 6 expanded with layer-prefixed branch naming requirement
+- Breaking change for new branches: all branches MUST include layer prefix
+- Migration required: existing ###-feature-name branches should be renamed to {LayerName}/###-feature-name
 - Ratification date: 2025-10-11 (original WIPNorthStar constitution)
-- Last amended: 2025-11-20 (mono-repo layer isolation added)
+- Last amended: 2025-11-20 (layer-prefixed branch naming added)
 -->
+
+**Version**: 2.2.0  
+**Effective Date**: November 20, 2025  
+**Status**: Active  
+**Supersedes**: Constitution v2.1.0
 
 ## Core Principles
 
@@ -92,9 +110,10 @@ Validation Notes:
   - Domain Primitives (shared value objects, base entities)
 - **Layer-Specific Documentation**: Each layer maintains its own `specs/` directory; general architecture and standards reside at repository root in `docs/architecture/` and `docs/standards/`.
 - **No Circular Dependencies**: Higher layers may consume Foundation shared infrastructure, but Foundation MUST NOT depend on higher layers.
-- **Layer Identification Required**: All specifications, plans, and tasks MUST explicitly identify their target layer.
+- **Layer Identification Required**: All specifications, plans, and tasks MUST explicitly identify their target layer at the beginning of the document.
+- **Specification Branch Workflow**: Specifications, plans, and tasks MUST be created in a dedicated specification branch (pattern: `{LayerName}/###-feature-name-spec`) separate from implementation branches. Implementation branches (pattern: `{LayerName}/###-feature-name`) are created only when transitioning from planning to development phase. Branch names MUST include layer prefix to maintain clear organizational boundaries.
 
-  Rationale: Enforces modularity at the repository level, prevents tight coupling between distinct business domains, enables independent deployment and scaling of layers, and maintains clear ownership boundaries. Foundation layer remains stable and reusable as new capabilities are added.
+  Rationale: Enforces modularity at the repository level, prevents tight coupling between distinct business domains, enables independent deployment and scaling of layers, and maintains clear ownership boundaries. Foundation layer remains stable and reusable as new capabilities are added. Separate specification branches enable review and refinement of requirements before code implementation begins, ensuring architectural alignment and reducing implementation rework.
 
 ### 7. Tool-Assisted Development Workflow
 
@@ -138,10 +157,14 @@ NEVER:
 - create direct service-to-service dependencies across mono-repo layers (use shared infrastructure only).
 - implement features without explicit layer identification in specifications, plans, and tasks.
 - place layer-specific architecture docs in repository root (use `docs/` for cross-layer standards only).
+- create specification artifacts (spec.md, plan.md, tasks.md) in implementation branches; use specification branches (`{LayerName}/###-feature-name-spec`) exclusively for planning artifacts.
+- create branches without layer prefix; all branches MUST follow pattern `{LayerName}/###-feature-name[-spec|-proposed]`.
 
 ## Delivery Workflow Requirements
 
 - Main branch is the single source of truth; CI enforces constitution gates before merge.
+- **Specification Phase**: `/specify`, `/plan`, and `/tasks` commands create artifacts in specification branches (`{LayerName}/###-feature-name-spec`). These branches contain only planning artifacts (spec.md, plan.md, tasks.md, contracts/, research.md, etc.) and are used for requirements review and architecture validation before implementation begins.
+- **Implementation Phase**: After specification approval, `/implement` creates implementation branches (`{LayerName}/###-feature-name`) from the approved specification branch. Implementation branches contain source code, tests, and infrastructure as code.
 - After completing every task, developers commit, pull, and push to keep shared history consistent. All pushes MUST target phase review branches using the refspec pattern `git push origin HEAD:[feature-number]review-Phase[phase-number]` (e.g., `git push origin HEAD:003review-Phase1` when finishing Phase 1 of feature 003); direct upstream pushes to main/develop are prohibited. Open pull requests from phase review branches into the integration or feature branches as governed.
 - Each test phase MUST capture terminal output from `dotnet test` (unit, Reqnroll, Aspire) and Playwright scripts showing the Red state before implementation and the Green state after implementation; attach evidence to the relevant phase or review artifacts.
 - Changes that weaken SLOs, security posture, architectural separation, multi-tenant isolation, or layer boundaries require an Architecture Review approval prior to merge.
@@ -155,4 +178,4 @@ NEVER:
 - **Record Keeping**: Preserve historical constitution revisions with rationale for deprecation; never delete prior guidance.
 - **Layer Governance**: New layer proposals require Architecture Review documenting: business justification, dependency contracts with Foundation shared infrastructure, independent deployment strategy, and specification organization plan.
 
-**Version**: 2.0.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-11-20
+**Version**: 2.1.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-11-20

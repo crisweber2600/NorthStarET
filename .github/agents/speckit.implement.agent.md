@@ -12,9 +12,25 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-1. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Verify Specification Branch and Transition to Implementation**:
+   
+   a. Check current branch pattern:
+      - If on specification branch (`{LayerName}/###-feature-name-spec`): Proceed to step 1b
+      - If on implementation branch (`{LayerName}/###-feature-name`): Skip to step 2 (already transitioned)
+      - Otherwise: ERROR "Must be on specification or implementation branch with layer prefix"
+   
+   b. If on specification branch, create implementation branch:
+      - Run `.specify/scripts/bash/transition-to-implementation.sh --json` to:
+        * Create implementation branch `{LayerName}/###-feature-name` (without `-spec` suffix) from current spec branch
+        * Copy all specification artifacts (spec.md, plan.md, tasks.md, contracts/, etc.) to implementation branch
+        * Verify layer consistency across copied artifacts
+        * Checkout new implementation branch
+      - Parse JSON output for IMPL_BRANCH, FEATURE_DIR, LAYER
+      - Report: "Created implementation branch `{IMPL_BRANCH}` from specification branch. Specification artifacts preserved."
 
-2. **Check checklists status** (if FEATURE_DIR/checklists/ exists):
+2. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR, AVAILABLE_DOCS list, LAYER, and BRANCH. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+
+3. **Check checklists status** (if FEATURE_DIR/checklists/ exists):
    - Scan all checklist files in the checklists/ directory
    - For each checklist, count:
      - Total items: All lines matching `- [ ]` or `- [X]` or `- [x]`
@@ -45,7 +61,7 @@ You **MUST** consider the user input before proceeding (if not empty).
      - Display the table showing all checklists passed
      - Automatically proceed to step 3
 
-3. Load and analyze the implementation context:
+4. Load and analyze the implementation context:
    - **REQUIRED**: Read tasks.md for the complete task list and execution plan
    - **REQUIRED**: Read plan.md for tech stack, architecture, and file structure
    - **IF EXISTS**: Read data-model.md for entities and relationships
@@ -53,7 +69,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **IF EXISTS**: Read research.md for technical decisions and constraints
    - **IF EXISTS**: Read quickstart.md for integration scenarios
 
-4. **Project Setup Verification**:
+5. **Project Setup Verification**:
    - **REQUIRED**: Create/verify ignore files based on actual project setup:
 
    **Detection & Creation Logic**:
@@ -97,7 +113,14 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Terraform**: `.terraform/`, `*.tfstate*`, `*.tfvars`, `.terraform.lock.hcl`
    - **Kubernetes/k8s**: `*.secret.yaml`, `secrets/`, `.kube/`, `kubeconfig*`, `*.key`, `*.crt`
 
-5. Parse tasks.md structure and extract:
+6. **Layer Compliance Validation**: Before beginning implementation tasks:
+   - Extract Target Layer from tasks.md Layer Context section
+   - Verify layer consistency with spec.md and plan.md
+   - Verify implementation path follows layer structure (`Src/{TargetLayer}/...`)
+   - Check Layer Compliance Validation tasks in tasks.md are present
+   - If validation fails, ERROR with specific issue
+
+7. Parse tasks.md structure and extract:
    - **Task phases**: Setup, Tests, Core, Integration, Polish
    - **Task dependencies**: Sequential vs parallel execution rules
    - **Task details**: ID, description, file paths, parallel markers [P]
