@@ -1,5 +1,6 @@
 # Configuration Service: Multi-Tenant Settings Management
 
+**Target Layer**: CrossCuttingConcerns  
 **Service**: Configuration Service  
 **Pattern**: Multi-Tenant Configuration Hierarchy  
 **Architecture Reference**: [Configuration Service Architecture](../architecture/services/configuration-service.md)  

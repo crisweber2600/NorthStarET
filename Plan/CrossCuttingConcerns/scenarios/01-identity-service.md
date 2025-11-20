@@ -1,5 +1,6 @@
 # Identity Service: Microsoft Entra ID Authentication & Authorization
 
+**Target Layer**: CrossCuttingConcerns  
 **Service**: Identity & Authentication Service  
 **Pattern**: OAuth 2.0/OIDC with Microsoft Entra ID  
 **Architecture Reference**: [Identity Service Architecture](../architecture/services/identity-service.md)  

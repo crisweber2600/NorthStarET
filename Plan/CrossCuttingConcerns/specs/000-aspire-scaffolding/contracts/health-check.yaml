@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: Service Health Checks
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Liveness Probe
+      responses:
+        '200':
+          description: Healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Healthy
+        '503':
+          description: Unhealthy
+  /alive:
+    get:
+      summary: Readiness Probe
+      responses:
+        '200':
+          description: Ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Healthy
+                  entries:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        description:
+                          type: string

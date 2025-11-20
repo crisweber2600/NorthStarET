@@ -1,5 +1,6 @@
 # Aspire Orchestration & Cross-Cutting Scaffolding
 
+**Target Layer**: CrossCuttingConcerns  
 **Service Set**: AppHost + All Foundation Microservices  
 **Patterns**: .NET Aspire Orchestration, Clean Architecture, Dependency Injection, Multi-Tenancy, Event-Driven Messaging, Caching, Observability, Idempotency, Strangler Fig (Migration)  
 **Architecture References**:  
