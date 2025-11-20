@@ -206,6 +206,302 @@
 
 ---
 
+---
+
+## Architectural Appendix
+
+### Current State (Legacy)
+
+**Location**: `NS4.WebAPI/Controllers/` project (legacy monolith)  
+**Framework**: .NET Framework 4.6  
+**Database**: Per-district SQL Server databases
+
+**Key Legacy Components**:
+- `NS4.WebAPI/Controllers/InterventionController.cs` - CRUD operations for interventions
+- `NS4.WebAPI/Controllers/RTIController.cs` - Response to Intervention (RTI) tracking
+- Legacy tables: `Interventions`, `InterventionGroups`, `InterventionAttendance`
+- Tight coupling with assessment and student data in single database
+- Limited multi-tier intervention support (MTSS/RTI framework)
+
+**Legacy Limitations**:
+- No event-driven coordination with other services
+- Manual data entry for progress tracking
+- Limited analytics and effectiveness metrics
+- No automated recommendations based on assessment data
+
+### Target State (.NET 10 Microservice)
+
+#### Architecture
+
+**Clean Architecture Layers**:
+```
+Intervention.API/                # UI Layer (REST endpoints)
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+Intervention.Application/        # Application Layer
+├── Commands/                   # Create intervention, enroll student
+├── Queries/                    # Get interventions, effectiveness metrics
+├── DTOs/
+├── Interfaces/
+└── Services/
+    └── EffectivenessAnalyzer/ # Calculate intervention outcomes
+
+Intervention.Domain/            # Domain Layer
+├── Entities/
+│   ├── Intervention.cs
+│   ├── InterventionEnrollment.cs
+│   ├── InterventionSession.cs
+│   ├── SessionAttendance.cs
+│   └── ProgressNote.cs
+├── Events/
+│   ├── InterventionCreatedEvent.cs
+│   ├── StudentEnrolledInInterventionEvent.cs
+│   ├── InterventionAttendanceRecordedEvent.cs
+│   └── ProgressNoteAddedEvent.cs
+└── ValueObjects/
+    ├── TierLevel.cs  // Tier 1, 2, 3
+    ├── ProgressRating.cs
+    └── AttendanceStatus.cs
+
+Intervention.Infrastructure/    # Infrastructure Layer
+├── Data/
+│   ├── InterventionDbContext.cs
+│   └── Repositories/
+├── Integration/
+│   ├── EventPublisher.cs
+│   └── StudentServiceClient.cs  // Query student data
+└── MessageBus/
+```
+
+#### Technology Stack
+
+- **Framework**: .NET 10, ASP.NET Core
+- **Data Access**: EF Core 9 with PostgreSQL
+- **Messaging**: MassTransit + Azure Service Bus for domain events
+- **Caching**: Redis Stack for intervention lookups
+- **Orchestration**: .NET Aspire hosting
+- **Analytics**: Custom effectiveness calculations with trend analysis
+
+#### Owned Data
+
+**Database**: `NorthStar_Intervention_DB`
+
+**Tables**:
+- Interventions (Id, TenantId, Name, TierLevel, FocusArea, StartDate, EndDate, FacilitatorId)
+- InterventionEnrollments (Id, TenantId, InterventionId, StudentId, EnrollmentDate, ExitDate, IsActive)
+- InterventionSessions (Id, TenantId, InterventionId, SessionDate, Notes, FacilitatorId)
+- SessionAttendance (Id, TenantId, SessionId, StudentId, AttendanceStatus, RecordedAt)
+- ProgressNotes (Id, TenantId, InterventionId, StudentId, NoteDate, Observation, ProgressRating, CreatedBy)
+- InterventionResources (Id, TenantId, Name, Description, ResourceUrl) // Toolkit
+
+#### Service Boundaries
+
+**Owned Responsibilities**:
+- Intervention group creation and management
+- Student enrollment in interventions
+- Session scheduling and calendar management
+- Attendance tracking per session
+- Progress note recording
+- Intervention toolkit resource management
+- Effectiveness analytics and trend analysis
+- Multi-tier intervention support (MTSS/RTI framework)
+
+**Not Owned** (delegated to other services):
+- Student enrollment data → Student Management Service
+- Assessment results → Assessment Service
+- Staff assignments → Staff Management Service
+- Calendar integration → Configuration Service
+- Reporting dashboards → Reporting & Analytics Service
+
+#### Domain Events Published
+
+**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+
+- `InterventionCreatedEvent` - When new intervention is created
+  ```
+  - InterventionId: Guid
+  - TenantId: Guid
+  - InterventionName: string
+  - TierLevel: string
+  - FocusArea: string
+  - CreatedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `StudentEnrolledInInterventionEvent` - When student enrolled
+  ```
+  - EnrollmentId: Guid
+  - TenantId: Guid
+  - InterventionId: Guid
+  - StudentId: Guid
+  - EnrollmentDate: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `InterventionAttendanceRecordedEvent` - When attendance taken
+  ```
+  - AttendanceId: Guid
+  - TenantId: Guid
+  - SessionId: Guid
+  - InterventionId: Guid
+  - StudentId: Guid
+  - AttendanceStatus: string
+  - RecordedAt: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `ProgressNoteAddedEvent` - When progress documented
+  ```
+  - NoteId: Guid
+  - TenantId: Guid
+  - InterventionId: Guid
+  - StudentId: Guid
+  - ProgressRating: string
+  - CreatedBy: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `StudentExitedInterventionEvent` - When student exits intervention
+  ```
+  - EnrollmentId: Guid
+  - TenantId: Guid
+  - InterventionId: Guid
+  - StudentId: Guid
+  - ExitDate: DateTime
+  - ExitReason: string
+  - OccurredAt: DateTime
+  ```
+
+#### Domain Events Subscribed
+
+- `StudentEnrolledEvent` (from Student Service) → Enable intervention enrollment
+- `AssessmentResultRecordedEvent` (from Assessment Service) → Trigger data-driven recommendations
+- `StaffUpdatedEvent` (from Staff Service) → Update facilitator assignments
+
+#### API Endpoints (Functional Intent)
+
+**Intervention Management**:
+- Create intervention group → returns intervention details
+- Update intervention → modifies intervention settings
+- Get intervention details → returns intervention with enrollment count
+- List interventions → returns filtered list with pagination
+
+**Enrollment & Attendance**:
+- Enroll student in intervention → creates enrollment record
+- Record session attendance → tracks attendance with notes
+- Exit student from intervention → marks enrollment inactive
+
+**Progress Tracking**:
+- Add progress note → documents observation and rating
+- Get student intervention history → returns all interventions for student
+- Calculate intervention effectiveness → returns metrics and trends
+
+#### Service Level Objectives (SLOs)
+
+- **Availability**: 99.9% uptime
+- **Create Intervention**: p95 < 100ms
+- **Record Attendance**: p95 < 50ms
+- **Calculate Effectiveness**: p95 < 200ms
+- **Student Intervention History Query**: p95 < 150ms
+
+#### Idempotency & Consistency
+
+**Idempotency Windows**:
+- Intervention creation: 10 minutes (duplicate prevention)
+- Attendance recording: 5 minutes (same session)
+
+**Consistency Model**:
+- Strong consistency for attendance and progress notes
+- Eventual consistency for cross-service data (student names, facilitator names)
+
+#### Security Considerations
+
+**Constitutional Requirements**:
+- Enforce least privilege principle
+- FERPA compliance for student intervention data
+- Secrets stored in Azure Key Vault only
+
+**Implementation**:
+- Intervention specialists can create/manage interventions
+- Teachers can view interventions for their students only
+- Progress notes are confidential and audited
+- All data access logged for compliance
+
+#### Testing Requirements
+
+**Constitutional Compliance**:
+- Reqnroll BDD features before implementation
+- TDD Red → Green with test evidence
+- ≥ 80% code coverage
+
+**Test Categories**:
+
+1. **Unit Tests** (Intervention.UnitTests):
+   - Effectiveness calculation logic
+   - Tier escalation rules
+   - Attendance rate calculations
+   - Progress rating validation
+
+2. **Integration Tests** (Intervention.IntegrationTests):
+   - Database operations via EF Core
+   - Event publishing to message bus
+   - Cross-service queries (Student, Staff)
+   - Aspire orchestration validation
+
+3. **BDD Tests** (Reqnroll features):
+   - `InterventionCreation.feature` - Create intervention group
+   - `StudentEnrollment.feature` - Enroll students
+   - `AttendanceTracking.feature` - Record attendance
+   - `ProgressMonitoring.feature` - Document progress
+
+4. **UI Tests** (Playwright):
+   - Intervention creation form
+   - Attendance entry workflow
+   - Progress note submission
+   - Effectiveness dashboard
+
+#### Dependencies
+
+**External Services**:
+- Student Management Service - Student enrollment data
+- Assessment Service - Assessment results for recommendations
+- Staff Management Service - Facilitator assignments
+- Configuration Service - Calendar and schedules
+- Azure Service Bus - Event publishing
+- Redis - Intervention caching
+
+**Infrastructure Dependencies**:
+- PostgreSQL - Intervention database
+- .NET Aspire AppHost - Service orchestration
+
+#### Migration Strategy
+
+**Strangler Fig Approach**:
+
+1. **Phase 3a** (Week 17): Deploy new Intervention Service alongside legacy
+   - Route new intervention creation to new service
+   - Legacy interventions continue in NS4.WebAPI
+   - Dual-read from both systems
+
+2. **Phase 3b** (Week 18-19): Data migration
+   - Migrate historical intervention records
+   - Migrate attendance and progress notes
+   - Maintain both systems in parallel
+
+3. **Phase 3c** (Week 20): Complete cutover
+   - Route all intervention operations to new service
+   - Keep legacy as read-only fallback
+   - Monitor error rates
+
+4. **Phase 3d** (Week 21-22): Decommission legacy
+   - Verify all data migrated
+   - Archive legacy intervention tables
+   - Remove legacy controllers
+
+---
+
 ## Technical Implementation Notes
 
 **Clean Architecture**:
