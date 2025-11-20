@@ -1,0 +1,43 @@
+# Custom setup steps for GitHub Copilot Coding Agent
+# This file is executed BEFORE the Copilot agent runs
+# Ref: https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment
+
+# CRITICAL: Set GITHUB_HOST for CodeQL downloader
+# On self-hosted runners, the agent doesn't auto-detect this and errors with:
+#   "Error: GitHub host is required"
+# Setting via $GITHUB_ENV (not job-level env:) fixes this.
+# Ref: https://github.com/orgs/community/discussions/177903
+
+name: Copilot Agent Setup Steps
+
+# These steps run on the self-hosted ARC runner BEFORE the agent
+runs-on: arc-runner-set
+
+steps:
+  - name: Set GitHub host for CodeQL
+    run: |
+      echo "GITHUB_HOST=github.com" >> "$GITHUB_ENV"
+      echo "AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache" >> "$GITHUB_ENV"
+
+  # Verify .NET 10 is available
+  - name: Verify .NET 10
+    run: |
+      dotnet --version
+      dotnet --list-sdks
+
+  # Verify Aspire CLI is available
+  - name: Verify Aspire CLI
+    run: |
+      aspire --version || echo "Aspire CLI not in PATH, will use dotnet CLI"
+
+  # Verify Docker is available
+  - name: Verify Docker
+    run: |
+      docker --version
+      docker ps
+
+  # Verify Node.js for MCP servers
+  - name: Verify Node.js
+    run: |
+      node --version
+      npm --version

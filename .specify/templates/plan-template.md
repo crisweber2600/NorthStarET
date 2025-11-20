@@ -27,7 +27,42 @@
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
-## Constitution Check
+### Identity & Authentication Guidance
+
+*If this feature requires authentication/authorization:*
+
+- **Identity Provider**: Microsoft Entra ID (Azure AD) - Do NOT use Duende IdentityServer or custom token issuance
+- **Authentication Pattern**: Session-based with custom SessionAuthenticationHandler
+- **Token Validation**: Microsoft.Identity.Web for JWT validation (tokens issued by Entra ID)
+- **Session Storage**: PostgreSQL (identity.sessions table) + Redis caching
+- **Architecture Reference**: See `Plan/Foundation/Plans/docs/legacy-identityserver-migration.md` for BFF token exchange pattern
+- **Key Dependencies**: Microsoft.Identity.Web (3.x), StackExchange.Redis (2.x), Aspire.Hosting.Redis
+
+## Layer Identification
+
+*REQUIRED: Declare this feature's position in the mono-repo architecture*
+
+**Target Layer**: [e.g., Foundation, DigitalInk, or future layer name]  
+**Path**: [e.g., `Src/Foundation/services/[ServiceName]` or `Src/DigitalInk/modules/[ModuleName]`]
+
+### Shared Infrastructure Dependencies
+
+*List shared components this feature depends on (from `Src/Foundation/shared/`)*
+
+- [ ] **ServiceDefaults** - Aspire orchestration, OpenTelemetry, health checks
+- [ ] **Domain** - Domain primitives (EntityBase, ValueObject, DomainEvent)
+- [ ] **Application** - CQRS abstractions (ICommand, IQuery, Result pattern)
+- [ ] **Infrastructure** - Multi-tenancy, caching, messaging, Azure services
+
+### Cross-Layer Dependencies
+
+*CAUTION: Cross-layer dependencies require justification and constitutional approval*
+
+**Depends on layers**: [e.g., None (self-contained) or Foundation (if DigitalInk feature)]  
+**Justification**: [Explain WHY this cross-layer dependency is necessary]  
+**Constitutional Compliance**: See Principle 6 (Mono-Repo Layer Isolation) - layers must remain independently deployable
+
+### Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 

@@ -8,6 +8,30 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
+**Target Layer**: [from spec.md]  
+**Layer Path**: [from plan.md, e.g., `Src/Foundation/services/[ServiceName]`]
+
+## Layer Compliance Validation
+
+*MANDATORY: Include these validation tasks to ensure mono-repo layer isolation (Constitution Principle 6)*
+
+- [ ] Verify project references ONLY shared infrastructure from target layer (e.g., `Src/Foundation/shared/*` if Foundation layer)
+- [ ] Verify NO direct references to other layer services (must use events/contracts for cross-layer communication)
+- [ ] Verify AppHost orchestration includes this service with correct layer isolation
+- [ ] Verify README.md documents layer position and shared infrastructure dependencies
+
+## Identity & Authentication Compliance
+
+*MANDATORY: Include if this feature requires authentication/authorization*
+
+- [ ] Verify NO references to Duende IdentityServer or custom token issuance
+- [ ] Verify Microsoft.Identity.Web used for JWT token validation (NOT custom JWT generation)
+- [ ] Verify SessionAuthenticationHandler registered for session-based API authorization
+- [ ] Verify Redis configured for session caching (Aspire.Hosting.Redis)
+- [ ] Verify identity.sessions table includes tenant_id for multi-tenancy
+- [ ] Verify TokenExchangeService implements BFF pattern (Entra tokens → LMS sessions)
+- [ ] Verify authentication flow follows `legacy-identityserver-migration.md` architecture
+
 **Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.

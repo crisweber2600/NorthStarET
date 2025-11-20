@@ -5,6 +5,9 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
+**Target Layer**: [Foundation | DigitalInk | Other]  
+**Cross-Layer Dependencies**: [None | Foundation (if DigitalInk)]
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--
@@ -94,6 +97,14 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+*Identity & Authentication Requirements - Use Entra ID:*
+
+- For authentication features, use **Microsoft Entra ID** as the identity provider (NOT Duende IdentityServer or custom token issuance)
+- Authentication pattern: **Session-based** with SessionAuthenticationHandler (NOT pure JWT bearer tokens)
+- Token handling: **Validate** Entra ID tokens using Microsoft.Identity.Web (NOT issue custom tokens)
+- Session storage: **PostgreSQL + Redis caching** for LMS sessions
+- See `Plan/Foundation/Plans/docs/legacy-identityserver-migration.md` for complete architecture
 
 ### Key Entities *(include if feature involves data)*
 

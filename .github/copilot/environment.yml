@@ -1,0 +1,102 @@
+# GitHub Copilot Coding Agent Environment Configuration
+# This configures the self-hosted runner environment for Copilot to execute code
+
+version: "1.0"
+
+# Use ARC self-hosted runners with custom .NET 10 + Aspire image
+runner:
+  labels:
+    - arc-runner-set  # Custom ARC runner with .NET 10, Aspire, Docker-in-Docker
+
+# Environment setup
+environment:
+  # .NET 10 SDK with Aspire
+  dotnet:
+    version: "10.0"
+    workloads:
+      - aspire
+    tools:
+      - dotnet-ef
+      - dotnet-serve
+  
+  # Docker-in-Docker for Aspire containers
+  docker:
+    enabled: true
+    compose: true
+    
+  # Node.js for MCP servers and tooling
+  nodejs:
+    version: "lts"
+    
+  # Additional tools
+  tools:
+    - git
+    - gh  # GitHub CLI
+    - uv  # Python package manager
+
+# MCP Server Configuration
+mcp_servers:
+  # Sequential thinking for planning
+  sequential-thinking:
+    command: "npx"
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-sequential-thinking"
+    
+  # Filesystem access for code navigation
+  filesystem:
+    command: "npx"
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "D:\\NorthStarET.Lms"
+    
+  # Microsoft Docs for .NET/Azure documentation  
+  microsoft-docs:
+    command: "npx"
+    args:
+      - "-y"
+      - "@microsoft/mcp-server-docs"
+
+# Aspire Configuration
+aspire:
+  apphost_project: "src/NorthStarET.NextGen.Lms.AppHost/NorthStarET.NextGen.Lms.AppHost.csproj"
+  dashboard_url: "http://localhost:15000"
+  services:
+    - postgres
+    - redis
+    - api
+    - web
+
+# Workspace Configuration
+workspace:
+  root: "D:\\NorthStarET.Lms"
+  solution: "NorthStarET.Lms.sln"
+  
+# Pre-execution setup commands
+setup_commands:
+  - "dotnet restore"
+  - "dotnet build --no-restore"
+  - "dotnet workload restore"
+
+# Execution timeout (in seconds)
+timeout: 600
+
+# Resource limits for Docker-in-Docker
+resources:
+  cpu_limit: "4"
+  memory_limit: "8Gi"
+# GitHub Configuration for CodeQL and Actions
+# CRITICAL: GITHUB_HOST must be set for Copilot coding agent on self-hosted runners
+github:
+  host: github.com
+  api_url: https://api.github.com
+
+# CodeQL Configuration (if needed)
+codeql:
+  enabled: false  # Disable for Copilot agent workflows
+  
+# Environment variables that must be set
+environment_variables:
+  GITHUB_HOST: github.com
+  AGENT_TOOLSDIRECTORY: D:\hostedtoolcache

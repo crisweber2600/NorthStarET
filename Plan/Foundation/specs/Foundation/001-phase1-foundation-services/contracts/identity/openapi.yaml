@@ -1,0 +1,788 @@
+openapi: 3.0.3
+info:
+  title: NorthStar Identity & Authentication API
+  description: |
+    Identity and Authentication Service for NorthStar LMS.
+    
+    Provides:
+    - Microsoft Entra ID SSO integration
+    - Local username/password authentication fallback
+    - JWT token generation and refresh
+    - User and role management
+    - Multi-tenant isolation
+  version: 1.0.0
+  contact:
+    name: NorthStar Development Team
+    email: dev@northstar.edu
+
+servers:
+  - url: https://api.northstar.edu/api/identity
+    description: Production API Gateway
+  - url: http://localhost:5001/api
+    description: Local Development
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Authentication
+    description: Authentication and token management
+  - name: Users
+    description: User account management
+  - name: Roles
+    description: Role and permission management
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate user with email/password
+      description: |
+        Authenticate a user using local credentials. Returns JWT access token and refresh token.
+        Falls back to this method when Microsoft Entra ID is unavailable.
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '423':
+          $ref: '#/components/responses/AccountLocked'
+
+  /auth/login/entra:
+    get:
+      tags:
+        - Authentication
+      summary: Initiate Microsoft Entra ID SSO
+      description: Redirects user to Microsoft Entra ID login page
+      operationId: loginEntra
+      security: []
+      responses:
+        '302':
+          description: Redirect to Microsoft Entra ID
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize
+
+  /auth/callback/entra:
+    get:
+      tags:
+        - Authentication
+      summary: Microsoft Entra ID callback
+      description: Handles redirect from Microsoft Entra ID after successful authentication
+      operationId: entraCallback
+      security: []
+      parameters:
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh access token
+      description: Exchange refresh token for new access token
+      operationId: refreshToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout user
+      description: Revokes refresh token and invalidates session
+      operationId: logout
+      responses:
+        '204':
+          description: Logout successful
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/password/reset:
+    post:
+      tags:
+        - Authentication
+      summary: Request password reset
+      description: Sends password reset email to user
+      operationId: requestPasswordReset
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '202':
+          description: Password reset email sent (if account exists)
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/password/reset/{token}:
+    post:
+      tags:
+        - Authentication
+      summary: Complete password reset
+      description: Reset password using token from email
+      operationId: resetPassword
+      security: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPassword
+              properties:
+                newPassword:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        '200':
+          description: Password reset successful
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: List users
+      description: Get paginated list of users in tenant
+      operationId: listUsers
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - name: searchTerm
+          in: query
+          schema:
+            type: string
+          description: Search by name or email
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+          description: Filter by active status
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags:
+        - Users
+      summary: Create user
+      description: Create a new user account
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Get user by ID
+      description: Retrieve user details
+      operationId: getUserById
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Update user information
+      operationId: updateUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: Soft delete user (sets IsActive=false)
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: User deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/{userId}/roles:
+    get:
+      tags:
+        - Users
+      summary: Get user roles
+      description: Retrieve roles assigned to user
+      operationId: getUserRoles
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
+
+    post:
+      tags:
+        - Users
+      summary: Assign role to user
+      description: Add role to user
+      operationId: assignRoleToUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - roleId
+              properties:
+                roleId:
+                  type: string
+                  format: uuid
+      responses:
+        '204':
+          description: Role assigned successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    delete:
+      tags:
+        - Users
+      summary: Remove role from user
+      description: Revoke role from user
+      operationId: removeRoleFromUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - name: roleId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Role removed successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /roles:
+    get:
+      tags:
+        - Roles
+      summary: List roles
+      description: Get all roles in tenant
+      operationId: listRoles
+      responses:
+        '200':
+          description: Roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
+
+    post:
+      tags:
+        - Roles
+      summary: Create role
+      description: Create new role (non-system)
+      operationId: createRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoleRequest'
+      responses:
+        '201':
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /roles/{roleId}:
+    delete:
+      tags:
+        - Roles
+      summary: Delete role
+      description: Delete non-system role
+      operationId: deleteRole
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Role deleted successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Service health status
+      operationId: healthCheck
+      security: []
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    PageNumber:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: admin@district.edu
+        password:
+          type: string
+          format: password
+          example: SecureP@ssw0rd
+
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refreshToken:
+          type: string
+          description: Refresh token for obtaining new access token
+          example: a7b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7
+        expiresIn:
+          type: integer
+          description: Access token expiration in seconds
+          example: 3600
+        tokenType:
+          type: string
+          example: Bearer
+        user:
+          $ref: '#/components/schemas/UserDto'
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        emailConfirmed:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+          description: Computed from firstName + lastName
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+        lastLoginAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDto'
+
+    CreateUserRequest:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        phoneNumber:
+          type: string
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: Optional - if not provided, user must use Entra ID or reset password
+        roleIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+
+    UserListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+        totalCount:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalPages:
+          type: integer
+
+    RoleDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        isSystemRole:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateRoleRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [Healthy, Degraded, Unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [Healthy, Degraded, Unhealthy]
+              description:
+                type: string
+              duration:
+                type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: https://tools.ietf.org/html/rfc7231#section-6.5.1
+        title:
+          type: string
+          example: One or more validation errors occurred.
+        status:
+          type: integer
+          example: 400
+        traceId:
+          type: string
+          example: 00-trace-id-00
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized - Invalid or missing authentication token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Forbidden - User lacks required permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Conflict:
+      description: Conflict - Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    AccountLocked:
+      description: Account locked due to failed login attempts
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
