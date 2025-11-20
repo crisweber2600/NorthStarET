@@ -89,28 +89,20 @@ find_feature_dir_by_prefix() {
     local repo_root="$1"
     local branch_name="$2"
     local specs_dir="$repo_root/specs"
-    local prefix=""
 
-    # Extract layer and numeric prefix from branch (e.g., "Foundation/004-feature" or "004-feature")
-    if [[ "$branch_name" =~ ^(.+)/([0-9]{3})- ]]; then
+    # Check if we are in a Layer branch (e.g. CrossCuttingConcerns/003-...)
+    if [[ "$branch_name" =~ ^([^/]+)/ ]]; then
         local layer="${BASH_REMATCH[1]}"
-        prefix="${BASH_REMATCH[2]}"
-        # Check Plan/{Layer}/specs first, then Src/{Layer}/specs
         if [[ -d "$repo_root/Plan/$layer/specs" ]]; then
             specs_dir="$repo_root/Plan/$layer/specs"
-        elif [[ -d "$repo_root/Src/$layer/specs" ]]; then
-            specs_dir="$repo_root/Src/$layer/specs"
-        else
-            # Fallback or error? Assume Plan for now if creating
-            specs_dir="$repo_root/Plan/$layer/specs"
         fi
-    elif [[ "$branch_name" =~ ^([0-9]{3})- ]]; then
-        prefix="${BASH_REMATCH[1]}"
-        # Legacy location
-        specs_dir="$repo_root/specs"
-    else
+    fi
+
+    # Extract numeric prefix from branch (e.g., "004" from "004-whatever" or "Layer/004-whatever")
+    local clean_branch_name=${branch_name##*/}
+    if [[ ! "$clean_branch_name" =~ ^([0-9]{3})- ]]; then
         # If branch doesn't have numeric prefix, fall back to exact match
-        echo "$specs_dir/$branch_name"
+        echo "$specs_dir/$clean_branch_name"
         return
     fi
 
@@ -127,7 +119,7 @@ find_feature_dir_by_prefix() {
     # Handle results
     if [[ ${#matches[@]} -eq 0 ]]; then
         # No match found - return the branch name path (will fail later with clear error)
-        echo "$specs_dir/$branch_name"
+        echo "$specs_dir/$clean_branch_name"
     elif [[ ${#matches[@]} -eq 1 ]]; then
         # Exactly one match - perfect!
         echo "$specs_dir/${matches[0]}"
@@ -135,7 +127,7 @@ find_feature_dir_by_prefix() {
         # Multiple matches - this shouldn't happen with proper naming convention
         echo "ERROR: Multiple spec directories found with prefix '$prefix': ${matches[*]}" >&2
         echo "Please ensure only one spec directory exists per numeric prefix." >&2
-        echo "$specs_dir/$branch_name"  # Return something to avoid breaking the script
+        echo "$specs_dir/$clean_branch_name"  # Return something to avoid breaking the script
     fi
 }
 
