@@ -1,5 +1,23 @@
 # Feature Specification: Aspire Orchestration & Cross-Cutting Scaffolding
 
+---
+ado_work_item_id: 1401
+ado_parent_id: 1400
+ado_work_item_type: "User Story"
+ado_url: "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1401"
+last_synced: "2025-11-20T19:59:53Z"
+sync_status: "synced"
+story_points: 89
+priority: 1
+tags:
+  - aspire
+  - orchestration
+  - multi-tenancy
+  - event-driven
+  - observability
+  - scaffolding
+---
+
 **Specification Branch**: `CrossCuttingConcerns/000-aspire-scaffolding-spec` *(planning artifacts only)*
 **Implementation Branch**: `CrossCuttingConcerns/000-aspire-scaffolding` *(created after spec approval)*
 **Created**: 2025-11-20

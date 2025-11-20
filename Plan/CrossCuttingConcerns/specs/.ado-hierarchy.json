@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-11-20T19:58:00Z",
+  "epics": {
+    "crosscutting-concerns": {
+      "work_item_id": 1399,
+      "title": "Cross-Cutting Concerns",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1399",
+      "folder": "Plan/CrossCuttingConcerns"
+    }
+  },
+  "features": {
+    "aspire-orchestration": {
+      "work_item_id": 1400,
+      "parent_epic": "crosscutting-concerns",
+      "parent_work_item_id": 1399,
+      "title": "Aspire Orchestration & Scaffolding",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1400",
+      "folder_pattern": "000-aspire-*"
+    }
+  }
+}
