@@ -207,6 +207,320 @@
 
 ---
 
+## Architectural Appendix
+
+### Current State (Legacy)
+
+**Location**: `NS4.WebAPI/Controllers/` project (legacy monolith)  
+**Framework**: .NET Framework 4.6  
+**Database**: Per-district SQL Server databases
+
+**Key Legacy Components**:
+- `NS4.WebAPI/Controllers/SectionController.cs` - Class section CRUD operations
+- `NS4.WebAPI/Controllers/RosterController.cs` - Student roster management
+- `NS4.WebAPI/Controllers/ScheduleController.cs` - Student schedule generation
+- Legacy tables: `Sections`, `ClassRosters`, `TeacherAssignments`, `SchoolPeriods`
+- Tight coupling with staff and student data in single database
+- Manual year-end rollover process (batch job in NS4.BatchProcessor)
+
+**Legacy Limitations**:
+- No automated conflict detection for student schedules
+- Limited capacity management and waitlist support
+- Manual rollover requiring significant administrative time
+- No real-time co-teaching support
+- Tight database coupling prevents independent scaling
+
+### Target State (.NET 10 Microservice)
+
+#### Architecture
+
+**Clean Architecture Layers**:
+```
+Section.API/                    # UI Layer (REST endpoints)
+├── Controllers/
+├── Middleware/
+└── Program.cs
+
+Section.Application/            # Application Layer
+├── Commands/                  # Create section, add student, rollover
+├── Queries/                   # Get section, student schedule
+├── DTOs/
+├── Interfaces/
+└── Services/
+    └── RolloverService/       # Automated year-end rollover
+
+Section.Domain/                # Domain Layer
+├── Entities/
+│   ├── Section.cs
+│   ├── Roster.cs
+│   ├── TeacherAssignment.cs
+│   ├── Period.cs
+│   └── RolloverRecord.cs
+├── Events/
+│   ├── SectionCreatedEvent.cs
+│   ├── StudentAddedToRosterEvent.cs
+│   ├── StudentDroppedFromRosterEvent.cs
+│   ├── RolloverCompletedEvent.cs
+│   └── CapacityReachedEvent.cs
+└── ValueObjects/
+    ├── AcademicYear.cs
+    ├── Term.cs
+    └── TimeSlot.cs
+
+Section.Infrastructure/        # Infrastructure Layer
+├── Data/
+│   ├── SectionDbContext.cs
+│   └── Repositories/
+├── Integration/
+│   ├── EventPublisher.cs
+│   ├── StudentServiceClient.cs
+│   └── StaffServiceClient.cs
+└── MessageBus/
+```
+
+#### Technology Stack
+
+- **Framework**: .NET 10, ASP.NET Core
+- **Data Access**: EF Core 9 with PostgreSQL
+- **Messaging**: MassTransit + Azure Service Bus for domain events
+- **Caching**: Redis Stack for section and roster lookups
+- **Orchestration**: .NET Aspire hosting
+- **Background Jobs**: Hangfire for automated rollover scheduling
+
+#### Owned Data
+
+**Database**: `NorthStar_Section_DB`
+
+**Tables**:
+- Sections (Id, TenantId, SectionNumber, CourseName, GradeLevel, SchoolId, Room, Period, Capacity, AcademicYear, Term)
+- TeacherAssignments (Id, TenantId, SectionId, TeacherId, AssignmentType, AssignedDate)
+- Rosters (Id, TenantId, SectionId, StudentId, EnrollmentDate, DropDate, IsActive, WaitlistPosition)
+- Periods (Id, TenantId, SchoolId, PeriodNumber, PeriodName, StartTime, EndTime)
+- RolloverRecords (Id, TenantId, FromYear, ToYear, ExecutedAt, ExecutedBy, TotalSections, TotalStudents, Status)
+
+#### Service Boundaries
+
+**Owned Responsibilities**:
+- Class section creation and configuration
+- Student roster management (add/drop)
+- Teacher-to-section assignments (including co-teaching)
+- School period configuration
+- Automated year-end rollover
+- Capacity management and waitlist tracking
+- Student schedule generation
+- Section search and reporting
+
+**Not Owned** (delegated to other services):
+- Student enrollment data → Student Management Service
+- Teacher availability → Staff Management Service
+- Academic calendar → Configuration Service
+- Grades and attendance → Assessment Service
+- Section analytics → Reporting & Analytics Service
+
+#### Domain Events Published
+
+**Event Schema Version**: 1.0 (follows domain-events-schema.md)
+
+- `SectionCreatedEvent` - When new section is created
+  ```
+  - SectionId: Guid
+  - TenantId: Guid
+  - SchoolId: Guid
+  - SectionNumber: string
+  - CourseName: string
+  - GradeLevel: int
+  - AcademicYear: int
+  - TeacherId: Guid
+  - OccurredAt: DateTime
+  ```
+
+- `StudentAddedToRosterEvent` - When student enrolled in section
+  ```
+  - RosterId: Guid
+  - TenantId: Guid
+  - SectionId: Guid
+  - StudentId: Guid
+  - EnrollmentDate: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `StudentDroppedFromRosterEvent` - When student dropped from section
+  ```
+  - RosterId: Guid
+  - TenantId: Guid
+  - SectionId: Guid
+  - StudentId: Guid
+  - DropDate: DateTime
+  - Reason: string
+  - OccurredAt: DateTime
+  ```
+
+- `RolloverCompletedEvent` - When year-end rollover finishes
+  ```
+  - RolloverId: Guid
+  - TenantId: Guid
+  - FromAcademicYear: int
+  - ToAcademicYear: int
+  - TotalSections: int
+  - TotalStudents: int
+  - PromotedCount: int
+  - RetainedCount: int
+  - CompletedAt: DateTime
+  - OccurredAt: DateTime
+  ```
+
+- `CapacityReachedEvent` - When section reaches max capacity
+  ```
+  - SectionId: Guid
+  - TenantId: Guid
+  - SectionNumber: string
+  - CurrentEnrollment: int
+  - MaxCapacity: int
+  - OccurredAt: DateTime
+  ```
+
+#### Domain Events Subscribed
+
+- `StudentEnrolledEvent` (from Student Service) → Enable section enrollment
+- `StaffCreatedEvent` (from Staff Service) → Enable teacher assignment
+- `CalendarUpdatedEvent` (from Configuration Service) → Trigger automated rollover
+
+#### API Endpoints (Functional Intent)
+
+**Section Management**:
+- Create section → returns section details
+- Update section → modifies section configuration
+- Get section details → returns section with roster count
+- Search sections → returns filtered list with pagination
+
+**Roster Management**:
+- Add student to roster → creates enrollment record
+- Drop student from roster → marks inactive with reason
+- Get section roster → returns student list with enrollment dates
+- Get student schedule → returns all sections for student
+
+**Rollover Operations**:
+- Execute year-end rollover → promotes students and creates template sections
+- Get rollover status → returns progress and results
+- Revert rollover → rolls back to previous year (safety feature)
+
+**Teacher Management**:
+- Assign teacher to section → creates assignment record
+- Add co-teacher → supports multiple instructors per section
+- Get teacher sections → returns all sections for teacher
+
+#### Service Level Objectives (SLOs)
+
+- **Availability**: 99.9% uptime
+- **Create Section**: p95 < 100ms
+- **Add Student to Roster**: p95 < 50ms
+- **Search Sections**: p95 < 100ms
+- **Student Schedule Query**: p95 < 150ms
+- **Year-End Rollover (500 students)**: < 5 minutes
+
+#### Idempotency & Consistency
+
+**Idempotency Windows**:
+- Section creation: 10 minutes (duplicate prevention)
+- Roster add: 5 minutes (prevent duplicate enrollment)
+
+**Consistency Model**:
+- Strong consistency for roster changes (immediate visibility)
+- Eventual consistency for cross-service data (student names, teacher names)
+
+#### Security Considerations
+
+**Constitutional Requirements**:
+- Enforce least privilege principle
+- FERPA compliance for student section data
+- Secrets stored in Azure Key Vault only
+
+**Implementation**:
+- Counselors and administrators can modify rosters
+- Teachers can view their section rosters only
+- Students can view their own schedules only
+- Historical data is immutable after term ends
+- All roster changes audited for compliance
+
+#### Testing Requirements
+
+**Constitutional Compliance**:
+- Reqnroll BDD features before implementation
+- TDD Red → Green with test evidence
+- ≥ 80% code coverage
+
+**Test Categories**:
+
+1. **Unit Tests** (Section.UnitTests):
+   - Capacity validation logic
+   - Rollover promotion rules
+   - Schedule conflict detection
+   - Waitlist ordering
+
+2. **Integration Tests** (Section.IntegrationTests):
+   - Database operations via EF Core
+   - Event publishing to message bus
+   - Cross-service queries (Student, Staff)
+   - Aspire orchestration validation
+
+3. **BDD Tests** (Reqnroll features):
+   - `SectionManagement.feature` - Create and configure sections
+   - `RosterManagement.feature` - Add/drop students
+   - `YearEndRollover.feature` - Automated rollover
+   - `ScheduleGeneration.feature` - Student schedule conflicts
+
+4. **UI Tests** (Playwright):
+   - Section creation form
+   - Roster management workflow
+   - Rollover execution dashboard
+   - Student schedule display
+
+#### Dependencies
+
+**External Services**:
+- Student Management Service - Student enrollment data
+- Staff Management Service - Teacher assignments
+- Configuration Service - Academic calendar and school configuration
+- Azure Service Bus - Event publishing
+- Redis - Section and roster caching
+
+**Infrastructure Dependencies**:
+- PostgreSQL - Section database
+- .NET Aspire AppHost - Service orchestration
+- Hangfire - Background job scheduling for rollover
+
+#### Migration Strategy
+
+**Strangler Fig Approach**:
+
+1. **Phase 3a** (Week 17): Deploy new Section Service alongside legacy
+   - Route new section creation to new service
+   - Legacy sections continue in NS4.WebAPI
+   - Dual-read from both systems
+
+2. **Phase 3b** (Week 18-19): Data migration
+   - Migrate historical section records
+   - Migrate roster enrollment history
+   - Migrate teacher assignments
+   - Maintain both systems in parallel
+
+3. **Phase 3c** (Week 20): Complete cutover
+   - Route all section operations to new service
+   - Keep legacy as read-only fallback
+   - Monitor error rates
+
+4. **Phase 3d** (Week 21): Automated rollover
+   - Execute first automated rollover in new service
+   - Verify promotion logic and template creation
+   - Validate cross-service event propagation
+
+5. **Phase 3e** (Week 22): Decommission legacy
+   - Verify all data migrated
+   - Archive legacy section tables
+   - Remove legacy controllers and batch processors
+
+---
+
 ## Technical Implementation Notes
 
 **Clean Architecture**:
