@@ -12,6 +12,29 @@ These scenario files provide a **business and technical view** into infrastructu
 
 ## Scenario Files
 
+### 00. Aspire Orchestration Setup
+**File**: [00-aspire-scaffolding.md](./00-aspire-scaffolding.md)  
+**Scenarios**: 13  
+**Coverage**:
+- .NET Aspire AppHost initialization
+- PostgreSQL database-per-service provisioning
+- Redis cache configuration
+- RabbitMQ messaging setup
+- Service discovery and registration
+- Aspire dashboard access
+- Health checks and readiness probes
+- Development environment setup
+- Aspire resource dependencies
+- Connection string management
+- Container orchestration
+- Development workflow integration
+- Production deployment preparation
+
+**Key Business Value**: Consistent local development, simplified orchestration, unified monitoring  
+**Related Architecture**: [Aspire Orchestration Pattern](../patterns/aspire-orchestration.md)
+
+---
+
 ### 01. Identity Service: Microsoft Entra ID Authentication
 **File**: [01-identity-service.md](./01-identity-service.md)  
 **Scenarios**: 10  
@@ -155,6 +178,45 @@ And [performance/security requirement]
 
 ---
 
+## Current Specification Status
+
+**All scenarios have been processed into specifications!** ✅
+
+For complete status and next steps, see:
+- **[SPECIFICATION_STATUS_REPORT.md](./SPECIFICATION_STATUS_REPORT.md)** - Comprehensive analysis of all specifications
+- **[RESOLUTION_ACTION_PLAN.md](./RESOLUTION_ACTION_PLAN.md)** - How to resolve existing branch issues
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Daily working guide for specifications
+
+### Quick Summary
+- ✅ 4/4 scenarios have specifications
+- ⚠️ Some branch structure issues need resolution (see action plan)
+- 📋 All specifications ready for stakeholder review
+- 🚧 Implementation ready after issue resolution
+
+### Specification Branches
+Each scenario has been processed into:
+- **Spec Branch** (`CrossCuttingConcerns/[###]-feature-name-spec`): Working branch for planning
+- **Proposed Branch** (`CrossCuttingConcerns/[###]-feature-name-proposed`): Review branch for stakeholders
+
+| Scenario | Feature # | Status | Spec Branch | Proposed Branch |
+|----------|-----------|--------|-------------|-----------------|
+| 00-aspire-scaffolding | 000 | ⚠️ Missing spec branch | ❌ | ✅ |
+| 01-identity-service | 001 | ✅ Complete | ✅ | ✅ |
+| 02-api-gateway | 002 | ⚠️ Version conflict | ✅ | ✅ |
+| 03-configuration-service | 003 | ✅ Complete | ✅ | ✅ |
+
+See [SPECIFICATION_STATUS_REPORT.md](./SPECIFICATION_STATUS_REPORT.md) for details.
+
+---
+
+## Processing Reports
+
+Historical records of scenario processing:
+- [PROCESSING_REPORT_2025-11-20T00-00-00Z.md](./PROCESSING_REPORT_2025-11-20T00-00-00Z.md) - Initial processing (all 4 scenarios)
+- [PROCESSING_REPORT_2025-11-20T16-25-00Z.md](./PROCESSING_REPORT_2025-11-20T16-25-00Z.md) - API Gateway reprocessing
+
+---
+
 **Last Updated**: November 20, 2025  
-**Version**: 1.0.0  
+**Version**: 1.1.0 (Updated with specification status)  
 **Maintainer**: NorthStarET Architecture Team
