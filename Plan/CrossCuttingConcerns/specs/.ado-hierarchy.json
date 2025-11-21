@@ -1,22 +1,191 @@
 {
-  "version": "1.0.0",
-  "last_updated": "2025-11-20T19:58:00Z",
+  "version": "4.0.0",
+  "last_updated": "2025-11-20T22:30:00Z",
+  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Priority Group)",
+  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent priority groupings (P1, P2, P3) within phases with markdown checkbox tasks (1 point per task) and Gherkin acceptance criteria.",
   "epics": {
-    "crosscutting-concerns": {
+    "aspire-scaffolding": {
       "work_item_id": 1399,
-      "title": "Cross-Cutting Concerns",
+      "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
       "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1399",
-      "folder": "Plan/CrossCuttingConcerns"
-    }
-  },
-  "features": {
-    "aspire-orchestration": {
-      "work_item_id": 1400,
-      "parent_epic": "crosscutting-concerns",
-      "parent_work_item_id": 1399,
-      "title": "Aspire Orchestration & Scaffolding",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1400",
-      "folder_pattern": "000-aspire-*"
+      "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
+      "layer": "foundation",
+      "tags": ["foundation", "cross-cutting", "aspire"],
+      "phases": {
+        "phase1-setup": {
+          "work_item_id": 1403,
+          "title": "Phase 1: Setup",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1403",
+          "tasks": ["T008", "T009", "T010", "T011", "T012", "T013", "T014"],
+          "user_stories": {
+            "priority-1-implementation": {
+              "work_item_id": 1429,
+              "title": "Phase 1: Priority 1 Implementation",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1429",
+              "priority": 1,
+              "story_points": 7
+            }
+          }
+        },
+        "phase2-foundational": {
+          "work_item_id": 1410,
+          "title": "Phase 2: Foundational",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
+          "tasks": ["T015", "T016", "T017", "T018"],
+          "user_stories": {
+            "priority-1-implementation": {
+              "work_item_id": 1425,
+              "title": "Phase 2: Priority 1 Implementation",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1425",
+              "priority": 1,
+              "story_points": 4
+            }
+          }
+        },
+        "phase3-apphost-boot": {
+          "work_item_id": 1405,
+          "title": "Phase 3: User Story 1 - AppHost Boot",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1405",
+          "tasks": ["T019", "T020", "T021", "T022", "T023", "T024", "T025"],
+          "user_stories": {
+            "us1-apphost-boot": {
+              "work_item_id": 1427,
+              "title": "Phase 3: US1 - AppHost Boot with Resource Orchestration",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1427",
+              "requirement_key": "US1",
+              "priority": 1,
+              "story_points": 7
+            }
+          }
+        },
+        "phase4-tenant-isolation": {
+          "work_item_id": 1404,
+          "title": "Phase 4: User Story 3 - Tenant Isolation",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1404",
+          "tasks": ["T026", "T027", "T028", "T029", "T030", "T031", "T032", "T033", "T034"],
+          "user_stories": {
+            "us3-tenant-isolation": {
+              "work_item_id": 1426,
+              "title": "Phase 4: US3 - Tenant Isolation with TenantInterceptor",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1426",
+              "requirement_key": "US3",
+              "priority": 1,
+              "story_points": 9
+            }
+          }
+        },
+        "phase5-event-publication": {
+          "work_item_id": 1416,
+          "title": "Phase 5: Event Publication",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1416",
+          "tasks": ["T035", "T036", "T037", "T038", "T039", "T040", "T041", "T042", "T043"],
+          "user_stories": {
+            "us4-event-publication": {
+              "work_item_id": 1428,
+              "title": "Phase 5: US4 - Event Publication with MassTransit",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1428",
+              "requirement_key": "US4",
+              "priority": 1,
+              "story_points": 9
+            }
+          }
+        },
+        "phase6-redis-caching": {
+          "work_item_id": 1409,
+          "title": "Phase 6: Redis Caching",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1409",
+          "tasks": ["T044", "T045", "T046", "T047", "T048", "T049", "T050", "T051", "T052"],
+          "user_stories": {
+            "us5-redis-caching": {
+              "work_item_id": 1433,
+              "title": "Phase 6: US5 - Redis Caching & Idempotency",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1433",
+              "requirement_key": "US5",
+              "priority": 2,
+              "story_points": 9
+            }
+          }
+        },
+        "phase7-observability": {
+          "work_item_id": 1411,
+          "title": "Phase 7: Observability",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1411",
+          "tasks": ["T053", "T054", "T055", "T056", "T057", "T058", "T059", "T060", "T061"],
+          "user_stories": {
+            "us6-observability": {
+              "work_item_id": 1435,
+              "title": "Phase 7: US6 - Observability with OpenTelemetry",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1435",
+              "requirement_key": "US6",
+              "priority": 2,
+              "story_points": 9
+            }
+          }
+        },
+        "phase8-scaffolding": {
+          "work_item_id": 1415,
+          "title": "Phase 8: Scaffolding",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1415",
+          "tasks": ["T062", "T063", "T064", "T065", "T066", "T067", "T068", "T069", "T070", "T071", "T072", "T073", "T074"],
+          "user_stories": {
+            "us2-scaffolding": {
+              "work_item_id": 1432,
+              "title": "Phase 8: US2 - Service Scaffolding Scripts",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1432",
+              "requirement_key": "US2",
+              "priority": 2,
+              "story_points": 13
+            }
+          }
+        },
+        "phase9-api-gateway": {
+          "work_item_id": 1413,
+          "title": "Phase 9: API Gateway",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1413",
+          "tasks": ["T075", "T076", "T077", "T078", "T079", "T080", "T081", "T082", "T083"],
+          "user_stories": {
+            "us7-api-gateway": {
+              "work_item_id": 1434,
+              "title": "Phase 9: US7 - API Gateway with Legacy Routing",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1434",
+              "requirement_key": "US7",
+              "priority": 2,
+              "story_points": 9
+            }
+          }
+        },
+        "phase10-resilient-messaging": {
+          "work_item_id": 1412,
+          "title": "Phase 10: Resilient Messaging",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1412",
+          "tasks": ["T084", "T085", "T086", "T087", "T088", "T089", "T090"],
+          "user_stories": {
+            "us8-resilient-messaging": {
+              "work_item_id": 1431,
+              "title": "Phase 10: US8 - Resilient Messaging with Circuit Breaker",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1431",
+              "requirement_key": "US8",
+              "priority": 2,
+              "story_points": 7
+            }
+          }
+        },
+        "phase11-polish": {
+          "work_item_id": 1414,
+          "title": "Phase 11: Polish",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1414",
+          "tasks": ["T091", "T092", "T093", "T094", "T095", "T096", "T097", "T098", "T099", "T100"],
+          "user_stories": {
+            "priority-3-implementation": {
+              "work_item_id": 1430,
+              "title": "Phase 11: Priority 3 Implementation",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1430",
+              "priority": 3,
+              "story_points": 10
+            }
+          }
+        }
+      }
     }
   }
 }
