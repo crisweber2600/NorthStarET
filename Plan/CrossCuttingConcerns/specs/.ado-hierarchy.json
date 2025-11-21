@@ -11,13 +11,25 @@
       "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1399",
       "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
       "layer": "foundation",
-      "tags": ["foundation", "cross-cutting", "aspire"],
+      "tags": [
+        "foundation",
+        "cross-cutting",
+        "aspire"
+      ],
       "phases": {
         "phase1-setup": {
           "work_item_id": 1403,
           "title": "Phase 1: Setup",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1403",
-          "tasks": ["T008", "T009", "T010", "T011", "T012", "T013", "T014"],
+          "tasks": [
+            "T008",
+            "T009",
+            "T010",
+            "T011",
+            "T012",
+            "T013",
+            "T014"
+          ],
           "user_stories": {
             "setup-infrastructure": {
               "work_item_id": 1429,
@@ -33,7 +45,12 @@
           "work_item_id": 1410,
           "title": "Phase 2: Foundational",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
-          "tasks": ["T015", "T016", "T017", "T018"],
+          "tasks": [
+            "T015",
+            "T016",
+            "T017",
+            "T018"
+          ],
           "user_stories": {
             "foundational-infrastructure": {
               "work_item_id": 1425,
@@ -49,7 +66,15 @@
           "work_item_id": 1405,
           "title": "Phase 3: User Story 1 - AppHost Boot",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1405",
-          "tasks": ["T019", "T020", "T021", "T022", "T023", "T024", "T025"],
+          "tasks": [
+            "T019",
+            "T020",
+            "T021",
+            "T022",
+            "T023",
+            "T024",
+            "T025"
+          ],
           "user_stories": {
             "us1-apphost-boot": {
               "work_item_id": 1427,
@@ -67,7 +92,17 @@
           "work_item_id": 1404,
           "title": "Phase 4: User Story 3 - Tenant Isolation",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1404",
-          "tasks": ["T026", "T027", "T028", "T029", "T030", "T031", "T032", "T033", "T034"],
+          "tasks": [
+            "T026",
+            "T027",
+            "T028",
+            "T029",
+            "T030",
+            "T031",
+            "T032",
+            "T033",
+            "T034"
+          ],
           "user_stories": {
             "us3-tenant-isolation": {
               "work_item_id": 1426,
@@ -85,7 +120,17 @@
           "work_item_id": 1416,
           "title": "Phase 5: Event Publication",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1416",
-          "tasks": ["T035", "T036", "T037", "T038", "T039", "T040", "T041", "T042", "T043"],
+          "tasks": [
+            "T035",
+            "T036",
+            "T037",
+            "T038",
+            "T039",
+            "T040",
+            "T041",
+            "T042",
+            "T043"
+          ],
           "user_stories": {
             "us4-event-publication": {
               "work_item_id": 1428,
@@ -103,7 +148,17 @@
           "work_item_id": 1409,
           "title": "Phase 6: Redis Caching",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1409",
-          "tasks": ["T044", "T045", "T046", "T047", "T048", "T049", "T050", "T051", "T052"],
+          "tasks": [
+            "T044",
+            "T045",
+            "T046",
+            "T047",
+            "T048",
+            "T049",
+            "T050",
+            "T051",
+            "T052"
+          ],
           "user_stories": {
             "us5-redis-caching": {
               "work_item_id": 1433,
@@ -121,7 +176,17 @@
           "work_item_id": 1411,
           "title": "Phase 7: Observability",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1411",
-          "tasks": ["T053", "T054", "T055", "T056", "T057", "T058", "T059", "T060", "T061"],
+          "tasks": [
+            "T053",
+            "T054",
+            "T055",
+            "T056",
+            "T057",
+            "T058",
+            "T059",
+            "T060",
+            "T061"
+          ],
           "user_stories": {
             "us6-observability": {
               "work_item_id": 1435,
@@ -139,7 +204,21 @@
           "work_item_id": 1415,
           "title": "Phase 8: Scaffolding",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1415",
-          "tasks": ["T062", "T063", "T064", "T065", "T066", "T067", "T068", "T069", "T070", "T071", "T072", "T073", "T074"],
+          "tasks": [
+            "T062",
+            "T063",
+            "T064",
+            "T065",
+            "T066",
+            "T067",
+            "T068",
+            "T069",
+            "T070",
+            "T071",
+            "T072",
+            "T073",
+            "T074"
+          ],
           "user_stories": {
             "us2-scaffolding": {
               "work_item_id": 1432,
@@ -157,7 +236,17 @@
           "work_item_id": 1413,
           "title": "Phase 9: API Gateway",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1413",
-          "tasks": ["T075", "T076", "T077", "T078", "T079", "T080", "T081", "T082", "T083"],
+          "tasks": [
+            "T075",
+            "T076",
+            "T077",
+            "T078",
+            "T079",
+            "T080",
+            "T081",
+            "T082",
+            "T083"
+          ],
           "user_stories": {
             "us7-api-gateway": {
               "work_item_id": 1434,
@@ -175,7 +264,15 @@
           "work_item_id": 1412,
           "title": "Phase 10: Resilient Messaging",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1412",
-          "tasks": ["T084", "T085", "T086", "T087", "T088", "T089", "T090"],
+          "tasks": [
+            "T084",
+            "T085",
+            "T086",
+            "T087",
+            "T088",
+            "T089",
+            "T090"
+          ],
           "user_stories": {
             "us8-resilient-messaging": {
               "work_item_id": 1431,
@@ -193,7 +290,18 @@
           "work_item_id": 1414,
           "title": "Phase 11: Polish",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1414",
-          "tasks": ["T091", "T092", "T093", "T094", "T095", "T096", "T097", "T098", "T099", "T100"],
+          "tasks": [
+            "T091",
+            "T092",
+            "T093",
+            "T094",
+            "T095",
+            "T096",
+            "T097",
+            "T098",
+            "T099",
+            "T100"
+          ],
           "user_stories": {
             "polish-cross-cutting": {
               "work_item_id": 1430,
