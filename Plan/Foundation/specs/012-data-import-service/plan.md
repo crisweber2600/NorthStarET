@@ -1,5 +1,8 @@
 Technical Plan (Data Import Service)
 
+**Layer Identification**: Foundation
+**Implementation Path**: `Src/Foundation/services/DataImport/`
+
 Pipeline:
 1. Upload endpoint stores file (Azure Blob) + creates ImportJob row (Status=Uploaded).
 2. StartImportCommand enqueues Hangfire ImportProcessorJob.
