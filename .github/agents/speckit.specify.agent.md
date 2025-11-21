@@ -36,35 +36,73 @@ Given that feature description, do this:
      - "Create a dashboard for analytics" → "analytics-dashboard"
      - "Fix payment processing timeout bug" → "fix-payment-timeout"
 
-2. **Check for existing branches before creating new one**:
+2. **Prepare Specification Branches**:
    
    a. First, fetch all remote branches to ensure we have the latest information:
       ```bash
       git fetch --all --prune
       ```
    
-   b. Find the highest feature number across all sources for the short-name:
-      - Remote branches: `git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
-      - Local branches: `git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
-      - Specs directories: Check for directories matching `specs/[0-9]+-<short-name>`
+   b. Check if `Specs` branch exists:
+      ```bash
+      git rev-parse --verify origin/Specs 2>/dev/null || git rev-parse --verify Specs 2>/dev/null
+      ```
    
-   c. Determine the next available number:
-      - Extract all numbers from all three sources
+   c. If `Specs` branch does NOT exist:
+      - Ensure we're starting from main:
+        ```bash
+        git checkout main
+        git pull origin main
+        ```
+      - Create `Specs` branch from main:
+        ```bash
+        git checkout -b Specs
+        git push -u origin Specs
+        ```
+      - Report: "Created `Specs` branch from `main`"
+   
+   d. If `Specs` branch exists:
+      - Check it out and ensure it's up to date:
+        ```bash
+        git checkout Specs
+        git pull origin Specs
+        ```
+   
+   e. Check if `proposed-specs` branch exists:
+      ```bash
+      git rev-parse --verify origin/proposed-specs 2>/dev/null || git rev-parse --verify proposed-specs 2>/dev/null
+      ```
+   
+   f. If `proposed-specs` branch does NOT exist:
+      - Create it from `Specs`:
+        ```bash
+        git checkout -b proposed-specs
+        ```
+      - Report: "Created `proposed-specs` branch from `Specs`"
+   
+   g. If `proposed-specs` branch exists:
+      - Check it out:
+        ```bash
+        git checkout proposed-specs
+        git pull origin proposed-specs
+        ```
+   
+   h. Find the highest feature number in the specs directory:
+      - Check for directories matching `Plan/*/specs/[0-9]+-<short-name>`
+      - Extract all numbers matching the short-name pattern
       - Find the highest number N
-      - Use N+1 for the new branch number
+      - Use N+1 for the new spec number (or 1 if none found)
    
-   d. Run the script `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS"` with the calculated number and short-name:
+   i. Run the script `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS"` with the calculated number and short-name:
       - Pass `--number N+1` and `--short-name "your-short-name"` along with the feature description
-      - Bash example: `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS" --json --number 5 --short-name "user-auth" "Add user authentication"`
-      - PowerShell example: `.specify/scripts/bash/create-new-feature.sh --json "$ARGUMENTS" -Json -Number 5 -ShortName "user-auth" "Add user authentication"`
+      - Script will create spec directory and files WITHOUT creating a git branch (branch already exists)
+      - Bash example: `.specify/scripts/bash/create-new-feature.sh --json --number 5 --short-name "user-auth" "Add user authentication"`
+      - The JSON output will contain SPEC_FILE paths and calculated number
    
    **IMPORTANT**:
-   - Check all three sources (remote branches, local branches, specs directories) to find the highest number
-   - Only match branches/directories with the exact short-name pattern
-   - If no existing branches/directories found with this short-name, start with number 1
-   - You must only ever run this script once per feature
-   - The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
-   - The JSON output will contain BRANCH_NAME and SPEC_FILE paths
+   - All specification work happens on `proposed-specs` branch
+   - No layer-prefixed branches are created at this stage
+   - Branch creation is deferred until `/speckit.implement` is called
    - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot")
 
 3. Load `.specify/templates/spec-template.md` to understand required sections.
@@ -189,9 +227,32 @@ Given that feature description, do this:
 
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
-7. Report completion with branch name, spec file path, checklist results, and readiness for the next phase (`/speckit.clarify` or `/speckit.plan`).
+7. **Commit and Create Pull Request**:
+   
+   a. Stage and commit the specification files:
+      ```bash
+      git add .
+      git commit -m "Add specification: [###]-<short-name>"
+      ```
+   
+   b. Push `proposed-specs` branch to remote:
+      ```bash
+      git push -u origin proposed-specs
+      ```
+   
+   c. Create a pull request from `proposed-specs` to `Specs` using the `#create_pull_request` tool:
+      - Title: "Specification: [###]-<short-name>"
+      - Body: Include link to spec.md and summary of the feature
+      - Base branch: `Specs`
+      - Head branch: `proposed-specs`
+   
+8. Report completion with:
+   - Spec file path
+   - Checklist results
+   - Pull request URL
+   - Readiness for the next phase (`/speckit.clarify` or `/speckit.plan`)
 
-**NOTE:** The script creates and checks out the new branch and initializes the spec file before writing.
+**NOTE:** All specification work happens on `proposed-specs` branch. Implementation branches are created later by `/speckit.implement`.
 
 ## General Guidelines
 
