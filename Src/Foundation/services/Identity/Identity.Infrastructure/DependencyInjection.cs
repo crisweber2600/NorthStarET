@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NorthStarET.Foundation.Identity.Infrastructure.Caching;
 using NorthStarET.Foundation.Identity.Infrastructure.Data;
+using NorthStarET.Foundation.Identity.Infrastructure.Identity;
+using NorthStarET.Foundation.Identity.Infrastructure.Repositories;
 
 namespace NorthStarET.Foundation.Identity.Infrastructure;
 
@@ -41,11 +43,18 @@ public static class DependencyInjection
             }
         });
         
-        // Add session caching service
+        // Add caching services
         services.AddScoped<ISessionCacheService, SessionCacheService>();
         
+        // Add repositories (use Application interfaces)
+        services.AddScoped<Application.Interfaces.IUserRepository, UserRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
+        services.AddScoped<Application.Interfaces.IAuditRepository, AuditRepository>();
+        
+        // Add identity services (use Application interfaces)
+        services.AddScoped<Application.Interfaces.ISessionManager, SessionManager>();
+        
         // TODO: Add MassTransit messaging
-        // TODO: Add repositories
         
         return services;
     }
