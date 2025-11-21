@@ -265,8 +265,8 @@ description: "Task list for Intervention Management Service Migration (MTSS/RTI 
 ### User Story Dependencies
 
 - **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories. **This is the MVP.**
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Depends on US1 for intervention and enrollment data, but should be independently testable
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Depends on US1 (intervention/enrollment) and US2 (attendance/progress data) for meaningful dashboards and exit criteria
+- **User Story 2 (P2)**: Can start after Foundational (Phase 2), but meaningful testing and completion depends on US1 (intervention and enrollment data/entities) being available. Early development may use stubs/mocks for US1 data.
+- **User Story 3 (P3)**: Can start after Foundational (Phase 2), US1 (Phase 3), and US2 (Phase 4) are complete – Depends on US1 (intervention/enrollment) and US2 (attendance/progress data) for meaningful dashboards and exit criteria
 
 ### Within Each User Story
 
