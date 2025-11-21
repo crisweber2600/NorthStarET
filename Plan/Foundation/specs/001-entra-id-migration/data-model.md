@@ -33,13 +33,15 @@ Link NorthStar user accounts to external identity providers (Microsoft Entra ID)
 CREATE TABLE identity.external_provider_links (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES identity.users(id) ON DELETE CASCADE,
+    tenant_id UUID NOT NULL REFERENCES identity.tenants(id),
     provider VARCHAR(50) NOT NULL,
     provider_subject_id VARCHAR(255) NOT NULL,
     provider_metadata JSONB NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID NULL REFERENCES identity.users(id),
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
-    CONSTRAINT uk_provider_subject UNIQUE (provider, provider_subject_id)
+    CONSTRAINT uk_provider_subject UNIQUE (provider, provider_subject_id),
+    CONSTRAINT uk_user_provider UNIQUE (user_id, provider)
 );
 
 COMMENT ON TABLE identity.external_provider_links IS 
@@ -61,13 +63,17 @@ COMMENT ON COLUMN identity.external_provider_links.is_active IS
 ### Indexes
 
 ```sql
--- Lookup user links by user ID
-CREATE INDEX ix_external_provider_links_user_id 
-    ON identity.external_provider_links(user_id);
+-- Lookup user links by user ID and tenant
+CREATE INDEX ix_external_provider_links_user_tenant 
+    ON identity.external_provider_links(user_id, tenant_id);
 
 -- Lookup user by provider + subject ID (authentication flow)
 CREATE INDEX ix_external_provider_links_provider_subject 
     ON identity.external_provider_links(provider, provider_subject_id);
+
+-- Tenant isolation queries
+CREATE INDEX ix_external_provider_links_tenant 
+    ON identity.external_provider_links(tenant_id);
 
 -- Find active links only
 CREATE INDEX ix_external_provider_links_active 
