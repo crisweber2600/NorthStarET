@@ -59,7 +59,7 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 
 **Purpose**: Initialize API Gateway project structure and Aspire orchestration
 
-- [ ] T011 Create ApiGateway.csproj with YARP 2.3+, Aspire.Hosting.Yarp 9.4+, Microsoft.Identity.Web 3.5+ dependencies
+- [ ] T011 Create ApiGateway.csproj with YARP 2.3.0, Aspire.Hosting.Yarp 9.4.0, Microsoft.Identity.Web 3.5.0 dependencies
 - [ ] T012 [P] Initialize Program.cs with minimal API host and YARP middleware pipeline setup
 - [ ] T013 [P] Create appsettings.json with base configuration (Redis connection strings, JWT issuer/audience placeholders)
 - [ ] T014 [P] Create appsettings.Development.json for local dev overrides (User Secrets references)
@@ -111,11 +111,11 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 - [ ] T031 Implement YarpConfigurationProvider in Configuration/YarpConfigurationProvider.cs (load routes from Azure App Config)
 - [ ] T032 [P] Create RouteConfig model in Configuration/RouteConfig.cs (route definition schema)
 - [ ] T033 [P] Create ClusterConfig model in Configuration/ClusterConfig.cs (backend cluster definitions)
-- [ ] T034 Configure YARP routes in AppHost/Program.cs using fluent API (.AddRoute, .WithConfiguration)
-- [ ] T035 [P] Implement route for Student API (/api/v1/students → http://student-api) in AppHost/Program.cs
-- [ ] T036 [P] Implement route for Identity API (/api/v1/auth → http://identity-api) in AppHost/Program.cs
-- [ ] T037 [P] Implement route for legacy NS4.WebAPI (/api/v1/assessments → legacy-ns4) in AppHost/Program.cs
-- [ ] T038 Configure API versioning routes (/api/v1/*, /api/v2/*) with version-specific clusters
+- [ ] T034 Configure YARP routes in Src/Foundation/AppHost/Program.cs using fluent API (.AddRoute, .WithConfiguration)
+- [ ] T035 [P] Implement route for Student API (/api/v1/students → http://student-api) in Src/Foundation/AppHost/Program.cs
+- [ ] T036 [P] Implement route for Identity API (/api/v1/auth → http://identity-api) in Src/Foundation/AppHost/Program.cs
+- [ ] T037 [P] Implement route for legacy NS4.WebAPI (/api/v1/assessments → legacy-ns4) in Src/Foundation/AppHost/Program.cs
+- [ ] T038 Configure API versioning routes (/api/v1/*, /api/v2/*) with version-specific clusters in Src/Foundation/AppHost/Program.cs
 
 ### Request/Response Transforms
 
@@ -162,7 +162,7 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 
 - [ ] T058 Create BDD feature file for AuthenticationValidation in tests/bdd/ApiGateway.Specs/Features/AuthenticationValidation.feature
 - [ ] T059 Implement step definitions for AuthenticationValidation.feature (valid token, expired token, invalid signature)
-- [ ] T060 Create integration tests for JWT validation in tests/integration/ApiGateway.IntegrationTests/Scenarios/AuthenticationValidationTests.cs
+- [ ] T060 Create integration tests for JWT validation edge cases in tests/integration/ApiGateway.IntegrationTests/Scenarios/AuthenticationValidationTests.cs (token refresh, concurrent requests, cache invalidation)
 - [ ] T061 Create performance test for auth overhead in tests/performance/scenarios/authentication-overhead.js (k6 script)
 - [ ] T062 Verify BDD tests FAIL before implementation (Red phase)
 - [ ] T063 Verify BDD tests PASS after implementation (Green phase)
@@ -452,8 +452,8 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 ### Performance Testing
 
 - [ ] T163 Create k6 performance test for end-to-end latency in tests/performance/scenarios/end-to-end-latency.js
-- [ ] T164 Create k6 performance test for authentication overhead (already created in Phase 4 - verify results)
-- [ ] T165 Create k6 performance test for rate limiting accuracy (already created in Phase 5 - verify results)
+- [ ] T164 Verify authentication overhead test results meet <20ms P95 SLO
+- [ ] T165 Verify rate limiting accuracy test results meet <5ms P95 SLO
 - [ ] T166 Run load tests at 10,000 req/s to validate scalability
 - [ ] T167 Profile Redis operations to ensure <5ms P95 for rate limit checks
 - [ ] T168 Profile JWT validation to ensure <20ms P95 overhead
@@ -471,7 +471,7 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 ### Integration Testing
 
 - [ ] T171 Create ApiGatewayTestHost.cs in tests/integration/ApiGateway.IntegrationTests/ (Aspire test host setup)
-- [ ] T172 Verify all 12 BDD scenarios pass (AuthenticationValidation, StranglerFigRouting, RateLimiting, CORS, CorrelationIds, HealthChecks, CircuitBreakers, RequestTransformation, ApiVersioning, LoadBalancing, RequestValidation)
+- [ ] T172 Verify all 12 BDD scenarios pass across 11 feature files (AuthenticationValidation, StranglerFigRouting [covers Scenarios 1&2], RateLimiting, CORS, CorrelationIds, HealthChecks, CircuitBreakers, RequestTransformation, ApiVersioning, LoadBalancing, RequestValidation)
 - [ ] T173 Run dotnet test with code coverage collection (--collect:"XPlat Code Coverage")
 - [ ] T174 Verify ≥80% line coverage threshold met
 - [ ] T175 Address any coverage gaps in critical paths (middleware, transforms, rate limiting)
@@ -548,9 +548,9 @@ description: "Task breakdown for API Gateway YARP Service Orchestration"
 - **Phase 7 (CORS)**: Can start after Foundational (Phase 2) - No dependencies on other scenarios
 - **Phase 8 (Health Checks)**: Can start after Phase 3 (YARP Configuration) - No other dependencies
 - **Phase 9 (Header Injection)**: Depends on Phase 4 (JWT Authentication) for tenant/user extraction
-- **Phase 10 (Load Balancing)**: Depends on Phase 3 (YARP Configuration) and Phase 6 (Circuit Breaker)
+- **Phase 10 (Load Balancing)**: Core load balancing (T125-T127) depends on Phase 3 (YARP Configuration); passive health check policy (T128, circuit breaker integration) depends on Phase 6 (Circuit Breaker)
 - **Phase 11 (Request Validation)**: Can start after Foundational (Phase 2) - No dependencies on other scenarios
-- **Phase 12 (Correlation IDs)**: Already implemented in Phase 2 (Foundational) - Phase 12 enhances with distributed tracing
+- **Phase 12 (Correlation IDs)**: Basic correlation ID generation and propagation (CorrelationIdMiddleware) is implemented in Phase 2 (Foundational); Phase 12 adds enhancements including client correlation ID reading, response headers, and OpenTelemetry distributed tracing integration
 - **Phase 13 (Dynamic Config)**: Depends on Phase 3 (YARP Configuration) completion
 
 ### Within Each Scenario Phase
