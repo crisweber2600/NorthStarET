@@ -219,19 +219,45 @@ Hierarchy Registry Impact:
          - project: "NorthStarET"
          - workItemType: "Task"
          - title: "Coded" | "Tested" | "Reviewed" | "Merged"
-         - parentId: [User Story work_item_id just created]
-         - state: "To Do"
+         - state: "New" (Azure DevOps default)
+         - priority: 2
          - remainingWork: 0 (hours)
          - description: 
-           * Coded: "Implementation complete for all tasks in range"
-           * Tested: "Unit, integration, and BDD tests passing"
-           * Reviewed: "Code review completed and approved"
-           * Merged: "Pull request merged to main branch"
+           * Coded: "Implementation complete for all tasks in E#-F#-S# (T###-T###)"
+           * Tested: "Unit, integration, and BDD tests passing for E#-F#-S#"
+           * Reviewed: "Code review completed and approved for E#-F#-S#"
+           * Merged: "Pull request merged to main branch for E#-F#-S#"
+       
+       CRITICAL - Task Linking:
+         Tasks CANNOT be linked to User Stories during creation using parentId field.
+         After all 4 Tasks are created, link them separately using:
+         
+         Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_work_items_link
+         Parameters:
+           - updates: Array of 4 link operations
+           - type: "parent" (NOT "child" - this is the child-to-parent direction)
+           - linkToId: [User Story work_item_id]
+           - id: [Task work_item_id]
+         
+         Example:
+           [
+             {"type": "parent", "linkToId": 2267, "id": 2302},
+             {"type": "parent", "linkToId": 2267, "id": 2303},
+             {"type": "parent", "linkToId": 2267, "id": 2306},
+             {"type": "parent", "linkToId": 2267, "id": 2307}
+           ]
+         
+         Why this approach:
+           - Azure DevOps API does NOT support System.Parent field during Task creation
+           - Attempting to use parentId parameter during creation silently fails
+           - Must use separate work_items_link call with type="parent" after creation
+           - Using type="child" will fail with TF201036 error (wrong direction)
+           - Verify linking success by checking for relations in Task work item
      
-     After all creations:
+     After all creations and linking:
        - Add User Story to .ado-hierarchy.json under appropriate epic/feature
        - Record: work_item_id, title, url, story_points, priority
-       - Record child task IDs if tracking needed
+       - Record child task IDs: [coded_id, tested_id, reviewed_id, merged_id]
        - No spec.md frontmatter updates (specs don't have individual work item IDs)
    
    Else if work item exists:
@@ -1383,8 +1409,18 @@ Install EF Core tools and configure migration paths...
 
 ### Problem: "Parent link invalid"
 **Symptom**: `TF201036: You cannot add a Child link between work items`  
-**Diagnosis**: Parent Feature ID in hierarchy registry is incorrect  
-**Fix**: Update `.ado-hierarchy.json` with correct Feature IDs, run `@workspace /sync-ado push --force`
+**Diagnosis**: Either using wrong link type ("child" instead of "parent") or Parent Feature ID in hierarchy registry is incorrect  
+**Fix**: 
+- For Task linking: Use `type: "parent"` in work_items_link call (Tasks link TO parents, not parents link TO children)
+- For Feature linking: Update `.ado-hierarchy.json` with correct Feature IDs, run `@workspace /sync-ado push --force`
+
+### Problem: "Tasks not showing under User Story"
+**Symptom**: Tasks created but don't appear as children of User Story in Azure DevOps  
+**Diagnosis**: Tasks were created without proper parent linking (System.Parent field doesn't work during creation)  
+**Fix**: 
+1. Get Task IDs that need linking
+2. Use `mcp_microsoft_azu_wit_work_items_link` with `type: "parent"` and `linkToId: [User Story ID]`
+3. Verify by querying Task with `expand: "relations"` to see parent link in relations array
 
 ### Problem: "Conflict loop"
 **Symptom**: Every sync detects conflicts  

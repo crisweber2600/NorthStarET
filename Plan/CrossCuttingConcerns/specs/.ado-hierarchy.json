@@ -1,13 +1,20 @@
 {
-  "version": "8.0.0",
-  "last_updated": "2025-11-21T18:00:00Z",
-  "hierarchy": "Parent Epic (1454) → Epic (Spec) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group) → Task (Coded/Tested/Reviewed/Merged)",
-  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. All CrossCuttingConcerns epics (E0-E3) are children of parent Epic 1454. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback). Features organized by functional domains instead of phases for better cross-phase tracking. Each User Story has exactly 4 child Task work items for milestone tracking.",
+  "version": "9.0.0",
+  "last_updated": "2025-11-21T21:00:00Z",
+  "hierarchy": "Master Portfolio (2116) → Portfolio (1454) → Epic (Spec) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group) → Task (Coded/Tested/Reviewed/Merged)",
+  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. All CrossCuttingConcerns epics (E0-E3) are children of Portfolio 1454, which is a child of Master Portfolio 2116 'NorthStarET LMS Modernization'. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback). Features organized by functional domains instead of phases for better cross-phase tracking. Each User Story has exactly 4 child Task work items for milestone tracking.",
   "grouping_note": "The grouping_strategy field records how the agent created each User Story: 'requirement_key' when [US#] markers found in tasks.md, 'functional_group' when tasks grouped by functional area. Features represent functional domains (Foundation, Orchestration, Messaging, Performance, DevEx, Quality) rather than phases to allow cross-phase work item tracking.",
-  "parent_epic": {
+  "master_portfolio": {
+    "work_item_id": 2116,
+    "title": "NorthStarET LMS Modernization",
+    "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/2116",
+    "child_portfolios": [1454, 1640]
+  },
+  "parent_portfolio": {
     "work_item_id": 1454,
-    "title": "CrossCuttingConcerns Specifications",
+    "title": "Cross Cutting Concerns",
     "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1454",
+    "parent_portfolio": 2116,
     "child_epics": [
       1436,
       1455,
