@@ -25,14 +25,14 @@
       "features": {
         "feature1-foundation": {
           "work_item_id": 1437,
-          "title": "Feature 1: Foundation Infrastructure & Core Setup",
+          "title": "F1: Foundation Infrastructure & Core Setup",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1437",
           "description": "Core Aspire project setup, shared infrastructure, domain entities, and initial AppHost scaffolding",
           "effort_points": 11,
           "user_stories": {
             "aspire-initialization": {
               "work_item_id": 1443,
-              "title": "Aspire Project Initialization & Shared Infrastructure",
+              "title": "F1-S1: Aspire Project Initialization & Shared Infrastructure",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1443",
               "grouping_strategy": "functional_group",
               "priority": 1,
@@ -40,7 +40,7 @@
             },
             "domain-entities": {
               "work_item_id": 1445,
-              "title": "Domain Entities & EF Core Configuration",
+              "title": "F1-S2: Domain Entities & EF Core Configuration",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1445",
               "grouping_strategy": "functional_group",
               "priority": 1,
@@ -50,14 +50,14 @@
         },
         "feature2-orchestration": {
           "work_item_id": 1438,
-          "title": "Feature 2: Orchestration & Service Discovery",
+          "title": "F2: Orchestration & Service Discovery",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1438",
           "description": "AppHost resource orchestration (PostgreSQL, Redis, RabbitMQ), service registration, health checks",
           "effort_points": 16,
           "user_stories": {
             "us1-apphost-boot": {
               "work_item_id": 1446,
-              "title": "US1: AppHost Boot with Resource Orchestration",
+              "title": "F2-S1: US1: AppHost Boot with Resource Orchestration",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1446",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US1",
@@ -67,7 +67,7 @@
             },
             "us3-tenant-isolation": {
               "work_item_id": 1444,
-              "title": "US3: Tenant Isolation with TenantInterceptor",
+              "title": "F2-S2: US3: Tenant Isolation with TenantInterceptor",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1444",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US3",
@@ -79,14 +79,14 @@
         },
         "feature3-messaging": {
           "work_item_id": 1441,
-          "title": "Feature 3: Event-Driven Messaging",
+          "title": "F3: Event-Driven Messaging",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1441",
           "description": "MassTransit configuration, domain event publication, resilient messaging patterns, circuit breakers",
           "effort_points": 16,
           "user_stories": {
             "us4-event-publication": {
               "work_item_id": 1447,
-              "title": "US4: Event Publication with MassTransit",
+              "title": "F3-S1: US4: Event Publication with MassTransit",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1447",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US4",
@@ -96,7 +96,7 @@
             },
             "us8-resilient-messaging": {
               "work_item_id": 1450,
-              "title": "US8: Resilient Messaging with Circuit Breaker",
+              "title": "F3-S2: US8: Resilient Messaging with Circuit Breaker",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1450",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US8",
@@ -108,14 +108,14 @@
         },
         "feature4-performance": {
           "work_item_id": 1442,
-          "title": "Feature 4: Performance & Caching",
+          "title": "F4: Performance & Caching",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1442",
           "description": "Redis caching strategies, idempotency windows, distributed caching patterns",
           "effort_points": 18,
           "user_stories": {
             "us5-redis-caching": {
               "work_item_id": 1451,
-              "title": "US5: Redis Caching & Idempotency",
+              "title": "F4-S1: US5: Redis Caching & Idempotency",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1451",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US5",
@@ -125,7 +125,7 @@
             },
             "us6-observability": {
               "work_item_id": 1452,
-              "title": "US6: Observability with OpenTelemetry",
+              "title": "F4-S2: US6: Observability with OpenTelemetry",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1452",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US6",
@@ -137,14 +137,14 @@
         },
         "feature5-devex": {
           "work_item_id": 1439,
-          "title": "Feature 5: Developer Experience & Tooling",
+          "title": "F5: Developer Experience & Tooling",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1439",
           "description": "Service scaffolding scripts, API Gateway with legacy routing, development workflow automation",
           "effort_points": 22,
           "user_stories": {
             "us2-scaffolding": {
               "work_item_id": 1453,
-              "title": "US2: Service Scaffolding Scripts",
+              "title": "F5-S1: US2: Service Scaffolding Scripts",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1453",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US2",
@@ -154,7 +154,7 @@
             },
             "us7-api-gateway": {
               "work_item_id": 1448,
-              "title": "US7: API Gateway with Legacy Routing",
+              "title": "F5-S2: US7: API Gateway with Legacy Routing",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1448",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US7",
@@ -166,14 +166,14 @@
         },
         "feature6-quality": {
           "work_item_id": 1440,
-          "title": "Feature 6: Testing & Documentation",
+          "title": "F6: Testing & Documentation",
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1440",
           "description": "Testing infrastructure, documentation polish, E2E testing, deployment guides",
           "effort_points": 10,
           "user_stories": {
             "quality-testing-docs": {
               "work_item_id": 1449,
-              "title": "Testing Infrastructure & Documentation Polish",
+              "title": "F6-S1: Testing Infrastructure & Documentation Polish",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1449",
               "grouping_strategy": "functional_group",
               "priority": 3,
