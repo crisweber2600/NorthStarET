@@ -26,11 +26,10 @@
 		"AGENT_TOOLSDIRECTORY": "/opt/hostedtoolcache",
 		"DOTNET_ROOT": "/usr/share/dotnet"
 	},
-	"onCreateCommand": "dotnet tool install -g aspire",
 	"postStartCommand": "dotnet dev-certs https --trust",
 	"hostRequirements": {
-		"cpus": 8,
-		"memory": "32gb",
-		"storage": "64gb"
+		"cpus": 4,
+		"memory": "8gb",
+		"storage": "32gb"
 	}
 }
