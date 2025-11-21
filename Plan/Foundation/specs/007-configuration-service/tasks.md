@@ -595,7 +595,7 @@ After implementation, verify all success criteria from spec.md:
 - Phase 2 (Foundational): 38 tasks
 - Phase 3 (User Story 1): 33 tasks
 - Phase 4 (User Story 2): 43 tasks
-- Phase 5 (User Story 3): 71 tasks
+- Phase 5 (User Story 3): 68 tasks
 - Phase 6 (Polish): 30 tasks
 
 **Parallel Opportunities**: 89 tasks marked with [P]
