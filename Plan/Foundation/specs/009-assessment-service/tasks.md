@@ -1,7 +1,7 @@
 # Tasks: Assessment Service Migration
 
-**Specification Branch**: `Foundation/009-assessment-service-spec` *(current branch - planning artifacts)*  
-**Implementation Branch**: `Foundation/009-assessment-service` *(created when starting implementation)*
+**Specification Branch**: `Foundation/009-assessment-service-migration-spec` *(current branch - planning artifacts)*  
+**Implementation Branch**: `Foundation/009-assessment-service-migration` *(created when starting implementation)*
 
 **Input**: Design documents from `Plan/Foundation/specs/009-assessment-service/`  
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
@@ -385,8 +385,8 @@
 ### User Story Dependencies
 
 - **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Depends on US1 (needs AssessmentAssignment)
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Depends on US2 (needs AssessmentResult for trends/exports)
+- **User Story 2 (P2)**: Can start after both Foundational (Phase 2) and User Story 1 (P1) are complete (needs AssessmentAssignment)
+- **User Story 3 (P3)**: Can start after both Foundational (Phase 2) and User Story 2 (P2) are complete (needs AssessmentResult for trends/exports)
 
 ### Within Each User Story
 
