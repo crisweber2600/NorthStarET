@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NorthStarET.Foundation.Identity.Infrastructure.Caching;
 using NorthStarET.Foundation.Identity.Infrastructure.Data;
 
 namespace NorthStarET.Foundation.Identity.Infrastructure;
@@ -30,7 +31,19 @@ public static class DependencyInjection
             }
         });
         
-        // TODO: Add Redis caching
+        // Add Redis distributed cache (configured via Aspire)
+        services.AddStackExchangeRedisCache(options =>
+        {
+            var redisConfig = configuration["Redis:Configuration"];
+            if (!string.IsNullOrEmpty(redisConfig))
+            {
+                options.Configuration = redisConfig;
+            }
+        });
+        
+        // Add session caching service
+        services.AddScoped<ISessionCacheService, SessionCacheService>();
+        
         // TODO: Add MassTransit messaging
         // TODO: Add repositories
         

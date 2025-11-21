@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+using NorthStarET.Foundation.Identity.API.Middleware;
 using NorthStarET.Foundation.Identity.Application;
 using NorthStarET.Foundation.Identity.Infrastructure;
 
@@ -13,13 +16,28 @@ builder.Services.AddIdentityApplication();
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
 
 // Add Microsoft Identity Web for Entra ID authentication
-// TODO: Configure Microsoft.Identity.Web when Entra ID settings are available
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+// Add authorization
+builder.Services.AddAuthorization();
 
 // Add controllers
 builder.Services.AddControllers();
 
 // Add API documentation
 builder.Services.AddEndpointsApiExplorer();
+
+// Add CORS (configure as needed)
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -33,10 +51,15 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+// Add global exception handling middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 
-// TODO: Add authentication middleware when configured
-// app.UseAuthentication();
+app.UseCors();
+
+// Add authentication middleware
+app.UseAuthentication();
 
 app.UseAuthorization();
 
