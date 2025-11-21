@@ -1,550 +1,550 @@
 {
-  "version": "6.0.0",
-  "last_updated": "2025-11-20T23:45:00Z",
-  "hierarchy": "Epic → Feature (Functional Domain) → User Story (Deliverable Increment) → Task",
-  "description": "PROPOSED hierarchy with improved Feature groupings by functional domain rather than phases. Reduces 11 features to 6 cohesive features while maintaining all 11 user stories and 100 tasks.",
-  "changes_from_v5": [
-    "Reduced feature count from 11 to 6 by grouping related functionality",
-    "Features now represent functional domains instead of implementation phases",
-    "Clearer priority tiers: P1 (MVP), P2 (Production), P3 (DevEx), P4 (Polish)",
-    "Better team parallelization opportunities",
-    "Maintains all 93 story points and 100 tasks"
-  ],
-  "epics": {
-    "aspire-scaffolding": {
-      "work_item_id": null,
-      "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
-      "url": null,
-      "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
-      "layer": "foundation",
-      "priority": "P1-P4",
-      "total_story_points": 93,
-      "tags": [
-        "foundation",
-        "cross-cutting",
-        "aspire",
-        "multi-tenancy",
-        "event-driven"
-      ],
-      "features": {
-        "feature1-foundation": {
-          "work_item_id": null,
-          "title": "Platform Foundation & Base Infrastructure",
-          "url": null,
-          "description": "Initialize Aspire orchestration projects and establish shared domain entities for all services",
-          "priority": "P1",
-          "story_points": 11,
-          "is_blocking": true,
-          "blocking_reason": "All other features require AppHost, ServiceDefaults, and base domain entities",
-          "tasks": [
-            "T008",
-            "T009",
-            "T010",
-            "T011",
-            "T012",
-            "T013",
-            "T014",
-            "T015",
-            "T016",
-            "T017",
-            "T018"
-          ],
-          "user_stories": {
-            "us1-1-aspire-setup": {
-              "work_item_id": null,
-              "title": "Initialize Aspire Orchestration Projects",
-              "url": null,
-              "description": "Create AppHost and ServiceDefaults projects with all required packages for orchestration",
-              "grouping_strategy": "functional_group",
-              "priority": 1,
-              "story_points": 7,
-              "tasks": [
-                "T008",
-                "T009",
-                "T010",
-                "T011",
-                "T012",
-                "T013",
-                "T014"
-              ]
+    "version": "6.0.0",
+    "last_updated": "2025-11-20T23:45:00Z",
+    "hierarchy": "Epic → Feature (Functional Domain) → User Story (Deliverable Increment) → Task",
+    "description": "PROPOSED hierarchy with improved Feature groupings by functional domain rather than phases. Reduces 11 features to 6 cohesive features while maintaining all 11 user stories and 100 tasks.",
+    "changes_from_v5": [
+        "Reduced feature count from 11 to 6 by grouping related functionality",
+        "Features now represent functional domains instead of implementation phases",
+        "Clearer priority tiers: P1 (MVP), P2 (Production), P3 (DevEx), P4 (Polish)",
+        "Better team parallelization opportunities",
+        "Maintains all 93 story points and 100 tasks"
+    ],
+    "epics": {
+        "aspire-scaffolding": {
+            "work_item_id": null,
+            "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
+            "url": null,
+            "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
+            "layer": "foundation",
+            "priority": "P1-P4",
+            "total_story_points": 93,
+            "tags": [
+                "foundation",
+                "cross-cutting",
+                "aspire",
+                "multi-tenancy",
+                "event-driven"
+            ],
+            "features": {
+                "feature1-foundation": {
+                    "work_item_id": null,
+                    "title": "Platform Foundation & Base Infrastructure",
+                    "url": null,
+                    "description": "Initialize Aspire orchestration projects and establish shared domain entities for all services",
+                    "priority": "P1",
+                    "story_points": 11,
+                    "is_blocking": true,
+                    "blocking_reason": "All other features require AppHost, ServiceDefaults, and base domain entities",
+                    "tasks": [
+                        "T008",
+                        "T009",
+                        "T010",
+                        "T011",
+                        "T012",
+                        "T013",
+                        "T014",
+                        "T015",
+                        "T016",
+                        "T017",
+                        "T018"
+                    ],
+                    "user_stories": {
+                        "us1-1-aspire-setup": {
+                            "work_item_id": null,
+                            "title": "Initialize Aspire Orchestration Projects",
+                            "url": null,
+                            "description": "Create AppHost and ServiceDefaults projects with all required packages for orchestration",
+                            "grouping_strategy": "functional_group",
+                            "priority": 1,
+                            "story_points": 7,
+                            "tasks": [
+                                "T008",
+                                "T009",
+                                "T010",
+                                "T011",
+                                "T012",
+                                "T013",
+                                "T014"
+                            ]
+                        },
+                        "us1-2-domain-foundation": {
+                            "work_item_id": null,
+                            "title": "Establish Shared Domain Entities & Persistence",
+                            "url": null,
+                            "description": "Define EntityBase, ITenantEntity, AuditLog, and ApplicationDbContext for all services",
+                            "grouping_strategy": "functional_group",
+                            "priority": 1,
+                            "story_points": 4,
+                            "tasks": [
+                                "T015",
+                                "T016",
+                                "T017",
+                                "T018"
+                            ]
+                        }
+                    }
+                },
+                "feature2-orchestration": {
+                    "work_item_id": null,
+                    "title": "Service Orchestration & Tenant Isolation",
+                    "url": null,
+                    "description": "Boot application stack with health monitoring and enforce automatic tenant data isolation",
+                    "priority": "P1",
+                    "story_points": 16,
+                    "depends_on": [
+                        "feature1-foundation"
+                    ],
+                    "tasks": [
+                        "T019",
+                        "T020",
+                        "T021",
+                        "T022",
+                        "T023",
+                        "T024",
+                        "T025",
+                        "T026",
+                        "T027",
+                        "T028",
+                        "T029",
+                        "T030",
+                        "T031",
+                        "T032",
+                        "T033",
+                        "T034"
+                    ],
+                    "user_stories": {
+                        "us2-1-apphost-boot": {
+                            "work_item_id": null,
+                            "title": "Boot Application Stack with Health Monitoring",
+                            "url": null,
+                            "description": "Run 'dotnet run' to boot PostgreSQL, Redis, RabbitMQ with health checks under 15 seconds",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US1",
+                            "requirement_name": "AppHost Boot with Resource Orchestration",
+                            "priority": 1,
+                            "story_points": 7,
+                            "acceptance_criteria": [
+                                "All resources start in dependency order",
+                                "Aspire dashboard shows healthy status",
+                                "Startup time < 15 seconds"
+                            ],
+                            "tasks": [
+                                "T019",
+                                "T020",
+                                "T021",
+                                "T022",
+                                "T023",
+                                "T024",
+                                "T025"
+                            ]
+                        },
+                        "us2-2-tenant-isolation": {
+                            "work_item_id": null,
+                            "title": "Enforce Automatic Tenant Data Isolation",
+                            "url": null,
+                            "description": "Implement TenantInterceptor to automatically filter queries by TenantId with audited opt-out",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US3",
+                            "requirement_name": "Tenant Isolation with TenantInterceptor",
+                            "priority": 1,
+                            "story_points": 9,
+                            "acceptance_criteria": [
+                                "All queries filter by TenantId automatically",
+                                "IgnoreTenantFilter attribute creates audit log",
+                                "PostgreSQL RLS enforces isolation at DB level"
+                            ],
+                            "tasks": [
+                                "T026",
+                                "T027",
+                                "T028",
+                                "T029",
+                                "T030",
+                                "T031",
+                                "T032",
+                                "T033",
+                                "T034"
+                            ]
+                        }
+                    }
+                },
+                "feature3-messaging": {
+                    "work_item_id": null,
+                    "title": "Asynchronous Messaging & Events",
+                    "url": null,
+                    "description": "Publish domain events via message bus with retry/DLQ and circuit breaker resilience",
+                    "priority": "P2",
+                    "story_points": 16,
+                    "depends_on": [
+                        "feature1-foundation"
+                    ],
+                    "tasks": [
+                        "T035",
+                        "T036",
+                        "T037",
+                        "T038",
+                        "T039",
+                        "T040",
+                        "T041",
+                        "T042",
+                        "T043",
+                        "T084",
+                        "T085",
+                        "T086",
+                        "T087",
+                        "T088",
+                        "T089",
+                        "T090"
+                    ],
+                    "user_stories": {
+                        "us3-1-event-publication": {
+                            "work_item_id": null,
+                            "title": "Publish Domain Events via Message Bus",
+                            "url": null,
+                            "description": "Configure MassTransit with RabbitMQ to publish domain events with retry and dead-letter queue",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US4",
+                            "requirement_name": "Event Publication with MassTransit",
+                            "priority": 1,
+                            "story_points": 9,
+                            "acceptance_criteria": [
+                                "Domain events publish to RabbitMQ on commit",
+                                "3 retry attempts with exponential backoff",
+                                "Failed messages route to DLQ",
+                                "Event delivery < 500ms P95"
+                            ],
+                            "tasks": [
+                                "T035",
+                                "T036",
+                                "T037",
+                                "T038",
+                                "T039",
+                                "T040",
+                                "T041",
+                                "T042",
+                                "T043"
+                            ]
+                        },
+                        "us3-2-resilient-messaging": {
+                            "work_item_id": null,
+                            "title": "Add Message Retry & Circuit Breaker Resilience",
+                            "url": null,
+                            "description": "Implement circuit breaker pattern with Polly to prevent cascading failures in message consumers",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US8",
+                            "requirement_name": "Resilient Messaging with Circuit Breaker",
+                            "priority": 2,
+                            "story_points": 7,
+                            "acceptance_criteria": [
+                                "Circuit opens after 5 consecutive failures",
+                                "30-second timeout before half-open retry",
+                                "Fallback logging when circuit open"
+                            ],
+                            "depends_on_stories": [
+                                "us3-1-event-publication"
+                            ],
+                            "tasks": [
+                                "T084",
+                                "T085",
+                                "T086",
+                                "T087",
+                                "T088",
+                                "T089",
+                                "T090"
+                            ]
+                        }
+                    }
+                },
+                "feature4-performance": {
+                    "work_item_id": null,
+                    "title": "Caching, Idempotency & Observability",
+                    "url": null,
+                    "description": "Implement distributed caching with idempotency and enable distributed tracing with metrics",
+                    "priority": "P2",
+                    "story_points": 18,
+                    "depends_on": [
+                        "feature1-foundation"
+                    ],
+                    "tasks": [
+                        "T044",
+                        "T045",
+                        "T046",
+                        "T047",
+                        "T048",
+                        "T049",
+                        "T050",
+                        "T051",
+                        "T052",
+                        "T053",
+                        "T054",
+                        "T055",
+                        "T056",
+                        "T057",
+                        "T058",
+                        "T059",
+                        "T060",
+                        "T061"
+                    ],
+                    "user_stories": {
+                        "us4-1-caching-idempotency": {
+                            "work_item_id": null,
+                            "title": "Implement Distributed Caching & Request Idempotency",
+                            "url": null,
+                            "description": "Add Redis-backed caching with 10-minute idempotency windows returning 202 on duplicates",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US5",
+                            "requirement_name": "Redis Caching & Idempotency",
+                            "priority": 2,
+                            "story_points": 9,
+                            "acceptance_criteria": [
+                                "Session lookups < 20ms via cache",
+                                "Duplicate requests return 202 with original entity ID",
+                                "Idempotency window expires after 10 minutes"
+                            ],
+                            "tasks": [
+                                "T044",
+                                "T045",
+                                "T046",
+                                "T047",
+                                "T048",
+                                "T049",
+                                "T050",
+                                "T051",
+                                "T052"
+                            ]
+                        },
+                        "us4-2-observability": {
+                            "work_item_id": null,
+                            "title": "Enable Distributed Tracing & Metrics",
+                            "url": null,
+                            "description": "Configure OpenTelemetry for traces, metrics, and logs with correlation IDs across services",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US6",
+                            "requirement_name": "Observability with OpenTelemetry",
+                            "priority": 2,
+                            "story_points": 9,
+                            "acceptance_criteria": [
+                                "Single trace per request across all services",
+                                "Correlation IDs in all log entries",
+                                "Metrics for request duration, rate, errors"
+                            ],
+                            "tasks": [
+                                "T053",
+                                "T054",
+                                "T055",
+                                "T056",
+                                "T057",
+                                "T058",
+                                "T059",
+                                "T060",
+                                "T061"
+                            ]
+                        }
+                    }
+                },
+                "feature5-developer-experience": {
+                    "work_item_id": null,
+                    "title": "Developer Experience & Migration",
+                    "url": null,
+                    "description": "Automate service scaffolding and route traffic via API Gateway for safe legacy migration",
+                    "priority": "P3",
+                    "story_points": 22,
+                    "depends_on": [
+                        "feature1-foundation"
+                    ],
+                    "tasks": [
+                        "T062",
+                        "T063",
+                        "T064",
+                        "T065",
+                        "T066",
+                        "T067",
+                        "T068",
+                        "T069",
+                        "T070",
+                        "T071",
+                        "T072",
+                        "T073",
+                        "T074",
+                        "T075",
+                        "T076",
+                        "T077",
+                        "T078",
+                        "T079",
+                        "T080",
+                        "T081",
+                        "T082",
+                        "T083"
+                    ],
+                    "user_stories": {
+                        "us5-1-scaffolding": {
+                            "work_item_id": null,
+                            "title": "Automate New Service Scaffolding",
+                            "url": null,
+                            "description": "Provide PowerShell/Bash scripts to generate service structure with Clean Architecture layers",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US2",
+                            "requirement_name": "Service Scaffolding Scripts",
+                            "priority": 2,
+                            "story_points": 13,
+                            "acceptance_criteria": [
+                                "Script completes in < 2 minutes",
+                                "Generates Domain, Application, Infrastructure, API layers",
+                                "Registers service in AppHost",
+                                "Baseline tests pass"
+                            ],
+                            "tasks": [
+                                "T062",
+                                "T063",
+                                "T064",
+                                "T065",
+                                "T066",
+                                "T067",
+                                "T068",
+                                "T069",
+                                "T070",
+                                "T071",
+                                "T072",
+                                "T073",
+                                "T074"
+                            ]
+                        },
+                        "us5-2-api-gateway": {
+                            "work_item_id": null,
+                            "title": "Route Traffic via API Gateway for Migration",
+                            "url": null,
+                            "description": "Configure YARP to route /legacy/* to old system and /api/* to new services (Strangler Fig)",
+                            "grouping_strategy": "requirement_key",
+                            "requirement_key": "US7",
+                            "requirement_name": "API Gateway with Legacy Routing",
+                            "priority": 2,
+                            "story_points": 9,
+                            "acceptance_criteria": [
+                                "/legacy/* routes to legacy system",
+                                "/api/* routes to new microservices",
+                                "Routing switchable via feature flags",
+                                "Zero downtime during toggle"
+                            ],
+                            "tasks": [
+                                "T075",
+                                "T076",
+                                "T077",
+                                "T078",
+                                "T079",
+                                "T080",
+                                "T081",
+                                "T082",
+                                "T083"
+                            ]
+                        }
+                    }
+                },
+                "feature6-quality": {
+                    "work_item_id": null,
+                    "title": "Quality Assurance & Documentation",
+                    "url": null,
+                    "description": "Complete integration testing, performance validation, and documentation polish",
+                    "priority": "P4",
+                    "story_points": 10,
+                    "depends_on": [
+                        "feature1-foundation",
+                        "feature2-orchestration",
+                        "feature3-messaging",
+                        "feature4-performance",
+                        "feature5-developer-experience"
+                    ],
+                    "tasks": [
+                        "T091",
+                        "T092",
+                        "T093",
+                        "T094",
+                        "T095",
+                        "T096",
+                        "T097",
+                        "T098",
+                        "T099",
+                        "T100"
+                    ],
+                    "user_stories": {
+                        "us6-1-quality-polish": {
+                            "work_item_id": null,
+                            "title": "Complete Integration Testing & Performance Validation",
+                            "url": null,
+                            "description": "Create full test suite, validate performance budgets, and polish documentation",
+                            "grouping_strategy": "functional_group",
+                            "priority": 3,
+                            "story_points": 10,
+                            "acceptance_criteria": [
+                                "Integration tests verify full stack boot",
+                                "BDD features for all scenarios",
+                                "AppHost startup < 15s validated",
+                                "API overhead < 50ms P95 validated",
+                                "Event latency < 500ms P95 validated",
+                                "Quickstart.md verified end-to-end"
+                            ],
+                            "tasks": [
+                                "T091",
+                                "T092",
+                                "T093",
+                                "T094",
+                                "T095",
+                                "T096",
+                                "T097",
+                                "T098",
+                                "T099",
+                                "T100"
+                            ]
+                        }
+                    }
+                }
             },
-            "us1-2-domain-foundation": {
-              "work_item_id": null,
-              "title": "Establish Shared Domain Entities & Persistence",
-              "url": null,
-              "description": "Define EntityBase, ITenantEntity, AuditLog, and ApplicationDbContext for all services",
-              "grouping_strategy": "functional_group",
-              "priority": 1,
-              "story_points": 4,
-              "tasks": [
-                "T015",
-                "T016",
-                "T017",
-                "T018"
-              ]
+            "delivery_milestones": {
+                "milestone1_mvp": {
+                    "title": "MVP: Working Multi-Tenant Platform",
+                    "features": [
+                        "feature1-foundation",
+                        "feature2-orchestration"
+                    ],
+                    "story_points": 27,
+                    "description": "Core platform with orchestration, health monitoring, and tenant isolation"
+                },
+                "milestone2_production": {
+                    "title": "Production-Ready: Events & Observability",
+                    "features": [
+                        "feature1-foundation",
+                        "feature2-orchestration",
+                        "feature3-messaging",
+                        "feature4-performance"
+                    ],
+                    "story_points": 61,
+                    "description": "Production-grade platform with async events, resilience, caching, and observability"
+                },
+                "milestone3_devex": {
+                    "title": "Developer-Optimized: Tooling & Migration",
+                    "features": [
+                        "feature1-foundation",
+                        "feature2-orchestration",
+                        "feature3-messaging",
+                        "feature4-performance",
+                        "feature5-developer-experience"
+                    ],
+                    "story_points": 83,
+                    "description": "Full platform with service scaffolding automation and legacy migration path"
+                },
+                "milestone4_hardened": {
+                    "title": "Production-Hardened: Full Test Coverage",
+                    "features": [
+                        "feature1-foundation",
+                        "feature2-orchestration",
+                        "feature3-messaging",
+                        "feature4-performance",
+                        "feature5-developer-experience",
+                        "feature6-quality"
+                    ],
+                    "story_points": 93,
+                    "description": "Production-hardened platform with comprehensive tests and validated performance"
+                }
             }
-          }
-        },
-        "feature2-orchestration": {
-          "work_item_id": null,
-          "title": "Service Orchestration & Tenant Isolation",
-          "url": null,
-          "description": "Boot application stack with health monitoring and enforce automatic tenant data isolation",
-          "priority": "P1",
-          "story_points": 16,
-          "depends_on": [
-            "feature1-foundation"
-          ],
-          "tasks": [
-            "T019",
-            "T020",
-            "T021",
-            "T022",
-            "T023",
-            "T024",
-            "T025",
-            "T026",
-            "T027",
-            "T028",
-            "T029",
-            "T030",
-            "T031",
-            "T032",
-            "T033",
-            "T034"
-          ],
-          "user_stories": {
-            "us2-1-apphost-boot": {
-              "work_item_id": null,
-              "title": "Boot Application Stack with Health Monitoring",
-              "url": null,
-              "description": "Run 'dotnet run' to boot PostgreSQL, Redis, RabbitMQ with health checks under 15 seconds",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US1",
-              "requirement_name": "AppHost Boot with Resource Orchestration",
-              "priority": 1,
-              "story_points": 7,
-              "acceptance_criteria": [
-                "All resources start in dependency order",
-                "Aspire dashboard shows healthy status",
-                "Startup time < 15 seconds"
-              ],
-              "tasks": [
-                "T019",
-                "T020",
-                "T021",
-                "T022",
-                "T023",
-                "T024",
-                "T025"
-              ]
-            },
-            "us2-2-tenant-isolation": {
-              "work_item_id": null,
-              "title": "Enforce Automatic Tenant Data Isolation",
-              "url": null,
-              "description": "Implement TenantInterceptor to automatically filter queries by TenantId with audited opt-out",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US3",
-              "requirement_name": "Tenant Isolation with TenantInterceptor",
-              "priority": 1,
-              "story_points": 9,
-              "acceptance_criteria": [
-                "All queries filter by TenantId automatically",
-                "IgnoreTenantFilter attribute creates audit log",
-                "PostgreSQL RLS enforces isolation at DB level"
-              ],
-              "tasks": [
-                "T026",
-                "T027",
-                "T028",
-                "T029",
-                "T030",
-                "T031",
-                "T032",
-                "T033",
-                "T034"
-              ]
-            }
-          }
-        },
-        "feature3-messaging": {
-          "work_item_id": null,
-          "title": "Asynchronous Messaging & Events",
-          "url": null,
-          "description": "Publish domain events via message bus with retry/DLQ and circuit breaker resilience",
-          "priority": "P2",
-          "story_points": 16,
-          "depends_on": [
-            "feature1-foundation"
-          ],
-          "tasks": [
-            "T035",
-            "T036",
-            "T037",
-            "T038",
-            "T039",
-            "T040",
-            "T041",
-            "T042",
-            "T043",
-            "T084",
-            "T085",
-            "T086",
-            "T087",
-            "T088",
-            "T089",
-            "T090"
-          ],
-          "user_stories": {
-            "us3-1-event-publication": {
-              "work_item_id": null,
-              "title": "Publish Domain Events via Message Bus",
-              "url": null,
-              "description": "Configure MassTransit with RabbitMQ to publish domain events with retry and dead-letter queue",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US4",
-              "requirement_name": "Event Publication with MassTransit",
-              "priority": 1,
-              "story_points": 9,
-              "acceptance_criteria": [
-                "Domain events publish to RabbitMQ on commit",
-                "3 retry attempts with exponential backoff",
-                "Failed messages route to DLQ",
-                "Event delivery < 500ms P95"
-              ],
-              "tasks": [
-                "T035",
-                "T036",
-                "T037",
-                "T038",
-                "T039",
-                "T040",
-                "T041",
-                "T042",
-                "T043"
-              ]
-            },
-            "us3-2-resilient-messaging": {
-              "work_item_id": null,
-              "title": "Add Message Retry & Circuit Breaker Resilience",
-              "url": null,
-              "description": "Implement circuit breaker pattern with Polly to prevent cascading failures in message consumers",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US8",
-              "requirement_name": "Resilient Messaging with Circuit Breaker",
-              "priority": 2,
-              "story_points": 7,
-              "acceptance_criteria": [
-                "Circuit opens after 5 consecutive failures",
-                "30-second timeout before half-open retry",
-                "Fallback logging when circuit open"
-              ],
-              "depends_on_stories": [
-                "us3-1-event-publication"
-              ],
-              "tasks": [
-                "T084",
-                "T085",
-                "T086",
-                "T087",
-                "T088",
-                "T089",
-                "T090"
-              ]
-            }
-          }
-        },
-        "feature4-performance": {
-          "work_item_id": null,
-          "title": "Caching, Idempotency & Observability",
-          "url": null,
-          "description": "Implement distributed caching with idempotency and enable distributed tracing with metrics",
-          "priority": "P2",
-          "story_points": 18,
-          "depends_on": [
-            "feature1-foundation"
-          ],
-          "tasks": [
-            "T044",
-            "T045",
-            "T046",
-            "T047",
-            "T048",
-            "T049",
-            "T050",
-            "T051",
-            "T052",
-            "T053",
-            "T054",
-            "T055",
-            "T056",
-            "T057",
-            "T058",
-            "T059",
-            "T060",
-            "T061"
-          ],
-          "user_stories": {
-            "us4-1-caching-idempotency": {
-              "work_item_id": null,
-              "title": "Implement Distributed Caching & Request Idempotency",
-              "url": null,
-              "description": "Add Redis-backed caching with 10-minute idempotency windows returning 202 on duplicates",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US5",
-              "requirement_name": "Redis Caching & Idempotency",
-              "priority": 2,
-              "story_points": 9,
-              "acceptance_criteria": [
-                "Session lookups < 20ms via cache",
-                "Duplicate requests return 202 with original entity ID",
-                "Idempotency window expires after 10 minutes"
-              ],
-              "tasks": [
-                "T044",
-                "T045",
-                "T046",
-                "T047",
-                "T048",
-                "T049",
-                "T050",
-                "T051",
-                "T052"
-              ]
-            },
-            "us4-2-observability": {
-              "work_item_id": null,
-              "title": "Enable Distributed Tracing & Metrics",
-              "url": null,
-              "description": "Configure OpenTelemetry for traces, metrics, and logs with correlation IDs across services",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US6",
-              "requirement_name": "Observability with OpenTelemetry",
-              "priority": 2,
-              "story_points": 9,
-              "acceptance_criteria": [
-                "Single trace per request across all services",
-                "Correlation IDs in all log entries",
-                "Metrics for request duration, rate, errors"
-              ],
-              "tasks": [
-                "T053",
-                "T054",
-                "T055",
-                "T056",
-                "T057",
-                "T058",
-                "T059",
-                "T060",
-                "T061"
-              ]
-            }
-          }
-        },
-        "feature5-developer-experience": {
-          "work_item_id": null,
-          "title": "Developer Experience & Migration",
-          "url": null,
-          "description": "Automate service scaffolding and route traffic via API Gateway for safe legacy migration",
-          "priority": "P3",
-          "story_points": 22,
-          "depends_on": [
-            "feature1-foundation"
-          ],
-          "tasks": [
-            "T062",
-            "T063",
-            "T064",
-            "T065",
-            "T066",
-            "T067",
-            "T068",
-            "T069",
-            "T070",
-            "T071",
-            "T072",
-            "T073",
-            "T074",
-            "T075",
-            "T076",
-            "T077",
-            "T078",
-            "T079",
-            "T080",
-            "T081",
-            "T082",
-            "T083"
-          ],
-          "user_stories": {
-            "us5-1-scaffolding": {
-              "work_item_id": null,
-              "title": "Automate New Service Scaffolding",
-              "url": null,
-              "description": "Provide PowerShell/Bash scripts to generate service structure with Clean Architecture layers",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US2",
-              "requirement_name": "Service Scaffolding Scripts",
-              "priority": 2,
-              "story_points": 13,
-              "acceptance_criteria": [
-                "Script completes in < 2 minutes",
-                "Generates Domain, Application, Infrastructure, API layers",
-                "Registers service in AppHost",
-                "Baseline tests pass"
-              ],
-              "tasks": [
-                "T062",
-                "T063",
-                "T064",
-                "T065",
-                "T066",
-                "T067",
-                "T068",
-                "T069",
-                "T070",
-                "T071",
-                "T072",
-                "T073",
-                "T074"
-              ]
-            },
-            "us5-2-api-gateway": {
-              "work_item_id": null,
-              "title": "Route Traffic via API Gateway for Migration",
-              "url": null,
-              "description": "Configure YARP to route /legacy/* to old system and /api/* to new services (Strangler Fig)",
-              "grouping_strategy": "requirement_key",
-              "requirement_key": "US7",
-              "requirement_name": "API Gateway with Legacy Routing",
-              "priority": 2,
-              "story_points": 9,
-              "acceptance_criteria": [
-                "/legacy/* routes to legacy system",
-                "/api/* routes to new microservices",
-                "Routing switchable via feature flags",
-                "Zero downtime during toggle"
-              ],
-              "tasks": [
-                "T075",
-                "T076",
-                "T077",
-                "T078",
-                "T079",
-                "T080",
-                "T081",
-                "T082",
-                "T083"
-              ]
-            }
-          }
-        },
-        "feature6-quality": {
-          "work_item_id": null,
-          "title": "Quality Assurance & Documentation",
-          "url": null,
-          "description": "Complete integration testing, performance validation, and documentation polish",
-          "priority": "P4",
-          "story_points": 10,
-          "depends_on": [
-            "feature1-foundation",
-            "feature2-orchestration",
-            "feature3-messaging",
-            "feature4-performance",
-            "feature5-developer-experience"
-          ],
-          "tasks": [
-            "T091",
-            "T092",
-            "T093",
-            "T094",
-            "T095",
-            "T096",
-            "T097",
-            "T098",
-            "T099",
-            "T100"
-          ],
-          "user_stories": {
-            "us6-1-quality-polish": {
-              "work_item_id": null,
-              "title": "Complete Integration Testing & Performance Validation",
-              "url": null,
-              "description": "Create full test suite, validate performance budgets, and polish documentation",
-              "grouping_strategy": "functional_group",
-              "priority": 3,
-              "story_points": 10,
-              "acceptance_criteria": [
-                "Integration tests verify full stack boot",
-                "BDD features for all scenarios",
-                "AppHost startup < 15s validated",
-                "API overhead < 50ms P95 validated",
-                "Event latency < 500ms P95 validated",
-                "Quickstart.md verified end-to-end"
-              ],
-              "tasks": [
-                "T091",
-                "T092",
-                "T093",
-                "T094",
-                "T095",
-                "T096",
-                "T097",
-                "T098",
-                "T099",
-                "T100"
-              ]
-            }
-          }
         }
-      },
-      "delivery_milestones": {
-        "milestone1_mvp": {
-          "title": "MVP: Working Multi-Tenant Platform",
-          "features": [
-            "feature1-foundation",
-            "feature2-orchestration"
-          ],
-          "story_points": 27,
-          "description": "Core platform with orchestration, health monitoring, and tenant isolation"
-        },
-        "milestone2_production": {
-          "title": "Production-Ready: Events & Observability",
-          "features": [
-            "feature1-foundation",
-            "feature2-orchestration",
-            "feature3-messaging",
-            "feature4-performance"
-          ],
-          "story_points": 61,
-          "description": "Production-grade platform with async events, resilience, caching, and observability"
-        },
-        "milestone3_devex": {
-          "title": "Developer-Optimized: Tooling & Migration",
-          "features": [
-            "feature1-foundation",
-            "feature2-orchestration",
-            "feature3-messaging",
-            "feature4-performance",
-            "feature5-developer-experience"
-          ],
-          "story_points": 83,
-          "description": "Full platform with service scaffolding automation and legacy migration path"
-        },
-        "milestone4_hardened": {
-          "title": "Production-Hardened: Full Test Coverage",
-          "features": [
-            "feature1-foundation",
-            "feature2-orchestration",
-            "feature3-messaging",
-            "feature4-performance",
-            "feature5-developer-experience",
-            "feature6-quality"
-          ],
-          "story_points": 93,
-          "description": "Production-hardened platform with comprehensive tests and validated performance"
-        }
-      }
     }
-  }
 }
