@@ -34,10 +34,11 @@ A staff member opens their browser and navigates to the NorthStar LMS. They clic
 ### Session Management
 
 The system maintains an 8-hour sliding session window for staff (1 hour for administrators). As users actively work, their session refreshes automatically in the background. When a token approaches expiration, the system requests a new access token from Entra ID transparently. Users never see interruptions unless they've been inactive beyond the timeout period. When they log out, both NorthStar and Entra ID sessions terminate cleanly.
+Session state is persisted first to the `identity.sessions` table in PostgreSQL (source of truth) and then cached in Redis with matching TTL for P95 < 20ms validation.
 
 ### Multi-Tenant Context
 
-Administrators and staff with access to multiple districts see a tenant selector in the navigation. Switching districts refreshes their session context, dashboard data, and permissions without requiring re-authentication. Each switch is instant (<200ms), leveraging Redis-cached tenant information.
+Administrators and staff with access to multiple districts see a tenant selector in the navigation. Switching districts refreshes their session context, dashboard data, and permissions without requiring re-authentication. Each switch is instant (<200ms), leveraging Redis-cached tenant information. A single Microsoft Entra ID tenant backs all districts; tenant context is encoded via custom claims (`district_id`, `school_ids[]`, `northstar_role`) issued by Entra app roles and pulled into the session.
 
 ---
 
@@ -55,6 +56,8 @@ The service **does not**:
 - Store passwords (delegated to Entra ID)
 - Implement MFA logic (handled by Entra ID policies)
 - Manage application-specific permissions (handled by each service via claims/roles)
+
+**Role Model**: Base access is determined by Entra ID App Roles; fine-grained permissions and feature toggles live in NorthStar's database and are merged into the session claims during exchange.
 
 **Event Contracts**:
 - Publishes: `UserAuthenticated`, `UserLoggedOut`, `SessionRefreshed`, `TenantContextSwitched`
@@ -515,6 +518,7 @@ The service **does not**:
 - Handle 1,000 logins per minute during peak times (school start)
 - Redis session cache horizontally scalable
 - Database connection pooling with min 10, max 100 connections
+- Multi-region: Azure Cache for Redis Enterprise active-active replication keeps session cache consistent; PostgreSQL logical replication/geo-redundant read replicas back session persistence with gateway enforcing region affinity.
 
 ### Reliability
 - 99.9% uptime (dependent on Entra ID at 99.99%)
@@ -641,6 +645,7 @@ CREATE INDEX idx_audit_records_event_type ON identity.audit_records(event_type, 
    - Upsert user in `identity.users` table (match by email)
    - Create session in `identity.sessions` table with 8-hour expiration
    - Cache session in Redis with matching TTL
+   - Require custom Entra claims: `district_id` (GUID), `school_ids` (array), `northstar_role` (string) for authorization downstream
    - Generate session ID: `lms_session_{guid}`
 7. **API returns session ID** in response body (JSON: `{ sessionId: "lms_session_..." }`)
 8. **Web stores session ID** in HTTP-only, secure, SameSite=Strict cookie
@@ -764,23 +769,25 @@ CREATE INDEX idx_audit_records_event_type ON identity.audit_records(event_type, 
 
 ---
 
+## Clarifications
+
+### Session 2025-11-21
+
+- Q: Entra ID tenant topology - Should each district have its own tenant or should we centralize authentication in a single Entra tenant? → A: Use one Microsoft Entra tenant with district context encoded in custom claims to simplify management and enable cross-district admin accounts.
+- Q: Role synchronization strategy - Should roles live entirely in Entra ID, entirely in NorthStar, or a hybrid? → A: Hybrid — coarse roles managed as Entra App Roles, fine-grained permissions persisted in NorthStar DB and merged into the session.
+- Q: Session storage source of truth - Should Redis hold authoritative sessions or act as cache in front of PostgreSQL? → A: PostgreSQL `identity.sessions` is canonical, Redis provides low-latency cache with identical TTL.
+- Q: Multi-region session replication - How do we keep sessions consistent across regions? → A: Azure Cache for Redis Enterprise active-active combined with PostgreSQL logical replication/read replicas, plus region-affinity routing at the gateway.
+- Q: Required custom Entra claims - Which claims must Entra issue for downstream authorization? → A: `district_id`, `school_ids[]`, and `northstar_role` are mandatory custom claims attached during app role assignment.
+
+---
+
 ## Open Questions for /plan
 
-1. **Entra ID Tenant Setup**: Should we use a single Entra ID tenant for all districts, or per-district tenants? (Recommendation: Single tenant with custom claims for district context)
+1. **Offline Access**: Should we support any offline scenarios or require constant connectivity? (Recommendation: Require connectivity for initial auth, allow cached session for temporary network blips)
 
-2. **Role Synchronization**: Should roles be managed entirely in Entra ID (via app roles) or in NorthStar database with Entra ID claims as input? (Recommendation: Hybrid - base roles from Entra ID, granular permissions in NorthStar)
+2. **SMTP Provider**: Which email service for password reset notifications? (Options: SendGrid, Azure Communication Services, Office 365 SMTP)
 
-3. **Session Storage Strategy**: Redis for all sessions or Redis-as-cache with PostgreSQL as source of truth? (Recommendation: PostgreSQL primary, Redis cache for performance)
-
-4. **Multi-Region Deployment**: How to handle session replication across regions? (Recommendation: Redis Geo-Replication or database read replicas)
-
-5. **Offline Access**: Should we support any offline scenarios or require constant connectivity? (Recommendation: Require connectivity for initial auth, allow cached session for temporary network blips)
-
-6. **SMTP Provider**: Which email service for password reset notifications? (Options: SendGrid, Azure Communication Services, Office 365 SMTP)
-
-7. **Audit Retention**: How long to retain audit records? (Recommendation: 90 days hot storage, 7 years cold storage for compliance)
-
-8. **Token Customization**: What custom claims should be added to Entra ID tokens? (Minimum: district_id, school_ids, role)
+3. **Audit Retention**: How long to retain audit records? (Recommendation: 90 days hot storage, 7 years cold storage for compliance)
 
 ---
 

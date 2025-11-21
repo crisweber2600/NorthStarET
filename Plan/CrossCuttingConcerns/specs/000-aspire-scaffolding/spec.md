@@ -179,9 +179,9 @@ As a system, I want messaging to be resilient with retries and DLQ so that trans
 
 - **FR1**: AppHost must define PostgreSQL, Redis, and RabbitMQ resources.
 - **FR2**: All services must use `TenantInterceptor` for automatic tenant filtering; opt-out requires `[IgnoreTenantFilter]` attribute with automatic audit logging.
-- **FR3**: Domain events must be published as integration events via MassTransit.
+- **FR3**: Domain events must be persisted to a per-service transactional outbox (PostgreSQL) and published as integration events via MassTransit dispatchers to guarantee at-least-once delivery.
 - **FR4**: Idempotency must be enforced using Redis with a 10-minute window; duplicate requests return 202 Accepted with the original entity ID.
-- **FR5**: API Gateway must support Strangler Fig routing via feature flags.
+- **FR5**: API Gateway must support Strangler Fig routing via feature flags stored in Azure App Configuration (per route/environment) with 30-second config refresh to flip traffic atomically.
 - **FR6**: All services must export OpenTelemetry traces, metrics, and logs.
 - **FR7**: Scaffolding scripts (PowerShell for Windows, Bash for Linux/macOS) must generate service structure with Application/Domain/Infrastructure/API projects, baseline tests, and AppHost registration.
 
@@ -191,6 +191,7 @@ As a system, I want messaging to be resilient with retries and DLQ so that trans
 - **NFR2 (Latency)**: API request overhead < 50ms P95.
 - **NFR3 (Reliability)**: Event delivery < 500ms P95.
 - **NFR4 (Security)**: No cross-tenant data access without explicit audit; all `[IgnoreTenantFilter]` usages must be logged with user context, timestamp, and affected query.
+- **NFR5 (Observability Sink)**: OpenTelemetry exporters send traces, logs, and metrics via OTLP to Azure Monitor/Application Insights with dashboards and alerts defined per environment.
 
 ## Success Criteria *(mandatory)*
 
@@ -215,3 +216,9 @@ As a system, I want messaging to be resilient with retries and DLQ so that trans
 - Q: Scaffolding Automation Approach - The spec mentions "scaffold script" but doesn't specify implementation. Options: dotnet new template, PowerShell/Bash script, CLI tool, VS extension. → A: PowerShell/Bash script for cross-platform compatibility and immediate usability
 - Q: Idempotency Window Behavior on Duplicate - When a duplicate request arrives within the 10-minute window, how should the system respond? Options: return original success response, 409 Conflict, 429 Too Many Requests, silently accept 200 OK. → A: Return original success response (202 Accepted with original entity ID)
 - Q: TenantInterceptor Opt-Out Mechanism - The spec mentions "explicit opt-out with reviewed justification" but doesn't specify the technical mechanism. Options: DbContext parameter, method attribute, separate DbContext, config flag. → A: Method attribute `[IgnoreTenantFilter]` with mandatory audit log entry
+
+### Session 2025-11-21
+
+- Q: Feature flag provider for Strangler Fig routing - Should toggles live in Azure App Configuration, LaunchDarkly, or a custom database store? → A: Azure App Configuration feature flags per route/environment with 30-second refresh.
+- Q: Observability sink for OpenTelemetry - Should traces/logs/metrics land in Azure Monitor, self-hosted Grafana stack, AWS X-Ray, or Elastic APM? → A: Azure Monitor/Application Insights via OTLP exporter for managed dashboards and alerting.
+- Q: Event publication reliability - Should we rely on transactional outbox, distributed transactions, or best-effort publishing? → A: Transactional outbox per service with MassTransit dispatcher to guarantee at-least-once integration events.

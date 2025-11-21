@@ -3,6 +3,13 @@ Short Name: configuration-service
 Target Layer: CrossCuttingConcerns
 Business Value: Centralize hierarchical multi-tenant configuration (system/district/school) enabling consistent isolation, inheritance, auditing, and extensibility for calendars, grading, compliance and custom attributes across districts.
 
+Implementation Snapshot:
+- **Persistence**: PostgreSQL `configuration` schema with `configuration_entries` (key/value), `custom_attribute_definitions`, and `audit_log` tables; JSONB values store typed payloads per setting.
+- **Hierarchy Model**: Each entry includes `scope_type` (`system`, `district`, `school`) and `scope_id`; resolution orders school → district → system automatically inside the service.
+- **Custom Attributes**: Tenants define JSON schema-based attributes stored in `custom_attribute_definitions`; Student Service renders forms from these definitions and persists values per tenant.
+- **Access Pattern**: Other services call REST endpoints (`GET /api/config/{scope}/{key}`, `POST /api/config/bulk`) secured with Microsoft Entra service-to-service tokens; SDK caches results in Redis per tenant/key (TTL 60s) before falling back to PostgreSQL.
+- **Audit & Events**: Every mutation writes to an append-only `configuration.audit_log` table (hot retention 90 days, archived 7 years) and emits MassTransit events (`ConfigurationChanged`, `CalendarUpdated`, etc.) for downstream syncing.
+
 Scenarios:
 Scenario 1: District Administrator Creates District Settings
 Given a system administrator with district admin privileges
@@ -113,3 +120,13 @@ Acceptance Criteria:
 8. Navigation & templates delivered dynamically from configuration store.
 9. Performance: create district <200ms, get settings <50ms P95.
 10. Security: role-based modification controls, protected keys guarded, RLS enforced.
+
+## Clarifications
+
+### Session 2025-11-21
+
+- Q: Primary data store - Should configuration live in PostgreSQL, Cosmos DB, or another store? → A: PostgreSQL `configuration` schema with JSONB payloads keeps us aligned with other services and supports transactional updates.
+- Q: Hierarchy representation - How do we encode system/district/school overrides? → A: Single `configuration_entries` table with `scope_type` + `scope_id`, resolved in precedence order by the service.
+- Q: Custom attribute extensibility - Do we add columns per tenant, rely on JSON, or generate dynamic tables? → A: JSON schema-defined attributes stored in `custom_attribute_definitions` with validation on write.
+- Q: Access method for consumers - Should services call a REST API, gRPC service, or read the DB directly? → A: REST API + typed SDK secured by Entra service-to-service tokens; other services never read the DB directly.
+- Q: Audit log retention and reversion - Where is history stored and for how long? → A: Append-only `configuration.audit_log` table retained 90 days hot, archived 7 years, and used to power revert operations.

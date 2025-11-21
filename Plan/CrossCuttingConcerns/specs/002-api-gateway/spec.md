@@ -3,6 +3,13 @@ Short Name: api-gateway
 Target Layer: CrossCuttingConcerns
 Business Value: Provide unified secure entry point for all clients, centralizing authentication, routing, migration (Strangler Fig), rate limiting, observability, and resiliency while decoupling clients from backend service topology.
 
+Implementation Snapshot:
+- Hosted as a dedicated .NET Aspire YARP project using ServiceDefaults; AppHost runs it locally and Azure Container Apps hosts it in production.
+- Route definitions, Strangler Fig feature flags, and resiliency policies (circuit breaker, transforms) live in Azure App Configuration; the gateway polls for changes every 30 seconds.
+- JWT validation trusts Microsoft Entra ID tokens (issuer `https://login.microsoftonline.com/{tenantId}/v2.0`, audience `api://northstar-lms`) and enforces tenant context extracted from Identity Service sessions.
+- Per-tenant rate limiting counters and circuit-breaker health metrics are stored in Redis using deterministic keys (`ratelimit:{tenantId}:{route}`) to keep throttling consistent across replicas.
+- Backend service discovery uses .NET Aspire's service registry/ServiceDefaults, allowing YARP clusters to resolve current endpoints for each microservice or legacy NS4.WebAPI route.
+
 Scenarios:
 Scenario 1: Route Request to New Microservice
 Given gateway configured with routes for all services
@@ -103,3 +110,13 @@ Acceptance Criteria:
 8. Coexisting versioned APIs with clear deprecation metadata.
 9. Load balancing policy (RoundRobin) functioning & resilient.
 10. Size limit & validation guard rails stop invalid payloads early.
+
+## Clarifications
+
+### Session 2025-11-21
+
+- Q: Dynamic configuration store - Should routes/flags/resiliency rules remain in appsettings, Azure App Configuration, or a custom database? → A: Azure App Configuration with 30-second refresh to centralize Strangler Fig switches and policy updates.
+- Q: Identity provider - Which tokens does the gateway trust for authentication? → A: Microsoft Entra ID tokens (issuer `https://login.microsoftonline.com/{tenantId}/v2.0`, audience `api://northstar-lms`) aligned with the Identity Service.
+- Q: Rate-limit & circuit-breaker state - Where are counters persisted so multiple gateway replicas stay in sync? → A: Redis-managed per-tenant keys to keep throttling deterministic cluster-wide.
+- Q: Backend discovery - How are service endpoints resolved? → A: YARP consumes .NET Aspire ServiceDefaults/service registry metadata so clusters automatically point to the correct microservice or legacy host.
+- Q: Hosting approach - Does the gateway run as API Management, nginx, or YARP? → A: Dedicated .NET Aspire-hosted YARP project deployed to Azure Container Apps alongside other cross-cutting services.
