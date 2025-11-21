@@ -22,12 +22,12 @@ description: "Task breakdown for Staff Management Service migration"
 
 ### Layer Consistency Checklist
 
-- [x] Target Layer matches spec.md Layer Identification (Foundation)
-- [x] Target Layer matches plan.md Layer Identification (Foundation)
-- [x] Implementation path follows layer structure (`Src/Foundation/services/Staff/`)
-- [x] Specification path follows layer structure (`Plan/Foundation/specs/008-staff-management-service/`)
-- [x] Shared infrastructure dependencies match between spec and plan (ServiceDefaults, Domain, Application, Infrastructure)
-- [x] Cross-layer dependencies (if any) justified in both spec and plan (Identity for provisioning, Configuration for school validation)
+- [ ] Target Layer matches spec.md Layer Identification (Foundation)
+- [ ] Target Layer matches plan.md Layer Identification (Foundation)
+- [ ] Implementation path follows layer structure (`Src/Foundation/services/Staff/`)
+- [ ] Specification path follows layer structure (`Plan/Foundation/specs/008-staff-management-service/`)
+- [ ] Shared infrastructure dependencies match between spec and plan (ServiceDefaults, Domain, Application, Infrastructure)
+- [ ] Cross-layer dependencies (if any) justified in both spec and plan (Identity for provisioning, Configuration for school validation)
 
 ---
 
