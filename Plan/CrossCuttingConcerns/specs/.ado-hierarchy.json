@@ -1,8 +1,9 @@
 {
-  "version": "4.0.0",
-  "last_updated": "2025-11-20T22:30:00Z",
-  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Priority Group)",
-  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent priority groupings (P1, P2, P3) within phases with markdown checkbox tasks (1 point per task) and Gherkin acceptance criteria.",
+  "version": "5.0.0",
+  "last_updated": "2025-11-20T23:15:00Z",
+  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Requirement Key/Functional Group/Priority)",
+  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback), or priority groupings (last resort). Each task = 1 story point.",
+  "grouping_note": "The grouping_strategy field records how the agent created each User Story: 'requirement_key' when [US#] markers found in tasks.md, 'functional_group' when tasks grouped by functional area, 'priority_fallback' when only priority-based grouping possible.",
   "epics": {
     "aspire-scaffolding": {
       "work_item_id": 1399,
@@ -18,10 +19,11 @@
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1403",
           "tasks": ["T008", "T009", "T010", "T011", "T012", "T013", "T014"],
           "user_stories": {
-            "priority-1-implementation": {
+            "setup-infrastructure": {
               "work_item_id": 1429,
-              "title": "Phase 1: Priority 1 Implementation",
+              "title": "Phase 1: Project Setup & Infrastructure",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1429",
+              "grouping_strategy": "functional_group",
               "priority": 1,
               "story_points": 7
             }
@@ -33,10 +35,11 @@
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
           "tasks": ["T015", "T016", "T017", "T018"],
           "user_stories": {
-            "priority-1-implementation": {
+            "foundational-infrastructure": {
               "work_item_id": 1425,
-              "title": "Phase 2: Priority 1 Implementation",
+              "title": "Phase 2: Foundational Infrastructure & Core Entities",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1425",
+              "grouping_strategy": "functional_group",
               "priority": 1,
               "story_points": 4
             }
@@ -52,7 +55,9 @@
               "work_item_id": 1427,
               "title": "Phase 3: US1 - AppHost Boot with Resource Orchestration",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1427",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US1",
+              "requirement_name": "AppHost Boot with Resource Orchestration",
               "priority": 1,
               "story_points": 7
             }
@@ -68,7 +73,9 @@
               "work_item_id": 1426,
               "title": "Phase 4: US3 - Tenant Isolation with TenantInterceptor",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1426",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US3",
+              "requirement_name": "Tenant Isolation with TenantInterceptor",
               "priority": 1,
               "story_points": 9
             }
@@ -84,7 +91,9 @@
               "work_item_id": 1428,
               "title": "Phase 5: US4 - Event Publication with MassTransit",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1428",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US4",
+              "requirement_name": "Event Publication with MassTransit",
               "priority": 1,
               "story_points": 9
             }
@@ -100,7 +109,9 @@
               "work_item_id": 1433,
               "title": "Phase 6: US5 - Redis Caching & Idempotency",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1433",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US5",
+              "requirement_name": "Redis Caching & Idempotency",
               "priority": 2,
               "story_points": 9
             }
@@ -116,7 +127,9 @@
               "work_item_id": 1435,
               "title": "Phase 7: US6 - Observability with OpenTelemetry",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1435",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US6",
+              "requirement_name": "Observability with OpenTelemetry",
               "priority": 2,
               "story_points": 9
             }
@@ -132,7 +145,9 @@
               "work_item_id": 1432,
               "title": "Phase 8: US2 - Service Scaffolding Scripts",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1432",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US2",
+              "requirement_name": "Service Scaffolding Scripts",
               "priority": 2,
               "story_points": 13
             }
@@ -148,7 +163,9 @@
               "work_item_id": 1434,
               "title": "Phase 9: US7 - API Gateway with Legacy Routing",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1434",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US7",
+              "requirement_name": "API Gateway with Legacy Routing",
               "priority": 2,
               "story_points": 9
             }
@@ -164,7 +181,9 @@
               "work_item_id": 1431,
               "title": "Phase 10: US8 - Resilient Messaging with Circuit Breaker",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1431",
+              "grouping_strategy": "requirement_key",
               "requirement_key": "US8",
+              "requirement_name": "Resilient Messaging with Circuit Breaker",
               "priority": 2,
               "story_points": 7
             }
@@ -176,10 +195,11 @@
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1414",
           "tasks": ["T091", "T092", "T093", "T094", "T095", "T096", "T097", "T098", "T099", "T100"],
           "user_stories": {
-            "priority-3-implementation": {
+            "polish-cross-cutting": {
               "work_item_id": 1430,
-              "title": "Phase 11: Priority 3 Implementation",
+              "title": "Phase 11: Polish & Cross-Cutting Concerns",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1430",
+              "grouping_strategy": "functional_group",
               "priority": 3,
               "story_points": 10
             }
