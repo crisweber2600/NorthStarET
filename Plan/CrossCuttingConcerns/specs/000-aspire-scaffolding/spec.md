@@ -1,17 +1,13 @@
 # Feature Specification: Aspire Orchestration & Cross-Cutting Scaffolding
 
 ---
-ado_work_item_id: 1407
-ado_epic_id: 1399
-ado_parent_id: 1405
-ado_work_item_type: "User Story"
-ado_url: "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1407"
-phase: 3
-user_story_id: "US1"
-last_synced: "2025-11-20T22:15:00Z"
-sync_status: "synced"
-story_points: 8
-priority: 1
+ado_work_item_id: null
+ado_epic_id: null
+ado_parent_id: null
+ado_work_item_type: "Epic"
+ado_url: null
+last_synced: null
+sync_status: "pending"
 layer: "foundation"
 tags:
   - aspire
