@@ -1,5 +1,5 @@
 ---
-description: Execute the implementation plan by processing and executing all tasks defined in tasks.md
+description: Execute the implementation plan by processing and executing all tasks defined in tasks.md. Call with layer and spec number/path to create implementation branch.
 ---
 
 ## User Input
@@ -12,7 +12,44 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-1. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Parse Input Parameters**: Extract layer and spec identifier from $ARGUMENTS:
+   - Expected format: `{LayerName} ###` or `{LayerName}/###-feature-name` or path to spec directory
+   - Examples: 
+     - "Foundation 001"
+     - "Foundation/001-identity-migration"
+     - "Plan/Foundation/specs/001-identity-migration"
+   - If parameters missing, ERROR: "Must provide layer name and spec number. Example: `/speckit.implement Foundation 001`"
+
+2. **Locate Specification Files**:
+   - Use provided layer and spec number to locate spec directory in `Plan/{LayerName}/specs/###-*`
+   - Verify spec.md, plan.md, and tasks.md exist in the spec directory
+   - Parse spec.md to extract feature short-name for branch naming
+   - If spec files not found, ERROR: "Specification files not found. Ensure `/speckit.specify` and `/speckit.plan` have been completed."
+
+3. **Create Implementation Branch**:
+   
+   a. Ensure `Specs` branch exists and is up to date:
+      ```bash
+      git fetch --all --prune
+      git checkout Specs
+      git pull origin Specs
+      ```
+   
+   b. Create layer-prefixed implementation branch from `Specs`:
+      ```bash
+      git checkout -b {LayerName}/###-feature-name
+      ```
+      - Branch name format: `{LayerName}/###-feature-name` (e.g., `Foundation/001-identity-migration`)
+      - No `-spec` or `-proposed` suffix for implementation branches
+   
+   c. Copy specification artifacts to implementation branch:
+      - All files from `Plan/{LayerName}/specs/###-feature-name/` are already in Specs branch
+      - These will be preserved in the implementation branch
+      - Implementation work will be added to `Src/{LayerName}/` directories
+   
+   d. Report: "Created implementation branch `{LayerName}/###-feature-name` from `Specs` branch"
+
+4. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
 2. **Check checklists status** (if FEATURE_DIR/checklists/ exists):
    - Scan all checklist files in the checklists/ directory
@@ -131,5 +168,30 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Validate that tests pass and coverage meets requirements
    - Confirm the implementation follows the technical plan
    - Report final status with summary of completed work
+
+10. **Create Pull Request to Main**:
+   
+   a. Commit all implementation changes:
+      ```bash
+      git add .
+      git commit -m "Implement {LayerName}/###-feature-name"
+      ```
+   
+   b. Push implementation branch to remote:
+      ```bash
+      git push -u origin {LayerName}/###-feature-name
+      ```
+   
+   c. Create pull request from implementation branch to `main` using the `#create_pull_request` tool:
+      - Title: "Implementation: {LayerName}/###-feature-name"
+      - Body: Include links to spec.md, plan.md, implementation summary, and test results
+      - Base branch: `main`
+      - Head branch: `{LayerName}/###-feature-name`
+   
+   d. Report:
+      - Implementation branch name
+      - Pull request URL
+      - Summary of completed work
+      - Test results and coverage metrics
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/speckit.tasks` first to regenerate the task list.

@@ -279,11 +279,9 @@ if [ ${#BRANCH_NAME} -gt $MAX_BRANCH_LENGTH ]; then
     >&2 echo "[specify] Truncated to: $BRANCH_NAME (${#BRANCH_NAME} bytes)"
 fi
 
-if [ "$HAS_GIT" = true ]; then
-    git checkout -b "$BRANCH_NAME"
-else
-    >&2 echo "[specify] Warning: Git repository not detected; skipped branch creation for $BRANCH_NAME"
-fi
+# NOTE: Branch creation is now handled by the agent calling this script
+# The script only creates spec directories and files
+# Git branches (Specs, proposed-specs, and implementation branches) are managed by agents
 
 FEATURE_DIR="$SPECS_DIR/$BRANCH_NAME"
 mkdir -p "$FEATURE_DIR"
@@ -291,6 +289,13 @@ mkdir -p "$FEATURE_DIR"
 TEMPLATE="$REPO_ROOT/.specify/templates/spec-template.md"
 SPEC_FILE="$FEATURE_DIR/spec.md"
 if [ -f "$TEMPLATE" ]; then cp "$TEMPLATE" "$SPEC_FILE"; else touch "$SPEC_FILE"; fi
+
+if [ "$HAS_GIT" = true ]; then
+    >&2 echo "[specify] Note: Spec files created in $FEATURE_DIR"
+    >&2 echo "[specify] Branch creation is handled by the calling agent"
+else
+    >&2 echo "[specify] Warning: Git repository not detected"
+fi
 
 # Set the SPECIFY_FEATURE environment variable for the current session
 export SPECIFY_FEATURE="$BRANCH_NAME"
