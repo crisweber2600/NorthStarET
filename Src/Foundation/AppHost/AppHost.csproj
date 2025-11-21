@@ -14,4 +14,8 @@
     <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\services\Identity\Identity.API\Identity.API.csproj" />
+  </ItemGroup>
+
 </Project>
