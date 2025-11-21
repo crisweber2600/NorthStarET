@@ -69,10 +69,10 @@ description: "Task list for Data Import & Integration Service implementation"
 - [ ] T005 [P] Initialize Infrastructure project in Src/Foundation/services/DataImport/Infrastructure/DataImport.Infrastructure.csproj
 - [ ] T006 [P] Initialize Workers project in Src/Foundation/services/DataImport/Workers/DataImport.Workers.csproj
 - [ ] T007 [P] Initialize Tests project in Src/Foundation/services/DataImport/Tests/DataImport.Tests.csproj
-- [ ] T008 Add NuGet package references (EF Core 9, Npgsql, CsvHelper, ExcelDataReader, Hangfire, MassTransit, FluentValidation, Polly) to Directory.Packages.props
+- [ ] T008 [P] Add NuGet package references (EF Core 9, Npgsql, CsvHelper, ExcelDataReader, Hangfire, MassTransit, FluentValidation, Polly) to Directory.Packages.props
 - [ ] T009 [P] Configure project references between Api → Application → Domain and Infrastructure
 - [ ] T010 [P] Add service to AppHost orchestration in Src/Foundation/AppHost/Program.cs with PostgreSQL and Redis dependencies
-- [ ] T011 Create README.md documenting service purpose, layer position, and shared infrastructure dependencies in Src/Foundation/services/DataImport/
+- [ ] T011 [P] Create README.md documenting service purpose, layer position, and shared infrastructure dependencies in Src/Foundation/services/DataImport/
 - [ ] T012 [P] Setup .editorconfig and linting rules for DataImport projects
 
 ---
@@ -125,7 +125,7 @@ description: "Task list for Data Import & Integration Service implementation"
 
 - [ ] T034 [P] [US1] Create CreateTemplateCommand and handler in Src/Foundation/services/DataImport/Application/Templates/Commands/CreateTemplate/
 - [ ] T035 [P] [US1] Create GetTemplatesQuery and handler in Src/Foundation/services/DataImport/Application/Templates/Queries/GetTemplates/
-- [ ] T036 [P] [US1] Create UploadFileCommand and handler in Src/Foundation/services/DataImport/Application/Jobs/Commands/UploadFile/
+- [ ] T036 [US1] Create UploadFileCommand and handler in Src/Foundation/services/DataImport/Application/Jobs/Commands/UploadFile/
 - [ ] T037 [US1] Create ValidateFileCommand and handler in Src/Foundation/services/DataImport/Application/Jobs/Commands/ValidateFile/
 - [ ] T038 [P] [US1] Create FluentValidation validators for CreateTemplateCommand in Src/Foundation/services/DataImport/Application/Templates/Commands/CreateTemplate/CreateTemplateCommandValidator.cs
 - [ ] T039 [P] [US1] Create FluentValidation validators for UploadFileCommand in Src/Foundation/services/DataImport/Application/Jobs/Commands/UploadFile/UploadFileCommandValidator.cs
