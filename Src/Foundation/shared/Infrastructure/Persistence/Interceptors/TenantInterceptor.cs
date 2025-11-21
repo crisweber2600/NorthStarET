@@ -1,9 +1,6 @@
-using System.Diagnostics;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using NorthStarET.Foundation.Domain.Entities;
-using NorthStarET.Foundation.Infrastructure.Attributes;
 using NorthStarET.Foundation.Infrastructure.Persistence.Entities;
 
 namespace NorthStarET.Foundation.Infrastructure.Persistence.Interceptors;
@@ -11,14 +8,15 @@ namespace NorthStarET.Foundation.Infrastructure.Persistence.Interceptors;
 /// <summary>
 /// EF Core interceptor to enforce tenant isolation.
 /// Automatically filters queries by TenantId and validates TenantId on save.
+/// Use ITenantContext.BypassFilter() to temporarily bypass filtering with audit logging.
 /// </summary>
 public class TenantInterceptor : SaveChangesInterceptor
 {
-    private readonly Func<Guid?> _tenantIdProvider;
+    private readonly ITenantContext _tenantContext;
 
-    public TenantInterceptor(Func<Guid?> tenantIdProvider)
+    public TenantInterceptor(ITenantContext tenantContext)
     {
-        _tenantIdProvider = tenantIdProvider ?? throw new ArgumentNullException(nameof(tenantIdProvider));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public override InterceptionResult<int> SavingChanges(
@@ -46,35 +44,25 @@ public class TenantInterceptor : SaveChangesInterceptor
 
     private void EnforceTenantId(DbContext context)
     {
-        var tenantId = _tenantIdProvider();
+        var tenantId = _tenantContext.TenantId;
+        var bypassFilter = _tenantContext.BypassTenantFilter;
         
-        // Check if the calling method has IgnoreTenantFilterAttribute
-        var stackTrace = new StackTrace();
-        var hasIgnoreAttribute = false;
-        
-        for (int i = 0; i < stackTrace.FrameCount; i++)
+        // Create audit log if bypass is active
+        if (bypassFilter)
         {
-            var method = stackTrace.GetFrame(i)?.GetMethod();
-            if (method?.GetCustomAttribute<IgnoreTenantFilterAttribute>() is not null)
+            var tenantContextInstance = _tenantContext as TenantContext;
+            var auditLog = new AuditLog
             {
-                hasIgnoreAttribute = true;
-                
-                // Create audit log entry
-                var auditLog = new AuditLog
-                {
-                    TenantId = tenantId,
-                    Action = "BypassTenantFilter",
-                    EntityType = method.DeclaringType?.Name ?? "Unknown",
-                    Context = $"Method: {method.Name}, Caller: {Environment.UserName}",
-                    Timestamp = DateTime.UtcNow
-                };
-                
-                context.Set<AuditLog>().Add(auditLog);
-                break;
-            }
+                TenantId = tenantId,
+                Action = "BypassTenantFilter",
+                EntityType = context.GetType().Name,
+                Context = $"Reason: {tenantContextInstance?.BypassReason ?? "Unknown"}, User: {Environment.UserName}",
+                Timestamp = DateTime.UtcNow
+            };
+            
+            context.Set<AuditLog>().Add(auditLog);
         }
-
-        if (!hasIgnoreAttribute && tenantId is null)
+        else if (tenantId is null)
         {
             throw new InvalidOperationException(
                 "TenantId is required for this operation. Ensure the tenant context is set.");
@@ -86,7 +74,7 @@ public class TenantInterceptor : SaveChangesInterceptor
 
         foreach (var entry in entries)
         {
-            if (entry.State == EntityState.Added && !hasIgnoreAttribute)
+            if (entry.State == EntityState.Added && !bypassFilter)
             {
                 if (tenantId.HasValue)
                 {
@@ -98,7 +86,7 @@ public class TenantInterceptor : SaveChangesInterceptor
                         $"Cannot add entity {entry.Entity.GetType().Name} without a valid TenantId.");
                 }
             }
-            else if (entry.State == EntityState.Modified && !hasIgnoreAttribute)
+            else if (entry.State == EntityState.Modified && !bypassFilter)
             {
                 // Prevent changing TenantId
                 var originalTenantId = entry.OriginalValues.GetValue<Guid>(nameof(ITenantEntity.TenantId));
