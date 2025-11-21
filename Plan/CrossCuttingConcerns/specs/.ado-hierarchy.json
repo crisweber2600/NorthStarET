@@ -1,11 +1,17 @@
 {
-  "version": "6.0.0",
-  "last_updated": "2025-11-21T15:09:00Z",
-  "hierarchy": "Epic (Spec) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group)",
-  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback). Features organized by functional domains instead of phases for better cross-phase tracking. Each task = 1 story point.",
+  "version": "7.0.0",
+  "last_updated": "2025-11-21T17:15:00Z",
+  "hierarchy": "Parent Epic (1454) → Epic (Spec) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group)",
+  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. All CrossCuttingConcerns epics (E0-E3) are children of parent Epic 1454. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback). Features organized by functional domains instead of phases for better cross-phase tracking. Each task = 1 story point.",
   "grouping_note": "The grouping_strategy field records how the agent created each User Story: 'requirement_key' when [US#] markers found in tasks.md, 'functional_group' when tasks grouped by functional area. Features represent functional domains (Foundation, Orchestration, Messaging, Performance, DevEx, Quality) rather than phases to allow cross-phase work item tracking.",
+  "parent_epic": {
+    "work_item_id": 1454,
+    "title": "CrossCuttingConcerns Specifications",
+    "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1454",
+    "child_epics": [1436, 1455, 1456, 1457]
+  },
   "epics": {
-    "aspire-scaffolding": {
+    "000-aspire-scaffolding": {
       "work_item_id": 1436,
       "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
       "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1436",
@@ -182,6 +188,52 @@
           }
         }
       }
+    },
+    "001-identity-service-entra-id": {
+      "work_item_id": 1455,
+      "title": "E1: Identity Service with Microsoft Entra ID",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1455",
+      "folder": "Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id",
+      "layer": "foundation",
+      "tags": [
+        "foundation",
+        "identity",
+        "authentication",
+        "entra-id",
+        "security"
+      ],
+      "features": {}
+    },
+    "002-api-gateway": {
+      "work_item_id": 1456,
+      "title": "E2: API Gateway - YARP Service Orchestration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1456",
+      "folder": "Plan/CrossCuttingConcerns/specs/002-api-gateway",
+      "layer": "foundation",
+      "tags": [
+        "foundation",
+        "api-gateway",
+        "yarp",
+        "routing",
+        "security",
+        "resilience"
+      ],
+      "features": {}
+    },
+    "003-configuration-service": {
+      "work_item_id": 1457,
+      "title": "E3: Configuration Service - Multi-Tenant Settings",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1457",
+      "folder": "Plan/CrossCuttingConcerns/specs/003-configuration-service",
+      "layer": "foundation",
+      "tags": [
+        "foundation",
+        "configuration",
+        "multi-tenant",
+        "settings",
+        "compliance"
+      ],
+      "features": {}
     }
   }
 }
