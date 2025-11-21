@@ -17,5 +17,5 @@ Scenario Summary:
 
 NFRs: File upload p95 <2s (≤10MB); Processing 100 records/s target; Validation <5s for 1000 rows; Availability 99.9%; Security (malware scan, encryption, FERPA).
 Idempotency: Job creation 10m; row processing keyed by natural IDs.
-Events: ImportStartedEvent, ImportCompletedEvent, ImportFailedEvent, RowValidationFailedEvent, ImportRollbackEvent.
+Events: ImportStartedEvent, ImportCompletedEvent, ImportFailedEvent, RowValidationFailedEvent, ImportRollbackEvent, StateTestDataImportedEvent.
 Risk: Large fuzzy duplicate sets → bounded Levenshtein comparisons, threshold tuning.
