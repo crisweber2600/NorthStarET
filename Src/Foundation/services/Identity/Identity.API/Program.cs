@@ -1,34 +1,45 @@
+using NorthStarET.Foundation.Identity.Application;
+using NorthStarET.Foundation.Identity.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add service defaults (observability, health checks, etc.)
+builder.AddServiceDefaults();
+
+// Add Identity Application layer
+builder.Services.AddIdentityApplication();
+
+// Add Identity Infrastructure layer
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
+
+// Add Microsoft Identity Web for Entra ID authentication
+// TODO: Configure Microsoft.Identity.Web when Entra ID settings are available
+
+// Add controllers
+builder.Services.AddControllers();
+
+// Add API documentation
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Map service defaults (health checks, etc.)
+app.MapDefaultEndpoints();
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    // Enable developer exception page in development
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// TODO: Add authentication middleware when configured
+// app.UseAuthentication();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
