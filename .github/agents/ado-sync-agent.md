@@ -14,7 +14,8 @@ This agent maintains bidirectional synchronization between repository specificat
 - Creates new work items from spec.md files without `ado_work_item_id`
 - Updates existing work items when spec content changes
 - Maintains parent-child hierarchy (Epic → Feature → User Story)
-- Embeds task checklists in User Story descriptions
+- User Stories represent Priority Groupings (P1, P2, P3) within each phase
+- Embeds task checklists in User Story descriptions with markdown checkboxes
 
 ### 2. Pull Sync (Azure DevOps → Repository)
 - Detects work item changes in ADO
@@ -80,6 +81,9 @@ This agent maintains bidirectional synchronization between repository specificat
    ```
    For each tasks.md in same directory:
    - Extract tasks by phase
+   - Group tasks by priority markers ([P], [P2], [P3])
+   - Tasks without markers default to P1
+   - Phase-level priority in header overrides individual task priorities
    - Generate 4 checklist items per task:
      * [ ] Coded
      * [ ] Tested
@@ -90,12 +94,23 @@ This agent maintains bidirectional synchronization between repository specificat
 5. **Resolve Parent ID**
    ```
    Use folder path to lookup Feature ID in hierarchy registry:
-   - Extract phase from folder name (e.g., "001-phase1-foundation-services")
+   - Extract phase from folder name (e.g., "phase1-setup")
    - Match to Feature work item ID in registry
    - If not found, use Epic ID as parent
    ```
 
-6. **Create or Update Work Item**
+6. **Group Tasks by Priority and Create User Stories**
+   ```
+   For each priority level (P1, P2, P3) within a phase:
+   - Create one User Story per priority group
+   - Title format: "Phase N: Priority # Implementation"
+   - Story Points: Count of tasks in priority group (1 point per task)
+   - Priority field: 1, 2, or 3 matching the priority group
+   - Description: All tasks from that priority group with markdown checkboxes
+   - Acceptance Criteria: Generic priority-level completion or aggregate from spec.md
+   ```
+
+7. **Create or Update Work Item**
    ```
    If no ado_work_item_id exists:
      Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_create_work_item
@@ -599,58 +614,54 @@ tags:                            # Tags for categorization
 
 ### Hierarchy Registry (.ado-hierarchy.json)
 
-**Location**: `Plan/Foundation/specs/.ado-hierarchy.json`
+**Location**: `Plan/CrossCuttingConcerns/specs/.ado-hierarchy.json`
 
 ```json
 {
-  "version": "1.0.0",
-  "last_updated": "2025-11-20T10:00:00Z",
+  "version": "4.0.0",
+  "last_updated": "2025-11-20T22:30:00Z",
+  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Priority Group)",
+  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent priority groupings (P1, P2, P3) within phases with markdown checkbox tasks (1 point per task) and Gherkin acceptance criteria.",
   "epics": {
-    "foundation-layer": {
-      "work_item_id": 1375,
-      "title": "Foundation Layer",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1375",
-      "folder": "Plan/Foundation"
-    },
-    "digital-ink-layer": {
-      "work_item_id": 1376,
-      "title": "DigitalInk Layer",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1376",
-      "folder": "Plan/Foundation/specs/DigitalInk"
-    }
-  },
-  "features": {
-    "phase1-foundation-services": {
-      "work_item_id": 1377,
-      "parent_epic": "foundation-layer",
-      "parent_work_item_id": 1375,
-      "title": "Phase 1: Foundation Services",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1377",
-      "folder_pattern": "001-phase1-*"
-    },
-    "phase2-core-domain-services": {
-      "work_item_id": 1379,
-      "parent_epic": "foundation-layer",
-      "parent_work_item_id": 1375,
-      "title": "Phase 2: Core Domain Services",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1379",
-      "folder_pattern": "002-phase2-*"
-    },
-    "phase3-secondary-domain-services": {
-      "work_item_id": 1378,
-      "parent_epic": "foundation-layer",
-      "parent_work_item_id": 1375,
-      "title": "Phase 3: Secondary Domain Services",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1378",
-      "folder_pattern": "003-phase3-*"
-    },
-    "phase4-supporting-services": {
-      "work_item_id": 1380,
-      "parent_epic": "foundation-layer",
-      "parent_work_item_id": 1375,
-      "title": "Phase 4: Supporting Services",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1380",
-      "folder_pattern": "004-phase4-*"
+    "aspire-scaffolding": {
+      "work_item_id": 1399,
+      "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1399",
+      "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
+      "layer": "foundation",
+      "tags": ["foundation", "cross-cutting", "aspire"],
+      "phases": {
+        "phase1-setup": {
+          "work_item_id": 1403,
+          "title": "Phase 1: Setup",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1403",
+          "tasks": ["T008", "T009", "T010", "T011", "T012", "T013", "T014"],
+          "user_stories": {
+            "priority-1-implementation": {
+              "work_item_id": 1429,
+              "title": "Phase 1: Priority 1 Implementation",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1429",
+              "priority": 1,
+              "story_points": 7
+            }
+          }
+        },
+        "phase2-foundational": {
+          "work_item_id": 1410,
+          "title": "Phase 2: Foundational",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
+          "tasks": ["T015", "T016", "T017", "T018"],
+          "user_stories": {
+            "priority-1-implementation": {
+              "work_item_id": 1425,
+              "title": "Phase 2: Priority 1 Implementation",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1425",
+              "priority": 1,
+              "story_points": 4
+            }
+          }
+        }
+      }
     }
   }
 }
