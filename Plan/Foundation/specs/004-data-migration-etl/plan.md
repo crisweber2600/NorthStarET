@@ -1,86 +1,105 @@
-# Plan: Data Migration ETL
-Version: 0.1.0
-Status: Draft (Planning)
-Layer: Foundation
-Spec Ref: 004-data-migration-etl/spec.md
+# Implementation Plan: Data Migration from Legacy to Multi-Tenant Architecture
 
-## Objectives
-- Consolidate per-district SQL Server databases into multi-tenant PostgreSQL service databases.
-- Preserve historical integrity and support rollback/resume.
-- Achieve performance targets using batching + COPY bulk ingest.
+**Specification Branch**: `Foundation/004-data-migration-etl-spec` *(current branch - planning artifacts)*  
+**Implementation Branch**: `Foundation/004-data-migration-etl` *(created after approval)*  
+**Date**: 2025-11-20 | **Spec**: Plan/Foundation/specs/004-data-migration-etl/spec.md
 
-## Architecture Components
-1. Orchestrator (Console / Worker Service)
-   - Reads migration manifest (entities, order, batch sizes).
-   - Coordinates parallel jobs (respect dependencies).
-2. Legacy Data Access
-   - EF6 or Dapper (performance) against SQL Server.
-   - Pagination queries with stable ordering (PK ascending).
-3. Target Data Access
-   - Npgsql + COPY for bulk writes; EF Core for small reference entities.
-4. Mapping Store
-   - `migration.LegacyIdMapping` per entity + tenant.
-   - Upsert on duplicate for idempotency.
-5. Checkpointing
-   - `migration.BatchState(batch_id, entity_type, tenant_id, last_legacy_id, status, started_at, completed_at)`.
-6. Validation Module
-   - Count parity checks; random sampling; orphan detection.
-7. Dual-Write Module
-   - Transaction abstraction ensuring legacy + new commit/rollback.
+**Note**: Migration depends on multi-tenant architecture readiness (feature 002) and Identity/Configuration availability.
 
-## Batch Flow
-1. Load next batch boundary (last_legacy_id).
-2. Query legacy subset.
-3. Map & transform (types, normalization, UUID generation).
-4. COPY ingest into staging temp table.
-5. Merge from staging to target (optional) or direct ingest.
-6. Update checkpoint; log metrics.
+## Summary
 
-## Performance Strategy
-- Parallelization: distinct tenants processed concurrently for large entities.
-- Network optimization: compress COPY streams if needed.
-- Pre-create indexes (evaluate dropping & re-adding for extreme volume).
+Migrate 383 legacy per-district entities from SQL Server into consolidated multi-tenant PostgreSQL service databases with UUID remapping, tenant tagging, referential integrity preservation, and resumable checkpoints. Execute dual-write during transition, validate parity with reconciliation reports, and support rollback of partial runs.
 
-## Rollback Procedure
-- Identify failed batch range.
-- Delete inserted rows using batch_id or legacy_id range & tenant_id.
-- Restore checkpoint state to prior boundary.
+## Technical Context
 
-## Pseudocode
-```csharp
-while (!AllTenantsComplete(entity)) {
-  var batch = await legacyRepo.FetchStudents(afterId: state.LastLegacyId, size: settings.BatchSize);
-  if (batch.Count == 0) break;
-  var transformed = mapper.Map(batch, tenantId);
-  await bulkWriter.CopyAsync(transformed);
-  state.LastLegacyId = batch.Max(x => x.Id);
-  await checkpointRepo.Save(state);
-  metrics.Log(entity, batch.Count, elapsed);
-}
+**Language/Version**: C# / .NET 8 (worker services)  
+**Primary Dependencies**: EF Core 9 + Npgsql + SqlClient, Dapper for high-volume batches, Polly for retries, CsvHelper for reports, MassTransit for progress events  
+**Storage**: SQL Server (source), PostgreSQL per-service targets, checkpoint store in PostgreSQL/Redis, blob storage for logs/reports  
+**Testing**: xUnit integration for batch idempotency, Reqnroll BDD for migration scenarios, reconciliation scripts with row counts/checksums, performance harness for throughput targets  
+**Target Platform**: Linux containers/worker jobs orchestrated via Aspire  
+**Project Type**: Backend ETL workers and scripts  
+**Performance Goals**: Students >=10k/sec; assessments >=5k/sec; resumable checkpoints; overnight windows for pilot districts  
+**Constraints**: Zero data loss; referential integrity maintained; tenant_id required on all migrated rows; rollback supported; branch naming with layer prefix  
+**Scale/Scope**: 15 years of historical data across all districts; millions of rows per entity
+
+### Identity & Authentication Guidance
+
+- Identity Provider: Microsoft Entra ID for operator access to runbooks and dashboards  
+- Authentication Pattern: Session/BFF for admin UI if exposed; service-to-service uses managed identity  
+- Token Validation: Microsoft.Identity.Web where applicable  
+- Session Storage: Not primary; operators authenticated via gateway/admin tools
+
+## Layer Identification (MANDATORY)
+
+**Target Layer**: Foundation  
+**Implementation Path**: `Src/Foundation/tools/data-migration` (workers + scripts) and service-specific migration packages  
+**Specification Path**: `Plan/Foundation/specs/004-data-migration-etl/`
+
+### Layer Consistency Validation
+
+- [x] Target Layer matches specification (Foundation)  
+- [x] Implementation path follows layer structure (`Src/Foundation/...`)  
+- [x] Specification path follows layer structure (`Plan/Foundation/specs/...`)  
+- [x] Branch naming includes layer prefix
+
+### Shared Infrastructure Dependencies
+
+- [x] ServiceDefaults - Hosting, logging, health probes for workers  
+- [x] Domain - Value objects for tenant IDs and legacy IDs  
+- [x] Application - Command handlers for batch orchestration  
+- [x] Infrastructure - PostgreSQL/Redis providers, messaging for status events
+
+### Cross-Layer Dependencies
+
+**Depends on layers**: Foundation shared infrastructure only  
+**Specific Dependencies**: Tenant metadata from Configuration Service; Identity for operator auth; ServiceDefaults/Infrastructure for DB access and messaging  
+**Justification**: Migration uses shared services but does not add cross-layer runtime coupling.  
+**Constitutional Compliance**: Principle 6 upheld; dependencies limited to Foundation shared components and required services.
+
+### Constitution Check
+
+- Layer-prefixed branch pattern OK  
+- Planning artifacts only; no implementation code OK  
+- Multi-tenancy enforced via tenant_id tagging and RLS-ready schemas OK  
+- Security: credentials via secret store; no inline secrets OK  
+- Testing: dry-run + reconciliation + BDD planned OK  
+- No UI; Figma requirement not applicable OK
+
+## Project Structure
+
+### Documentation (this feature)
+
+```
+specs/004-data-migration-etl/
+- plan.md
+- research.md          # Source profiling, mapping rules
+- data-model.md        # Mapping tables, UUID strategy
+- quickstart.md        # Running pilots, checkpoints, rollback
+- contracts/           # Event/report schemas if emitted
+- tasks.md
 ```
 
-## Validation Queries
-- Count parity per entity per tenant.
-- Sample join validations (students ↔ enrollments).
-- Orphan detection using LEFT JOIN where child missing parent.
+### Source Code (repository root)
 
-## Risks
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| COPY ingest row error | Partial failure | Row-level validation pre-COPY |
-| Legacy schema drift mid-migration | Incorrect transforms | Freeze schema + diff monitor |
-| Resource contention (I/O) | Slower progress | Throttle concurrency + monitor throughput |
+```
+Src/Foundation/tools/data-migration/
+- Workers/             # ETL runners per entity group
+- Pipelines/           # Batch + checkpoint orchestration
+- Mappings/            # Legacy -> new schema maps
+- Reports/             # Reconciliation and audit exports
+- Tests/               # Unit + integration + BDD
 
-## Test Strategy
-- Unit: mappers, type converters, UUID mapping.
-- Integration: batch processing end-to-end on small fixture sets.
-- Load: synthetic large volume simulation.
-- Reconciliation: automated script produce report artifact.
+tests/data-migration/
+- reconciliation/
+- performance/
+- bdd/
+```
 
-## Completion Criteria
-- All spec scenarios green (dry-run + full run).
-- Reconciliation report indicates 100% counts & referential integrity.
-- Dual-write stabilized for active entities until cutover.
+**Structure Decision**: Worker-based ETL toolkit with shared mapping libraries; no frontend components.
 
----
-Draft plan.
+## Complexity Tracking
+
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| None | - | - |
+

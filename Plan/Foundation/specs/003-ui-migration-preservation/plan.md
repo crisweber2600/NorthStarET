@@ -1,88 +1,106 @@
-# Plan: UI Migration with Preservation Strategy
-Version: 0.1.0
-Status: Draft (Planning)
-Layer: Foundation
-Spec Ref: 003-ui-migration-preservation/spec.md
+# Implementation Plan: UI Migration with Preservation Strategy
 
-## Objectives
-- Replace AngularJS with Angular 18 incrementally without changing UX.
-- Guarantee pixel + workflow parity (99%+ similarity threshold).
-- Maintain existing API contracts (no backend change dependency).
-- Preserve user preferences, accessibility, print/export behavior.
+**Specification Branch**: `Foundation/003-ui-migration-preservation-spec` *(current branch - planning artifacts)*  
+**Implementation Branch**: `Foundation/003-ui-migration-preservation` *(created after approval)*  
+**Date**: 2025-11-20 | **Spec**: Plan/Foundation/specs/003-ui-migration-preservation/spec.md
 
-## Architecture Overview
-1. Host Shell (Angular 18)
-   - Provides routing, layout frame, shared services.
-   - Feature flag decides legacy vs migrated component entry.
-2. Legacy Bridge
-   - Iframe or Web Component wrapper for unmigrated AngularJS modules.
-   - Shared auth/session propagated via postMessage or query token.
-3. Data Services
-   - Angular 18 services replicate legacy service interfaces (method names & signatures).
-   - Reuse existing endpoint paths via YARP.
-4. Visual Regression Suite
-   - Baseline images stored under `tests/ui/baseline/`.
-   - Playwright compare: threshold 0.01 (1%).
-5. Accessibility & Keyboard Parity
-   - Automated axe scans.
-   - Shortcut mapping service ensures key bindings identical.
+**Note**: Parity migration only; constitution’s Figma requirement is exempt for migrations that preserve existing UI.
 
-## Component Migration Workflow
-1. Capture baseline screenshots (desktop/tablet/mobile states).
-2. Extract legacy HTML + CSS class names.
-3. Scaffold Angular 18 component with identical structure.
-4. Implement data service calls & reactive state.
-5. Run functional + visual regression tests.
-6. Tag component as migrated; toggle feature flag.
+## Summary
 
-## Data & Preferences
-- Preferences stored server-side remain unchanged.
-- Mapping: AngularJS local storage keys consumed by new layer on first load.
+Migrate the legacy AngularJS LMS UI to Angular 18 while preserving layouts, workflows, accessibility, and data contracts. Use a micro-frontend bridge for coexistence, Playwright visual regression for <=1% pixel drift, and contract tests to ensure API compatibility during strangler rollout.
 
-## Key Interfaces
-```typescript
-export interface StudentService {
-  getStudents(filters: StudentFilters): Observable<Student[]>;
-  getStudent(id: string): Observable<Student>;
-}
+## Technical Context
+
+**Language/Version**: TypeScript / Angular 18, Node 20 build chain  
+**Primary Dependencies**: Angular CLI, RxJS, Nx or workspace tooling, Playwright for visual regression, Jest/Jasmine/Karma for unit tests  
+**Storage**: No local data stores beyond browser storage; consumes existing APIs via gateway  
+**Testing**: Playwright visual + functional suites, axe accessibility scans, Jest/Karma unit tests, contract tests for API parity  
+**Target Platform**: Web (desktop + responsive breakpoints), served via Aspire-hosted backend/gateway  
+**Project Type**: Web frontend with migration bridge for AngularJS coexistence  
+**Performance Goals**: Equal or better load time than legacy; <=1% visual diff; p95 interactions unchanged or improved  
+**Constraints**: Workflow parity (no UX changes), reuse existing API contracts, coexistence period for dual runtimes, branch naming with layer prefix  
+**Scale/Scope**: 150+ components/modules; phased migration by module (dashboard first)
+
+### Identity & Authentication Guidance
+
+- Identity Provider: Microsoft Entra ID via existing BFF/session pattern  
+- Authentication Pattern: Session-based; frontend relies on cookie/session issued by Identity/BFF  
+- Token Validation: Backend responsibility; frontend only forwards requests through gateway  
+- Session Storage: Cookies; no token storage in frontend code
+
+## Layer Identification (MANDATORY)
+
+**Target Layer**: Foundation  
+**Implementation Path**: `Src/Foundation/ui/lms-web` (Angular 18 host + bridge to AngularJS)  
+**Specification Path**: `Plan/Foundation/specs/003-ui-migration-preservation/`
+
+### Layer Consistency Validation
+
+- [x] Target Layer matches specification (Foundation)  
+- [x] Implementation path follows layer structure (`Src/Foundation/...`)  
+- [x] Specification path follows layer structure (`Plan/Foundation/specs/...`)  
+- [x] Branch naming includes layer prefix
+
+### Shared Infrastructure Dependencies
+
+- [x] ServiceDefaults - Hosting for SPA and gateway configuration  
+- [x] Domain/Application - None directly, but API contracts enforced via gateway/backends  
+- [ ] Infrastructure - Not applicable beyond gateway routing
+
+### Cross-Layer Dependencies
+
+**Depends on layers**: Foundation services via gateway only  
+**Specific Dependencies**: Gateway routing configs, existing backend APIs; no direct cross-layer coupling  
+**Justification**: UI consumes existing Foundation APIs; no additional layers involved.  
+**Constitutional Compliance**: Principle 6 upheld; no cross-layer service calls beyond authorized gateway access.
+
+### Constitution Check
+
+- Layer-prefixed branch pattern OK  
+- Planning artifacts only; no implementation commits OK  
+- Multi-tenancy preserved by honoring tenant headers via gateway OK  
+- Security: No token storage in frontend; uses BFF session OK  
+- Testing: Visual regression + contract tests planned OK  
+- UI migration exemption from Figma acknowledged OK
+
+## Project Structure
+
+### Documentation (this feature)
+
+```
+specs/003-ui-migration-preservation/
+- plan.md
+- research.md
+- data-model.md        # UI state and routing maps
+- quickstart.md        # Running Angular 18 app with legacy bridge
+- contracts/           # API contract snapshots used by UI
+- tasks.md
 ```
 
-## Sample Visual Regression Test
-```typescript
-test('Student List Parity', async ({ page }) => {
-  await page.goto('/students');
-  await page.waitForLoadState('networkidle');
-  expect(await page.screenshot()).toMatchSnapshot('students-list.png', { threshold: 0.01 });
-});
+### Source Code (repository root)
+
+```
+Src/Foundation/ui/lms-web/
+- apps/host/           # Angular 18 shell
+- libs/legacy-bridge/  # Adapters to AngularJS
+- libs/features/<module>/
+- assets/              # Shared styles, icons
+- e2e/playwright/      # Visual + functional tests
+
+Src/Foundation/gateway/   # Route configs unchanged but referenced for testing
+
+tests/ui/
+- visual-regression/
+- accessibility/
+- contract/            # UI contract tests against gateway stubs
 ```
 
-## Micro-Frontend Decision
-- Angular 18 chosen for direct migration path.
-- Blazor deferred (future enhancement / experiments only).
+**Structure Decision**: Web frontend workspace with host app and feature libs; bridge layer for AngularJS coexistence; e2e tests alongside.
 
-## Performance Considerations
-- Remove unused legacy scripts after module migration.
-- Lazy-load migrated modules.
-- Shared vendor bundle size tracking in CI.
+## Complexity Tracking
 
-## Risks
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Mixed routing states | User confusion | Unified router guard + fallback |
-| Screenshot instability | False failures | Deterministic test data + viewport lock |
-| CSS cascade conflicts | Styling drift | Scoped styles + audit legacy global classes |
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| None | - | - |
 
-## Test Matrix
-- Functional parity tests (filters, sorting, pagination, shortcuts).
-- Visual regression (desktop, tablet, mobile).
-- Accessibility (axe + keyboard traversal script).
-- Performance (First Contentful Paint, bundle size regression).
-
-## Completion Criteria
-- All spec scenarios green.
-- No visual diffs >1%.
-- Accessibility equal or improved (no new violations).
-- Support tickets unaffected (monitor 2 weeks post-cutover).
-
----
-Draft plan (manual).

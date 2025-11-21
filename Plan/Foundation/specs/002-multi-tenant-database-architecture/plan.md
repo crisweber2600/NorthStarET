@@ -1,135 +1,107 @@
-# Plan: Multi-Tenant Database Architecture (Foundation Layer)
-Version: 0.1.0
-Status: Draft (Planning)
-Layer: Foundation
-Spec Ref: 002-multi-tenant-database-architecture/spec.md
+# Implementation Plan: Multi-Tenant Database Architecture
 
-## Technical Objectives
-- Provide database-per-service pattern with strict tenant isolation via PostgreSQL RLS.
-- Ensure Application layer enforces tenant filters and cannot bypass isolation.
-- Provide migration scaffolding for legacy per-district consolidation.
-- Implement tracing + auditing with tenant context propagation.
+**Specification Branch**: `Foundation/002-multi-tenant-database-architecture-spec` *(current branch - planning artifacts)*  
+**Implementation Branch**: `Foundation/002-multi-tenant-database-architecture` *(created after approval)*  
+**Date**: 2025-11-20 | **Spec**: Plan/Foundation/specs/002-multi-tenant-database-architecture/spec.md
 
-## Architectural Components
-1. Tenant Context Middleware
-   - Extract `tenant_id` from JWT claims.
-   - Set ambient context (AsyncLocal + HttpContext Items).
-   - Provide accessor `ITenantContext` for Application layer.
-2. EF Core Infrastructure
-   - Base `MultiTenantDbContext` abstract class adding `TenantId` shadow property or explicit property on entities.
-   - Interceptor: inject `app.current_tenant` session variable via `DbConnection` before commands.
-   - Global query filters per entity implementing `ITenantEntity`.
-3. PostgreSQL RLS Policies
-   - Migration to enable RLS on each tenant table.
-   - Policies: SELECT/UPDATE/DELETE/INSERT with tenant match.
-4. Audit Logging
-   - Audit interceptor captures tenant_id, user_id, operation, entity type/id.
-   - Writes to `audit.AuditRecords` table (also tenant-isolated).
-5. Indexing Strategy
-   - Composite indexes `(tenant_id, <frequent predicate>)` e.g. `(tenant_id, last_name)` for Students.
-   - Analyze actual query patterns to finalize.
-6. Backup/Restore Validation
-   - Script to verify RLS remains enabled post-restore.
-   - Automated test harness executing sample queries.
+**Note**: Establishes database-per-service with strict tenant isolation via PostgreSQL RLS and app tenant propagation across all Foundation services.
 
-## Data Model Adjustments
-- All domain aggregates include `TenantId` (GUID).
-- Legacy integer IDs retained as `LegacyId` (nullable) for mapping during transition.
-- Soft-delete columns (`DeletedAt`) maintain isolation (filters include `DeletedAt == null`).
+## Summary
 
-## Key Interfaces
-```csharp
-public interface ITenantContext {
-    Guid TenantId { get; }
-}
+Design and implement multi-tenant database patterns: enforce PostgreSQL RLS on all tenant-scoped tables, propagate tenant context from gateway to DB session, migrate per-district databases into consolidated service DBs, and validate isolation through automated tests and reconciliation scripts. Targets p95 <100ms for tenant-filtered queries and safe onboarding for hundreds of districts.
 
-public interface ITenantEntity {
-    Guid TenantId { get; set; }
-}
+## Technical Context
+
+**Language/Version**: C# / .NET 8 (Aspire)  
+**Primary Dependencies**: EF Core 9, Npgsql, PostgreSQL 16, MassTransit for eventing, Polly for transient handling  
+**Storage**: PostgreSQL per service (multi-tenant schemas), Redis optional for tenant metadata cache  
+**Testing**: xUnit integration for RLS, Reqnroll BDD for isolation scenarios, pgTAP/SQL checks for policy enforcement, performance harness for query latency  
+**Target Platform**: Linux containers via Aspire; managed Postgres instances  
+**Project Type**: Backend infrastructure pattern across services  
+**Performance Goals**: Tenant-filtered queries p95 <100ms; tenant context set overhead <50ms; support 500+ districts and millions of rows  
+**Constraints**: RLS mandatory on tenant tables; JWT tenant claim validated at gateway; backups must retain policies; branch naming with layer prefix  
+**Scale/Scope**: Applies to all Foundation services; migration of existing districts from single-tenant DBs
+
+### Identity & Authentication Guidance
+
+- Identity Provider: Microsoft Entra ID; tenant_id claim required  
+- Authentication Pattern: SessionAuthenticationHandler with tenant propagation to DB session variable (`app.current_tenant`)  
+- Token Validation: Microsoft.Identity.Web; tenant claim enforced at gateway/API boundaries  
+- Session Storage: PostgreSQL + Redis as per Identity architecture
+
+## Layer Identification (MANDATORY)
+
+**Target Layer**: Foundation  
+**Implementation Path**: `Src/Foundation/shared/Infrastructure/MultiTenancy` plus service-specific migrations under `Src/Foundation/services/*`  
+**Specification Path**: `Plan/Foundation/specs/002-multi-tenant-database-architecture/`
+
+### Layer Consistency Validation
+
+- [x] Target Layer matches specification (Foundation)  
+- [x] Implementation paths follow layer structure (`Src/Foundation/...`)  
+- [x] Specification path follows layer structure (`Plan/Foundation/specs/...`)  
+- [x] Branch naming includes layer prefix
+
+### Shared Infrastructure Dependencies
+
+- [x] ServiceDefaults - Aspire hosting, health, telemetry  
+- [x] Domain - Shared value objects for tenant identifiers  
+- [x] Application - Middleware for tenant context propagation  
+- [x] Infrastructure - PostgreSQL, RLS setup helpers, Redis cache
+
+### Cross-Layer Dependencies
+
+**Depends on layers**: Foundation shared infrastructure only  
+**Specific Dependencies**: ServiceDefaults, Domain/Application tenant context helpers, Infrastructure (PostgreSQL/RLS tooling)  
+**Justification**: Applies shared multi-tenancy to all Foundation services without crossing layers.  
+**Constitutional Compliance**: Principle 6 upheld; no cross-layer service coupling.
+
+### Constitution Check
+
+- Layer-prefixed branch pattern OK  
+- Planning artifacts scoped to spec branch OK  
+- Multi-tenancy enforced via RLS and tenant claims OK  
+- Security: no cross-tenant queries; secrets in approved stores OK  
+- Testing gates defined (RLS integration, BDD, perf) OK  
+- No UI; Figma requirement not applicable OK
+
+## Project Structure
+
+### Documentation (this feature)
+
+```
+specs/002-multi-tenant-database-architecture/
+- plan.md
+- research.md
+- data-model.md        # Tenant tables, RLS policy examples
+- quickstart.md        # How to enable/verify tenant context in services
+- contracts/           # None expected; keep directory for future events
+- tasks.md
 ```
 
-## Sample Middleware
-```csharp
-public sealed class TenantContextMiddleware {
-    private readonly RequestDelegate _next;
-    public TenantContextMiddleware(RequestDelegate next) => _next = next;
+### Source Code (repository root)
 
-    public async Task InvokeAsync(HttpContext http) {
-        var tenantClaim = http.User.FindFirst("tenant_id")?.Value;
-        if (tenantClaim == null) {
-            http.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return;
-        }
-        TenantContext.Current = new TenantContext(Guid.Parse(tenantClaim));
-        try { await _next(http); } finally { TenantContext.Reset(); }
-    }
-}
+```
+Src/Foundation/shared/Infrastructure/MultiTenancy/
+- TenantContextMiddleware/
+- RlsPolicyMigrations/
+- Testing/IsolationHarness/
+
+Src/Foundation/services/<service>/
+- Migrations/          # Includes tenant_id columns + RLS policies
+- Application/         # Tenant-aware base handlers
+- Tests/               # Service-specific isolation tests
+
+tests/multi-tenancy/
+- integration/         # RLS enforcement, policy coverage
+- performance/         # Query latency under tenant filters
 ```
 
-## EF Core Interceptor (Connection Level)
-```csharp
-public sealed class TenantConnectionInterceptor : DbConnectionInterceptor {
-    public override async Task ConnectionOpenedAsync(DbConnection connection, ConnectionEndEventData eventData, CancellationToken cancellationToken = default) {
-        if (TenantContext.Current is { } ctx) {
-            using var cmd = connection.CreateCommand();
-            cmd.CommandText = $"SET app.current_tenant = '{ctx.TenantId}'";
-            await cmd.ExecuteNonQueryAsync(cancellationToken);
-        }
-    }
-}
-```
+**Structure Decision**: Shared multi-tenancy package plus service-level migrations and tests; no frontend components.
 
-## Global Query Filter Registration
-```csharp
-protected override void OnModelCreating(ModelBuilder modelBuilder) {
-    foreach (var entityType in modelBuilder.Model.GetEntityTypes()) {
-        if (typeof(ITenantEntity).IsAssignableFrom(entityType.ClrType)) {
-            var method = typeof(ModelBuilderExtensions)
-                .GetMethod(nameof(ModelBuilderExtensions.AddTenantFilter))!
-                .MakeGenericMethod(entityType.ClrType);
-            method.Invoke(null, new object[] { modelBuilder });
-        }
-    }
-}
-```
+## Complexity Tracking
 
-## Observability
-- Enrich OpenTelemetry spans with `tenant.id` attribute.
-- Metrics: request count per tenant (cardinality control via top-N + others bucket).
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| None | - | - |
 
-## Performance Validation
-- Benchmark tenant-filtered queries against synthetic dataset (≥500k rows, 100 tenants).
-- Tools: pgBadger for slow query analysis, EF Core logging for parameters.
-
-## Security Controls
-- Defense-in-depth: JWT tenant claim + RLS + application filters.
-- Audit record immutability enforced (append-only table, periodic integrity checks).
-
-## Migration Sequencing
-1. Create base schemas & tables with `TenantId`.
-2. Enable RLS and policies.
-3. Migrate identity + configuration (foundation for tenant metadata).
-4. Migrate student/staff/assessment in parallel streams.
-5. Validate counts + mapping tables.
-
-## Risks
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| RLS misapplied | Data leak | Automated verification script after migration |
-| Missing tenant claim | Request failure | Pre-flight validator + 401 early exit |
-| Index bloat | Slower writes | Monitoring + periodic index review |
-| High cardinality metrics | Cost / noise | Limit labels; aggregate low-volume tenants |
-
-## Test Strategy
-- Integration tests: verify RLS denies cross-tenant read/write.
-- Unit tests: tenant context propagation + query filters.
-- Load tests: simulate multi-tenant simultaneous queries.
-
-## Completion Criteria
-- All spec scenarios implemented + green tests.
-- Audit trail shows tenant for all CRUD.
-- Backup/restore validation script passes.
-- Performance SLOs met under load.
-
----
-Draft generated manually due to unavailable speckit.plan agent.
