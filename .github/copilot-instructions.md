@@ -2,7 +2,7 @@
 
 # NorthStarET AI Coding Agent Instructions
 
-_Last updated: 2025-11-20_
+_Last updated: 2025-11-21 (v2.3.0 integration)_
 
 ## 1. Big Picture (Mono-Repo Layers)
 - **Foundation Layer** (`Src/Foundation/`): Core LMS modernization (Identity, ApiGateway, Configuration, etc.).
@@ -14,8 +14,13 @@ _Last updated: 2025-11-20_
 ## 2. Architecture & Patterns
 - Clean Architecture vertical slices: Domain → Application (CQRS via MediatR) → Infrastructure (EF Core, Redis, Messaging) → API.
 - Multi-tenancy: Every entity includes `TenantId`; enforced via EF interceptors & global query filters (`TenantInterceptor`, `AuditInterceptor`).
-- Event-driven first: Use MassTransit (RabbitMQ local, Azure Service Bus prod); synchronous calls require documented latency budgets.
-- Idempotency & soft delete patterns are standardized in Infrastructure shared utilities.
+  - Use `ITenantContext.BypassTenantFilter()` for cross-tenant operations (creates audit log)
+  - PostgreSQL RLS policies provide defense-in-depth
+  - Database-per-service pattern: 11 databases total (not per-tenant)
+- Event-driven first: Use MassTransit (RabbitMQ local, Azure Service Bus prod); synchronous calls require documented latency budgets (<200ms P95) and circuit breakers.
+- Idempotency: Redis-backed envelopes with 10-minute TTL windows prevent duplicate processing.
+- Soft delete: Entities use `DeletedAt` timestamp; queries filter `WHERE DeletedAt IS NULL`.
+- All services MUST call `builder.AddServiceDefaults()` for service discovery, resilience, health checks, and OpenTelemetry.
 
 ## 3. Critical Workflows
 ```bash
@@ -36,8 +41,12 @@ Red → Green evidence MUST be captured (constitution §2). Always run tests BEF
 
 ## 4. Spec & Planning (Speckit Agents)
 - Use `/speckit.specify` → spec, `/speckit.plan` → plan, `/speckit.tasks` → task list.
-- All feature artifacts live under `Plan/Foundation/specs/<feature-id>/`.
-- Each artifact must declare **Target Layer** and shared infrastructure usage (templates already enforce).
+- All feature artifacts live under `Plan/{LayerName}/specs/<feature-id>/`.
+- Each artifact must declare **Target Layer** (Foundation, DigitalInk, CrossCuttingConcerns) and shared infrastructure usage.
+- **ADO Integration**: Use `/speckit.taskstoissues` to sync tasks.md with Azure DevOps work items.
+  - Spec.md includes ADO frontmatter: `ado_work_item_id`, `ado_epic_id`, `sync_status`
+  - `.ado-hierarchy.json` tracks Epic → Feature → User Story → Task relationships
+  - See `docs/workflow/ado-hierarchy-management.md` for complete workflow
 
 ## 5. Mandatory Tool Use (AI Sessions)
 - Start with `#think` (sequential reasoning) and consult official docs via `#microsoft.docs.mcp` for .NET/Azure.
@@ -45,9 +54,14 @@ Red → Green evidence MUST be captured (constitution §2). Always run tests BEF
 - Use Playwright MCP tools for UI automation and Chrome DevTools MCP for runtime inspection.
 
 ## 6. Data & Isolation
-- Database-per-service pattern (see AppHost `Program.cs`).
-- Enforce RLS + tenant_id columns; never query across tenants without explicit authorization & review.
-- Caching: Redis for sessions, feature flags, idempotency envelopes.
+- Database-per-service pattern: 11 databases total (see AppHost `AppHost.cs`).
+- Multi-tenant isolation:
+  - Every tenant-scoped table includes `tenant_id` in composite keys
+  - `TenantInterceptor` automatically filters queries via `ITenantContext`
+  - PostgreSQL RLS policies provide defense-in-depth
+  - Use `ITenantContext.BypassTenantFilter()` for cross-tenant admin operations (creates audit log)
+- Caching: Redis for sessions (sliding expiration), feature flags, idempotency envelopes (10-min TTL).
+- Never query across tenants without explicit authorization documented in Architecture Review.
 
 ## 7. Security & Auth
 - Identity Service (Duende + Entra ID) issues JWT; session caching uses Redis with sliding expiration.
@@ -62,11 +76,36 @@ Red → Green evidence MUST be captured (constitution §2). Always run tests BEF
 - ≥80% coverage at phase boundaries; attach Red/Green transcripts (dotnet + Playwright).
 - Phase review pushes: `git push origin HEAD:[feature]review-Phase[N]` (never directly to main).
 
-## 10. When Unsure
-- Cross-check with: `.specify/memory/constitution.md` (v2.0.0), `Plan/LAYERS.md`, `Plan/CrossCuttingConcerns/` patterns/standards.
-- Service architecture: `Plan/CrossCuttingConcerns/architecture/services/`, API contracts: `Plan/CrossCuttingConcerns/standards/API_CONTRACTS_SPECIFICATION.md`.
-- Testing strategy: `Plan/CrossCuttingConcerns/standards/TESTING_STRATEGY.md`, workflow: `Plan/CrossCuttingConcerns/workflow/`.
-- If pattern not found in codebase, DO NOT invent—search or escalate.
+## 10. Task Tracking (CRITICAL - Constitution Principle 8)
+**MANDATORY: Update tasks.md immediately as you complete each task.**
+
+When you complete ANY implementation work:
+1. **Mark the task complete** in `tasks.md` by changing `- [ ]` to `- [x]`
+2. **Commit together** with your implementation changes: `git add <files> Plan/*/specs/*/tasks.md`
+3. Use commit format: `feat(taskID): description - mark task complete`
+
+**Why this matters:**
+- tasks.md is the single source of truth for feature progress
+- Real-time updates prevent confusion and enable collaboration
+- Batch updates at phase end violate Constitution Principle 8
+- Phase review branches MUST have accurate task completion status
+
+**Example:**
+```bash
+# After implementing authentication
+git add Src/Foundation/services/Identity/Auth*.cs Plan/Foundation/specs/001-identity/tasks.md
+git commit -m "feat(T042): add JWT authentication - mark T042 complete"
+```
+
+**Validation:** Before pushing to phase review, verify all phase tasks are marked `[x]` in tasks.md.
+
+## 11. When Unsure
+- Cross-check with: `.specify/memory/constitution.md` (v2.3.0), `Plan/LAYERS.md`, `Plan/CrossCuttingConcerns/` patterns/standards.
+- Architecture patterns: `Plan/CrossCuttingConcerns/architecture/` (service templates, bounded contexts, domain events)
+- Standards: `Plan/CrossCuttingConcerns/standards/` (API contracts, testing, security compliance)
+- Workflow guides: `Plan/CrossCuttingConcerns/workflow/`, `docs/workflow/` (Spec-Kit Coach, ADO hierarchy)
+- Technical patterns: `Plan/CrossCuttingConcerns/patterns/` (Aspire, caching, multi-tenancy, observability)
+- If pattern not found in codebase, DO NOT invent—search CrossCuttingConcerns or escalate.
 
 ---
 Legacy extended guidelines retained below for deep reference.
@@ -87,9 +126,12 @@ Legacy extended guidelines retained below for deep reference.
 
 - Every functional requirement MUST have a Reqnroll feature file before implementation
 - Every UI user journey MUST have Playwright test with Figma link
+- Every feature specification MUST include ADO frontmatter and maintain `.ado-hierarchy.json`
 - Every phase MUST capture Red→Green evidence (4 transcript files minimum)
 - Every task completion MUST commit, pull, push to phase review branch (NEVER directly to main)
+- Every task completion MUST update tasks.md immediately (mark `[x]` and commit with implementation)
 - Every phase boundary MUST run full suite: unit, Reqnroll, Aspire, Playwright with ≥80% coverage
+- Use `/speckit.taskstoissues` to synchronize task breakdown with Azure DevOps work items
 
 ## Active Technologies & Patterns
 
