@@ -17,7 +17,7 @@ All implementation work is merged back to `main` through pull requests. This ens
 
 Feature branches follow the naming convention: `###-feature-name`
 - `###`: Three-digit sequential number (e.g., 001, 002, 003)
-- `feature-name`: Short, descriptive name (2-4 words, kebab-case)
+- `feature-name`: Short, descriptive name (2-4 words, kebab case)
 
 Examples:
 - `001-unified-sso-auth`
@@ -135,6 +135,7 @@ To verify the workflow is correctly configured:
 # Check default branch
 git remote show origin | grep "HEAD branch"
 # Should output: HEAD branch: main
+# Note: Output format may vary between Git versions, but should indicate 'main' as default
 
 # Verify current branch PRs will target main
 git rev-parse --abbrev-ref --symbolic-full-name @{upstream}
