@@ -14,7 +14,10 @@ This agent maintains bidirectional synchronization between repository specificat
 - Creates new work items from spec.md files without `ado_work_item_id`
 - Updates existing work items when spec content changes
 - Maintains parent-child hierarchy (Epic → Feature → User Story)
-- User Stories represent Priority Groupings (P1, P2, P3) within each phase
+- User Stories use intelligent grouping strategy:
+  1. **Requirement Key Mapping** (preferred): Extract [US#] markers from tasks, match to spec.md User Scenarios, use full user story titles
+  2. **Functional Grouping** (fallback): Group related tasks by functional area (Setup, Database, API, Auth, Testing, Documentation)
+  3. **Priority Grouping** (last resort): Group by P1/P2/P3 when functional grouping unclear
 - Embeds task checklists in User Story descriptions with markdown checkboxes
 
 ### 2. Pull Sync (Azure DevOps → Repository)
@@ -99,15 +102,34 @@ This agent maintains bidirectional synchronization between repository specificat
    - If not found, use Epic ID as parent
    ```
 
-6. **Group Tasks by Priority and Create User Stories**
+6. **Group Tasks by Requirement Key and Create User Stories**
    ```
-   For each priority level (P1, P2, P3) within a phase:
-   - Create one User Story per priority group
-   - Title format: "Phase N: Priority # Implementation"
-   - Story Points: Count of tasks in priority group (1 point per task)
-   - Priority field: 1, 2, or 3 matching the priority group
-   - Description: All tasks from that priority group with markdown checkboxes
-   - Acceptance Criteria: Generic priority-level completion or aggregate from spec.md
+   Strategy 1 - Requirement Key Mapping (preferred):
+     - Scan tasks for [US#] markers (e.g., [US1], [US2])
+     - Load spec.md User Scenarios section
+     - Extract full user story title matching [US#]
+     - Create User Story: "Phase N: US# - [Full User Story Title]"
+     - Group all tasks with same [US#] marker
+     - Story Points: Count of tasks in requirement key group (1 point per task)
+     - Priority: Extract from spec.md user scenario priority or default from task markers
+   
+   Strategy 2 - Functional Grouping (fallback when no [US#] markers):
+     - Analyze task descriptions to identify functional areas
+     - Common areas: Setup, Database, API, Authentication, Testing, Documentation
+     - Create User Story: "Phase N: [Functional Area Name]"
+     - Group tasks by functional area
+     - Story Points: Count of tasks in functional group
+     - Priority: Most common priority among grouped tasks (P1 default)
+   
+   Strategy 3 - Priority Grouping (last resort):
+     - Group tasks by priority markers ([P], [P2], [P3])
+     - Create User Story: "Phase N: Priority # Implementation"
+     - Story Points: Count of tasks in priority group
+     - Priority: 1, 2, or 3 matching the group
+   
+   For all strategies:
+     - Description: All tasks from group with markdown checkboxes
+     - Acceptance Criteria: From spec.md user scenario or aggregate from tasks
    ```
 
 7. **Create or Update Work Item**
@@ -616,12 +638,15 @@ tags:                            # Tags for categorization
 
 **Location**: `Plan/CrossCuttingConcerns/specs/.ado-hierarchy.json`
 
+**Purpose**: Tracks Azure DevOps work item IDs mapped to repository spec folders and phases. This is a tracking file, not a configuration file. The agent analyzes spec.md and tasks.md content to determine User Story groupings dynamically.
+
 ```json
 {
-  "version": "4.0.0",
-  "last_updated": "2025-11-20T22:30:00Z",
-  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Priority Group)",
-  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent priority groupings (P1, P2, P3) within phases with markdown checkbox tasks (1 point per task) and Gherkin acceptance criteria.",
+  "version": "5.0.0",
+  "last_updated": "2025-11-20T23:00:00Z",
+  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Requirement Key/Functional Group/Priority)",
+  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent requirement keys (preferred), functional groups (fallback), or priority groupings (last resort) within phases with markdown checkbox tasks (1 point per task) and acceptance criteria from spec.md.",
+  "grouping_strategy_note": "Agent determines User Story grouping by analyzing tasks.md for [US#] markers (requirement keys), falling back to functional area analysis, then priority grouping. The user_stories structure records the result, not the input.",
   "epics": {
     "aspire-scaffolding": {
       "work_item_id": 1399,
@@ -652,12 +677,31 @@ tags:                            # Tags for categorization
           "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
           "tasks": ["T015", "T016", "T017", "T018"],
           "user_stories": {
-            "priority-1-implementation": {
+            "foundational-infrastructure": {
               "work_item_id": 1425,
-              "title": "Phase 2: Priority 1 Implementation",
+              "title": "Phase 2: Foundational Infrastructure & Core Entities",
               "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1425",
+              "grouping_strategy": "functional_group",
               "priority": 1,
               "story_points": 4
+            }
+          }
+        },
+        "phase3-apphost-boot": {
+          "work_item_id": 1404,
+          "title": "Phase 3: AppHost Boot",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1404",
+          "tasks": ["T019", "T020", "T021", "T022", "T023", "T024", "T025"],
+          "user_stories": {
+            "us1-apphost-boot": {
+              "work_item_id": 1427,
+              "title": "Phase 3: US1 - AppHost Boot with Resource Orchestration",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1427",
+              "grouping_strategy": "requirement_key",
+              "requirement_key": "US1",
+              "requirement_name": "AppHost Boot with Resource Orchestration",
+              "priority": 1,
+              "story_points": 7
             }
           }
         }
@@ -906,6 +950,129 @@ Non-retryable errors:
 ---
 
 ## Usage Examples
+
+### Example 0: Requirement Key Extraction (Identity Service)
+
+**Scenario**: Agent analyzes Identity Service spec with explicit user stories and creates requirement key-based User Stories.
+
+**Input Files**:
+
+**spec.md** (User Scenarios section):
+```markdown
+## User Scenarios
+
+### US1: Staff Member Logs In Using Microsoft Entra ID SSO
+**Priority**: [P1]
+
+**Description**: A staff member navigates to the NorthStarET application...
+
+**Acceptance Scenarios**:
+- Staff clicks "Sign in with Microsoft"
+- Redirected to Entra ID login page
+- Successfully authenticated and redirected back with session
+
+### US2: Administrator Logs In Using Entra ID with MFA
+**Priority**: [P1]
+
+**Description**: A district administrator with elevated privileges...
+```
+
+**tasks.md** (Phase 3):
+```markdown
+### Phase 3: Authentication Flow (US1, US2)
+
+#### T025: [US1] Implement Entra ID OIDC flow [P1]
+Add Microsoft.Identity.Web package and configure authentication...
+
+#### T026: [US1] Create SessionAuthenticationHandler [P1]
+Custom authentication handler that validates sessions...
+
+#### T027: [US1] Add login/logout endpoints [P1]
+API endpoints for initiating Entra ID login...
+
+#### T028: [US2] Configure MFA requirements [P1]
+Set up conditional access policies for admin roles...
+
+#### T029: [US2] Admin role claim mapping [P1]
+Map Entra ID groups to application admin roles...
+
+#### T030: [US1] Session storage in PostgreSQL [P1]
+Create Sessions table and repository...
+```
+
+**Agent Analysis Process**:
+```
+1. Agent scans Phase 3 tasks and finds [US1] and [US2] markers
+2. Agent loads spec.md and searches for "### US1:" and "### US2:"
+3. Agent extracts full titles:
+   - US1: "Staff Member Logs In Using Microsoft Entra ID SSO"
+   - US2: "Administrator Logs In Using Entra ID with MFA"
+4. Agent groups tasks:
+   - US1: T025, T026, T027, T030 (4 tasks = 4 story points)
+   - US2: T028, T029 (2 tasks = 2 story points)
+5. Agent creates User Stories in ADO:
+   - Title: "Phase 3: US1 - Staff Member Logs In Using Microsoft Entra ID SSO"
+   - Title: "Phase 3: US2 - Administrator Logs In Using Entra ID with MFA"
+```
+
+**Hierarchy Registry Result**:
+```json
+"phase3-authentication": {
+  "work_item_id": 1404,
+  "title": "Phase 3: Authentication Flow",
+  "user_stories": {
+    "us1-staff-login": {
+      "work_item_id": 1425,
+      "title": "Phase 3: US1 - Staff Member Logs In Using Microsoft Entra ID SSO",
+      "grouping_strategy": "requirement_key",
+      "requirement_key": "US1",
+      "requirement_name": "Staff Member Logs In Using Microsoft Entra ID SSO",
+      "story_points": 4,
+      "priority": 1
+    },
+    "us2-admin-login": {
+      "work_item_id": 1426,
+      "title": "Phase 3: US2 - Administrator Logs In Using Entra ID with MFA",
+      "grouping_strategy": "requirement_key",
+      "requirement_key": "US2",
+      "requirement_name": "Administrator Logs In Using Entra ID with MFA",
+      "story_points": 2,
+      "priority": 1
+    }
+  }
+}
+```
+
+**Fallback Example** (Phase 1 with no requirement keys):
+```markdown
+### Phase 1: Project Setup
+
+#### T001: Initialize .NET Aspire AppHost project
+Create new .NET 9 solution with Aspire.AppHost...
+
+#### T002: Configure PostgreSQL container
+Add PostgreSQL resource to AppHost...
+
+#### T003: Configure Redis container
+Add Redis Stack resource for caching...
+
+#### T004: Setup EF Core migrations infrastructure
+Install EF Core tools and configure migration paths...
+```
+
+**Agent Fallback Analysis**:
+```
+1. Agent scans Phase 1 tasks, finds no [US#] markers
+2. Agent analyzes task descriptions for functional patterns:
+   - T001: "Initialize", "project" → Setup
+   - T002-T003: "Configure", "container", "PostgreSQL", "Redis" → Infrastructure
+   - T004: "migrations", "EF Core" → Database
+3. Agent decides functional grouping unclear, falls back to single group
+4. Agent creates User Story: "Phase 1: Project Setup & Infrastructure"
+5. Grouping strategy: "functional_group"
+```
+
+---
 
 ### Example 1: Create New Service Spec
 
