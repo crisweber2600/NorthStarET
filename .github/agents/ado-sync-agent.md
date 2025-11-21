@@ -1,14 +1,77 @@
 # Azure DevOps Sync Agent
 
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Author**: GitHub Copilot  
-**Last Updated**: November 20, 2025
+**Last Updated**: November 21, 2025
 
 ## Purpose
 
 This agent maintains bidirectional synchronization between repository specification files (`Plan/Foundation/specs/**/*.md`) and Azure DevOps work items in the NorthStarET project. It uses the `#microsoft/azure-devops-mcp` tool to perform all Azure DevOps operations.
 
 ## Core Capabilities
+
+### Execution Ordering & Naming (Features & Stories)
+
+To enforce a predictable delivery sequence, all Features and their User Stories for the current Aspire Scaffolding Epic (Epic 1436) are numbered. The numbering is semantic (dependency + foundational layering), not just creation order. The agent MUST apply these naming conventions on future push/update cycles (renaming ADO work item titles when they drift).
+
+Feature Title Format:
+```
+F{FeatureNumber}: {Concise Feature Name}
+```
+User Story Title Format (two acceptable variants, prefer first):
+```
+F{FeatureNumber}-S{StoryNumber}: {Full Story Name}
+F{FeatureNumber}.S{StoryNumber}: {Full Story Name}   # fallback when hyphen conflicts with external tooling
+```
+
+Numbering Rationale:
+1. Foundation precedes orchestration; infrastructure assets must exist before orchestration glue.
+2. Orchestration precedes messaging so events can route across registered services.
+3. Messaging precedes performance so baseline flows are optimized later.
+4. Performance & caching precede advanced DevEx tooling to avoid premature optimization of tools.
+5. Developer Experience precedes Quality polish so automation targets a mostly stable architecture.
+6. Quality & Documentation last to consolidate test coverage & narrative after core capabilities.
+
+Ordered Feature & Story List (Current State – Epic 1436):
+```
+F1: Foundation Infrastructure & Core Setup (Feature 1437)
+  F1-S1: Aspire Project Initialization & Shared Infrastructure (Story 1443)
+  F1-S2: Domain Entities & EF Core Configuration (Story 1445)
+
+F2: Orchestration & Service Discovery (Feature 1438)
+  F2-S1: US1: AppHost Boot with Resource Orchestration (Story 1446)
+  F2-S2: US3: Tenant Isolation with TenantInterceptor (Story 1444)
+
+F3: Event-Driven Messaging (Feature 1441)
+  F3-S1: US4: Event Publication with MassTransit (Story 1447)
+  F3-S2: US8: Resilient Messaging with Circuit Breaker (Story 1450)
+
+F4: Performance & Caching (Feature 1442)
+  F4-S1: US5: Redis Caching & Idempotency (Story 1451)
+  F4-S2: US6: Observability with OpenTelemetry (Story 1452)
+
+F5: Developer Experience & Tooling (Feature 1439)
+  F5-S1: US2: Service Scaffolding Scripts (Story 1453)
+  F5-S2: US7: API Gateway with Legacy Routing (Story 1448)
+
+F6: Testing & Documentation (Feature 1440)
+  F6-S1: Testing Infrastructure & Documentation Polish (Story 1449)
+```
+
+Agent Renaming Rules:
+- When pushing, if a work item title does not start with its canonical prefix (`F{N}:` for Features, `F{N}-S{M}:` for Stories), update the title.
+- Preserve original descriptive portion after the prefix; do not alter acceptance criteria or description body.
+- Log all renames in commit message: `rename: [old] -> [new]`.
+- Do NOT renumber automatically; numbering changes require explicit human directive in this file.
+
+Story Number Assignment Guidance:
+- Order stories within a feature by dependency (setup/config before integration, integration before resilience).
+- If two stories have no dependency relationship, preserve original creation order.
+- New stories appended as next S{M+1} for that feature; update list above in same commit.
+
+Hierarchy Registry Impact:
+- `.ado-hierarchy.json` should store the renamed titles verbatim after next sync.
+- If registry titles differ, treat as drift and schedule update.
 
 ### 1. Push Sync (Repository → Azure DevOps)
 - Creates new work items from spec.md files without `ado_work_item_id`
