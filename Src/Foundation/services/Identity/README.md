@@ -1,285 +1,214 @@
-# Identity & Authentication Service
+# Identity Service
 
-**Phase**: 1 (Weeks 1-8)  
-**Priority**: Critical (Blocking - Required by all other services)  
-**Status**: To Be Implemented
-
----
+Foundation service for authentication and authorization using Microsoft Entra ID.
 
 ## Overview
 
-The Identity & Authentication Service provides centralized authentication and authorization for all Foundation services using:
+The Identity Service is a foundational microservice that provides Microsoft Entra ID-based authentication, session management, and role-based authorization for all NorthStar LMS users. It acts as an **integration layer** between Microsoft Entra ID and NorthStar services.
 
-- **Microsoft Entra ID** (OAuth 2.0 / OpenID Connect provider)
-- **Microsoft.Identity.Web** (JWT token validation)
-- **Custom session authentication** (SessionAuthenticationHandler with Redis caching)
-- **Token exchange** (Backend-for-Frontend pattern - Entra tokens → LMS sessions)
-- **User management** (profile updates, role assignment)
-- **Role-Based Access Control (RBAC)**
+**⚠️ CRITICAL**: This service does **NOT** store passwords or act as a local identity provider. All authentication is delegated to Microsoft Entra ID.
 
-**Bounded Context**: Identity & Authentication  
-**Database**: `Identity_DB` (PostgreSQL with multi-tenancy)
+## Architecture
 
----
-
-## Responsibilities
-
-1. **User Authentication**
-   - Email/password login
-   - Microsoft Entra ID SSO
-   - Password reset flows
-   - Two-factor authentication (future)
-
-2. **Token Management**
-   - JWT token validation (tokens issued by Entra ID)
-   - Session creation and management (Redis-cached)
-   - Token exchange (Entra ID tokens → LMS session IDs)
-   - Session expiration and sliding window refresh
-   - Token introspection via Microsoft.Identity.Web
-
-3. **User Management**
-   - User registration
-   - Profile updates
-   - Password management
-   - Account activation/deactivation
-
-4. **Authorization**
-   - Role assignment (SuperAdmin, DistrictAdmin, SchoolAdmin, Teacher, Parent, Student)
-   - Permission management
-   - Claims-based authorization
-
----
-
-## API Endpoints
-
-### Authentication
-
-- `POST /api/identity/auth/login` - Email/password login
-- `POST /api/identity/auth/logout` - Logout (revoke tokens)
-- `POST /api/identity/auth/refresh` - Refresh access token
-- `GET /api/identity/auth/entra-login` - Initiate Entra ID SSO
-- `GET /api/identity/auth/entra-callback` - Entra ID callback
-
-### User Management
-
-- `POST /api/identity/users/register` - User registration
-- `GET /api/identity/users/{id}` - Get user by ID
-- `PUT /api/identity/users/{id}` - Update user profile
-- `DELETE /api/identity/users/{id}` - Deactivate user (soft delete)
-- `POST /api/identity/users/{id}/reset-password` - Initiate password reset
-
-### Roles & Permissions
-
-- `GET /api/identity/roles` - List all roles
-- `POST /api/identity/users/{id}/roles` - Assign role to user
-- `DELETE /api/identity/users/{id}/roles/{roleId}` - Remove role from user
-- `GET /api/identity/permissions` - List all permissions
-
----
-
-## Domain Model
-
-### Entities
-
-- **User**: Core user entity (Id, Email, PasswordHash, TenantId, Roles)
-- **Role**: User role (SuperAdmin, DistrictAdmin, etc.)
-- **RefreshToken**: Refresh token tracking (UserId, Token, Expiration, Revoked)
-- **PasswordResetToken**: Password reset tokens (UserId, Token, Expiration, Used)
-
-### Value Objects
-
-- `EmailAddress` - Email validation
-- `PasswordHash` - BCrypt hashed password
-- `TenantId` - District/tenant identifier
-
-### Domain Events
-
-- `UserRegisteredEvent` - New user registered
-- `UserLoggedInEvent` - User authenticated
-- `UserLoggedOutEvent` - User logged out
-- `PasswordChangedEvent` - User changed password
-- `RoleAssignedEvent` - Role assigned to user
-
----
-
-## Technology Stack
-
-- **ASP.NET Core Web API** (.NET 10)
-- **Microsoft Entra ID** (OAuth 2.0/OIDC identity provider)
-- **Microsoft.Identity.Web** (JWT token validation)
-- **Custom SessionAuthenticationHandler** (Session-based API authorization)
-- **Entity Framework Core 10** (PostgreSQL)
-- **Redis Stack** (Session caching, idempotency windows)
-- **MediatR** (CQRS)
-- **FluentValidation** (Input validation)
-
----
-
-## Legacy Components to Migrate
-
-From `OldNorthStar`:
-
-- `IdentityServer/` - Existing IdentityServer 3 setup
-- `NS4.WebAPI/Controllers/AuthController.cs` - Authentication endpoints
-- `NS4.WebAPI/Controllers/PasswordResetController.cs` - Password management
-- `NorthStar.Core/Identity/` - Identity domain logic
-- `EntityDto/Entity/User.cs`, `UserRole.cs` - User entities
-
----
-
-## Dependencies
-
-### Phase 1 Dependencies
-
-- **Configuration Service**: Tenant configuration, feature flags
-- **PostgreSQL**: Identity_DB database
-- **Redis**: Token caching, session storage
-- **Azure Service Bus**: Domain event publishing
-
-### Services Depending on Identity
-
-- **ALL Services**: Every Foundation service requires Identity for authentication/authorization
-
----
-
-## Clean Architecture Structure
+### Clean Architecture Layers
 
 ```
-Identity/
-├── Identity.Domain/                  # Domain entities, events, interfaces
-│   ├── Entities/
-│   │   ├── User.cs
-│   │   ├── Role.cs
-│   │   └── RefreshToken.cs
-│   ├── ValueObjects/
-│   │   ├── EmailAddress.cs
-│   │   └── PasswordHash.cs
-│   ├── Events/
-│   │   ├── UserRegisteredEvent.cs
-│   │   └── UserLoggedInEvent.cs
-│   └── Interfaces/
-│       ├── IUserRepository.cs
-│       └── ITokenService.cs
-│
-├── Identity.Application/             # CQRS handlers, DTOs, validators
-│   ├── Commands/
-│   │   ├── RegisterUser/
-│   │   │   ├── RegisterUserCommand.cs
-│   │   │   ├── RegisterUserCommandHandler.cs
-│   │   │   └── RegisterUserValidator.cs
-│   │   └── LoginUser/
-│   │       ├── LoginUserCommand.cs
-│   │       └── LoginUserCommandHandler.cs
-│   ├── Queries/
-│   │   ├── GetUser/
-│   │   │   ├── GetUserQuery.cs
-│   │   │   └── GetUserQueryHandler.cs
-│   │   └── ListUsers/
-│   │       ├── ListUsersQuery.cs
-│   │       └── ListUsersQueryHandler.cs
-│   └── DTOs/
-│       ├── UserDto.cs
-│       ├── LoginResponseDto.cs
-│       └── TokenResponseDto.cs
-│
-├── Identity.Infrastructure/          # EF Core, repositories, Entra ID integration
-│   ├── Persistence/
-│   │   ├── IdentityDbContext.cs
-│   │   ├── Configurations/
-│   │   │   ├── UserConfiguration.cs
-│   │   │   └── RoleConfiguration.cs
-│   │   └── Migrations/
-│   ├── Repositories/
-│   │   ├── UserRepository.cs
-│   │   └── RoleRepository.cs
-│   ├── Identity/
-│   │   ├── EntraIdConfiguration.cs           # Microsoft.Identity.Web setup
-│   │   ├── SessionAuthenticationHandler.cs   # Custom session auth
-│   │   └── TokenExchangeService.cs           # BFF token exchange
-│   │   └── TokenService.cs
-│   └── DependencyInjection.cs
-│
-├── Identity.Api/                     # REST API endpoints
-│   ├── Program.cs
-│   ├── Controllers/
-│   │   ├── AuthController.cs
-│   │   ├── UsersController.cs
-│   │   └── RolesController.cs
-│   ├── Middleware/
-│   │   └── ExceptionHandlingMiddleware.cs
-│   └── appsettings.json
-│
-└── Identity.Tests/                   # Tests
-    ├── Domain.Tests/
-    ├── Application.Tests/
-    ├── Infrastructure.Tests/
-    └── Integration.Tests/
+Identity.API (HTTP)
+    ↓
+Identity.Application (MediatR, Commands/Queries)
+    ↓
+Identity.Domain (Entities, Value Objects, Events)
+    ↓
+Identity.Infrastructure (EF Core, Redis, MassTransit)
 ```
 
----
+### Key Components
+
+- **Domain Layer**: Pure business logic
+  - Entities: User, Session, Role, ExternalProviderLink, AuditRecord
+  - Value Objects: SessionId, EntraSubjectId, TenantId
+  - Events: UserAuthenticated, UserLoggedOut, SessionRefreshed, TenantContextSwitched
+
+- **Application Layer**: Use cases via MediatR
+  - Commands: ExchangeToken, RefreshSession, Logout, SwitchTenant
+  - Queries: GetUser, GetSession, ValidateSession
+  - Validators: FluentValidation for input validation
+
+- **Infrastructure Layer**: External integrations
+  - IdentityDbContext: PostgreSQL database with EF Core
+  - Redis: Session caching for P95 <20ms validation
+  - MassTransit: Domain event publishing to RabbitMQ
+
+- **API Layer**: HTTP endpoints
+  - AuthenticationController: Token exchange, login, logout, refresh
+  - AuthorizationController: Claims, permissions, tenant switching
+  - Middleware: Authentication, authorization, exception handling
+
+## Database Schema
+
+### Tables
+
+- **users**: Core user profiles with tenant association
+- **sessions**: Active user sessions with expiration tracking
+- **roles**: System and Entra ID app roles with permissions
+- **user_roles**: User-role assignments
+- **external_provider_links**: Links users to Microsoft Entra ID
+- **audit_records**: Audit trail for authentication/authorization events
+
+### Key Indexes
+
+- Tenant isolation: `(tenant_id)` on all tenant-scoped tables
+- Session lookup: `(session_id)`, `(user_id)`, `(expires_at)`
+- User lookup: `(tenant_id, email)` unique constraint
+- Provider lookup: `(provider_name, subject_id)` unique constraint
 
 ## Configuration
 
+### Required Settings (appsettings.json)
+
 ```json
 {
-  "IdentityServer": {
-    "IssuerUri": "https://identity.northstar.local",
-    "Clients": [
-      {
-        "ClientId": "northstar-web",
-        "ClientSecrets": ["secret-from-keyvault"],
-        "AllowedScopes": ["openid", "profile", "email", "api"]
-      }
-    ]
-  },
-  "EntraId": {
+  "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
-    "TenantId": "tenant-id-from-azure",
-    "ClientId": "app-registration-client-id",
-    "ClientSecret": "secret-from-keyvault"
+    "TenantId": "your-tenant-id",
+    "ClientId": "your-client-id",
+    "ClientSecret": "your-client-secret",
+    "Audience": "api://your-api-id"
   },
   "ConnectionStrings": {
-    "IdentityDb": "Host=postgres;Database=Identity_DB;Username=postgres;Password=postgres"
+    "IdentityDb": "Host=localhost;Database=NorthStarIdentity;..."
+  },
+  "Redis": {
+    "Configuration": "localhost:6379"
+  },
+  "RabbitMQ": {
+    "Host": "localhost",
+    "Username": "guest",
+    "Password": "guest"
+  },
+  "SessionSettings": {
+    "StaffSessionDurationHours": 8,
+    "AdminSessionDurationHours": 1,
+    "SlidingExpirationEnabled": true
   }
 }
 ```
 
----
+### Aspire Configuration
 
-## Testing Requirements
+The service is registered in `Src/Foundation/AppHost/AppHost.cs` with dependencies on PostgreSQL, Redis, and RabbitMQ.
 
-### Unit Tests (≥80% coverage)
+## Development
 
-- Domain entities and value objects
-- Command/query handlers
-- Validators
+### Prerequisites
 
-### Integration Tests (Aspire)
+- .NET 10.0 SDK
+- PostgreSQL 16+
+- Redis 7+
+- RabbitMQ 3.13+
 
-- Authentication flows (login, logout, refresh)
-- User registration and management
-- Role assignment
-- Entra ID integration (mocked)
+### Running Locally with Aspire
 
-### BDD Tests (Reqnroll)
+```bash
+# From repository root
+dotnet run --project Src/Foundation/AppHost
 
-Feature files in `specs/002-identity-authentication/features/`:
-- `user-registration.feature`
-- `user-login.feature`
-- `password-reset.feature`
-- `role-assignment.feature`
+# Aspire dashboard: http://localhost:15000
+# Identity API: https://localhost:7001 (auto-assigned)
+```
 
----
+### Running Standalone
 
-## References
+```bash
+cd Src/Foundation/services/Identity/Identity.API
+dotnet run
+```
 
-- **Specification**: [002-identity-authentication](../../../Plan/Foundation/specs/Foundation/002-identity-authentication/)
-- **Architecture**: [identity-service.md](../../../../Plan/CrossCuttingConcerns/architecture/services/identity-service.md)
-- **Scenario**: [01-identity-migration-entra-id.md](../../../Plan/Foundation/Plans/scenarios/01-identity-migration-entra-id.md)
-- **Constitution**: [Principle 5 - Security & Compliance Safeguards](../../../.specify/memory/constitution.md)
+### Database Migrations
 
----
+```bash
+# Add migration (from Identity.Infrastructure project)
+dotnet ef migrations add MigrationName --project Identity.Infrastructure --startup-project Identity.API
 
-**Status**: Specification Complete, Implementation Pending  
-**Start Date**: TBD (Phase 1, Week 1)  
-**Completion Target**: Week 4
+# Apply migrations (Aspire auto-applies on startup in dev)
+dotnet ef database update --project Identity.Infrastructure --startup-project Identity.API
+```
+
+## Authentication Flow
+
+1. **User initiates login**: NorthStar Web redirects to Microsoft Entra ID
+2. **Entra authentication**: User signs in with Microsoft credentials (+ MFA if required)
+3. **Token exchange**: Web app sends Entra ID access token to Identity Service
+4. **Session creation**: Identity Service validates token, creates session, returns session cookie
+5. **Subsequent requests**: Session cookie validated against Redis cache (P95 <20ms)
+6. **Token refresh**: Background service refreshes Entra tokens transparently
+7. **Logout**: Session revoked from both database and cache
+
+## Multi-Tenant Support
+
+- Every session and user record includes `TenantId` (district ID)
+- Tenant context switching updates session without re-authentication
+- Global query filters enforce tenant isolation at database level
+- Cross-tenant access requires explicit authorization and audit logging
+
+## Security Features
+
+- **No password storage**: All authentication via Microsoft Entra ID
+- **MFA enforcement**: Admin roles require Entra ID MFA claim (`amr` or `acr`)
+- **Session expiration**: Staff 8 hours, Admin 1 hour (configurable)
+- **Audit logging**: All authentication/authorization events logged
+- **Token validation**: Entra ID JWT signature and claims validation
+- **Rate limiting**: Applied at API Gateway level
+
+## Performance Targets
+
+- Token exchange (Entra → Session): P95 <200ms
+- Session validation (cached): P95 <20ms
+- Session validation (DB fallback): P95 <100ms
+- Session refresh: P95 <50ms
+
+## Events Published
+
+- `UserAuthenticatedEvent`: On successful login
+- `UserLoggedOutEvent`: On logout
+- `SessionRefreshedEvent`: On token refresh
+- `TenantContextSwitchedEvent`: On tenant switch
+
+## Monitoring
+
+- Health endpoint: `/api/health`
+- Aspire dashboard: Service logs, traces, metrics
+- OpenTelemetry: Distributed tracing across services
+
+## Testing
+
+### Unit Tests
+
+```bash
+dotnet test Src/Foundation/services/Identity/tests/Identity.UnitTests
+```
+
+### Integration Tests
+
+```bash
+dotnet test Src/Foundation/services/Identity/tests/Identity.IntegrationTests
+```
+
+### Contract Tests
+
+```bash
+dotnet test Src/Foundation/services/Identity/tests/Identity.ContractTests
+```
+
+## Related Documentation
+
+- Specification: `Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id/spec.md`
+- Implementation Plan: `Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id/plan.md`
+- Architecture: `Plan/CrossCuttingConcerns/architecture/services/identity-service.md`
+- API Contracts: `Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id/contracts/`
+
+## Support
+
+For issues or questions, see:
+- Project documentation: `docs/`
+- Specification clarifications: `Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id/clarify.md`
