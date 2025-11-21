@@ -150,11 +150,7 @@ Hierarchy Registry Impact:
    - Group tasks by priority markers ([P], [P2], [P3])
    - Tasks without markers default to P1
    - Phase-level priority in header overrides individual task priorities
-   - Generate 4 checklist items per task:
-     * [ ] Coded
-     * [ ] Tested
-     * [ ] Reviewed
-     * [ ] Merged
+   - Track task ranges (e.g., T001-T020) for reference to tasks.md
    ```
 
 5. **Resolve Parent ID**
@@ -171,28 +167,30 @@ Hierarchy Registry Impact:
      - Scan tasks for [US#] markers (e.g., [US1], [US2])
      - Load spec.md User Scenarios section
      - Extract full user story title matching [US#]
-     - Create User Story: "Phase N: US# - [Full User Story Title]"
+     - Create User Story: "E#-F#-S#: [Full User Story Title]"
      - Group all tasks with same [US#] marker
-     - Story Points: Count of tasks in requirement key group (1 point per task)
+     - Story Points: Estimate based on task complexity (not 1:1 count)
      - Priority: Extract from spec.md user scenario priority or default from task markers
    
    Strategy 2 - Functional Grouping (fallback when no [US#] markers):
      - Analyze task descriptions to identify functional areas
      - Common areas: Setup, Database, API, Authentication, Testing, Documentation
-     - Create User Story: "Phase N: [Functional Area Name]"
+     - Create User Story: "E#-F#-S#: [Functional Area Name]"
      - Group tasks by functional area
-     - Story Points: Count of tasks in functional group
+     - Story Points: Estimate based on functional area complexity
      - Priority: Most common priority among grouped tasks (P1 default)
    
-   Strategy 3 - Priority Grouping (last resort):
-     - Group tasks by priority markers ([P], [P2], [P3])
-     - Create User Story: "Phase N: Priority # Implementation"
-     - Story Points: Count of tasks in priority group
-     - Priority: 1, 2, or 3 matching the group
+   Strategy 3 - Scenario-Based Grouping (from spec.md scenarios):
+     - Map tasks to spec.md scenarios by analyzing descriptions
+     - Create User Story per scenario: "E#-F#-S#: [Scenario Title]"
+     - Include task range reference (e.g., T001-T020)
+     - Story Points: Estimate based on scenario scope
+     - Priority: From spec.md scenario priority
    
    For all strategies:
-     - Description: All tasks from group with markdown checkboxes
+     - Description Format: "<strong>Goal:</strong> [goal text]<br><br><strong>Acceptance Criteria:</strong><ul><li>criterion 1</li></ul><br><strong>Tasks:</strong> T###-T### ([task summary])"
      - Acceptance Criteria: From spec.md user scenario or aggregate from tasks
+     - Tasks Reference: Include task ID ranges without individual checkboxes
    ```
 
 7. **Create or Update Work Item**
@@ -202,67 +200,95 @@ Hierarchy Registry Impact:
      Parameters:
        - project: "NorthStarET"
        - workItemType: "User Story"
-       - title: From spec.md title
-       - description: Markdown content + embedded task checklist (HTML)
-       - acceptanceCriteria: From spec.md acceptance criteria section
-       - storyPoints: From spec.md frontmatter
-       - priority: From spec.md frontmatter
+       - title: "E#-F#-S#: [Title from spec.md scenario]"
+       - description: HTML formatted with Goal, Acceptance Criteria, Tasks sections
+       - storyPoints: Estimated from task complexity analysis
+       - priority: From spec.md scenario priority
        - tags: From spec.md frontmatter
-       - parentId: Resolved Feature ID
+       - parentId: Resolved Feature ID from hierarchy
      
-     After creation:
-       - Update spec.md frontmatter with new ado_work_item_id
-       - Set ado_parent_id, ado_work_item_type, ado_url
-       - Set last_synced: current ISO timestamp
-       - Set sync_status: "synced"
+     Description HTML Format:
+       "<strong>Goal:</strong> [goal text]<br><br>
+        <strong>Acceptance Criteria:</strong>
+        <ul><li>criterion 1</li><li>criterion 2</li></ul><br>
+        <strong>Tasks:</strong> T###-T### ([functional summary from tasks.md])"
+     
+     After User Story creation, create 4 child Task work items:
+       Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_create_work_item (4 times)
+       Parameters for each:
+         - project: "NorthStarET"
+         - workItemType: "Task"
+         - title: "Coded" | "Tested" | "Reviewed" | "Merged"
+         - parentId: [User Story work_item_id just created]
+         - state: "To Do"
+         - remainingWork: 0 (hours)
+         - description: 
+           * Coded: "Implementation complete for all tasks in range"
+           * Tested: "Unit, integration, and BDD tests passing"
+           * Reviewed: "Code review completed and approved"
+           * Merged: "Pull request merged to main branch"
+     
+     After all creations:
+       - Add User Story to .ado-hierarchy.json under appropriate epic/feature
+       - Record: work_item_id, title, url, story_points, priority
+       - Record child task IDs if tracking needed
+       - No spec.md frontmatter updates (specs don't have individual work item IDs)
    
-   Else if ado_work_item_id exists:
+   Else if work item exists:
      Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_get_work_item
      Query existing work item by ID
      
-     Compare ChangedDate with last_synced:
-       If ChangedDate > last_synced:
-         CONFLICT DETECTED
-         Generate conflict report (see Conflict Resolution section)
-       Else:
-         Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_update_work_item
-         Parameters:
-           - id: ado_work_item_id
-           - title: From spec.md
-           - description: Updated markdown + task checklist
-           - acceptanceCriteria: Updated from spec.md
-           - storyPoints: Updated from frontmatter
-           - priority: Updated from frontmatter
-           - tags: Updated from frontmatter
-         
-         Update spec.md frontmatter:
-           - Set last_synced: current ISO timestamp
-           - Set sync_status: "synced"
+     Use #microsoft/azure-devops-mcp mcp_microsoft_azu_wit_update_work_item
+     Parameters:
+       - id: work_item_id from hierarchy
+       - title: Updated E#-F#-S# title if needed
+       - description: Updated HTML with Goal/Criteria/Tasks
+       - storyPoints: Updated estimate
+       - priority: Updated priority
+       - tags: Updated tags
+     
+     Update .ado-hierarchy.json:
+       - Refresh story_points, priority if changed
+       - Update last_updated timestamp
    ```
 
-7. **Commit Frontmatter Updates**
+7. **Commit Hierarchy Updates**
    ```
-   Use #filesystem to write updated spec.md files
-   Commit with message: "sync: Push updates to ADO [work-item-ids]"
+   Use #filesystem to write updated .ado-hierarchy.json
+   Commit with message: "feat: Add Features and User Stories for [Epic Name] ([work-item-ids])"
    ```
 
 **Output**:
 ```
-✅ Synced 8 work items to Azure DevOps
+✅ Synced 170 work items to Azure DevOps (34 User Stories + 136 child Tasks)
 
-Created:
-- Identity Service (User Story #1399) → Phase 1 Foundation Services
-- API Gateway (User Story #1400) → Phase 1 Foundation Services
+Created for E1 Identity Service (Epic #1455):
+- Story #1463: E1-F1-S1: US1: Staff Login via Entra ID SSO (8 pts)
+  ├── Task #1510: Coded
+  ├── Task #1511: Tested
+  ├── Task #1512: Reviewed
+  └── Task #1513: Merged
 
-Updated:
-- Configuration Service (User Story #1383) - Updated story points 8 → 13
-- Student Management (User Story #1390) - Updated description
+- Story #1465: E1-F1-S2: US2: Admin Login with MFA (5 pts)
+  ├── Task #1514: Coded
+  ├── Task #1515: Tested
+  ├── Task #1516: Reviewed
+  └── Task #1517: Merged
 
-No changes:
-- Staff Management (User Story #1389)
-- Assessment Service (User Story #1391)
-- Infrastructure Setup (User Story #1384)
-- Multi-Tenant Database (User Story #1388)
+Created for E2 API Gateway (Epic #1456):
+- Story #1475: E2-F3-S3: Service Health Monitoring (8 pts)
+  ├── Task #1518: Coded
+  ├── Task #1519: Tested
+  ├── Task #1520: Reviewed
+  └── Task #1521: Merged
+
+...
+
+Summary:
+- E1: 10 User Stories (40 child Tasks) - 66 story points
+- E2: 12 User Stories (48 child Tasks) - 83 story points
+- E3: 12 User Stories (48 child Tasks) - 89 story points
+- Total: 34 User Stories, 136 Tasks, 238 story points
 ```
 
 ---
@@ -677,11 +703,14 @@ When conflicts are detected during push or pull, the agent generates a `.conflic
 
 ## Data Schema
 
-### Spec.md Frontmatter
+### Spec.md Frontmatter (Legacy - Not Used for CrossCuttingConcerns)
 
+**Note**: CrossCuttingConcerns specs do NOT have individual work item IDs in frontmatter. The .ado-hierarchy.json file is the single source of truth for work item mappings. Each spec folder maps to an Epic, and User Stories are created from spec scenarios and tracked in the hierarchy file.
+
+**Legacy Format** (used for Foundation layer feature specs):
 ```yaml
 ---
-ado_work_item_id: 1382           # Azure DevOps work item ID (required after sync)
+ado_work_item_id: 1382           # Azure DevOps work item ID (deprecated for CrossCuttingConcerns)
 ado_parent_id: 1377              # Parent Feature work item ID
 ado_work_item_type: "User Story" # Work item type
 ado_url: "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1382"
@@ -701,70 +730,72 @@ tags:                            # Tags for categorization
 
 **Location**: `Plan/CrossCuttingConcerns/specs/.ado-hierarchy.json`
 
-**Purpose**: Tracks Azure DevOps work item IDs mapped to repository spec folders and phases. This is a tracking file, not a configuration file. The agent analyzes spec.md and tasks.md content to determine User Story groupings dynamically.
+**Purpose**: Single source of truth for Azure DevOps work item IDs mapped to repository spec folders. Tracks Epics (specs), Features (functional domains), and User Stories (scenarios) with their IDs, titles, URLs, story points, and priorities. The agent creates User Stories from spec.md scenarios and tasks.md analysis, recording the results in this registry.
 
 ```json
 {
-  "version": "5.0.0",
-  "last_updated": "2025-11-20T23:00:00Z",
-  "hierarchy": "Epic (Spec) → Feature (Phase) → User Story (Requirement Key/Functional Group/Priority)",
-  "description": "3-level hierarchy: Epics represent entire specifications (tagged with layer), Features represent implementation phases, User Stories represent requirement keys (preferred), functional groups (fallback), or priority groupings (last resort) within phases with markdown checkbox tasks (1 point per task) and acceptance criteria from spec.md.",
-  "grouping_strategy_note": "Agent determines User Story grouping by analyzing tasks.md for [US#] markers (requirement keys), falling back to functional area analysis, then priority grouping. The user_stories structure records the result, not the input.",
+  "version": "7.0.0",
+  "last_updated": "2025-11-21T17:15:00Z",
+  "hierarchy": "Parent Epic (1454) → Epic (Spec) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group)",
+  "description": "Tracking file mapping Azure DevOps work item IDs to repository spec folders. All CrossCuttingConcerns epics (E0-E3) are children of parent Epic 1454. Agent analyzes spec.md and tasks.md to determine User Story groupings: requirement keys (preferred), functional groups (fallback). Features organized by functional domains instead of phases for better cross-phase tracking. Each task = 1 story point.",
+  "grouping_note": "The grouping_strategy field records how the agent created each User Story: 'requirement_key' when [US#] markers found in tasks.md, 'functional_group' when tasks grouped by functional area. Features represent functional domains (Foundation, Orchestration, Messaging, Performance, DevEx, Quality) rather than phases to allow cross-phase work item tracking.",
+  "parent_epic": {
+    "work_item_id": 1454,
+    "title": "CrossCuttingConcerns Specifications",
+    "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1454",
+    "child_epics": [1436, 1455, 1456, 1457]
+  },
   "epics": {
-    "aspire-scaffolding": {
-      "work_item_id": 1399,
-      "title": "Aspire Orchestration & Cross-Cutting Scaffolding",
-      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1399",
+    "000-aspire-scaffolding": {
+      "work_item_id": 1436,
+      "title": "E0: Aspire Orchestration & Cross-Cutting Scaffolding",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1436",
       "folder": "Plan/CrossCuttingConcerns/specs/000-aspire-scaffolding",
       "layer": "foundation",
-      "tags": ["foundation", "cross-cutting", "aspire"],
-      "phases": {
-        "phase1-setup": {
-          "work_item_id": 1403,
-          "title": "Phase 1: Setup",
-          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1403",
-          "tasks": ["T008", "T009", "T010", "T011", "T012", "T013", "T014"],
+      "story_points": 93,
+      "tags": ["foundation", "cross-cutting", "aspire", "orchestration", "multi-tenancy"],
+      "features": {
+        "feature1-foundation": {
+          "work_item_id": 1437,
+          "title": "F1: Foundation Infrastructure & Core Setup",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1437",
+          "description": "Core Aspire project setup, shared infrastructure, domain entities",
+          "effort_points": 11,
           "user_stories": {
-            "priority-1-implementation": {
-              "work_item_id": 1429,
-              "title": "Phase 1: Priority 1 Implementation",
-              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1429",
-              "priority": 1,
-              "story_points": 7
-            }
-          }
-        },
-        "phase2-foundational": {
-          "work_item_id": 1410,
-          "title": "Phase 2: Foundational",
-          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1410",
-          "tasks": ["T015", "T016", "T017", "T018"],
-          "user_stories": {
-            "foundational-infrastructure": {
-              "work_item_id": 1425,
-              "title": "Phase 2: Foundational Infrastructure & Core Entities",
-              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1425",
+            "aspire-initialization": {
+              "work_item_id": 1443,
+              "title": "F1-S1: Aspire Project Initialization & Shared Infrastructure",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1443",
               "grouping_strategy": "functional_group",
               "priority": 1,
-              "story_points": 4
+              "story_points": 7
             }
           }
-        },
-        "phase3-apphost-boot": {
-          "work_item_id": 1404,
-          "title": "Phase 3: AppHost Boot",
-          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1404",
-          "tasks": ["T019", "T020", "T021", "T022", "T023", "T024", "T025"],
+        }
+      }
+    },
+    "001-identity-service-entra-id": {
+      "work_item_id": 1455,
+      "title": "E1: Identity Service with Microsoft Entra ID",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1455",
+      "folder": "Plan/CrossCuttingConcerns/specs/001-identity-service-entra-id",
+      "layer": "foundation",
+      "tags": ["foundation", "identity", "authentication", "entra-id", "security"],
+      "features": {
+        "feature1-authentication": {
+          "work_item_id": 1458,
+          "title": "F1: Authentication & Session Management",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1458",
+          "description": "Core authentication flows, session management, role-based authorization",
           "user_stories": {
-            "us1-apphost-boot": {
-              "work_item_id": 1427,
-              "title": "Phase 3: US1 - AppHost Boot with Resource Orchestration",
-              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1427",
+            "us1-staff-login": {
+              "work_item_id": 1463,
+              "title": "E1-F1-S1: US1: Staff Login via Entra ID SSO",
+              "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1463",
               "grouping_strategy": "requirement_key",
               "requirement_key": "US1",
-              "requirement_name": "AppHost Boot with Resource Orchestration",
               "priority": 1,
-              "story_points": 7
+              "story_points": 8
             }
           }
         }
@@ -774,44 +805,57 @@ tags:                            # Tags for categorization
 }
 ```
 
-### Task Checklist Format
+### Task Reference Format
 
 **In tasks.md**:
 ```markdown
 ### Phase 1: Setup
 
-#### Task 1.1: Install Duende IdentityServer
-- Description: Add Duende.IdentityServer NuGet package and configure services
-- Estimated: 5 story points
-
-#### Task 1.2: Configure Entra ID integration
-- Description: Setup Azure AD authentication flow
-- Estimated: 8 story points
+- [ ] T001 Initialize Aspire AppHost project with service defaults
+- [ ] T002 Configure PostgreSQL container with Aspire hosting
+- [ ] T003 Configure Redis Stack container for caching
+- [ ] T004 Setup EF Core migrations infrastructure
 ```
 
-**Embedded in User Story Description (HTML)**:
+**In User Story Description (HTML)**:
 ```html
-<h2>Tasks</h2>
-<h3>Phase 1: Setup</h3>
+<strong>Goal:</strong> Establish project structure, app configuration, and hosting resources.<br><br>
+<strong>Acceptance Criteria:</strong>
 <ul>
-<li><strong>Task 1.1: Install Duende IdentityServer</strong>
-  <ul>
-    <li>☐ Coded</li>
-    <li>☐ Tested</li>
-    <li>☐ Reviewed</li>
-    <li>☐ Merged</li>
-  </ul>
-</li>
-<li><strong>Task 1.2: Configure Entra ID integration</strong>
-  <ul>
-    <li>☑ Coded</li>
-    <li>☑ Tested</li>
-    <li>☐ Reviewed</li>
-    <li>☐ Merged</li>
-  </ul>
-</li>
-</ul>
+  <li>Aspire AppHost orchestrates PostgreSQL and Redis containers</li>
+  <li>Service defaults configured for all projects</li>
+  <li>EF Core migrations infrastructure ready</li>
+  <li>Health checks operational</li>
+</ul><br>
+<strong>Tasks:</strong> T001-T004 (Project Setup, Container Configuration)
 ```
+
+**Child Task Work Items (in Azure DevOps Board)**:
+```
+User Story 1493: E3-F1-S1: District & School Provisioning (13 story points)
+├── Task 1504: Coded (State: To Do, Remaining: 0h)
+│   Description: "Implementation complete for all tasks T001-T020"
+├── Task 1505: Tested (State: To Do, Remaining: 0h)
+│   Description: "Unit, integration, and BDD tests passing"
+├── Task 1506: Reviewed (State: To Do, Remaining: 0h)
+│   Description: "Code review completed and approved"
+└── Task 1507: Merged (State: To Do, Remaining: 0h)
+    Description: "Pull request merged to main branch"
+```
+
+**Workflow**:
+1. **Developer Implementation**: Works through T001-T020 in tasks.md, checking off items as completed
+2. **Coded Milestone**: When all T001-T020 implementation tasks done, move Task 1504 "Coded" to "Done"
+3. **Tested Milestone**: When tests written and passing, move Task 1505 "Tested" to "Done"
+4. **Reviewed Milestone**: After PR review approved, move Task 1506 "Reviewed" to "Done"
+5. **Merged Milestone**: After PR merged to main, move Task 1507 "Merged" to "Done" and User Story to "Closed"
+
+**Key Points**:
+- **tasks.md** = Detailed technical checklist (T001-T020 for this example, tracked locally in repo)
+- **User Story Description** = References task range (T001-T020) for traceability to tasks.md
+- **ADO Task Work Items** = 4 high-level milestone tasks (Coded/Tested/Reviewed/Merged) tracking implementation progress on board
+- **Story Points** = Based on complexity estimate, not 1:1 count of tasks.md items
+- Every User Story MUST have exactly 4 child Task work items created
 
 ---
 
