@@ -4,21 +4,21 @@
 **Implementation Branch**: `CrossCuttingConcerns/000-aspire-scaffolding` *(created by `/speckit.implement`)*
 **Feature**: 000-aspire-scaffolding
 **Date**: 2025-11-20
-**Last Updated**: 2025-11-20 (based on codebase analysis)
+**Last Updated**: 2025-11-21 (synced with TASK_COMPLETION_ANALYSIS.md, ADO sync applied)
 
 ---
 
 ## 📊 Implementation Status Summary
 
-### Overall Progress: ~70% Complete (70/100 tasks)
+### Overall Progress: 73% Complete (73/100 tasks)
 
 **Phase Completion:**
 - ✅ **Phase 1 (Setup)**: 7/7 tasks (100%) - All dependencies installed, using .NET 10 + Aspire 13.0
 - ✅ **Phase 2 (Foundational)**: 4/4 tasks (100%) - Core domain entities and DbContext ready
-- ⚠️ **Phase 3 (US1 - AppHost)**: 4/7 tasks (57%) - Resources defined, needs service wiring and testing
+- ⚠️ **Phase 3 (US1 - AppHost)**: 5/7 tasks (71%) - Resources + WaitFor configured, needs dashboard config and performance testing
 - ⚠️ **Phase 4 (US3 - Tenant Isolation)**: 5/9 tasks (56%) - Interceptor complete, needs DbContext integration
 - ⚠️ **Phase 5 (US4 - Event Publication)**: 5/9 tasks (56%) - MassTransit configured with circuit breaker, needs domain event integration
-- ⚠️ **Phase 6 (US5 - Idempotency)**: 6/9 tasks (67%) - Service/middleware done, needs Redis config in ServiceDefaults
+- ⚠️ **Phase 6 (US5 - Idempotency)**: 6/9 tasks (67%) - Service/middleware done, needs Redis config verification in ServiceDefaults
 - ✅ **Phase 7 (US6 - Observability)**: 6/9 tasks (67%) - Full OTEL stack configured, needs testing
 - ✅ **Phase 8 (US2 - Scaffolding)**: 11/13 tasks (85%) - Both scripts implemented, needs validation testing
 - ⚠️ **Phase 9 (US7 - API Gateway)**: 0/9 tasks (0%) - Placeholder directory only, needs full implementation
@@ -27,16 +27,17 @@
 
 ### 🎯 Critical Path to MVP (P1 Stories)
 1. ✅ **Setup & Foundation** - Complete
-2. ⚠️ **US1 (AppHost Boot)** - Needs service registration testing (T023-T025)
+2. ⚠️ **US1 (AppHost Boot)** - Mostly complete, needs dashboard config + testing (T024-T025)
 3. ⚠️ **US3 (Tenant Isolation)** - Needs DbContext wiring + RLS + testing (T031-T034)
 4. ⚠️ **US4 (Event Publication)** - Needs domain event integration + testing (T040-T043)
 
 ### 🔧 Key Blockers
-- **No service projects registered in AppHost** - Identity, Configuration, ApiGateway directories exist but are empty READMEs
+- **Identity service registered in AppHost** - Identity.API is wired with WaitFor dependencies ✅
 - **Missing test infrastructure** - No tests/ directory exists
 - **Missing BDD features** - No .feature files for this spec
-- **TenantInterceptor not wired to DbContext** - Interceptor exists but not registered
+- **TenantInterceptor not wired to DbContext** - Interceptor exists but needs registration in derived contexts
 - **API Gateway empty** - Only placeholder directory
+- **Configuration & ApiGateway services** - Directory stubs only, no projects
 
 ### ✅ Major Accomplishments
 - Full shared infrastructure scaffolding (Domain, Application, Infrastructure, ServiceDefaults)
@@ -56,6 +57,15 @@
 6. **T075-T083**: Implement API Gateway with YARP for Strangler Fig pattern
 
 ---
+
+## 🔄 ADO Sync (2025-11-21)
+
+- Feature `1437` (F1: Foundation Infrastructure & Core Setup): Closed with history note.
+- User Story `1443` (US1.1): Closed with history note.
+- User Story `1445` (US1.2): Closed with history note.
+- Epic `1436`: Description updated with progress summary and tag `progress-73` added.
+- Progress notes added to in‑progress user stories: `1444`, `1446`, `1447`, `1450`, `1451`, `1452`, `1453`, `1448`.
+- Blocker recorded on US3 (T031: Register TenantInterceptor in DbContext).
 
 ## Layer Context (MANDATORY)
 
@@ -136,7 +146,7 @@
 - [x] T020 [P] [US1] Add Redis resource definition in Src/Foundation/AppHost/AppHost.cs using AddRedis()
 - [x] T021 [P] [US1] Add RabbitMQ resource definition in Src/Foundation/AppHost/AppHost.cs using AddRabbitMQ()
 - [x] T022 [US1] Configure health checks for PostgreSQL, Redis, RabbitMQ in Src/Foundation/AppHost/AppHost.cs (ContainerLifetime.Persistent configured)
-- [ ] T023 [US1] Add WaitFor() dependencies between resources in Src/Foundation/AppHost/AppHost.cs (No service projects registered yet)
+- [x] T023 [US1] Add WaitFor() dependencies between resources in Src/Foundation/AppHost/AppHost.cs (Identity service has full WaitFor chain)
 - [ ] T024 [US1] Configure Aspire dashboard port (15000) in Src/Foundation/AppHost/Properties/launchSettings.json
 - [ ] T025 [US1] Test AppHost startup time (<15s requirement) and verify dashboard accessibility
 
@@ -157,7 +167,7 @@
 - [x] T028 [US3] Implement SavingChanges override to enforce TenantId on ITenantEntity instances in TenantInterceptor.cs
 - [x] T029 [US3] Implement ITenantContext interface and bypass logic in TenantInterceptor.cs (uses ITenantContext.BypassTenantFilter)
 - [x] T030 [US3] Implement automatic audit log creation when bypass filter is active in TenantInterceptor.cs
-- [ ] T031 [US3] Add TenantInterceptor registration to DbContext in Src/Foundation/shared/Infrastructure/Persistence/ApplicationDbContext.cs (Base class exists, interceptor not wired)
+- [ ] T031 [US3] Add TenantInterceptor registration to DbContext in Src/Foundation/shared/Infrastructure/Persistence/ApplicationDbContext.cs (Base class exists, interceptor implemented but not yet registered in derived contexts)
 - [ ] T032 [US3] Configure PostgreSQL Row-Level Security (RLS) policy in migration script for tenant_id column
 - [ ] T033 [US3] Test tenant isolation: Attempt to save entity without TenantId, verify exception thrown
 - [ ] T034 [US3] Test opt-out: Call method with bypass flag, verify audit log entry in AuditLogs table
@@ -199,7 +209,7 @@
 - [x] T044 [P] [US5] Create IdempotencyService in Src/Foundation/shared/Infrastructure/Caching/IdempotencyService.cs
 - [x] T045 [US5] Implement CheckIdempotency method in IdempotencyService.cs to query Redis by idempotency key
 - [x] T046 [US5] Implement StoreIdempotency method in IdempotencyService.cs to store entity ID with 10-minute TTL
-- [ ] T047 [US5] Configure Redis connection in ServiceDefaults at Src/Foundation/shared/ServiceDefaults/Extensions.cs
+- [ ] T047 [US5] Configure Redis connection in ServiceDefaults at Src/Foundation/shared/ServiceDefaults/Extensions.cs (Note: Redis health check exists but idempotency-specific config needs verification)
 - [x] T048 [US5] Create middleware IdempotencyMiddleware in Src/Foundation/shared/Infrastructure/Middleware/IdempotencyMiddleware.cs to extract X-Idempotency-Key header
 - [x] T049 [US5] Integrate IdempotencyService in IdempotencyMiddleware.cs to check/store idempotency envelopes
 - [x] T050 [US5] Return 202 Accepted with original entity ID when duplicate detected in IdempotencyMiddleware.cs
