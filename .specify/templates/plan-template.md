@@ -1,9 +1,10 @@
 # Implementation Plan: [FEATURE]
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Specification Branch**: `[LayerName]/[###-feature-name-spec]` *(current branch - planning artifacts)*  
+**Implementation Branch**: `[LayerName]/[###-feature-name]` *(created after approval)*  
+**Date**: [DATE] | **Spec**: [link to spec.md]
 
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
+**Note**: This template is filled in by the `/speckit.plan` command. See `.github/agents/speckit.plan.agent.md` for the execution workflow.
 
 ## Summary
 
@@ -27,7 +28,53 @@
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
-## Constitution Check
+### Identity & Authentication Guidance
+
+*If this feature requires authentication/authorization:*
+
+- **Identity Provider**: Microsoft Entra ID (Azure AD) - Do NOT use Duende IdentityServer or custom token issuance
+- **Authentication Pattern**: Session-based with custom SessionAuthenticationHandler
+- **Token Validation**: Microsoft.Identity.Web for JWT validation (tokens issued by Entra ID)
+- **Session Storage**: PostgreSQL (identity.sessions table) + Redis caching
+- **Architecture Reference**: See `Plan/Foundation/Plans/docs/legacy-identityserver-migration.md` for BFF token exchange pattern
+- **Key Dependencies**: Microsoft.Identity.Web (3.x), StackExchange.Redis (2.x), Aspire.Hosting.Redis
+
+## Layer Identification (MANDATORY)
+
+*REQUIRED: Declare this feature's position in the mono-repo architecture. Must match layer declared in spec.md.*
+
+**Target Layer**: [e.g., Foundation, DigitalInk, or future layer name - MUST match spec.md]  
+**Implementation Path**: [e.g., `Src/Foundation/services/[ServiceName]` or `Src/DigitalInk/modules/[ModuleName]`]  
+**Specification Path**: [e.g., `Plan/Foundation/specs/[###-feature-name]/` - where this plan.md resides]
+
+### Layer Consistency Validation
+
+*Verify layer alignment between spec and plan*
+
+- [ ] Target Layer matches specification (spec.md Layer Identification section)
+- [ ] Implementation path follows layer structure (`Src/{TargetLayer}/...`)
+- [ ] Specification path follows layer structure (`Plan/{TargetLayer}/specs/...`)
+- [ ] If new layer: Architecture Review completed and documented in `Plan/{LayerName}/README.md`
+
+### Shared Infrastructure Dependencies
+
+*List shared components this feature depends on (from `Src/Foundation/shared/`)*
+
+- [ ] **ServiceDefaults** - Aspire orchestration, OpenTelemetry, health checks
+- [ ] **Domain** - Domain primitives (EntityBase, ValueObject, DomainEvent)
+- [ ] **Application** - CQRS abstractions (ICommand, IQuery, Result pattern)
+- [ ] **Infrastructure** - Multi-tenancy, caching, messaging, Azure services
+
+### Cross-Layer Dependencies
+
+*CAUTION: Cross-layer dependencies require justification and constitutional approval*
+
+**Depends on layers**: [e.g., None (self-contained) or Foundation shared infrastructure only]  
+**Specific Dependencies**: [If Foundation dependency, list specific shared components: ServiceDefaults, Domain, Application, Infrastructure]  
+**Justification**: [Explain WHY this cross-layer dependency is necessary]  
+**Constitutional Compliance**: See Principle 6 (Mono-Repo Layer Isolation) - layers must remain independently deployable. Direct service-to-service dependencies across layers are prohibited.
+
+### Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 

@@ -1,0 +1,104 @@
+name: Enable Copilot Coding Agent
+
+# This workflow configures the repository for GitHub Copilot Coding Agent
+# to run on GitHub-hosted runners (ubuntu-latest) with .NET, Aspire, and MCP servers
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  configure-copilot-environment:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Verify .NET 10 and Aspire
+        run: |
+          echo "=== .NET Version ==="
+          dotnet --version
+          echo ""
+          echo "=== Installed Workloads ==="
+          dotnet workload list
+          echo ""
+          echo "=== .NET SDKs ==="
+          dotnet --list-sdks
+      
+      - name: Verify Docker for Aspire
+        run: |
+          echo "=== Docker Version ==="
+          docker --version
+          echo ""
+          echo "=== Docker Compose Version ==="
+          docker compose version
+          echo ""
+          # Wait for Docker daemon to be ready
+          timeout 30 sh -c 'until docker info > /dev/null 2>&1; do sleep 1; done'
+          echo "=== Docker Info ==="
+          docker info | head -n 20
+      
+      - name: Verify MCP Server Dependencies
+        run: |
+          echo "=== Node.js Version ==="
+          node --version
+          echo ""
+          echo "=== npm Version ==="
+          npm --version
+          echo ""
+          echo "=== Testing MCP Server Installation ==="
+          # Test that we can install MCP servers on-demand
+          npx --yes @modelcontextprotocol/server-sequential-thinking --help 2>&1 | head -n 5 || echo "Will install on first use"
+      
+      - name: Setup Aspire Environment
+        run: |
+          echo "=== Restoring .NET Tools ==="
+          dotnet tool restore
+          echo ""
+          echo "=== Restoring Solution ==="
+          dotnet restore
+          echo ""
+          echo "=== Restoring Workloads ==="
+          dotnet workload restore
+      
+      - name: Build Solution
+        run: |
+          dotnet build --no-restore --configuration Debug --verbosity normal
+      
+      - name: Test Aspire AppHost
+        run: |
+          echo "=== Testing Aspire AppHost Project ==="
+          dotnet build src/NorthStarET.NextGen.Lms.AppHost/NorthStarET.NextGen.Lms.AppHost.csproj
+          echo "✅ Aspire AppHost builds successfully"
+      
+      - name: Display Copilot Environment Summary
+        run: |
+          echo "========================================" 
+          echo "✅ Copilot Coding Agent Environment Ready"
+          echo "========================================" 
+          echo ""
+          echo "Runner: ubuntu-latest (GitHub hosted)"
+          echo ".NET SDK: $(dotnet --version)"
+          echo "Docker: $(docker --version)"
+          echo "Node.js: $(node --version)"
+          echo ""
+          echo "Available MCP Servers:"
+          echo "  - sequential-thinking (planning & reasoning)"
+          echo "  - filesystem (code navigation)"
+          echo "  - microsoft-docs (.NET documentation)"
+          echo "  - github (repository operations)"
+          echo ""
+          echo "Aspire Configuration:"
+          echo "  AppHost: src/NorthStarET.NextGen.Lms.AppHost"
+          echo "  Dashboard: http://localhost:15000"
+          echo ""
+          echo "GitHub Copilot Coding Agent can now execute code"
+          echo "with full access to .NET, Aspire, and Docker!"

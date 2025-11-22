@@ -154,13 +154,43 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Integration work**: Database connections, middleware, logging, external services
    - **Polish and validation**: Unit tests, performance optimization, documentation
 
-8. Progress tracking and error handling:
-   - Report progress after each completed task
+8. **Task Tracking Protocol (MANDATORY)**:
+   
+   **CRITICAL: Tasks MUST be marked complete immediately after implementation, not in batches.**
+   
+   For EVERY task you complete, follow this exact sequence:
+   
+   a. **Complete the implementation work** for the task
+   b. **Immediately mark the task complete** in tasks.md by changing `- [ ]` to `- [x]`
+   c. **Commit both changes together** using format: `feat(taskID): description - mark task complete`
+   
+   Example workflow:
+   ```bash
+   # 1. Implement the feature (files created/modified)
+   # 2. Update tasks.md to mark task [x]
+   # 3. Commit atomically
+   git add <implementation-files> Plan/*/specs/*/tasks.md
+   git commit -m "feat(T042): add user authentication - mark T042 complete"
+   ```
+   
+   **Why this matters:**
+   - tasks.md is the single source of truth for feature progress
+   - Real-time updates enable collaboration and prevent confusion
+   - Batch updates obscure actual progress and violate constitution Principle 8
+   - Phase review branches MUST have accurate task status
+   
+   **Validation:**
+   - After completing each task, verify tasks.md shows `[x]` for that task
+   - At phase boundaries, verify ALL phase tasks are marked `[x]` before proceeding
+   - If discrepancy found, HALT and reconcile before continuing
+
+9. Progress tracking and error handling:
+   - Report progress after each completed task (including tasks.md update confirmation)
    - Halt execution if any non-parallel task fails
    - For parallel tasks [P], continue with successful tasks, report failed ones
    - Provide clear error messages with context for debugging
    - Suggest next steps if implementation cannot proceed
-   - **IMPORTANT** For completed tasks, make sure to mark the task off as [X] in the tasks file.
+   - **Verify tasks.md accuracy** before moving between phases
 
 9. Completion validation:
    - Verify all required tasks are completed

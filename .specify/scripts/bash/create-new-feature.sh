@@ -5,6 +5,7 @@ set -e
 JSON_MODE=false
 SHORT_NAME=""
 BRANCH_NUMBER=""
+LAYER=""
 ARGS=()
 i=1
 while [ $i -le $# ]; do
@@ -40,18 +41,32 @@ while [ $i -le $# ]; do
             fi
             BRANCH_NUMBER="$next_arg"
             ;;
+        --layer)
+            if [ $((i + 1)) -gt $# ]; then
+                echo 'Error: --layer requires a value' >&2
+                exit 1
+            fi
+            i=$((i + 1))
+            next_arg="${!i}"
+            if [[ "$next_arg" == --* ]]; then
+                echo 'Error: --layer requires a value' >&2
+                exit 1
+            fi
+            LAYER="$next_arg"
+            ;;
         --help|-h) 
-            echo "Usage: $0 [--json] [--short-name <name>] [--number N] <feature_description>"
+            echo "Usage: $0 [--json] [--short-name <name>] [--number N] [--layer <LayerName>] <feature_description>"
             echo ""
             echo "Options:"
             echo "  --json              Output in JSON format"
             echo "  --short-name <name> Provide a custom short name (2-4 words) for the branch"
             echo "  --number N          Specify branch number manually (overrides auto-detection)"
+            echo "  --layer <LayerName> Target layer (Foundation, DigitalInk, etc.) - REQUIRED"
             echo "  --help, -h          Show this help message"
             echo ""
             echo "Examples:"
-            echo "  $0 'Add user authentication system' --short-name 'user-auth'"
-            echo "  $0 'Implement OAuth2 integration for API' --number 5"
+            echo "  $0 'Add user authentication system' --short-name 'user-auth' --layer 'Foundation'"
+            echo "  $0 'Implement OAuth2 integration for API' --number 5 --layer 'Foundation'"
             exit 0
             ;;
         *) 
@@ -63,7 +78,13 @@ done
 
 FEATURE_DESCRIPTION="${ARGS[*]}"
 if [ -z "$FEATURE_DESCRIPTION" ]; then
-    echo "Usage: $0 [--json] [--short-name <name>] [--number N] <feature_description>" >&2
+    echo "Usage: $0 [--json] [--short-name <name>] [--number N] [--layer <LayerName>] <feature_description>" >&2
+    exit 1
+fi
+
+# Layer is required (Constitution v2.1.0)
+if [ -z "$LAYER" ]; then
+    echo "Error: --layer is required (Constitution Principle 6). Specify: Foundation, DigitalInk, or custom layer name." >&2
     exit 1
 fi
 
@@ -100,7 +121,7 @@ get_highest_from_specs() {
     echo "$highest"
 }
 
-# Function to get highest number from git branches
+# Function to get highest number from git branches (spec branches only)
 get_highest_from_branches() {
     local highest=0
     
@@ -112,8 +133,8 @@ get_highest_from_branches() {
             # Clean branch name: remove leading markers and remote prefixes
             clean_branch=$(echo "$branch" | sed 's/^[* ]*//; s|^remotes/[^/]*/||')
             
-            # Extract feature number if branch matches pattern ###-*
-            if echo "$clean_branch" | grep -q '^[0-9]\{3\}-'; then
+            # Extract feature number if branch matches pattern ###-*-spec
+            if echo "$clean_branch" | grep -q '^[0-9]\{3\}-.*-spec$'; then
                 number=$(echo "$clean_branch" | grep -o '^[0-9]\{3\}' || echo "0")
                 number=$((10#$number))
                 if [ "$number" -gt "$highest" ]; then
@@ -134,13 +155,14 @@ check_existing_branches() {
     # Fetch all remotes to get latest branch info (suppress errors if no remotes)
     git fetch --all --prune 2>/dev/null || true
     
-    # Find all branches matching the pattern using git ls-remote (more reliable)
-    local remote_branches=$(git ls-remote --heads origin 2>/dev/null | grep -E "refs/heads/[0-9]+-${short_name}$" | sed 's/.*\/\([0-9]*\)-.*/\1/' | sort -n)
+    # Find all spec branches matching the pattern using git ls-remote (more reliable)
+    # Pattern: {LayerName}/###-{short_name}-spec
+    local remote_branches=$(git ls-remote --heads origin 2>/dev/null | grep -E "refs/heads/${LAYER}/[0-9]+-${short_name}-spec$" | sed 's/.*\/\([0-9]*\)-.*/\1/' | sort -n)
     
-    # Also check local branches
-    local local_branches=$(git branch 2>/dev/null | grep -E "^[* ]*[0-9]+-${short_name}$" | sed 's/^[* ]*//' | sed 's/-.*//' | sort -n)
+    # Also check local spec branches
+    local local_branches=$(git branch 2>/dev/null | grep -E "^[* ]*${LAYER}/[0-9]+-${short_name}-spec$" | sed 's/^[* ]*//' | sed "s|${LAYER}/||" | sed 's/-.*//' | sort -n)
     
-    # Check specs directory as well
+    # Check specs directory as well (within layer)
     local spec_dirs=""
     if [ -d "$specs_dir" ]; then
         spec_dirs=$(find "$specs_dir" -maxdepth 1 -type d -name "[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -n)
@@ -183,7 +205,18 @@ fi
 
 cd "$REPO_ROOT"
 
-SPECS_DIR="$REPO_ROOT/specs"
+# Verify layer exists or warn if new layer
+LAYER_PLAN_DIR="$REPO_ROOT/Plan/$LAYER"
+LAYER_SRC_DIR="$REPO_ROOT/Src/$LAYER"
+
+if [ ! -d "$LAYER_PLAN_DIR" ] && [ ! -d "$LAYER_SRC_DIR" ]; then
+    >&2 echo "[specify] Warning: Layer '$LAYER' not found in Plan/ or Src/"
+    >&2 echo "[specify] This appears to be a new layer. Architecture Review required (Constitution Principle 6)"
+    >&2 echo "[specify] Creating specification in Plan/$LAYER/specs/ (layer directories will be created)"
+fi
+
+# Layer-specific specs directory (Constitution v2.1.0)
+SPECS_DIR="$REPO_ROOT/Plan/$LAYER/specs"
 mkdir -p "$SPECS_DIR"
 
 # Function to generate branch name with stop word filtering and length filtering
@@ -256,15 +289,17 @@ if [ -z "$BRANCH_NUMBER" ]; then
 fi
 
 FEATURE_NUM=$(printf "%03d" "$BRANCH_NUMBER")
-BRANCH_NAME="${FEATURE_NUM}-${BRANCH_SUFFIX}"
+# Specification branch pattern: {LayerName}/###-feature-name-spec (Constitution v2.1.0)
+BRANCH_NAME="${LAYER}/${FEATURE_NUM}-${BRANCH_SUFFIX}-spec"
 
 # GitHub enforces a 244-byte limit on branch names
 # Validate and truncate if necessary
 MAX_BRANCH_LENGTH=244
 if [ ${#BRANCH_NAME} -gt $MAX_BRANCH_LENGTH ]; then
     # Calculate how much we need to trim from suffix
-    # Account for: feature number (3) + hyphen (1) = 4 chars
-    MAX_SUFFIX_LENGTH=$((MAX_BRANCH_LENGTH - 4))
+    # Account for: layer length + slash (1) + feature number (3) + hyphen (1) + spec suffix (5) + hyphen (1)
+    LAYER_PREFIX_LENGTH=$((${#LAYER} + 1))
+    MAX_SUFFIX_LENGTH=$((MAX_BRANCH_LENGTH - LAYER_PREFIX_LENGTH - 10))
     
     # Truncate suffix at word boundary if possible
     TRUNCATED_SUFFIX=$(echo "$BRANCH_SUFFIX" | cut -c1-$MAX_SUFFIX_LENGTH)
@@ -272,39 +307,52 @@ if [ ${#BRANCH_NAME} -gt $MAX_BRANCH_LENGTH ]; then
     TRUNCATED_SUFFIX=$(echo "$TRUNCATED_SUFFIX" | sed 's/-$//')
     
     ORIGINAL_BRANCH_NAME="$BRANCH_NAME"
-    BRANCH_NAME="${FEATURE_NUM}-${TRUNCATED_SUFFIX}"
+    BRANCH_NAME="${LAYER}/${FEATURE_NUM}-${TRUNCATED_SUFFIX}-spec"
     
     >&2 echo "[specify] Warning: Branch name exceeded GitHub's 244-byte limit"
     >&2 echo "[specify] Original: $ORIGINAL_BRANCH_NAME (${#ORIGINAL_BRANCH_NAME} bytes)"
     >&2 echo "[specify] Truncated to: $BRANCH_NAME (${#BRANCH_NAME} bytes)"
 fi
 
-# NOTE: Branch creation is now handled by the agent calling this script
-# The script only creates spec directories and files
-# Git branches (Specs, proposed-specs, and implementation branches) are managed by agents
+if [ "$HAS_GIT" = true ]; then
+    git checkout -b "$BRANCH_NAME"
+    >&2 echo "[specify] Created specification branch: $BRANCH_NAME"
+    >&2 echo "[specify] Implementation branch (${FEATURE_NUM}-${BRANCH_SUFFIX}) will be created by /speckit.implement"
+else
+    >&2 echo "[specify] Warning: Git repository not detected; skipped branch creation for $BRANCH_NAME"
+fi
 
-FEATURE_DIR="$SPECS_DIR/$BRANCH_NAME"
+# Feature directory named without -spec suffix (for consistency with directory naming)
+FEATURE_DIR_NAME="${FEATURE_NUM}-${BRANCH_SUFFIX}"
+FEATURE_DIR="$SPECS_DIR/$FEATURE_DIR_NAME"
 mkdir -p "$FEATURE_DIR"
+mkdir -p "$FEATURE_DIR/contracts"
+mkdir -p "$FEATURE_DIR/checklists"
+
+>&2 echo "[specify] Created specification directory: $FEATURE_DIR"
+>&2 echo "[specify] Target Layer: $LAYER"
 
 TEMPLATE="$REPO_ROOT/.specify/templates/spec-template.md"
 SPEC_FILE="$FEATURE_DIR/spec.md"
 if [ -f "$TEMPLATE" ]; then cp "$TEMPLATE" "$SPEC_FILE"; else touch "$SPEC_FILE"; fi
 
-if [ "$HAS_GIT" = true ]; then
-    >&2 echo "[specify] Note: Spec files created in $FEATURE_DIR"
-    >&2 echo "[specify] Branch creation is handled by the calling agent"
-else
-    >&2 echo "[specify] Warning: Git repository not detected"
-fi
+# Create layer metadata file
+LAYER_METADATA="$FEATURE_DIR/.layer"
+echo "$LAYER" > "$LAYER_METADATA"
+>&2 echo "[specify] Recorded layer metadata: $LAYER_METADATA"
 
 # Set the SPECIFY_FEATURE environment variable for the current session
 export SPECIFY_FEATURE="$BRANCH_NAME"
 
 if $JSON_MODE; then
-    printf '{"BRANCH_NAME":"%s","SPEC_FILE":"%s","FEATURE_NUM":"%s"}\n' "$BRANCH_NAME" "$SPEC_FILE" "$FEATURE_NUM"
+    printf '{"BRANCH_NAME":"%s","SPEC_FILE":"%s","FEATURE_NUM":"%s","LAYER":"%s","FEATURE_DIR":"%s","IMPL_BRANCH":"%s/%s-%s"}\n' \
+        "$BRANCH_NAME" "$SPEC_FILE" "$FEATURE_NUM" "$LAYER" "$FEATURE_DIR" "$LAYER" "$FEATURE_NUM" "$BRANCH_SUFFIX"
 else
-    echo "BRANCH_NAME: $BRANCH_NAME"
+    echo "BRANCH_NAME: $BRANCH_NAME (specification branch)"
+    echo "IMPL_BRANCH: ${LAYER}/${FEATURE_NUM}-${BRANCH_SUFFIX} (created by /speckit.implement)"
     echo "SPEC_FILE: $SPEC_FILE"
     echo "FEATURE_NUM: $FEATURE_NUM"
+    echo "LAYER: $LAYER"
+    echo "FEATURE_DIR: $FEATURE_DIR"
     echo "SPECIFY_FEATURE environment variable set to: $BRANCH_NAME"
 fi

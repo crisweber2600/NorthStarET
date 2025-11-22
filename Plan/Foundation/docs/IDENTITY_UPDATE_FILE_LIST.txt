@@ -1,0 +1,89 @@
+Identity Architecture Update - File Manifest
+Generated: 2025-11-20
+Purpose: Remove all IdentityServer references, document Entra ID with session authentication
+
+=== FILES MODIFIED ===
+
+Constitution & Governance:
+- .specify/memory/constitution.md (Principle 6: Shared Infrastructure updated)
+
+Templates (prevent future IdentityServer references):
+- .specify/templates/spec-template.md (added Entra ID authentication guidance)
+- .specify/templates/plan-template.md (added Identity & Authentication Guidance section)
+- .specify/templates/tasks-template.md (added Identity & Authentication Compliance checklist)
+
+Architecture Documentation:
+- docs/architecture/services/identity-service.md (complete rewrite: Duende → Entra ID)
+
+Service Implementation Guides:
+- Src/Foundation/services/Identity/README.md (updated overview, token management, tech stack)
+
+Migration Plans:
+- Plan/Foundation/Plans/MASTER_MIGRATION_PLAN.md (technology stack updated)
+- Plan/Foundation/Plans/MIGRATION_READINESS.md (checklist items updated)
+- Plan/Foundation/Plans/INTEGRATED_MIGRATION_PLAN.md (tech stack, migration activities, package refs)
+- Plan/Foundation/Plans/SERVICE_CATALOG.md (shared authentication description updated)
+
+Scenarios & Specifications:
+- Plan/Foundation/Plans/scenarios/01-identity-migration-entra-id.md (Technical Implementation Notes rewritten)
+- Plan/Foundation/specs/Foundation/002-identity-authentication/spec.md (Goal, Service Boundary, Handoff updated)
+
+Reference Implementation (marked as obsolete):
+- .referenceSrc/Plans/architecture/services/identity-service.md (added OBSOLETE notice)
+- .referenceSrc/specs/Foundation/002-identity-authentication/spec.md (added OBSOLETE notice)
+
+=== FILES CREATED ===
+
+Migration Guide (NEW - comprehensive 90-day migration plan):
+- Plan/Foundation/Plans/docs/legacy-identityserver-migration.md
+  * Complete migration path from IdentityServer to Entra ID
+  * Database schema mapping (legacy → target)
+  * Parallel run configuration (90 days)
+  * Cutover execution plan with rollback procedures
+  * Post-cutover validation criteria
+  * Troubleshooting guide
+
+Summary Document (NEW - this update overview):
+- Plan/Foundation/Plans/docs/IDENTITY_ARCHITECTURE_UPDATE.md
+  * Summary of all changes
+  * Key architectural decisions
+  * Implementation checklist (DO / DO NOT)
+  * Code references
+  * Migration timeline
+
+=== KEY CHANGES SUMMARY ===
+
+REPLACED:
+❌ Duende IdentityServer
+❌ Custom token issuance
+❌ PersistedGrants table
+❌ Self-hosted OIDC provider
+
+WITH:
+✅ Microsoft Entra ID (identity provider)
+✅ Microsoft.Identity.Web (token validation)
+✅ SessionAuthenticationHandler (custom session auth)
+✅ PostgreSQL Sessions table + Redis caching
+✅ Backend-for-Frontend (BFF) token exchange
+✅ ExternalProviderLinks table (Entra ID subject mapping)
+
+=== VALIDATION ===
+
+Remaining "Duende" or "IdentityServer" references: ~14 instances
+Context: Legacy system descriptions, migration from notes, obsolete markers, template warnings
+
+All active documentation now reflects:
+- Microsoft Entra ID as identity provider
+- Session-based authentication pattern
+- Token validation (NOT issuance)
+- 90-day parallel run migration strategy
+
+=== NEXT STEPS ===
+
+1. Review legacy-identityserver-migration.md before Phase 3 cutover
+2. Validate all new specifications use Entra ID guidance from templates
+3. Update any feature-specific docs that reference authentication
+4. Train development team on BFF token exchange pattern
+5. Configure Entra ID tenant and application registrations
+6. Begin Phase 1 user provisioning (invite or automated sync)
+

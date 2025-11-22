@@ -1,0 +1,264 @@
+{
+  "version": "3.0.0",
+  "last_updated": "2025-11-21T22:30:00Z",
+  "hierarchy": "Master Portfolio (2116) → Portfolio (1640 Foundational) → Epic (Scenario) → Feature (Functional Domain) → User Story (Requirement Key/Functional Group)",
+  "description": "Tracking file mapping Azure DevOps work items to Foundation layer migration scenarios from legacy monolith to microservices. Maps the 13 scenario files from .referenceSrc/Plans/scenarios/ to epics in ADO Portfolio 1640, which is a child of Master Portfolio 2116 'NorthStarET LMS Modernization'.",
+  "master_portfolio": {
+    "work_item_id": 2116,
+    "title": "NorthStarET LMS Modernization",
+    "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/2116",
+    "child_portfolios": [1454, 1640]
+  },
+  "mapping_note": "Scenario files 01-13 from Plans/scenarios/ represent Given-When-Then specifications for migration phases. Each scenario maps to an epic in ADO. Scenarios cover foundation services, cross-cutting concerns, and service-specific migrations aligned with the Master Migration Plan phases 1-4.",
+  "reference_source": ".referenceSrc/Plans/scenarios/ contains 13 scenario markdown files with BDD-style Given-When-Then specifications",
+  "portfolio": {
+    "work_item_id": 1640,
+    "title": "Foundational",
+    "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1640",
+    "description": "Parent portfolio for all Foundation layer migration epics covering identity, database architecture, UI preservation, data migration, and microservice transitions",
+    "child_epics": [1641, 1644, 1642, 1643, 1648, 1645, 1646, 1647, 1652, 1651, 1650, 1649]
+  },
+  "epics": {
+    "01-identity-migration-entra-id": {
+      "work_item_id": 1641,
+      "title": "E1: Legacy IdentityServer to Microsoft Entra ID Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1641",
+      "folder": "Plan/Foundation/specs/001-entra-id-migration",
+      "scenario_file": ".referenceSrc/Plans/scenarios/01-identity-migration-entra-id.md",
+      "layer": "foundation",
+      "tags": ["entra-id", "foundation", "identity", "migration"],
+      "description": "10 scenarios covering SSO, MFA, token management, RBAC, service auth, legacy account migration",
+      "scenario_count": 10,
+      "phase": 1,
+      "priority": "Critical",
+      "features": {
+        "f1-pre-migration": {
+          "work_item_id": 1656,
+          "title": "F1: Pre-Migration Preparation",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1656",
+          "tags": ["identity", "migration", "preparation"]
+        },
+        "f2-automated-migration": {
+          "work_item_id": 1658,
+          "title": "F2: Automated User Migration",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1658",
+          "tags": ["automation", "identity", "migration"]
+        },
+        "f3-manual-exceptions": {
+          "work_item_id": 1655,
+          "title": "F3: Manual Exception Handling",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1655",
+          "tags": ["admin-tools", "identity", "migration"]
+        },
+        "f4-validation-rollback": {
+          "work_item_id": 1654,
+          "title": "F4: Validation & Rollback Readiness",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1654",
+          "tags": ["identity", "migration", "rollback", "validation"]
+        },
+        "f5-production-execution": {
+          "work_item_id": 1657,
+          "title": "F5: Production Execution",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1657",
+          "tags": ["identity", "migration", "production"]
+        },
+        "f6-legacy-cleanup": {
+          "work_item_id": 1653,
+          "title": "F6: Legacy Cleanup & Documentation",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1653",
+          "tags": ["cleanup", "documentation", "identity", "migration"]
+        }
+      }
+    },
+    "02-multi-tenant-database-architecture": {
+      "work_item_id": 1644,
+      "title": "E2: Multi-Tenant Database Architecture",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1644",
+      "folder": "Plan/Foundation/specs/002-multi-tenant-database-architecture",
+      "scenario_file": ".referenceSrc/Plans/scenarios/02-multi-tenant-database-architecture.md",
+      "layer": "foundation",
+      "tags": ["database", "foundation", "multi-tenancy", "postgresql", "rls"],
+      "description": "12 scenarios covering RLS, tenant isolation, migration from per-district DBs, performance optimization",
+      "scenario_count": 12,
+      "phase": 1,
+      "priority": "Critical",
+      "features": {
+        "f1-tenant-context": {
+          "work_item_id": 1661,
+          "title": "F1: Tenant Context Propagation",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1661",
+          "tags": ["context", "middleware", "multi-tenancy"]
+        },
+        "f2-rls-policies": {
+          "work_item_id": 1659,
+          "title": "F2: RLS Policies & Schema Enforcement",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1659",
+          "tags": ["database", "multi-tenancy", "rls"]
+        },
+        "f3-migration-support": {
+          "work_item_id": 1662,
+          "title": "F3: Migration & Mapping Support",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1662",
+          "tags": ["data", "migration", "multi-tenancy"]
+        },
+        "f4-operational-safeguards": {
+          "work_item_id": 1660,
+          "title": "F4: Operational Safeguards & Performance",
+          "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1660",
+          "tags": ["monitoring", "multi-tenancy", "performance"]
+        }
+      }
+    },
+    "03-ui-migration-preservation": {
+      "work_item_id": 1642,
+      "title": "E3: UI Migration with Preservation Strategy",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1642",
+      "folder": "Plan/Foundation/specs/003-ui-migration-preservation",
+      "scenario_file": ".referenceSrc/Plans/scenarios/03-ui-migration-preservation.md",
+      "layer": "foundation",
+      "tags": ["angular", "foundation", "migration", "preservation", "ui"],
+      "description": "12 scenarios covering screen migration, visual regression, no Figma required, accessibility preservation",
+      "scenario_count": 12,
+      "phase": 4,
+      "priority": "High"
+    },
+    "04-data-migration-etl": {
+      "work_item_id": 1643,
+      "title": "E4: Data Migration from Legacy to Multi-Tenant Architecture",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1643",
+      "folder": "Plan/Foundation/specs/004-data-migration-etl",
+      "scenario_file": ".referenceSrc/Plans/scenarios/04-data-migration-etl.md",
+      "layer": "foundation",
+      "tags": ["data-migration", "etl", "foundation", "multi-tenancy"],
+      "description": "12 scenarios covering 383 entity migration, 15 years historical data, validation, rollback, dual-write",
+      "scenario_count": 12,
+      "phase": "All Phases",
+      "priority": "Critical"
+    },
+    "05-student-management-service": {
+      "work_item_id": 1648,
+      "title": "E5: Student Management Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1648",
+      "folder": "Plan/Foundation/specs/005-student-management-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/05-student-management-service.md",
+      "layer": "foundation",
+      "tags": ["event-driven", "foundation", "service", "student-management"],
+      "description": "12 scenarios covering CRUD, events, FERPA compliance, bulk import, state reporting, photos",
+      "scenario_count": 12,
+      "phase": 2,
+      "priority": "High"
+    },
+    "06-api-gateway-orchestration": {
+      "work_item_id": 1645,
+      "title": "E6: API Gateway and Service Orchestration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1645",
+      "folder": "Plan/Foundation/specs/006-api-gateway-orchestration",
+      "scenario_file": ".referenceSrc/Plans/scenarios/06-api-gateway-orchestration.md",
+      "layer": "foundation",
+      "tags": ["api-gateway", "authentication", "foundation", "orchestration", "yarp"],
+      "description": "12 scenarios covering routing, authentication, rate limiting, CORS, Strangler Fig pattern, resilience",
+      "scenario_count": 12,
+      "phase": 1,
+      "priority": "Critical"
+    },
+    "07-configuration-service": {
+      "work_item_id": 1646,
+      "title": "E7: Configuration Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1646",
+      "folder": "Plan/Foundation/specs/007-configuration-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/07-configuration-service.md",
+      "layer": "foundation",
+      "tags": ["calendars", "configuration", "foundation", "multi-tenant", "settings"],
+      "description": "12 scenarios covering district settings, calendars, navigation, tenant-specific configs, caching",
+      "scenario_count": 12,
+      "phase": 1,
+      "priority": "Critical"
+    },
+    "08-staff-management-service": {
+      "work_item_id": 1647,
+      "title": "E8: Staff Management Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1647",
+      "folder": "Plan/Foundation/specs/008-staff-management-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/08-staff-management-service.md",
+      "layer": "foundation",
+      "tags": ["certifications", "foundation", "service", "staff-management", "teams"],
+      "description": "12 scenarios covering staff CRUD, certifications, teams, credentials, role assignments",
+      "scenario_count": 12,
+      "phase": 2,
+      "priority": "High"
+    },
+    "09-assessment-service": {
+      "work_item_id": 1652,
+      "title": "E9: Assessment Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1652",
+      "folder": "Plan/Foundation/specs/009-assessment-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/09-assessment-service.md",
+      "layer": "foundation",
+      "tags": ["analytics", "assessment", "benchmarks", "foundation", "service"],
+      "description": "12 scenarios covering assessment creation, scoring, benchmarks, analytics, state reporting",
+      "scenario_count": 12,
+      "phase": 2,
+      "priority": "High"
+    },
+    "10-intervention-management-service": {
+      "work_item_id": 1651,
+      "title": "E10: Intervention Management Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1651",
+      "folder": "Plan/Foundation/specs/010-intervention-management-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/10-intervention-management-service.md",
+      "layer": "foundation",
+      "tags": ["foundation", "intervention", "mtss", "rti", "service"],
+      "description": "12 scenarios covering RTI/MTSS, intervention groups, progress monitoring, toolkits",
+      "scenario_count": 12,
+      "phase": 3,
+      "priority": "Medium"
+    },
+    "11-section-roster-service": {
+      "work_item_id": 1650,
+      "title": "E11: Section & Roster Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1650",
+      "folder": "Plan/Foundation/specs/011-section-roster-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/11-section-roster-service.md",
+      "layer": "foundation",
+      "tags": ["enrollment", "foundation", "roster", "scheduling", "section"],
+      "description": "12 scenarios covering sections, rosters, scheduling, enrollment, rollover automation",
+      "scenario_count": 12,
+      "phase": 3,
+      "priority": "Medium"
+    },
+    "12-data-import-service": {
+      "work_item_id": 1649,
+      "title": "E12: Data Import & Integration Service Migration",
+      "url": "https://dev.azure.com/northstaret/NorthStarET/_workitems/edit/1649",
+      "folder": "Plan/Foundation/specs/012-data-import-service",
+      "scenario_file": ".referenceSrc/Plans/scenarios/12-data-import-service.md",
+      "layer": "foundation",
+      "tags": ["data-import", "etl", "foundation", "integration", "validation"],
+      "description": "12 scenarios covering CSV imports, SIS integration, state data, validation, error handling",
+      "scenario_count": 12,
+      "phase": 3,
+      "priority": "Medium"
+    }
+  },
+  "summary": {
+    "total_epics": 12,
+    "total_scenarios": 144,
+    "phase_1_epics": 4,
+    "phase_2_epics": 3,
+    "phase_3_epics": 3,
+    "phase_4_epics": 1,
+    "cross_phase_epics": 1,
+    "critical_priority": 5,
+    "high_priority": 4,
+    "medium_priority": 3
+  },
+  "notes": {
+    "scenario_13": "Digital Ink Service (13-digital-ink-service.md) is NOT part of Foundation Portfolio 1640. It belongs to separate DigitalInk layer portfolio and should be tracked in Plan/DigitalInk/specs/.ado-hierarchy.json",
+    "next_steps": [
+      "Create Features under each Epic based on functional domains from scenario files",
+      "Extract User Stories from scenario Given-When-Then patterns",
+      "Generate task breakdowns from acceptance criteria in each scenario",
+      "Sync spec.md files in Foundation/specs folders with epic descriptions and acceptance criteria"
+    ]
+  }
+}

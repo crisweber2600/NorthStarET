@@ -1,9 +1,30 @@
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
+**Specification Branch**: `[LayerName]/[###-feature-name-spec]` *(planning artifacts only)*  
+**Implementation Branch**: `[LayerName]/[###-feature-name]` *(created after spec approval)*  
 **Created**: [DATE]  
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
+
+---
+
+## Layer Identification (MANDATORY)
+
+**Target Layer**: [Foundation | DigitalInk | {LayerName}]  
+*Select ONE layer where this feature will be implemented. If introducing a new layer, provide explicit name and justification.*
+
+**Layer Validation Checklist**:
+- [ ] Layer explicitly identified (not "Other" or "TBD")
+- [ ] Layer exists in mono-repo structure (`Plan/{LayerName}/` or `Src/{LayerName}/`)
+- [ ] If new layer: Architecture Review documented in `Plan/{LayerName}/README.md`
+- [ ] Cross-layer dependencies justified and limited to approved shared infrastructure
+
+**Cross-Layer Dependencies**: [None | Foundation shared infrastructure (specify: ServiceDefaults / Domain / Application / Infrastructure)]  
+*If depending on another layer, list ONLY approved shared infrastructure components from `Src/Foundation/shared/`. Direct service-to-service dependencies across layers are prohibited.*
+
+**Justification**: [Explain why this layer assignment and any cross-layer dependencies]
+
+---
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -94,6 +115,14 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+*Identity & Authentication Requirements - Use Entra ID:*
+
+- For authentication features, use **Microsoft Entra ID** as the identity provider (NOT Duende IdentityServer or custom token issuance)
+- Authentication pattern: **Session-based** with SessionAuthenticationHandler (NOT pure JWT bearer tokens)
+- Token handling: **Validate** Entra ID tokens using Microsoft.Identity.Web (NOT issue custom tokens)
+- Session storage: **PostgreSQL + Redis caching** for LMS sessions
+- See `Plan/Foundation/Plans/docs/legacy-identityserver-migration.md` for complete architecture
 
 ### Key Entities *(include if feature involves data)*
 

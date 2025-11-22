@@ -1,0 +1,109 @@
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    
+    env:
+      GITHUB_HOST: github.com
+      DOTNET_VERSION: '10.0.x'
+      ASPIRE_DASHBOARD_PORT: 15000
+    
+    steps:
+      - name: Set GitHub Host for Copilot Coding Agent
+        run: |
+          echo "GITHUB_HOST=github.com" >> "$GITHUB_ENV"
+          echo "AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache" >> "$GITHUB_ENV"
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      
+      - name: Setup Node.js for MCP
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Install Aspire CLI
+        run: |
+          echo "Installing Aspire CLI..."
+          dotnet tool install -g aspire
+          echo "✅ Aspire CLI installed"
+      
+      - name: Configure MCP Servers
+        run: |
+          echo "Setting up MCP server configuration..."
+          mkdir -p ~/.config/mcp
+          
+          cat > ~/.config/mcp/mcp.json << 'EOF'
+          {
+            "mcpServers": {
+              "sequential-thinking": {
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+              },
+              "filesystem": {
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"]
+              },
+              "microsoft-docs": {
+                "type": "http",
+                "url": "https://learn.microsoft.com/api/mcp"
+              },
+              "github": {
+                "type": "http",
+                "url": "https://api.githubcopilot.com/mcp/readonly"
+              }
+            }
+          }
+          EOF
+          
+          echo "✅ MCP servers configured"
+      
+      - name: Restore .NET Dependencies
+        run: |
+          dotnet restore
+          dotnet workload restore
+      
+      - name: Build Solution
+        run: |
+          dotnet build --no-restore --configuration Debug
+      
+      - name: Verify Aspire Setup
+        run: |
+          echo "=== Aspire CLI Version ==="
+          aspire --version || echo "Using dotnet workload aspire"
+          echo ""
+          echo "=== Docker Status ==="
+          docker info | head -n 10
+          echo ""
+          echo "=== .NET SDK ==="
+          dotnet --version
+          echo ""
+          echo "=== Workloads ==="
+          dotnet workload list
+      
+      - name: Environment Summary
+        run: |
+          echo "========================================" 
+          echo "✅ Copilot Coding Agent Ready"
+          echo "========================================" 
+          echo ""
+          echo "Runner: ubuntu-latest (GitHub hosted)"
+          echo ".NET: $(dotnet --version)"
+          echo "Docker: $(docker --version)"
+          echo "Node.js: $(node --version)"
+          echo "Aspire: Configured"
+          echo ""
+          echo "MCP Servers: Configured at ~/.config/mcp/mcp.json"
+          echo ""
+          echo "GitHub Host: ${GITHUB_HOST}"

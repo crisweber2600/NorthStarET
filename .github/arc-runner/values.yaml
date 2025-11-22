@@ -1,0 +1,77 @@
+# Helm values for GitHub Actions Runner Controller
+# Custom runner scale set with .NET 10 and Copilot Coding Agent support
+
+# GitHub configuration
+githubConfigUrl: "https://github.com/crisweber2600/NorthStarET.Lms"
+
+# Runner scale set configuration
+runnerScaleSetName: "arc-runner-set"
+
+# Container mode with Docker-in-Docker
+containerMode:
+  type: "dind"  # Docker-in-Docker
+  
+# Custom runner image with .NET 10
+template:
+  spec:
+    containers:
+    - name: runner
+      # Build and push this image to your registry first
+      # See build-and-push.sh script
+      image: ghcr.io/crisweber2600/arc-runner:dotnet10-latest
+      imagePullPolicy: Always
+      
+      # Environment variables for Copilot Coding Agent
+      env:
+      - name: GITHUB_HOST
+        value: "github.com"
+      - name: AGENT_TOOLSDIRECTORY
+        value: "/opt/hostedtoolcache"
+      - name: DOTNET_VERSION
+        value: "10.0"
+      - name: ASPIRE_DASHBOARD_PORT
+        value: "15000"
+        
+      # Volume mounts for Docker-in-Docker
+      volumeMounts:
+      - name: work
+        mountPath: /home/runner/_work
+      - name: dind-sock
+        mountPath: /var/run
+        
+    # Docker-in-Docker sidecar
+    - name: dind
+      image: docker:25-dind
+      securityContext:
+        privileged: true
+      volumeMounts:
+      - name: work
+        mountPath: /home/runner/_work
+      - name: dind-sock
+        mountPath: /var/run
+      - name: dind-storage
+        mountPath: /var/lib/docker
+        
+    volumes:
+    - name: work
+      emptyDir: {}
+    - name: dind-sock
+      emptyDir: {}
+    - name: dind-storage
+      emptyDir: {}
+
+# Resource limits
+resources:
+  limits:
+    cpu: "4"
+    memory: "8Gi"
+  requests:
+    cpu: "2"
+    memory: "4Gi"
+
+# Scaling configuration
+minRunners: 1
+maxRunners: 5
+
+# Runner group (use "Default" or create a custom group)
+runnerGroup: "Default"

@@ -5,8 +5,56 @@ description: "Task list template for feature implementation"
 
 # Tasks: [FEATURE NAME]
 
-**Input**: Design documents from `/specs/[###-feature-name]/`
+**Specification Branch**: `[LayerName]/[###-feature-name-spec]` *(current branch - planning artifacts)*  
+**Implementation Branch**: `[LayerName]/[###-feature-name]` *(created when starting implementation)*
+
+**Input**: Design documents from `Plan/{LayerName}/specs/[###-feature-name]/`  
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+
+---
+
+## Layer Context (MANDATORY)
+
+*Verify consistency across specification, plan, and task artifacts*
+
+**Target Layer**: [from spec.md - MUST match]  
+**Implementation Path**: [from plan.md, e.g., `Src/Foundation/services/[ServiceName]`]  
+**Specification Path**: [e.g., `Plan/Foundation/specs/[###-feature-name]/`]
+
+### Layer Consistency Checklist
+
+- [ ] Target Layer matches spec.md Layer Identification
+- [ ] Target Layer matches plan.md Layer Identification
+- [ ] Implementation path follows layer structure (`Src/{TargetLayer}/...`)
+- [ ] Specification path follows layer structure (`Plan/{TargetLayer}/specs/...`)
+- [ ] Shared infrastructure dependencies match between spec and plan
+- [ ] Cross-layer dependencies (if any) justified in both spec and plan
+
+---
+
+## Layer Compliance Validation
+
+*MANDATORY: Include these validation tasks to ensure mono-repo layer isolation (Constitution Principle 6)*
+
+- [ ] Verify project references ONLY shared infrastructure from approved layers (e.g., `Src/Foundation/shared/*`)
+- [ ] Verify NO direct service-to-service references across layers (must use events/contracts for cross-layer communication)
+- [ ] Verify AppHost orchestration includes this service with correct layer isolation
+- [ ] Verify README.md documents layer position and shared infrastructure dependencies
+- [ ] Verify no circular dependencies between layers (Foundation cannot depend on higher layers)
+
+---
+
+## Identity & Authentication Compliance
+
+*MANDATORY: Include if this feature requires authentication/authorization*
+
+- [ ] Verify NO references to Duende IdentityServer or custom token issuance
+- [ ] Verify Microsoft.Identity.Web used for JWT token validation (NOT custom JWT generation)
+- [ ] Verify SessionAuthenticationHandler registered for session-based API authorization
+- [ ] Verify Redis configured for session caching (Aspire.Hosting.Redis)
+- [ ] Verify identity.sessions table includes tenant_id for multi-tenancy
+- [ ] Verify TokenExchangeService implements BFF pattern (Entra tokens → LMS sessions)
+- [ ] Verify authentication flow follows `legacy-identityserver-migration.md` architecture
 
 **Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
 
